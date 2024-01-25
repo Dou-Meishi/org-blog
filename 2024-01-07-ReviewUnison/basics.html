@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <link rel="alternate"
       type="application/rss+xml"
-      href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/rss.xml"
-      title="RSS feed for file:///home/dou/Documents/2024-01-24-MyOrgBlog/">
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
 <title>Beginner's Guide to Unison</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "/home/dou/Documents/2024-01-24-MyOrgBlog/static/dou-org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 <!-- The loading of KaTeX is deferred to speed up page rendering -->
@@ -21,23 +21,23 @@
 <body>
 <div id="preamble" class="status"><div class="header">
   <div class="sitelinks">
-    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/index.html">Home</a>
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
     |
-    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/archive.html">All Posts</a>
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
   </div>
 </div>
 </div>
 <div id="content">
-<div class="post-date">06 Jan 2024</div><h1 class="post-title"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-07-ReviewUnison/basics.html">Beginner's Guide to Unison</a></h1>
+<div class="post-date">06 Jan 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-01-07-ReviewUnison/basics.html">Beginner's Guide to Unison</a></h1>
 <nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8cf1d4c">A Demo</a></li>
-<li><a href="#org60f1573">Basic Concepts</a></li>
-<li><a href="#org79e412f">Typical Usage</a></li>
-<li><a href="#orge141b9d">Caveats and Shortcomings</a></li>
-<li><a href="#org4421691">Going Further</a></li>
+<li><a href="#org9416166">A Demo</a></li>
+<li><a href="#org442fe3a">Basic Concepts</a></li>
+<li><a href="#orgd13efc7">Typical Usage</a></li>
+<li><a href="#org0cd91bb">Caveats and Shortcomings</a></li>
+<li><a href="#orgb17c174">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -52,9 +52,9 @@ brought up to date by propagating the changes in each replica to the other.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
 
-<div id="outline-container-org8cf1d4c" class="outline-2">
-<h2 id="org8cf1d4c">A Demo</h2>
-<div class="outline-text-2" id="text-org8cf1d4c">
+<div id="outline-container-org9416166" class="outline-2">
+<h2 id="org9416166">A Demo</h2>
+<div class="outline-text-2" id="text-org9416166">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -125,7 +125,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="orgd537447">
+<pre class="example" id="orgf555593">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -140,7 +140,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="orgee47b05">
+<pre class="example" id="orge47c2a4">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -148,7 +148,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="org0561ec2">
+<pre class="example" id="orgfd36772">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -158,7 +158,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org9d0e581">
+<pre class="example" id="orgb6865e9">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -180,9 +180,9 @@ click the <i>Go</i> button to set them in motion.
 </div>
 </div>
 
-<div id="outline-container-org60f1573" class="outline-2">
-<h2 id="org60f1573">Basic Concepts</h2>
-<div class="outline-text-2" id="text-org60f1573">
+<div id="outline-container-org442fe3a" class="outline-2">
+<h2 id="org442fe3a">Basic Concepts</h2>
+<div class="outline-text-2" id="text-org442fe3a">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -303,9 +303,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </div>
 </div>
 
-<div id="outline-container-org79e412f" class="outline-2">
-<h2 id="org79e412f">Typical Usage</h2>
-<div class="outline-text-2" id="text-org79e412f">
+<div id="outline-container-orgd13efc7" class="outline-2">
+<h2 id="orgd13efc7">Typical Usage</h2>
+<div class="outline-text-2" id="text-orgd13efc7">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -338,9 +338,9 @@ synchronizing only with the hub.
 </div>
 </div>
 
-<div id="outline-container-orge141b9d" class="outline-2">
-<h2 id="orge141b9d">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-orge141b9d">
+<div id="outline-container-org0cd91bb" class="outline-2">
+<h2 id="org0cd91bb">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-org0cd91bb">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -396,9 +396,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </div>
 </div>
 
-<div id="outline-container-org4421691" class="outline-2">
-<h2 id="org4421691">Going Further</h2>
-<div class="outline-text-2" id="text-org4421691">
+<div id="outline-container-orgb17c174" class="outline-2">
+<h2 id="orgb17c174">Going Further</h2>
+<div class="outline-text-2" id="text-orgb17c174">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>
@@ -421,7 +421,7 @@ following sections in the official manual:
 </ul>
 </div>
 </div>
-<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-tool.html">tool</a> </div></div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>

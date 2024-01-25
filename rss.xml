@@ -3,8 +3,8 @@
 <channel>
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
-<link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/</link>
-<lastBuildDate>Thu, 25 Jan 2024 19:16:50 +0800</lastBuildDate>
+<link>https://dou-meishi.github.io/org-blog/</link>
+<lastBuildDate>Thu, 25 Jan 2024 19:34:16 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Org Static Blog: A Simple Static Site Generator]]></title>
   <description><![CDATA[
@@ -12,11 +12,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbfd9e7f">Go through the manual</a></li>
-<li><a href="#org4936d79">Minimal Configuration</a></li>
-<li><a href="#org4356e12">Question</a></li>
-<li><a href="#org03b9fc9">Build My Blog Site</a></li>
-<li><a href="#org95e05a3">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org944512b">Go through the manual</a></li>
+<li><a href="#orgbc53448">Minimal Configuration</a></li>
+<li><a href="#org61f5dd3">Question</a></li>
+<li><a href="#orgbdb5263">Build My Blog Site</a></li>
+<li><a href="#org0f862de">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -53,9 +53,9 @@ Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
 
-<div id="outline-container-orgbfd9e7f" class="outline-2">
-<h2 id="orgbfd9e7f">Go through the manual</h2>
-<div class="outline-text-2" id="text-orgbfd9e7f">
+<div id="outline-container-org944512b" class="outline-2">
+<h2 id="org944512b">Go through the manual</h2>
+<div class="outline-text-2" id="text-org944512b">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -166,9 +166,9 @@ These key bindings are:
 </div>
 </div>
 
-<div id="outline-container-org4936d79" class="outline-2">
-<h2 id="org4936d79">Minimal Configuration</h2>
-<div class="outline-text-2" id="text-org4936d79">
+<div id="outline-container-orgbc53448" class="outline-2">
+<h2 id="orgbc53448">Minimal Configuration</h2>
+<div class="outline-text-2" id="text-orgbc53448">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -254,7 +254,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="orgbda227c">
+<pre class="example" id="orgd55d1fc">
 org-blog/
 ├── drafts
 ├── org
@@ -273,7 +273,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org04803a7">
+<pre class="example" id="org9687723">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -295,9 +295,9 @@ org-blog/
 </div>
 </div>
 
-<div id="outline-container-org4356e12" class="outline-2">
-<h2 id="org4356e12">Question</h2>
-<div class="outline-text-2" id="text-org4356e12">
+<div id="outline-container-org61f5dd3" class="outline-2">
+<h2 id="org61f5dd3">Question</h2>
+<div class="outline-text-2" id="text-org61f5dd3">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -318,7 +318,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org33babe9">
+<pre class="example" id="org906d4a5">
 org-blog/
 ├── drafts
 ├── org
@@ -373,9 +373,9 @@ the drafts directory will not be included in the index.
 </div>
 </div>
 
-<div id="outline-container-org03b9fc9" class="outline-2">
-<h2 id="org03b9fc9">Build My Blog Site</h2>
-<div class="outline-text-2" id="text-org03b9fc9">
+<div id="outline-container-orgbdb5263" class="outline-2">
+<h2 id="orgbdb5263">Build My Blog Site</h2>
+<div class="outline-text-2" id="text-orgbdb5263">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -449,24 +449,28 @@ Change the default ellipsis <code>(...)</code> used in preview to  <code>...</co
 
 <li><p>
 Use a different CSS stylesheet. I have been using <a href="http://gongzhitaao.org/orgcss">this stylesheet</a>
-which is designed for HTML exported from org files for three years
-and always appreciating its clean design. To adapt it to files exported
-by <code>org-static-blog</code>, I add several additional rules in a patched CSS;
-see the <code>static/dou-org-blog.css</code> in my github repo.
+for three years and always appreciating its clean design. It is
+designed for HTML exported from org files by <code>org-publish</code>. To adapt
+it to files exported by <code>org-static-blog</code>, I add several additional
+rules in <a href="https://dou-meishi.github.io/org-blog/static/dou-org-blog.css">a patched CSS</a>.
 </p>
 
 <div class="org-src-container">
 <pre class="src src-html">&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"http://gongzhitaao.org/orgcss/org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
-&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/static/dou-org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
+&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
 </pre>
 </div></li>
 </ol>
+
+<p>
+The script and static assets are all included in <a href="https://github.com/Dou-Meishi/org-blog">my git repo</a> for this blog.
+</p>
 </div>
 </div>
 
-<div id="outline-container-org95e05a3" class="outline-2">
-<h2 id="org95e05a3">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org95e05a3">
+<div id="outline-container-org0f862de" class="outline-2">
+<h2 id="org0f862de">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org0f862de">
 <p>
 Below are other users' configuration on org static blog.
 </p>
@@ -478,10 +482,10 @@ Below are other users' configuration on org static blog.
 </ol>
 </div>
 </div>
-<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-emacs.html">emacs</a> </div>]]></description>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div>]]></description>
   <category><![CDATA[emacs]]></category>
-  <link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-22-TryOrgStaticBlog/notes.html</link>
-  <guid>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-22-TryOrgStaticBlog/notes.html</guid>
+  <link>https://dou-meishi.github.io/org-blog/2024-01-22-TryOrgStaticBlog/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-01-22-TryOrgStaticBlog/notes.html</guid>
   <pubDate>Mon, 22 Jan 2024 00:00:00 +0800</pubDate>
 </item>
 <item>
@@ -491,11 +495,11 @@ Below are other users' configuration on org static blog.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org42305e0">Go through the manual</a></li>
-<li><a href="#orgaa5c4ad">Practice</a></li>
-<li><a href="#org4666e0b">Questions</a></li>
-<li><a href="#org223c785">Further consideration</a></li>
-<li><a href="#orgcc80d3e">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orge084a07">Go through the manual</a></li>
+<li><a href="#org8bcf280">Practice</a></li>
+<li><a href="#org2dac804">Questions</a></li>
+<li><a href="#orgbce6653">Further consideration</a></li>
+<li><a href="#org21fd964">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -509,9 +513,9 @@ with it. It is also a good practice for me to understand the source code
 of <a href="https://github.com/bastibe/org-static-blog/tree/master">Org Static Blog</a>, which is the actual blogging tool I want to use.
 </p>
 
-<div id="outline-container-org42305e0" class="outline-2">
-<h2 id="org42305e0">Go through the manual</h2>
-<div class="outline-text-2" id="text-org42305e0">
+<div id="outline-container-orge084a07" class="outline-2">
+<h2 id="orge084a07">Go through the manual</h2>
+<div class="outline-text-2" id="text-orge084a07">
 <p>
 According to <a href="https://orgmode.org/manual/Publishing.html">the manual</a>, publishing in org-mode is configured almost
 entirely through setting the value of one variable, called
@@ -552,9 +556,9 @@ see <a href="https://orgmode.org/manual/Site-map.html">Section 14.1.7</a> in the
 </div>
 </div>
 
-<div id="outline-container-orgaa5c4ad" class="outline-2">
-<h2 id="orgaa5c4ad">Practice</h2>
-<div class="outline-text-2" id="text-orgaa5c4ad">
+<div id="outline-container-org8bcf280" class="outline-2">
+<h2 id="org8bcf280">Practice</h2>
+<div class="outline-text-2" id="text-org8bcf280">
 <p>
 <i>A simple setting:</i> given a folder <code>./content</code> with several org files in it, we want to publish them
 into a different folder <code>./public</code>. Assets should be copied too.
@@ -636,9 +640,9 @@ Finally, we publish all projects.
 </div>
 </div>
 
-<div id="outline-container-org4666e0b" class="outline-2">
-<h2 id="org4666e0b">Questions</h2>
-<div class="outline-text-2" id="text-org4666e0b">
+<div id="outline-container-org2dac804" class="outline-2">
+<h2 id="org2dac804">Questions</h2>
+<div class="outline-text-2" id="text-org2dac804">
 <ol class="org-ol">
 <li><p>
 Can I customize the way of Emacs searching for intended org files rather than
@@ -681,14 +685,14 @@ to the current time.
 </div>
 </div>
 
-<div id="outline-container-org223c785" class="outline-2">
-<h2 id="org223c785">Further consideration</h2>
-<div class="outline-text-2" id="text-org223c785">
+<div id="outline-container-orgbce6653" class="outline-2">
+<h2 id="orgbce6653">Further consideration</h2>
+<div class="outline-text-2" id="text-orgbce6653">
 <p>
 <i>A slightly complicated setting:</i> my document folder consists of event directories and looks like
 </p>
 
-<pre class="example" id="org6e2d2d9">
+<pre class="example" id="orgc5684c6">
 .
 ├── 2023-09-03-CustomizePrompt/
 ├── 2023-11-18-ContentManagementSystem/
@@ -817,9 +821,9 @@ simply visit it and run <code>eval-buffer</code>.
 </div>
 </div>
 
-<div id="outline-container-orgcc80d3e" class="outline-2">
-<h2 id="orgcc80d3e">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orgcc80d3e">
+<div id="outline-container-org21fd964" class="outline-2">
+<h2 id="org21fd964">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org21fd964">
 <ol class="org-ol">
 <li><a href="https://orgmode.org/manual/Publishing.html">Publishing - The Org Mode Manual</a></li>
 <li><a href="https://taingram.org/blog/org-mode-blog.html">Building a Emacs Org-Mode Blog</a></li>
@@ -829,10 +833,10 @@ simply visit it and run <code>eval-buffer</code>.
 </ol>
 </div>
 </div>
-<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-emacs.html">emacs</a> </div>]]></description>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div>]]></description>
   <category><![CDATA[emacs]]></category>
-  <link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-14-TryOrgPublish/notes.html</link>
-  <guid>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-14-TryOrgPublish/notes.html</guid>
+  <link>https://dou-meishi.github.io/org-blog/2024-01-14-TryOrgPublish/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-01-14-TryOrgPublish/notes.html</guid>
   <pubDate>Sun, 14 Jan 2024 00:00:00 +0800</pubDate>
 </item>
 <item>
@@ -882,7 +886,7 @@ The LaTeX code above produces the following output.
 </p>
 
 
-<figure id="org5c793f0">
+<figure id="orgdac3401">
 <img src="./simple-code.png" alt="simple-code.png">
 
 </figure>
@@ -896,9 +900,9 @@ and <code>tcolorbox</code> package. While  <code>listings</code> and  <code>mint
 Actually, <code>tcolorbox</code> internally loads <code>listings</code> or <code>minted</code> packages.
 </p>
 
-<div id="outline-container-org57caafc" class="outline-2">
-<h2 id="org57caafc">Create Own Code Block Environment with tcolorbox</h2>
-<div class="outline-text-2" id="text-org57caafc">
+<div id="outline-container-orgafb3b96" class="outline-2">
+<h2 id="orgafb3b96">Create Own Code Block Environment with tcolorbox</h2>
+<div class="outline-text-2" id="text-orgafb3b96">
 <p>
 When <code>tcolorbox</code> is loaded with the option <code>listings</code>, it provides various useful predefined commands
 for rendering source blocks by loading <code>listings</code> package automatically. Besides the <code>listings</code> option,
@@ -1013,16 +1017,16 @@ This is the <span style="color: #859900; font-weight: bold;">\LaTeX</span>\ sour
 </div>
 
 
-<figure id="orgf8d282f">
+<figure id="orga556e9d">
 <img src="./tcolorbox-listings.png" alt="tcolorbox-listings.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org47ff644" class="outline-2">
-<h2 id="org47ff644">Explanation of the Created Code Environment</h2>
-<div class="outline-text-2" id="text-org47ff644">
+<div id="outline-container-org9d04ee9" class="outline-2">
+<h2 id="org9d04ee9">Explanation of the Created Code Environment</h2>
+<div class="outline-text-2" id="text-org9d04ee9">
 <p>
 First, we load <code>tcolorbox</code> with appropriate options. In addition, we load the <code>xcolor</code> package for color support.
 </p>
@@ -1131,9 +1135,9 @@ name of the source file.
 </div>
 </div>
 
-<div id="outline-container-orgb4ec497" class="outline-2">
-<h2 id="orgb4ec497">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orgb4ec497">
+<div id="outline-container-org5ee1b39" class="outline-2">
+<h2 id="org5ee1b39">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org5ee1b39">
 <ol class="org-ol">
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf">the official manual of tcolorbox - CTAN</a></li>
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the official manual of listings - CTAN</a></li>
@@ -1143,10 +1147,10 @@ name of the source file.
 </ol>
 </div>
 </div>
-<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-latex.html">latex</a> </div>]]></description>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-latex.html">latex</a> </div>]]></description>
   <category><![CDATA[latex]]></category>
-  <link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-11-CodeBlockinLaTeX/notes.html</link>
-  <guid>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-11-CodeBlockinLaTeX/notes.html</guid>
+  <link>https://dou-meishi.github.io/org-blog/2024-01-11-CodeBlockinLaTeX/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-01-11-CodeBlockinLaTeX/notes.html</guid>
   <pubDate>Thu, 11 Jan 2024 00:00:00 +0800</pubDate>
 </item>
 <item>
@@ -1156,16 +1160,16 @@ name of the source file.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge6becf5">Preferences</a></li>
-<li><a href="#org09c6900">Setting Preference</a></li>
-<li><a href="#org9d3d793">Profiles</a></li>
-<li><a href="#org255fa7f">Path Specification</a></li>
-<li><a href="#org93e0f62">Ignoring</a></li>
-<li><a href="#org93ff1ef">Backup</a></li>
-<li><a href="#org8433a24">Scenario: Synchronize with a USB Drive</a>
+<li><a href="#orgbaab90d">Preferences</a></li>
+<li><a href="#orgba68153">Setting Preference</a></li>
+<li><a href="#orge47d209">Profiles</a></li>
+<li><a href="#org7371daa">Path Specification</a></li>
+<li><a href="#org5c2392b">Ignoring</a></li>
+<li><a href="#orgec48cb6">Backup</a></li>
+<li><a href="#orgc33e05b">Scenario: Synchronize with a USB Drive</a>
 <ul>
-<li><a href="#org051e813">Possible Errors</a></li>
-<li><a href="#orgf5d7b49">Syncrhonize with FAT/NTFS Filesystems</a></li>
+<li><a href="#org72915cf">Possible Errors</a></li>
+<li><a href="#orgb730766">Syncrhonize with FAT/NTFS Filesystems</a></li>
 </ul>
 </li>
 </ul>
@@ -1177,15 +1181,15 @@ In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>
 You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
 
-<div id="outline-container-orge6becf5" class="outline-2">
-<h2 id="orge6becf5">Preferences</h2>
-<div class="outline-text-2" id="text-orge6becf5">
+<div id="outline-container-orgbaab90d" class="outline-2">
+<h2 id="orgbaab90d">Preferences</h2>
+<div class="outline-text-2" id="text-orgbaab90d">
 <p>
 Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
 options, in other words). If we type <code>unison -help</code>, then the outputs will look like
 </p>
 
-<pre class="example" id="orga785e31">
+<pre class="example" id="orgccafbbb">
 Usage: unison [options]
     or unison root1 root2 [options]
     or unison profilename [options]
@@ -1247,9 +1251,9 @@ go through these options once by typing <code>unison -help</code>.
 </div>
 </div>
 
-<div id="outline-container-org09c6900" class="outline-2">
-<h2 id="org09c6900">Setting Preference</h2>
-<div class="outline-text-2" id="text-org09c6900">
+<div id="outline-container-orgba68153" class="outline-2">
+<h2 id="orgba68153">Setting Preference</h2>
+<div class="outline-text-2" id="text-orgba68153">
 <p>
 There are two ways to set the values of preferences: temporarily, by providing command-line arguments
 to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
@@ -1273,9 +1277,9 @@ In the profile, a line in the form <code>p = value</code> works for both boolean
 </div>
 </div>
 
-<div id="outline-container-org9d3d793" class="outline-2">
-<h2 id="org9d3d793">Profiles</h2>
-<div class="outline-text-2" id="text-org9d3d793">
+<div id="outline-container-orge47d209" class="outline-2">
+<h2 id="orge47d209">Profiles</h2>
+<div class="outline-text-2" id="text-orge47d209">
 <p>
 A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
 Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
@@ -1316,9 +1320,9 @@ profile. Its value is listed along with the profile name in the graphical user i
 </div>
 </div>
 
-<div id="outline-container-org255fa7f" class="outline-2">
-<h2 id="org255fa7f">Path Specification</h2>
-<div class="outline-text-2" id="text-org255fa7f">
+<div id="outline-container-org7371daa" class="outline-2">
+<h2 id="org7371daa">Path Specification</h2>
+<div class="outline-text-2" id="text-org7371daa">
 <p>
 Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
 These preferences can be set to any of the following patterns.
@@ -1340,15 +1344,15 @@ In those forms, the <code>name</code> or <code>path</code> argument can be a glo
 </div>
 </div>
 
-<div id="outline-container-org93e0f62" class="outline-2">
-<h2 id="org93e0f62">Ignoring</h2>
-<div class="outline-text-2" id="text-org93e0f62">
+<div id="outline-container-org5c2392b" class="outline-2">
+<h2 id="org5c2392b">Ignoring</h2>
+<div class="outline-text-2" id="text-org5c2392b">
 <p>
 We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
 in a profile tells Unison to ignore the path <code>a/b</code>:
 </p>
 
-<pre class="example" id="orge8db7eb">
+<pre class="example" id="orgfce6163">
 ignore = Path a/b
 </pre>
 
@@ -1380,16 +1384,16 @@ then Unison still ignores a path like <code>data/a.py</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-org93ff1ef" class="outline-2">
-<h2 id="org93ff1ef">Backup</h2>
-<div class="outline-text-2" id="text-org93ff1ef">
+<div id="outline-container-orgec48cb6" class="outline-2">
+<h2 id="orgec48cb6">Backup</h2>
+<div class="outline-text-2" id="text-orgec48cb6">
 <p>
 When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
 it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
 to require what kind of files should be backed up. For example,
 </p>
 
-<pre class="example" id="orgb61abfb">
+<pre class="example" id="org3fc05a2">
 backup = Name *
 </pre>
 
@@ -1424,9 +1428,9 @@ then the whole directory and all the files in it will be backed up, regardless o
 </div>
 </div>
 
-<div id="outline-container-org8433a24" class="outline-2">
-<h2 id="org8433a24">Scenario: Synchronize with a USB Drive</h2>
-<div class="outline-text-2" id="text-org8433a24">
+<div id="outline-container-orgc33e05b" class="outline-2">
+<h2 id="orgc33e05b">Scenario: Synchronize with a USB Drive</h2>
+<div class="outline-text-2" id="text-orgc33e05b">
 <p>
 Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
 mounted at <code>/media/dou/KINGSTON</code>.
@@ -1435,9 +1439,9 @@ intended and we explain them below.
 </p>
 </div>
 
-<div id="outline-container-org051e813" class="outline-3">
-<h3 id="org051e813">Possible Errors</h3>
-<div class="outline-text-3" id="text-org051e813">
+<div id="outline-container-org72915cf" class="outline-3">
+<h3 id="org72915cf">Possible Errors</h3>
+<div class="outline-text-3" id="text-org72915cf">
 <p>
 If our USB drive is empty, the first time we run Unison will simply copying files.
 Suppose we have done and reject the USB drive. What will happen if we accidentally
@@ -1467,9 +1471,9 @@ So Unison exits with <i>Fatal Error: Cannot find canonical name of &#x2026;</i>
 </div>
 </div>
 
-<div id="outline-container-orgf5d7b49" class="outline-3">
-<h3 id="orgf5d7b49">Syncrhonize with FAT/NTFS Filesystems</h3>
-<div class="outline-text-3" id="text-orgf5d7b49">
+<div id="outline-container-orgb730766" class="outline-3">
+<h3 id="orgb730766">Syncrhonize with FAT/NTFS Filesystems</h3>
+<div class="outline-text-3" id="text-orgb730766">
 <p>
 If Unison is running on a Unix-like machine but told to synchronize
 with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,
@@ -1486,10 +1490,10 @@ which is equivalent to
 </div>
 </div>
 </div>
-<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-tool.html">tool</a> </div>]]></description>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>]]></description>
   <category><![CDATA[tool]]></category>
-  <link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-07-ReviewUnison/advanced.html</link>
-  <guid>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-07-ReviewUnison/advanced.html</guid>
+  <link>https://dou-meishi.github.io/org-blog/2024-01-07-ReviewUnison/advanced.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-01-07-ReviewUnison/advanced.html</guid>
   <pubDate>Sun, 07 Jan 2024 21:00:00 +0800</pubDate>
 </item>
 <item>
@@ -1499,11 +1503,11 @@ which is equivalent to
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org8cf1d4c">A Demo</a></li>
-<li><a href="#org60f1573">Basic Concepts</a></li>
-<li><a href="#org79e412f">Typical Usage</a></li>
-<li><a href="#orge141b9d">Caveats and Shortcomings</a></li>
-<li><a href="#org4421691">Going Further</a></li>
+<li><a href="#org9416166">A Demo</a></li>
+<li><a href="#org442fe3a">Basic Concepts</a></li>
+<li><a href="#orgd13efc7">Typical Usage</a></li>
+<li><a href="#org0cd91bb">Caveats and Shortcomings</a></li>
+<li><a href="#orgb17c174">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -1518,9 +1522,9 @@ brought up to date by propagating the changes in each replica to the other.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
 
-<div id="outline-container-org8cf1d4c" class="outline-2">
-<h2 id="org8cf1d4c">A Demo</h2>
-<div class="outline-text-2" id="text-org8cf1d4c">
+<div id="outline-container-org9416166" class="outline-2">
+<h2 id="org9416166">A Demo</h2>
+<div class="outline-text-2" id="text-org9416166">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -1591,7 +1595,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="orgd537447">
+<pre class="example" id="orgf555593">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -1606,7 +1610,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="orgee47b05">
+<pre class="example" id="orge47c2a4">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -1614,7 +1618,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="org0561ec2">
+<pre class="example" id="orgfd36772">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -1624,7 +1628,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org9d0e581">
+<pre class="example" id="orgb6865e9">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -1646,9 +1650,9 @@ click the <i>Go</i> button to set them in motion.
 </div>
 </div>
 
-<div id="outline-container-org60f1573" class="outline-2">
-<h2 id="org60f1573">Basic Concepts</h2>
-<div class="outline-text-2" id="text-org60f1573">
+<div id="outline-container-org442fe3a" class="outline-2">
+<h2 id="org442fe3a">Basic Concepts</h2>
+<div class="outline-text-2" id="text-org442fe3a">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -1769,9 +1773,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </div>
 </div>
 
-<div id="outline-container-org79e412f" class="outline-2">
-<h2 id="org79e412f">Typical Usage</h2>
-<div class="outline-text-2" id="text-org79e412f">
+<div id="outline-container-orgd13efc7" class="outline-2">
+<h2 id="orgd13efc7">Typical Usage</h2>
+<div class="outline-text-2" id="text-orgd13efc7">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -1804,9 +1808,9 @@ synchronizing only with the hub.
 </div>
 </div>
 
-<div id="outline-container-orge141b9d" class="outline-2">
-<h2 id="orge141b9d">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-orge141b9d">
+<div id="outline-container-org0cd91bb" class="outline-2">
+<h2 id="org0cd91bb">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-org0cd91bb">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -1862,9 +1866,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </div>
 </div>
 
-<div id="outline-container-org4421691" class="outline-2">
-<h2 id="org4421691">Going Further</h2>
-<div class="outline-text-2" id="text-org4421691">
+<div id="outline-container-orgb17c174" class="outline-2">
+<h2 id="orgb17c174">Going Further</h2>
+<div class="outline-text-2" id="text-orgb17c174">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>
@@ -1887,10 +1891,10 @@ following sections in the official manual:
 </ul>
 </div>
 </div>
-<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-tool.html">tool</a> </div>]]></description>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>]]></description>
   <category><![CDATA[tool]]></category>
-  <link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-07-ReviewUnison/basics.html</link>
-  <guid>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-07-ReviewUnison/basics.html</guid>
+  <link>https://dou-meishi.github.io/org-blog/2024-01-07-ReviewUnison/basics.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-01-07-ReviewUnison/basics.html</guid>
   <pubDate>Sat, 06 Jan 2024 00:00:00 +0800</pubDate>
 </item>
 <item>
@@ -1900,10 +1904,10 @@ following sections in the official manual:
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0040bd3">Prerequisite Concepts</a></li>
-<li><a href="#org5760e06">Definition</a></li>
-<li><a href="#org3e648da">Main Results</a></li>
-<li><a href="#orgb146ceb">Examples</a></li>
+<li><a href="#org46d6850">Prerequisite Concepts</a></li>
+<li><a href="#org7b701d6">Definition</a></li>
+<li><a href="#org9bc5377">Main Results</a></li>
+<li><a href="#org167381d">Examples</a></li>
 </ul>
 </div>
 </nav>
@@ -1918,9 +1922,9 @@ Space</i> in the book <i>Munkres, J. Topology Second Edition</i> for more
 details.
 </p>
 
-<div id="outline-container-org0040bd3" class="outline-2">
-<h2 id="org0040bd3">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-org0040bd3">
+<div id="outline-container-org46d6850" class="outline-2">
+<h2 id="org46d6850">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-org46d6850">
 <ul class="org-ul">
 <li>normed linear space</li>
 <li>complete metric space</li>
@@ -1930,9 +1934,9 @@ details.
 </div>
 </div>
 
-<div id="outline-container-org5760e06" class="outline-2">
-<h2 id="org5760e06">Definition</h2>
-<div class="outline-text-2" id="text-org5760e06">
+<div id="outline-container-org7b701d6" class="outline-2">
+<h2 id="org7b701d6">Definition</h2>
+<div class="outline-text-2" id="text-org7b701d6">
 <p>
 A complete normed linear space is called a <b>Banach space</b>.
 </p>
@@ -1985,9 +1989,9 @@ corresponding to \(\|\cdot\|\) is defined by
 </div>
 </div>
 
-<div id="outline-container-org3e648da" class="outline-2">
-<h2 id="org3e648da">Main Results</h2>
-<div class="outline-text-2" id="text-org3e648da">
+<div id="outline-container-org9bc5377" class="outline-2">
+<h2 id="org9bc5377">Main Results</h2>
+<div class="outline-text-2" id="text-org9bc5377">
 <p>
 <b>Lemma 1.</b> If \((Y,d)\) is complete, then \((Y^X,\bar{\rho})\) is also
 complete.
@@ -2007,9 +2011,9 @@ are both complete in the uniform metric.
 </div>
 </div>
 
-<div id="outline-container-orgb146ceb" class="outline-2">
-<h2 id="orgb146ceb">Examples</h2>
-<div class="outline-text-2" id="text-orgb146ceb">
+<div id="outline-container-org167381d" class="outline-2">
+<h2 id="org167381d">Examples</h2>
+<div class="outline-text-2" id="text-org167381d">
 <p>
 <b>Example.</b> \((\mathcal{C}[a,b],\|\cdot\|_\infty)\) is a Banach
 space.
@@ -2036,10 +2040,10 @@ Consider \(f_n(x):=\sqrt{x^2+\frac{1}{n}}\). It is easy to check that
 </p>
 </div>
 </div>
-<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-math.html">math</a> </div>]]></description>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>]]></description>
   <category><![CDATA[math]]></category>
-  <link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2023-10-23-BanachSpaceExample/notes.html</link>
-  <guid>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2023-10-23-BanachSpaceExample/notes.html</guid>
+  <link>https://dou-meishi.github.io/org-blog/2023-10-23-BanachSpaceExample/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-10-23-BanachSpaceExample/notes.html</guid>
   <pubDate>Mon, 23 Oct 2023 00:00:00 +0800</pubDate>
 </item>
 <item>
@@ -2049,10 +2053,10 @@ Consider \(f_n(x):=\sqrt{x^2+\frac{1}{n}}\). It is easy to check that
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org46dc634">Prerequisite Concepts</a></li>
-<li><a href="#orge00594c">Definitions</a></li>
-<li><a href="#org08ca2ea">Main Results</a></li>
-<li><a href="#org5cf894f">Detailed Proofs</a></li>
+<li><a href="#orgf171fa8">Prerequisite Concepts</a></li>
+<li><a href="#org7c331a7">Definitions</a></li>
+<li><a href="#org7c8a90e">Main Results</a></li>
+<li><a href="#org9320faa">Detailed Proofs</a></li>
 </ul>
 </div>
 </nav>
@@ -2062,9 +2066,9 @@ This note is a review of Chapter IV.8 of the book
 by Freiwald.
 </p>
 
-<div id="outline-container-org46dc634" class="outline-2">
-<h2 id="org46dc634">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-org46dc634">
+<div id="outline-container-orgf171fa8" class="outline-2">
+<h2 id="orgf171fa8">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-orgf171fa8">
 <ul class="org-ul">
 <li>topological space and its subspace</li>
 <li>T1 topological space and T2 topological space</li>
@@ -2078,9 +2082,9 @@ by Freiwald.
 </div>
 </div>
 
-<div id="outline-container-orge00594c" class="outline-2">
-<h2 id="orge00594c">Definitions</h2>
-<div class="outline-text-2" id="text-orge00594c">
+<div id="outline-container-org7c331a7" class="outline-2">
+<h2 id="org7c331a7">Definitions</h2>
+<div class="outline-text-2" id="text-org7c331a7">
 <p>
 Two equivalent definition of a <b>compact</b> topological space \((X,\mathcal{T})\):
 </p>
@@ -2117,15 +2121,15 @@ a finite number of \(\epsilon\)-balls.</dd>
 </div>
 </div>
 
-<div id="outline-container-org08ca2ea" class="outline-2">
-<h2 id="org08ca2ea">Main Results</h2>
-<div class="outline-text-2" id="text-org08ca2ea">
+<div id="outline-container-org7c8a90e" class="outline-2">
+<h2 id="org7c8a90e">Main Results</h2>
+<div class="outline-text-2" id="text-org7c8a90e">
 <p>
 Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.5.</b> <a id="org7a02e55"></a> <i>Let \(K \subset X\).</i>
+<b>Theorem 8.5.</b> <a id="org4946d72"></a> <i>Let \(K \subset X\).</i>
 </p>
 
 <p>
@@ -2137,33 +2141,33 @@ Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.11.</b> <a id="org5dfd877"></a> <i>The following implications hold generally.</i>
+<b>Theorem 8.11.</b> <a id="org659d9c9"></a> <i>The following implications hold generally.</i>
 \[ X\text{ is (sequentially) compact }\Rightarrow X\text{ is countably compact }
 \Rightarrow X\text{ is pseudocompact}.\]
 </p>
 
 <p>
-<b>Lemma 8.12.</b> <a id="orge3a2d67"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
+<b>Lemma 8.12.</b> <a id="org1619070"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
 if \(X\) is first countable.
 </p>
 
 <p>
-<b>Lemma 8.16.</b> <a id="orga104a8b"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
+<b>Lemma 8.16.</b> <a id="org7a70530"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
 </p>
 
 <p>
-<b>Theorem 8.17.</b> <a id="orgc7121ed"></a> In a pseudometric space \((X,d)\),
+<b>Theorem 8.17.</b> <a id="org9417954"></a> In a pseudometric space \((X,d)\),
 the property of compactness, sequentially compactness, countably compactness
 and pseudocompactness are all equivalent.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5cf894f" class="outline-2">
-<h2 id="org5cf894f">Detailed Proofs</h2>
-<div class="outline-text-2" id="text-org5cf894f">
+<div id="outline-container-org9320faa" class="outline-2">
+<h2 id="org9320faa">Detailed Proofs</h2>
+<div class="outline-text-2" id="text-org9320faa">
 <p>
-<i>Proof to <a href="#org7a02e55">Theorem 8.5</a>.</i>
+<i>Proof to <a href="#org4946d72">Theorem 8.5</a>.</i>
 Assume \(K\) is closed and \(X\) is compact, then any open cover
 of \(K\) would form an open cover of \(X\) if augmented by \(K^\mathsf{c}\).
 This implies that a finite subcover of \(K\) exists.
@@ -2184,7 +2188,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org5dfd877">Theorem 8.11</a>.</i>
+<i>Proof to <a href="#org659d9c9">Theorem 8.11</a>.</i>
 </p>
 
 <p>
@@ -2214,7 +2218,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orge3a2d67">Lemma 8.12</a>.</i>
+<i>Proof to <a href="#org1619070">Lemma 8.12</a>.</i>
 First, we prove that \(X\) <span class="underline">is countably compact if and only if every sequence
 has a cluster point</span>. The <i>if</i> part has been proved in Theorem 8.11. To prove
 the <i>only if</i> part, assume \(X\) be countably compact and \((x_n)\) is a sequence
@@ -2260,7 +2264,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orga104a8b">Lemma 8.16</a>.</i>
+<i>Proof to <a href="#org7a70530">Lemma 8.16</a>.</i>
 Let \((X,d)\) be a totally bounded pseudometric space.
 </p>
 
@@ -2320,7 +2324,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orgc7121ed">Theorem 8.17</a>.</i>
+<i>Proof to <a href="#org9417954">Theorem 8.17</a>.</i>
 Based on Theorem 8.11, we need only to prove the following implications.
 </p>
 
@@ -2476,10 +2480,10 @@ but it make no sense to say a topological space is closed.
 
 
 </div>
-</div><div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-math.html">math</a> </div>]]></description>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>]]></description>
   <category><![CDATA[math]]></category>
-  <link>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2023-09-19-Compactness/notes.html</link>
-  <guid>file:///home/dou/Documents/2024-01-24-MyOrgBlog/2023-09-19-Compactness/notes.html</guid>
+  <link>https://dou-meishi.github.io/org-blog/2023-09-19-Compactness/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-09-19-Compactness/notes.html</guid>
   <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
 </item>
 </channel>
