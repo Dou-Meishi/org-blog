@@ -1,0 +1,5 @@
+# ignore any file and any subfolder in the root folder
+/*
+
+# use ! to add files into this whitelist, e.g.,
+!.gitignore
