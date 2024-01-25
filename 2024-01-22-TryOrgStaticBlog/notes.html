@@ -33,11 +33,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org20358a9">Go through the manual</a></li>
-<li><a href="#org1e5a19d">Minimal Configuration</a></li>
-<li><a href="#orgcd48df8">Question</a></li>
-<li><a href="#orga4311c5">Build My Blog Site</a></li>
-<li><a href="#orgb85b0df">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orga5d8d79">Go through the manual</a></li>
+<li><a href="#orgfe5e5c1">Minimal Configuration</a></li>
+<li><a href="#orgd974237">Question</a></li>
+<li><a href="#orgbd68d2e">Build My Blog Site</a></li>
+<li><a href="#orge0f950b">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -74,9 +74,9 @@ Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
 
-<div id="outline-container-org20358a9" class="outline-2">
-<h2 id="org20358a9">Go through the manual</h2>
-<div class="outline-text-2" id="text-org20358a9">
+<div id="outline-container-orga5d8d79" class="outline-2">
+<h2 id="orga5d8d79">Go through the manual</h2>
+<div class="outline-text-2" id="text-orga5d8d79">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -187,9 +187,9 @@ These key bindings are:
 </div>
 </div>
 
-<div id="outline-container-org1e5a19d" class="outline-2">
-<h2 id="org1e5a19d">Minimal Configuration</h2>
-<div class="outline-text-2" id="text-org1e5a19d">
+<div id="outline-container-orgfe5e5c1" class="outline-2">
+<h2 id="orgfe5e5c1">Minimal Configuration</h2>
+<div class="outline-text-2" id="text-orgfe5e5c1">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -275,7 +275,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="org9bb1dbf">
+<pre class="example" id="org939da93">
 org-blog/
 ├── drafts
 ├── org
@@ -294,7 +294,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org32c7807">
+<pre class="example" id="orge58c522">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -316,9 +316,9 @@ org-blog/
 </div>
 </div>
 
-<div id="outline-container-orgcd48df8" class="outline-2">
-<h2 id="orgcd48df8">Question</h2>
-<div class="outline-text-2" id="text-orgcd48df8">
+<div id="outline-container-orgd974237" class="outline-2">
+<h2 id="orgd974237">Question</h2>
+<div class="outline-text-2" id="text-orgd974237">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -339,7 +339,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org1f7f081">
+<pre class="example" id="org0606c63">
 org-blog/
 ├── drafts
 ├── org
@@ -394,9 +394,9 @@ the drafts directory will not be included in the index.
 </div>
 </div>
 
-<div id="outline-container-orga4311c5" class="outline-2">
-<h2 id="orga4311c5">Build My Blog Site</h2>
-<div class="outline-text-2" id="text-orga4311c5">
+<div id="outline-container-orgbd68d2e" class="outline-2">
+<h2 id="orgbd68d2e">Build My Blog Site</h2>
+<div class="outline-text-2" id="text-orgbd68d2e">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -481,17 +481,48 @@ rules in <a href="https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"
 &lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
 </pre>
 </div></li>
+
+<li><p>
+Sync posts from my document folder. As I mentioned in <a href="../2024-01-14-TryOrgPublish/notes.html">the previous post</a>, my notes resides in different event directories
+in the document folder, and, of course, I do not want to share the whole <code>~/Documents/</code> folder.
+So I list all files I want to share in <code>~/.unison/syncpost.prf</code>, which looks like
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">source default.prf
+
+root = /home/dou/Documents
+root = /home/dou/Documents/2024-01-24-MyOrgBlog/
+
+nodeletion = /home/dou/Documents
+
+path = 2023-09-19-Compactness/notes.org
+path = 2023-10-23-BanachSpaceExample/notes.org
+path = 2024-01-07-ReviewUnison/basics.org
+path = 2024-01-07-ReviewUnison/advanced.org
+path = 2024-01-11-CodeBlockinLaTeX/notes.org
+path = 2024-01-11-CodeBlockinLaTeX/simple-code.png
+path = 2024-01-11-CodeBlockinLaTeX/tcolorbox-listings.png
+path = 2024-01-14-TryOrgPublish/notes.org
+path = 2024-01-22-TryOrgStaticBlog/notes.org
+</pre>
+</div>
+
+<p>
+Whenever I want to post something, I just check this file, run <code>unison-gui syncpost</code>,
+and execute all lisp script in the <code>build-blog.el</code>.
+</p></li>
 </ol>
 
 <p>
-The script and static assets are all included in <a href="https://github.com/Dou-Meishi/org-blog">my git repo</a> for this blog.
+The lisp script and static assets are all included in <a href="https://github.com/Dou-Meishi/org-blog">my git repo</a> for this blog.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgb85b0df" class="outline-2">
-<h2 id="orgb85b0df">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orgb85b0df">
+<div id="outline-container-orge0f950b" class="outline-2">
+<h2 id="orge0f950b">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-orge0f950b">
 <p>
 Below are other users' configuration on org static blog.
 </p>
