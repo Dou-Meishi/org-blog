@@ -3,7 +3,7 @@
 (setq dms/org-static-blog-root-dir "/home/dou/Documents/2024-01-24-MyOrgBlog/")
 
 (setq org-static-blog-publish-title "Dou Meishi's Blog")
-(setq org-static-blog-publish-url (format "file://%s" dms/org-static-blog-root-dir))
+(setq org-static-blog-publish-url "https://dou-meishi.github.io/org-blog/")
 (setq org-static-blog-publish-directory (format "%s" dms/org-static-blog-root-dir))
 (setq org-static-blog-posts-directory (format "%s" dms/org-static-blog-root-dir))
 (setq org-static-blog-drafts-directory (format "%sdrafts" dms/org-static-blog-root-dir))
