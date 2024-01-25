@@ -1,0 +1,61 @@
+:not(pre) > code {
+    color: #d33682;
+    border: #fdf6e3;
+}
+
+pre {
+    background-color: transparent;
+}
+
+#archive {
+    margin-top: 2em;
+}
+
+.post-date {
+    margin-top: 2em;
+    color: #888;
+}
+
+/* Emacs TODO keyword faces */
+
+.todo {
+    background-color: inherit;  /* disable default background-color */
+}
+
+.done {
+    background-color: inherit;  /* disable default background-color */
+}
+
+.todo.TODO {
+    color: #dc322f;  /* solarized red */
+}
+
+.todo.NEXT{
+    color: #d33682;  /* solarized magenta */
+}
+
+.todo.FOLLOW{
+    color: #268bd2;  /* solarized blue */
+}
+
+.todo.WAITING{
+    color: #2aa198;  /* solarized cyan */
+}
+
+.todo.INACTIVE{
+    color: #6c71c4;  /* solarized violet */
+}
+
+.done.CANCELLED{
+    color: #859900;  /* solarized green */
+}
+
+.done.DONE{
+    color: #859900;  /* solarized green */
+}
+
+@media screen {
+    body {
+        font-family: sans-serif;
+    }
+}
