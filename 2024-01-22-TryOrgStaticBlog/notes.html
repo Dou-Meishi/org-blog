@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/rss.xml"
+      title="RSS feed for file:///home/dou/Documents/2024-01-24-MyOrgBlog/">
+<title>Org Static Blog: A Simple Static Site Generator</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "/home/dou/Documents/2024-01-24-MyOrgBlog/static/dou-org.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/index.html">Home</a>
+    |
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">22 Jan 2024</div><h1 class="post-title"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-22-TryOrgStaticBlog/notes.html">Org Static Blog: A Simple Static Site Generator</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgbfd9e7f">Go through the manual</a></li>
+<li><a href="#org4936d79">Minimal Configuration</a></li>
+<li><a href="#org4356e12">Question</a></li>
+<li><a href="#org03b9fc9">Build My Blog Site</a></li>
+<li><a href="#org95e05a3">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+</ul>
+</div>
+</nav>
+<p>
+I picked up most of my computer skills from reading posts online, and
+it got me thinking about having my own blog where I can share what
+I've learned. But I've always been a bit hesitant about learning all
+the complicated stuff in web development.  Recently, I came across a
+third-party emacs package called <code>org-static-blog</code> while searching for
+the built-in functionality <code>org-publish</code>.  After browsing a few blog
+sites created with this package, I was impressed by its simplicity and
+the ability to blog using org files. It became clear that this package
+is exactly what I need at this stage.
+</p>
+
+<p>
+After a few minites of survey, I observed the following facts.
+</p>
+
+<ol class="org-ol">
+<li>The source code is simple enough. There is only a single elisp
+script with less than 1000 lines.  The code is well-organized, with
+customization variables appearing first, followed by commands. It
+doesn't involve any complex or cryptic syntax.</li>
+
+<li>The developer maintains this project over 8 years and he continues to use it in his blog site.</li>
+
+<li>There are a few appealing blog sites are created by org static blog,
+e.g.,  <a href="https://bastibe.de/about.html">Bastian</a>,  <a href="https://jao.io/blog/about.html">Jose Antonio Ortega Ruiz</a>,  <a href="https://justin.abrah.ms/">Justin Abrahms</a>, <a href="http://alhassy.com/about">Musa Al-hassy</a>&#x2026;</li>
+</ol>
+
+<p>
+Finally, I decide to give it a try. I hope it can give me a way to
+share my thoughts on the internet.
+</p>
+
+<div id="outline-container-orgbfd9e7f" class="outline-2">
+<h2 id="orgbfd9e7f">Go through the manual</h2>
+<div class="outline-text-2" id="text-orgbfd9e7f">
+<p>
+The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
+</p>
+
+<p>
+First, let us review the introduction.
+</p>
+
+<blockquote>
+<p>
+Static blog generators are a dime a dozen. This is one more, which focuses on being simple. All files are simple org-mode files in a directory. The only requirement is that every org file must have a <code>#+TITLE</code> and a <code>#+DATE</code>, and optionally, <code>#+FILETAGS</code>, <code>#+DESCRIPTION</code> and <code>#+IMAGE</code>.
+</p>
+</blockquote>
+
+<p>
+After collecting the appropriate org files, publishing them by org
+static blog needs only two steps: 1) customizing org static blog
+parameters; 2) calling <code>org-static-blog-publish</code> to publish all posts,
+or calling <code>org-static-blog-publish-filename</code> to publish only a
+particular post.
+</p>
+
+<p>
+The blog site generated by org static blog consists of six parts.
+</p>
+
+<ol class="org-ol">
+<li><i>Posts.</i> Every org file in <code>org-static-blog-posts-directory</code> is one blog post.
+Each blog post is rendered as its own HTML page.</li>
+
+<li><i>Index.</i> The index page contains the last few blog posts on a single page.
+The number of entries on  the index page can be customized
+using <code>org-static-blog-index-length</code>.</li>
+
+<li><i>Tags.</i> Each blog post can be tagged, and each tag links to a page
+that lists all other posts of the same tag. This feature is only
+enabled when <code>org-static-blog-enable-tags</code> is <code>t</code>.</li>
+
+<li><i>Archives.</i> This page lists the publishing dates and headlines of every blog post.</li>
+
+<li><i>RSS Feeds.</i> This is a machine-readable XML file that contains every blog
+post. It is not meant to be consumed by humans. Instead RSS readers
+can use the RSS feed to aggregate entries from multiple blogs.</li>
+
+<li><i>Drafts.</i> They are rendered like regular blog posts, but are not included
+in the index, the archive, or the RSS feed.</li>
+</ol>
+
+<p>
+Every HTML page in org static blog can be customized in the following aspects.
+</p>
+
+<ol class="org-ol">
+<li><code>org-static-blog-page-header</code>. This is inserted into the <code>&lt;head&gt;</code> of every page.
+Use this to include custom CSS and JavaScript for your blog.</li>
+
+<li><code>org-static-blog-page-preamble</code>. This is inserted just before the
+content of every page. This is a good place to put the header or
+menus for your blog.</li>
+
+<li><code>org-static-blog-page-postamble</code>. This is inserted after the content
+of every generated page: after any blog post page, after the index
+page, the tag pages and the archive. This is where you can include
+copyright notices.</li>
+
+<li><code>org-static-blog-post-preamble</code> and
+<code>org-static-blog-post-postamble</code>. The returned values are prepended
+and appended to every blog post. If you want to change the
+formatting of dates, titles, or the tag list, overwrite these
+functions. In particular the content of
+<code>org-static-blog-post-comments</code> is inserted at the end of each blog
+post. Use this to add a comment box.</li>
+</ol>
+
+<p>
+Other features:
+</p>
+
+<ol class="org-ol">
+<li>Optionally show a preview of the post (instead of the full post) on
+the index page setting <code>org-static-blog-use-preview</code> to <code>t</code>. The region
+of the post used as a preview is, by default, its first paragraph,
+but can be fine-tuned using <code>org-static-blog-preview-start</code> and
+<code>org-static-blog-preview-end</code>.</li>
+
+<li><p>
+Activate a few convenience key bindings by
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(add-to-list 'auto-mode-alist
+             (cons (concat
+                    org-static-blog-posts-directory <span style="color: #2aa198;">".*\\.org\\'"</span>)
+                   'org-static-blog-mode))
+</pre>
+</div>
+
+<p>
+These key bindings are:
+</p>
+
+<ol class="org-ol">
+<li><code>C-c C-f</code> / <code>C-c C-b</code> to open next/previous post.</li>
+<li><code>C-c C-p</code> to open the matching published HTML file of a post.</li>
+<li><code>C-c C-n</code> to create a new blog post.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4936d79" class="outline-2">
+<h2 id="org4936d79">Minimal Configuration</h2>
+<div class="outline-text-2" id="text-org4936d79">
+<p>
+Following the example in its manual, I try to build a blog site at
+<code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
+files.
+</p>
+
+<p>
+The first step is, of course, installing the package.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(package-install 'org-static-blog)
+</pre>
+</div>
+
+<p>
+The next step is setting up variables. I want to do the following things.
+</p>
+
+<ol class="org-ol">
+<li>Set the site title to <i>Hello, Org Static Blog</i></li>
+<li>Set the url of the site to <code>file:///home/dou/Documents/2024-01-22-TryOrgStaticBlog/org-blog/</code></li>
+<li>Set the directory that holds all html files to <code>./org-blog/</code></li>
+<li>Set the directory that holds all org files to be published to  <code>./org-blog/org/</code></li>
+<li>Set the directory that holds all drafts to  <code>./org-blog/drafts/</code></li>
+<li>Set the page header as the content of the file <code>./org-blog/static/header.html</code></li>
+<li>Set the page preamble as the content of the file <code>./org-blog/static/preamble.html</code></li>
+<li>Set the page postamble as the content of the file <code>./org-blog/static/postamble.html</code></li>
+<li>Enable tags</li>
+<li>Enable preview</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">require</span> '<span style="color: #268bd2; font-weight: bold;">org-static-blog</span>)
+
+(<span style="color: #859900; font-weight: bold;">setq</span> dms/org-static-blog-root-dir <span style="color: #2aa198;">"/home/dou/Documents/2024-01-22-TryOrgStaticBlog/org-blog/"</span>)
+
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-publish-title <span style="color: #2aa198;">"Hello, Org Static Blog"</span>)
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-publish-url (format <span style="color: #2aa198;">"file://%s"</span> dms/org-static-blog-root-dir))
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-publish-directory (format <span style="color: #2aa198;">"%s"</span> dms/org-static-blog-root-dir))
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-posts-directory (format <span style="color: #2aa198;">"%sorg"</span> dms/org-static-blog-root-dir))
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-drafts-directory (format <span style="color: #2aa198;">"%sdrafts"</span> dms/org-static-blog-root-dir))
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-page-header (<span style="color: #859900; font-weight: bold;">with-temp-buffer</span>
+  (insert-file-contents (format <span style="color: #2aa198;">"%sstatic/header.html"</span> dms/org-static-blog-root-dir))
+  (buffer-string)))
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-page-preamble (<span style="color: #859900; font-weight: bold;">with-temp-buffer</span>
+  (insert-file-contents (format <span style="color: #2aa198;">"%sstatic/preamble.html"</span> dms/org-static-blog-root-dir))
+  (buffer-string)))
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-page-postamble (<span style="color: #859900; font-weight: bold;">with-temp-buffer</span>
+  (insert-file-contents (format <span style="color: #2aa198;">"%sstatic/postamble.html"</span> dms/org-static-blog-root-dir))
+  (buffer-string)))
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-enable-tags t)
+(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-use-preview t)
+</pre>
+</div>
+
+<p>
+Contents of <code>header.html</code>, <code>preamble.html</code> and <code>postamble.html</code> are given as follows.
+Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are downloaded from <a href="https://github.com/bastibe/bastibe.github.com/tree/master/static">Bastian</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">meta</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"author"</span> <span style="color: #268bd2;">content</span>=<span style="color: #2aa198;">"Dou Meishi"</span>&gt;
+&lt;<span style="color: #268bd2;">meta</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"referrer"</span> <span style="color: #268bd2;">content</span>=<span style="color: #2aa198;">"no-referrer"</span>&gt;
+&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"static/style.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
+&lt;<span style="color: #268bd2;">link</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"static/favicon.ico"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"icon"</span> /&gt;
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">div</span> <span style="color: #268bd2;">class</span>=<span style="color: #2aa198;">"header"</span>&gt;
+  Hello, Org Static Blog
+&lt;/<span style="color: #268bd2;">div</span>&gt;
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-html">Created by &lt;<span style="color: #268bd2;">a</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"https://github.com/bastibe/org-static-blog/"</span>&gt;Org Static Blog&lt;/<span style="color: #268bd2;">a</span>&gt;
+</pre>
+</div>
+
+<p>
+Currently, the project layout looks like
+</p>
+
+<pre class="example" id="orgbda227c">
+org-blog/
+├── drafts
+├── org
+│   └── notes.org
+└── static
+    ├── favicon.ico
+    ├── header.html
+    ├── postamble.html
+    ├── preamble.html
+    └── style.css
+
+3 directories, 6 files
+</pre>
+
+<p>
+Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
+</p>
+
+<pre class="example" id="org04803a7">
+org-blog/
+├── archive.html
+├── drafts
+├── index.html
+├── notes.html
+├── org
+│   └── notes.org
+├── rss.xml
+├── static
+│   ├── favicon.ico
+│   ├── header.html
+│   ├── postamble.html
+│   ├── preamble.html
+│   └── style.css
+└── tags.html
+
+3 directories, 11 files
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4356e12" class="outline-2">
+<h2 id="org4356e12">Question</h2>
+<div class="outline-text-2" id="text-org4356e12">
+<ol class="org-ol">
+<li><p>
+Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
+</p>
+
+<p>
+Yes. For example, a folder named <code>2024/</code> in it will be published to the folder <code>2024/</code> in
+<code>org-static-blog-publish-directory</code>.
+</p></li>
+
+<li><p>
+Does it support following symbolic links when checking org files?
+</p>
+
+<p>
+Yes but no. I test the following based on the project layout in the <i>Minimal Configuration</i> section.
+I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</code> to <code>org-blog/../</code> but leave
+a symbolic link. So the project layout becomes.
+</p>
+
+<pre class="example" id="org33babe9">
+org-blog/
+├── drafts
+├── org
+│   └── notes.org -&gt; /home/dou/Documents/2024-01-22-TryOrgStaticBlog/notes.org
+└── static
+    ├── favicon.ico
+    ├── header.html
+    ├── postamble.html
+    ├── preamble.html
+    └── style.css
+
+3 directories, 6 files
+</pre>
+
+<p>
+However, calling <code>org-static-blog-pulish</code> exports <code>org-blog/org/notes.org</code> to <code>~/Documents/notes.html</code>.
+</p>
+
+<p>
+This issue comes function <code>org-static-blog-get-post-public-path</code>. Running either
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(org-static-blog-get-post-public-path <span style="color: #2aa198;">"~/Documents/2024-01-22-TryOrgStaticBlog/notes.org"</span>)
+</pre>
+</div>
+
+<p>
+or
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(org-static-blog-get-post-public-path <span style="color: #2aa198;">"~/Documents/2024-01-22-TryOrgStaticBlog/org-blog/org/notes.org"</span>)
+</pre>
+</div>
+
+<p>
+gives the result <code>../../notes.html</code>.
+</p></li>
+
+<li><p>
+What will happen if <code>org-static-blog-publish-directory</code> is the same
+as <code>org-static-blog-posts-directory</code>?  In this case, what will happen
+if <code>org-static-blog-drafts-directory</code> is a subfolder?
+</p>
+
+<p>
+It behaves like exporting all org files to the same directory, and posts inside
+the drafts directory will not be included in the index.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org03b9fc9" class="outline-2">
+<h2 id="org03b9fc9">Build My Blog Site</h2>
+<div class="outline-text-2" id="text-org03b9fc9">
+<p>
+It is also not hard to extend the minimal configuration to build a
+real blog site.  But before tweaking these scripts and assets, I need,
+of course, get a public URL for hosting the site. Fortunately, GitHub
+Pages allows hosting directly from a GitHub repository. What I need to
+do is create a publich repo, say <code>org-blog</code>, and go to <code>Settings -&gt; Pages</code>
+and set the deploy target to <code>https://dou-meishi.github.io/blog/</code>.  Now
+I can replace the previous local URL to this one in the script and
+assets.
+</p>
+
+<p>
+Besides changing the publish URL, there are a few other things to make
+the site a slightly more visual appealing.
+</p>
+
+<ol class="org-ol">
+<li><p>
+Add a top bar at each page, showing links to the homepage and the archive page.
+</p>
+
+<p>
+This can be easily done by modifying the <code>preamble.html</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">div</span> <span style="color: #268bd2;">class</span>=<span style="color: #2aa198;">"header"</span>&gt;
+  &lt;<span style="color: #268bd2;">div</span> <span style="color: #268bd2;">class</span>=<span style="color: #2aa198;">"sitelinks"</span>&gt;
+    &lt;<span style="color: #268bd2;">a</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/index.html"</span>&gt;Home&lt;/<span style="color: #268bd2;">a</span>&gt;
+    |
+    &lt;<span style="color: #268bd2;">a</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/archive.html"</span>&gt;All Posts&lt;/<span style="color: #268bd2;">a</span>&gt;
+  &lt;/<span style="color: #268bd2;">div</span>&gt;
+&lt;/<span style="color: #268bd2;">div</span>&gt;
+</pre>
+</div></li>
+
+<li><p>
+Render math formulae. This can also be achieved by adding appropriate javascript
+and stylesheets. Currently, I use <a href="https://katex.org/docs/browser">KaTeX</a>, which seems to be faster than MathJax.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">Math Support by KaTeX</span><span style="color: #93a1a1;"> --&gt;</span>
+&lt;<span style="color: #268bd2;">link</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"</span> <span style="color: #268bd2;">integrity</span>=<span style="color: #2aa198;">"sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"</span> <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span>&gt;
+<span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">The loading of KaTeX is deferred to speed up page rendering</span><span style="color: #93a1a1;"> --&gt;</span>
+&lt;<span style="color: #268bd2;">script</span> defer <span style="color: #268bd2;">src</span>=<span style="color: #2aa198;">"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"</span> <span style="color: #268bd2;">integrity</span>=<span style="color: #2aa198;">"sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8"</span> <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span>&gt;&lt;/<span style="color: #268bd2;">script</span>&gt;
+<span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">To automatically render math in text elements, include the auto-render extension:</span><span style="color: #93a1a1;"> --&gt;</span>
+&lt;<span style="color: #268bd2;">script</span> defer <span style="color: #268bd2;">src</span>=<span style="color: #2aa198;">"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"</span> <span style="color: #268bd2;">integrity</span>=<span style="color: #2aa198;">"sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"</span> <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span> <span style="color: #268bd2;">onload</span>=<span style="color: #2aa198;">"renderMathInElement(document.body);"</span>&gt;&lt;/<span style="color: #268bd2;">script</span>&gt;
+</pre>
+</div></li>
+
+<li><p>
+Customize the top of the index page. This is done by setting the
+<code>org-static-blog-index-front-matter</code> variable in the lisp script.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-index-front-matter
+      <span style="color: #2aa198;">"&lt;h1 class=title&gt; Recent Posts &lt;/h1&gt;"</span>)
+</pre>
+</div></li>
+
+<li><p>
+Change the default ellipsis <code>(...)</code> used in preview to  <code>...</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">setq</span> org-static-blog-preview-ellipsis <span style="color: #2aa198;">"..."</span>)
+</pre>
+</div></li>
+
+<li><p>
+Use a different CSS stylesheet. I have been using <a href="http://gongzhitaao.org/orgcss">this stylesheet</a>
+which is designed for HTML exported from org files for three years
+and always appreciating its clean design. To adapt it to files exported
+by <code>org-static-blog</code>, I add several additional rules in a patched CSS;
+see the <code>static/dou-org-blog.css</code> in my github repo.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"http://gongzhitaao.org/orgcss/org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
+&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/static/dou-org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org95e05a3" class="outline-2">
+<h2 id="org95e05a3">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org95e05a3">
+<p>
+Below are other users' configuration on org static blog.
+</p>
+
+<ol class="org-ol">
+<li>a simple setup: <a href="https://jao.io/blog/simplicity.html">simplicity - programming (and other) musings</a></li>
+<li>another simple setup <a href="https://justin.abrah.ms/dotfiles/emacs.html#orgc787b23">Justin's emacs configuration - Writting - Blogging</a></li>
+<li>an extensive setup: <a href="http://alhassy.com/AlBasmala#Why-not-use-an-existing-blogging-platform">AlBasmala: Blogging with Emacs &amp; Org-mode (•̀ᴗ•́)و</a></li>
+</ol>
+</div>
+</div>
+<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-emacs.html">emacs</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

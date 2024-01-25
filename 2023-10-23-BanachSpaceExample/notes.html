@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/rss.xml"
+      title="RSS feed for file:///home/dou/Documents/2024-01-24-MyOrgBlog/">
+<title>Examples of Banach Spaces</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "/home/dou/Documents/2024-01-24-MyOrgBlog/static/dou-org.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/index.html">Home</a>
+    |
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">23 Oct 2023</div><h1 class="post-title"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/2023-10-23-BanachSpaceExample/notes.html">Examples of Banach Spaces</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0040bd3">Prerequisite Concepts</a></li>
+<li><a href="#org5760e06">Definition</a></li>
+<li><a href="#org3e648da">Main Results</a></li>
+<li><a href="#orgb146ceb">Examples</a></li>
+</ul>
+</div>
+</nav>
+<p>
+This note gives some common examples of Banach spaces as well as some
+counterexamples.
+</p>
+
+<p>
+Readers may refer to <i>Chapter 7: Complete Metric Space and Functional
+Space</i> in the book <i>Munkres, J. Topology Second Edition</i> for more
+details.
+</p>
+
+<div id="outline-container-org0040bd3" class="outline-2">
+<h2 id="org0040bd3">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-org0040bd3">
+<ul class="org-ul">
+<li>normed linear space</li>
+<li>complete metric space</li>
+<li>the metric induced by a norm</li>
+<li>continuity</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5760e06" class="outline-2">
+<h2 id="org5760e06">Definition</h2>
+<div class="outline-text-2" id="text-org5760e06">
+<p>
+A complete normed linear space is called a <b>Banach space</b>.
+</p>
+
+<p>
+Some common used functional spaces are listed below.
+</p>
+
+<ol class="org-ol">
+<li>\(Y^X\): the set of all functions from \(X\) to \(Y\).</li>
+<li>\(\mathcal{B}(X;Y)\): the set of all bounded functions from \(X\) to \(Y\).</li>
+<li>\(\mathcal{C}(X;Y)\): the set of all continuous functions from \(X\) to
+\(Y\).</li>
+</ol>
+
+<p>
+Given a metric space \((Y,d)\), the <b>sup metric</b> on
+\(\mathcal{B}(X;Y)\) corresponding to \(d\) is defined by
+\[
+\rho(f,g):=\sup_{x\in X}d(f(x),g(x)).
+\]
+</p>
+
+<p>
+The <b>standard bounded metric</b> \(\bar{d}\) derived from \(d\) is defined by
+\[
+\bar{d}(x,y):=\min(d(x,y),1).
+\]
+</p>
+
+<p>
+Given a metric space \((Y,d)\), the <b>uniform metric</b> on \(Y^X\)
+corresponding to \(d\) is defined by
+\[
+\bar{\rho}(f,g):=\sup_{x\in X}\bar{d}(f(x),g(x)).
+\]
+Clearly, the relation between uniform metric and sup metric is
+\[
+\bar{\rho}(f,g) = \min(\rho(f,g),1).
+\]
+</p>
+
+<p>
+Given a normed linear space \((Y,\|\cdot\|)\), the <b>sup norm</b> on \(Y^X\)
+corresponding to \(\|\cdot\|\) is defined by
+\[
+\|f\|_\infty:=\sup_{x\in X}\|f(x)\|.
+\]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3e648da" class="outline-2">
+<h2 id="org3e648da">Main Results</h2>
+<div class="outline-text-2" id="text-org3e648da">
+<p>
+<b>Lemma 1.</b> If \((Y,d)\) is complete, then \((Y^X,\bar{\rho})\) is also
+complete.
+</p>
+
+<p>
+<b>Lemma 2.</b> Let \(X\) be a topological space and \((Y,d)\) be a metric space
+(not necessarily complete), then \(\mathcal{B}(X;Y)\) and
+\(\mathcal{C}(X;Y)\) are both closed sets in \((Y^X,\bar{\rho})\).
+</p>
+
+<p>
+<b>Theorem 3.</b> Let Let \(X\) be a topological space and \((Y,d)\) be a
+<i>complete</i> metric space, then \(\mathcal{B}(X;Y)\) and \(\mathcal{C}(X;Y)\)
+are both complete in the uniform metric.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb146ceb" class="outline-2">
+<h2 id="orgb146ceb">Examples</h2>
+<div class="outline-text-2" id="text-orgb146ceb">
+<p>
+<b>Example.</b> \((\mathcal{C}[a,b],\|\cdot\|_\infty)\) is a Banach
+space.
+</p>
+
+<p>
+<b>Example.</b> \((\mathcal{B}[a,b],\|\cdot\|_\infty)\) is a Banach space.
+</p>
+
+<p>
+<b>Example.</b> \((\ell_\infty,\|\cdot\|_\infty)\)
+is a Banach space, where
+\[
+\ell_\infty := \{\mathbf{x}\in\mathbb{R}^\mathbb{N}\mid
+\|\mathbf{x}\|_\infty < \infty\}.
+\]
+</p>
+
+<p>
+<b>Example.</b> \((\mathcal{C}^1[a,b],\|\cdot\|_\infty)\) is not complete,
+because \(\mathcal{C}^1[a,b]\) is not closed in \((Y^X,\bar{\rho})\).
+Consider \(f_n(x):=\sqrt{x^2+\frac{1}{n}}\). It is easy to check that
+\(f_n\) converges to \(|x|\).
+</p>
+</div>
+</div>
+<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-math.html">math</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

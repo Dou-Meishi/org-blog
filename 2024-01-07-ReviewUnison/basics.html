@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/rss.xml"
+      title="RSS feed for file:///home/dou/Documents/2024-01-24-MyOrgBlog/">
+<title>Beginner's Guide to Unison</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "/home/dou/Documents/2024-01-24-MyOrgBlog/static/dou-org.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/index.html">Home</a>
+    |
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">06 Jan 2024</div><h1 class="post-title"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-07-ReviewUnison/basics.html">Beginner's Guide to Unison</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8cf1d4c">A Demo</a></li>
+<li><a href="#org60f1573">Basic Concepts</a></li>
+<li><a href="#org79e412f">Typical Usage</a></li>
+<li><a href="#orge141b9d">Caveats and Shortcomings</a></li>
+<li><a href="#org4421691">Going Further</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<a href="https://github.com/bcpierce00/unison">Unison</a> is a file-synchronization tool for Unix and Windows. It allows two replicas of a collection of files and
+directories to be stored on different hosts (or different disks on the same host), modified separately, and then
+brought up to date by propagating the changes in each replica to the other.
+</p>
+
+<p>
+<b>Note:</b> This review is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
+Please use version 2.52 or newer to avoid version interoperability issues.
+</p>
+
+<div id="outline-container-org8cf1d4c" class="outline-2">
+<h2 id="org8cf1d4c">A Demo</h2>
+<div class="outline-text-2" id="text-org8cf1d4c">
+<p>
+Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
+</p>
+
+<p>
+Let's consider a simple scenario and see how to synchronize two directories on a single machine.
+</p>
+
+<ol class="org-ol">
+<li value="0">install Unison. Basically, we need only two executable binary files, <code>unison</code> and <code>unison-gui</code>,
+downloaded from the proper release tarball in <a href="https://github.com/bcpierce00/unison">its github repository</a>.</li>
+
+<li><p>
+Set up a <code>work</code> directory and a <code>mirror</code> direcotry for our illustration
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">    mkdir work
+    touch work/a work/b
+    mkdir work/d
+    touch work/d/f
+    cp -r work mirror
+</pre>
+</div></li>
+
+<li>Try synchronizing <code>work</code> and <code>mirror</code>. Since they are identical, synchronizing them won’t propagate
+any changes, but Unison will remember the current state of both directories so that it will be able to tell
+next time what has changed by typing <code>unison work mirror</code>.
+
+<ul class="org-ul">
+<li><i>textual interface:</i> you should see a message notifying you that all the files are actually equal and then get returned to
+the command line, and you may also get a warning message for creating <i>archives</i> (the private data structure used by Unison)
+as this is the first run of Unison.</li>
+
+<li><i>graphical interface:</i> You should get a big empty window with a message at the bottom notifying you <i>everything is up-to-date</i>.</li>
+</ul></li>
+
+<li><p>
+Make some changes in <code>work</code> and <code>mirror</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">    rm work/a
+    <span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">"Hello"</span> &gt; work/b
+    <span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">"Hello"</span> &gt; mirror/b
+    date &gt; mirror/c
+    <span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">"Hi there"</span> &gt; work/d/h
+    <span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">"Hello there"</span> &gt; mirror/d/h
+</pre>
+</div></li>
+
+<li><p>
+Try synchronizing <code>work</code> and <code>mirror</code> again by typing <code>unison work mirror</code>.
+</p>
+
+<p>
+Let us elaborate the behaviors of the textual interface in this case.
+</p>
+
+<ol class="org-ol">
+<li value="0">Unison will display <i>only</i> the files that are different and ask for actions one by one.
+If a file has been changed in the same way and remain identical in both directories,
+Unison will simply note the file is up-to-date and nothing will be shown. So we expect three
+changes to be decided: the absent file of <code>a</code> in <code>work</code>, the new file <code>c</code> in <code>mirror</code>
+and the conflicting changes on <code>d/h</code>.</li>
+
+<li><p>
+Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
+</p>
+
+<pre class="example" id="orgd537447">
+         &lt;--- new file   c  [f]
+</pre>
+
+<p>
+We can follow Unison’s recommendation, press <code>f</code> or <code>[ENTER]</code> at the prompt.
+Or we can simply ignore this file and leave both replicas alone by pressing <code>/</code>.
+Pressing <code>?</code> for a list of possible responses and their meanings.
+See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-the-matching-condition-commands-for-the-unison-cli">this question</a> for explanation on the key <code>L</code> and matching conditions.
+</p></li>
+
+<li><p>
+Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
+</p>
+
+<pre class="example" id="orgee47b05">
+deleted  ---&gt;            a  [f]
+</pre></li>
+
+<li><p>
+For conflicting changes on <code>d/h</code>, Unison will prompt a line like
+</p>
+
+<pre class="example" id="org0561ec2">
+new file &lt;-?-&gt; new file   d/h  []
+</pre></li>
+
+<li><p>
+Suppose we skip the file <code>d/h</code> and accept changes on file <code>a</code> and <code>c</code>, Unison
+will briefly summarize the actions it is supposed to do and asks for
+confirmation
+</p>
+
+<pre class="example" id="org9d0e581">
+2 items will be synced, 1 skipped
+0 B to be synced from work to mirror
+32 B to be synced from mirror to work
+
+Proceed with propagating updates? []
+</pre></li>
+
+<li>Finally, if we confirm then Unison will apply changes and output logs of the process.</li>
+</ol>
+
+<p>
+The usage of the graphical interface is similar. The main window shows all the files that have been modified.
+To override a default action (or to select an action in the case when there is no default), first select the file
+by clicking on its name, then press the desired action key metioned before.
+When you are satisfied with the propagation of changes as shown in the main window,
+click the <i>Go</i> button to set them in motion.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org60f1573" class="outline-2">
+<h2 id="org60f1573">Basic Concepts</h2>
+<div class="outline-text-2" id="text-org60f1573">
+<p>
+Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
+</p>
+
+<ol class="org-ol">
+<li><i>Roots.</i> A replica’s root tells Unison where to find a set of files to be synchronized, either on the local machine or on
+a remote host. The pattern of the root is <code>[protocol:]//[user@][host][:port][path]</code>.
+When <code>path</code> is given without any protocol prefix, the protocol is assumed to be <code>file</code>.
+Other possible protocol arguments include <code>ssh</code> and <code>socket</code>.
+If <code>path</code> is a relative path, then it actually specifies a local root relative to the directory where Unison is started.</li>
+
+<li><i>Paths.</i> A <i>path</i> refers to a point within a set of files being synchronized; it is specified relative to the root of the
+replica. Formally, a path is just a sequence of names, separated by <code>/</code>.
+The empty path (i.e., the empty sequence of names) denotes the whole replica.
+Unison displays the empty path as <code>[root]</code>.</li>
+
+<li><i>Descendants.</i>   If <code>p</code> is a path and <code>q</code> is a path beginning with <code>p</code>, then <code>q</code> is said to be a <i>descendant</i> of <code>p</code>.
+Thus, each path is also a descendant of itself.</li>
+
+<li><p>
+<i>Contents.</i> The <i>contents</i> of a path <code>p</code> in a particular replica could be a file, a directory, a symbolic link, or absent (if p
+does not refer to anything at all in that replica). More specifically:
+</p>
+
+<ol class="org-ol">
+<li>If <code>p</code> refers to an ordinary file, then the contents of p are the actual contents of this file (a string of
+bytes) plus the current permission bits of the file.</li>
+
+<li>If <code>p</code> refers to a symbolic link, then the contents of <code>p</code> are just the string specifying where the link points.</li>
+
+<li>If <code>p</code> refers to a directory, then the contents of p are just the token <i>DIRECTORY</i> plus the current
+permission bits of the directory.</li>
+
+<li>If <code>p</code> does not refer to anything in this replica, then the contents of <code>p</code> are the token <i>ABSENT</i>.</li>
+</ol>
+
+<p>
+Unison keeps a record (named <i>archives</i>) of the contents of each path after each successful synchronization
+of that path (i.e., it remembers the contents at the last moment when they were the same in the two replicas).
+</p></li>
+
+<li><i>Update.</i> A path is <i>updated</i> (in some replica) if its current contents are different from its contents the
+last time it was successfully synchronized.</li>
+
+<li><i>Conflicts.</i> A path is said to be <i>conflicting</i> if the following conditions <i>all</i> hold:
+
+<ol class="org-ol">
+<li>it has been updated in one replica,</li>
+
+<li>any of its descendants has been updated in the other replica,</li>
+
+<li>its contents in the two replicas are not identical.</li>
+</ol></li>
+
+<li><i>Reconciliation.</i> Unison operates in several distinct stages:
+
+<ol class="org-ol">
+<li>On each host, it compares its archive file (which records the state of each path in the replica when it
+was last synchronized) with the current contents of the replica, to determine which paths have been updated.</li>
+
+<li>It checks for <i>false conflicts</i>  — paths that have been updated on both replicas, but whose current
+values are identical. These paths are silently marked as synchronized in the archive files in both replicas.</li>
+
+<li>It displays all the updated paths to the user. For updates that do not conflict, it suggests a default
+action (propagating the new contents from the updated replica to the other). Conflicting updates are
+just displayed. The user is given an opportunity to examine the current state of affairs, change the
+default actions for nonconflicting updates, and choose actions for conflicting updates.</li>
+
+<li>It performs the selected actions, one at a time. Each action is performed by first transferring the new
+contents to a temporary file on the receiving host, then atomically moving them into place.</li>
+
+<li>It updates its archive files to reflect the new state of the replicas.</li>
+</ol></li>
+
+<li><p>
+<i>Invariants.</i> Unison is careful to protect both its internal state and the state of the replicas at every point in this
+process. Specifically, the following guarantees are enforced:
+</p>
+
+<ol class="org-ol">
+<li>At every moment, each path in each replica has either
+
+<ol class="org-ol">
+<li>its original contents (i.e., no change at all has been made to this path), or</li>
+
+<li>its correct final contents (i.e., the value that the user expected to be propagated from the other replica).</li>
+</ol></li>
+
+<li>At every moment, the information stored on disk about Unison’s private state can be either
+
+<ol class="org-ol">
+<li>unchanged, or</li>
+<li>updated to reflect those paths that have been successfully synchronized.</li>
+</ol></li>
+</ol>
+
+<p>
+If Unison gets interrupted during ensuring those guarantees, some manual cleanup may be required.
+In this case, a file called DANGER.README will be left in the <code>.unison</code> directory,
+containing information about the operation that was interrupted.
+The next time you try to run Unison, it will notice this file and warn you about it.
+</p>
+
+<p>
+If Unison is interrupted, it may sometimes leave temporary working files (with suffix <code>.tmp</code>) in the replicas.
+It is safe to delete these files. Also, if the backups flag is set, Unison will leave around old versions of files
+that it overwrites, with names like <code>file.0.unison.bak</code>. These can be deleted safely when they are no longer wanted.
+</p>
+
+<p>
+If Unison finds that its archive files have been deleted (or that the archive format has changed and they
+cannot be read, or that they don’t exist because this is the first run of Unison on these particular roots),
+it takes a conservative approach: it behaves as though the replicas had both been completely empty at the
+point of the last synchronization. Thus, It is also safe to delete those archive files on both replicas.
+The next time Unison runs, it will assume that all the files it sees in the replicas are new.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org79e412f" class="outline-2">
+<h2 id="org79e412f">Typical Usage</h2>
+<div class="outline-text-2" id="text-org79e412f">
+<p>
+Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
+regularly to synchronize your commonly used files. There are several possible ways of going about this:
+</p>
+
+<ol class="org-ol">
+<li>Synchronize your whole home directory, using the <i>Ignore facility</i> to
+avoid synchronizing particular directories and files.</li>
+
+<li>Synchronize your whole home directory, but tell Unison to synchronize only some of
+the files and subdirectories within it. This can be accomplished by specifying the <code>-path</code>
+arguments in your <i>profile</i>.</li>
+
+<li>Create another directory called <code>shared</code> (or <code>current</code>, or whatever) on each host,
+and put all the files you want to synchronize into this directory. Tell Unison to synchronize <code>shared</code>
+among different hosts.</li>
+
+<li>Create another directory called <code>shared</code> (or <code>current</code>, or whatever) on each host,
+and put <i>links</i> to all the files you want to synchronize into this directory. Use the <code>follow</code> preference
+to make Unison treat these links as transparent.</li>
+</ol>
+
+<p>
+Unison is designed for synchronizing pairs of replicas. However, it is possible to use it to keep larger groups
+of machines in sync by performing multiple pairwise synchronizations.
+If you need to do this, the most reliable way to set things up is to organize the machines into a <i>star topology</i>
+with one machine designated as the <i>hub</i> and the rest as <i>spokes</i> and with each spoke machine
+synchronizing only with the hub.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge141b9d" class="outline-2">
+<h2 id="orge141b9d">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-orge141b9d">
+<p>
+Here are some things to be careful of when using Unison.
+</p>
+
+<ol class="org-ol">
+<li>Unison cannot understand rename, and sees it as a delete and a separate create.</li>
+
+<li><p>
+You need to be very <i>CAREFUL</i> when renaming directories containing <code>ignored</code> files.
+</p>
+
+<p>
+For example, suppose Unison is synchronizing directory <code>A</code> between the two machines called the <i>local</i>
+and the <i>remote</i> machine; suppose directory <code>A</code> contains a subdirectory <code>D</code>; and suppose <code>D</code> on the
+local machine contains a file or subdirectory <code>P</code> that matches an ignore directive in the profile used to
+synchronize. Thus path <code>A/D/P</code> exists on the local machine but not on the remote machine.
+</p>
+
+<p>
+If <code>D</code> is renamed to <code>Dnew</code> on the remote machine, and this change is propagated to the local machine, all
+such files or subdirectories <code>P</code> will be deleted. This is because Unison sees the rename as a delete and
+a separate create: it deletes the old directory (including the ignored files) and creates a new one (not
+including the ignored files, since they are completely invisible to it).
+</p></li>
+
+<li><p>
+It could be very <i>DANGEROUS</i> to use Unison with removable media such as USB drives
+unless you are careful.
+</p>
+
+<p>
+If you synchronize a directory that is stored on removable media when the media is not present, it will look to Unison as though
+the whole directory has been deleted, and it will proceed to delete the directory from the other replica!
+</p></li>
+
+<li>Archives are created based on names of roots (and other informations), meaning that renaming roots
+results Unison think it never sync these before. For example, assume you have run Unison to sync
+<code>work</code> and <code>mirror</code> before, and you rename <code>mirror</code> to <code>backup</code> then change some files in
+<code>backup</code>. Now, running <code>unison</code> work backup will create new archives and ask you to resolve conflicts.
+In this case, you may find the option <code>-prefer backup</code> be useful, which effectively choose files
+in <code>backup</code> to resolve possible conflicts.</li>
+
+<li>If you want to run Unison continuously as a crontab task, then you have to ensure the same
+script will not be called unless its previous call has finished. Otherwise there will be two
+running Unison instance caring about same targets and interfere each other. For example,
+it could be that a sync of big files takes more than 10 minutes, which would create problems
+if you have set every 10 minutes a new sync would be started.</li>
+
+<li>The graphical user interface is single-threaded. This means that if Unison is performing some long-
+running operation, the display will not be repainted until it finishes. We recommend not trying to do
+anything with the user interface while Unison is in the middle of detecting changes or propagating files.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4421691" class="outline-2">
+<h2 id="org4421691">Going Further</h2>
+<div class="outline-text-2" id="text-org4421691">
+<p>
+The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
+</p>
+
+<p>
+Besides the basic concepts mentioned in this blog, you may also want to look at the
+following sections in the official manual:
+</p>
+
+<ul class="org-ul">
+<li>Section 6.1 Running Unison</li>
+<li>Section 6.2 The <code>.unison</code> Directory</li>
+<li>Section 6.4 Preferences</li>
+<li>Section 6.5 Profiles</li>
+<li>Section 6.6 Sample Profiles</li>
+<li>Section 6.7 Keeping Backups</li>
+<li>Section 6.8 Merging Conflicting Versions</li>
+<li>Section 6.12 Path Specification</li>
+<li>Section 6.13 Ignoring Paths</li>
+</ul>
+</div>
+</div>
+<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-tool.html">tool</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

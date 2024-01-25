@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/rss.xml"
+      title="RSS feed for file:///home/dou/Documents/2024-01-24-MyOrgBlog/">
+<title>Insert Code Block in LaTeX</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "/home/dou/Documents/2024-01-24-MyOrgBlog/static/dou-org.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/index.html">Home</a>
+    |
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">11 Jan 2024</div><h1 class="post-title"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-11-CodeBlockinLaTeX/notes.html">Insert Code Block in LaTeX</a></h1>
+<p>
+The most simple way of inserting code blocks in LaTeX is the built-in
+command <code>\verb</code> and environment <code>verbatim</code>.
+</p>
+
+<p>
+The command <code>\verb</code> can produce inline code. It is better than
+<code>\texttt</code> for source code because characters in <code>\verb</code> will be treated
+literally. For example, <code>\verb+\textbf{a}+</code> produces <code>\textbf{a}</code>
+in monospace font, but <code>\texttt{\textbf{a}}</code> produces a single
+character <b><code>a</code></b>, in bold monospace font. Here, the <code>+</code> character after <code>\verb</code>
+acts as a delimiter. Any character except letters and <code>*</code> can be used as a delimiter
+in <code>\verb</code>. For example, <code>\verb|...|</code> is equivalent to <code>\verb+...+</code>.
+</p>
+
+<p>
+Similar to <code>\verb</code>, texts enclosed inside the environment <code>verbatim</code> are printed literally.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\documentclass</span>{<span style="color: #657b83; font-weight: bold;">article</span>}
+<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
+
+The command <span style="color: #859900; font-weight: bold;">\verb</span>|\verb| can produce inline code.
+
+The <span style="color: #859900; font-weight: bold;">\verb</span>+\verb|\textbf{a}|+ produces <span style="color: #859900; font-weight: bold;">\verb</span>|\textbf{a}|,
+but <span style="color: #859900; font-weight: bold;">\verb</span>+\texttt{\textbf{a}}+ produces <span style="color: #859900; font-weight: bold;">\texttt</span>{<span style="color: #859900; font-weight: bold;">\textbf</span>{<span style="font-weight: bold;">a</span>}}.
+
+<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">verbatim</span>}
+Text enclosed inside verbatim environment
+is printed directly
+and all \LaTeX{} commands are ignored.
+
+Blank lines           and spaces are preserved.
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">verbatim</span>}
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+</pre>
+</div>
+
+<p>
+The LaTeX code above produces the following output.
+</p>
+
+
+<figure id="org5c793f0">
+<img src="./simple-code.png" alt="simple-code.png">
+
+</figure>
+
+<p>
+Besides the built-in commands, there are various packages providing more features for redering code blocks.
+These packages generally are more powerful and can add syntax highlighting, line numbers, background color
+and etc. Usual choices include <code>listings</code> package,  <code>minted</code> package
+and <code>tcolorbox</code> package. While  <code>listings</code> and  <code>minted</code> are mainly focusing on redering source codes,
+<code>tcolorbox</code> is a general package for redering contents in a box.
+Actually, <code>tcolorbox</code> internally loads <code>listings</code> or <code>minted</code> packages.
+</p>
+
+<div id="outline-container-org57caafc" class="outline-2">
+<h2 id="org57caafc">Create Own Code Block Environment with tcolorbox</h2>
+<div class="outline-text-2" id="text-org57caafc">
+<p>
+When <code>tcolorbox</code> is loaded with the option <code>listings</code>, it provides various useful predefined commands
+for rendering source blocks by loading <code>listings</code> package automatically. Besides the <code>listings</code> option,
+we can also toggle the <code>breakable</code> option to allow a box to span across pages.
+</p>
+
+<p>
+In the following example, we create two code block envrionments with <code>tcolorbox</code> and <code>listings</code> in preamble.
+These two envrionments are basically identical, except that one can read code from external
+files and we do no need to copy the code from source files into our latex manuscript.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\documentclass</span>{<span style="color: #657b83; font-weight: bold;">article</span>}
+
+<span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #657b83; font-weight: bold;">xcolor</span>}
+<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">define colors</span>
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codebg}{RGB}{253, 246, 227}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codefg}{RGB}{101, 123, 131}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codegreen}{RGB}{133, 153, 0}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codegray}{RGB}{147, 161, 161}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codecyan}{RGB}{42, 161, 152}
+
+<span style="color: #859900; font-weight: bold;">\usepackage</span>[listings,breakable,skins]{<span style="color: #657b83; font-weight: bold;">tcolorbox</span>}
+<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">declare our code block environment</span>
+  <span style="color: #859900; font-weight: bold;">\newtcblisting</span>{tcbcodeblock}[1]{<span style="color: #93a1a1;">%</span>
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={<span style="color: #93a1a1;">%</span>
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegray},
+      keywordstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegreen},
+      stringstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codecyan},
+      basicstyle=<span style="color: #859900; font-weight: bold;">\ttfamily\footnotesize</span>
+    }
+  }
+
+<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">like tcbcodeblock, but read code from files</span>
+  <span style="color: #859900; font-weight: bold;">\newtcbinputlisting</span>{<span style="color: #859900; font-weight: bold;">\tcbinputcodeblock</span>}[2]{<span style="color: #93a1a1;">%</span>
+    listing file={#2},
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={<span style="color: #93a1a1;">%</span>
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegray},
+      keywordstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegreen},
+      stringstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codecyan},
+      basicstyle=<span style="color: #859900; font-weight: bold;">\ttfamily\footnotesize</span>
+    }
+  }
+</pre>
+</div>
+
+<p>
+In the main document, we can use <code>tcbcodeblock</code> as a normal environment
+with one mandatory argument, which specifies the language of source code,
+and use <code>tcbinputcodeblock</code> as a normal command with two mandatory arguments,
+which specify the language of source code and the name of the source file.
+See the table in <a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the manual</a> of <code>listings</code> for a complete list of supported languages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
+After declaring our own environment <span style="color: #859900; font-weight: bold;">\verb</span>|tcbcodeblock|.
+we can enclose source codes in it and render them in <span style="color: #859900; font-weight: bold;">\LaTeX</span>.
+
+This is a code block of <span style="color: #859900; font-weight: bold;">\TeX</span>.
+<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">tcbcodeblock</span>}{TeX}
+Hello, <span style="color: #859900; font-weight: bold;">\TeX</span>!
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">tcbcodeblock</span>}
+
+This is a code block of Python.
+<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">tcbcodeblock</span>}{Python}
+# python code
+print("Hello, world!")
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">tcbcodeblock</span>}
+
+This is a code block of C.
+<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">tcbcodeblock</span>}{C}
+// C code
+#include &lt;stdio.h&gt;
+int main() {
+   printf("Hello, World!");
+   return 0;
+}
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">tcbcodeblock</span>}
+
+The <span style="color: #859900; font-weight: bold;">\verb</span>|\tcbinputcodeblock| can read codes from a file
+and render them in a source block like <span style="color: #859900; font-weight: bold;">\verb</span>|\tcbcodeblock|.
+This is the <span style="color: #859900; font-weight: bold;">\LaTeX</span>\ source code of this manuscript.
+<span style="color: #859900; font-weight: bold;">\tcbinputcodeblock</span>{[LaTeX]TeX}{./tcolorbox-listings.tex}
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+</pre>
+</div>
+
+
+<figure id="orgf8d282f">
+<img src="./tcolorbox-listings.png" alt="tcolorbox-listings.png">
+
+</figure>
+</div>
+</div>
+
+<div id="outline-container-org47ff644" class="outline-2">
+<h2 id="org47ff644">Explanation of the Created Code Environment</h2>
+<div class="outline-text-2" id="text-org47ff644">
+<p>
+First, we load <code>tcolorbox</code> with appropriate options. In addition, we load the <code>xcolor</code> package for color support.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #657b83; font-weight: bold;">xcolor</span>}
+<span style="color: #859900; font-weight: bold;">\usepackage</span>[listings,breakable,skins]{<span style="color: #657b83; font-weight: bold;">tcolorbox</span>}
+</pre>
+</div>
+
+<p>
+Then, we create our own code environment for furture uses.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">define colors</span>
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codebg}{RGB}{253, 246, 227}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codefg}{RGB}{101, 123, 131}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codegreen}{RGB}{133, 153, 0}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codegray}{RGB}{147, 161, 161}
+  <span style="color: #859900; font-weight: bold;">\definecolor</span>{codecyan}{RGB}{42, 161, 152}
+</pre>
+</div>
+
+<p>
+After that, we create a new envrionment <code>tcbcodeblock</code> with one argument, which is used to specify the code language.
+This envrionment can render source code in a box with following features.
+</p>
+
+<ol class="org-ol">
+<li>Use the <code>enhanced</code> skin.</li>
+<li>Box corners are squared.</li>
+<li>Box borders are drawn with black lines.</li>
+<li>Text color is set to <code>codefg</code>, which is defined previously by RGB(101, 123, 131).</li>
+<li>Background color is set to <code>codebg</code>, which is defined previously by RGB(253, 246, 227).</li>
+<li>This box can span across multiple pages.</li>
+<li>Minimal margin layout with <code>\fbox</code> style.</li>
+<li>Show code only (if the source code is latex manuscript, you can remove the <code>listing only</code> option to show
+the expected latex output of the latex code enclosed in this envrionment).</li>
+<li>Use the predefined style <code>tcblatex</code>. This overwirtes options of the <code>listings</code> package by
+options of <code>tcolorbox</code> package. If this line is absent, some of your settings of <code>tcolorbox</code> will not take
+effects in this environment.</li>
+<li>Set the language of the source code. This is used to identify strings, comments and keywords in the code.</li>
+<li>Does not render space as character <code>␣</code>.</li>
+<li>Does not render space in strings as character <code>␣</code>.</li>
+<li>Text color of comments, keywords and strings are set to  <code>codegray</code>, <code>codegreen</code> and <code>codecyan</code> respectively.</li>
+<li>Set text font to monospace and footnote size.</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">declare our code block environment</span>
+  <span style="color: #859900; font-weight: bold;">\newtcblisting</span>{tcbcodeblock}[1]{<span style="color: #93a1a1;">%</span>
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={<span style="color: #93a1a1;">%</span>
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegray},
+      keywordstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegreen},
+      stringstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codecyan},
+      basicstyle=<span style="color: #859900; font-weight: bold;">\ttfamily\footnotesize</span>
+    }
+  }
+</pre>
+</div>
+
+<p>
+In addition, we provide a command <code>tcbinputcodeblock</code>, which functions like <code>tcbcodeblock</code> but
+read code from external files. It accepts two arguments, one is the language and the other one is the
+name of the source file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">like tcbcodeblock, but read code from files</span>
+  <span style="color: #859900; font-weight: bold;">\newtcbinputlisting</span>{<span style="color: #859900; font-weight: bold;">\tcbinputcodeblock</span>}[2]{<span style="color: #93a1a1;">%</span>
+    listing file={#2},
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={<span style="color: #93a1a1;">%</span>
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegray},
+      keywordstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codegreen},
+      stringstyle=<span style="color: #859900; font-weight: bold;">\color</span>{codecyan},
+      basicstyle=<span style="color: #859900; font-weight: bold;">\ttfamily\footnotesize</span>
+    }
+  }
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb4ec497" class="outline-2">
+<h2 id="orgb4ec497">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-orgb4ec497">
+<ol class="org-ol">
+<li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf">the official manual of tcolorbox - CTAN</a></li>
+<li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the official manual of listings - CTAN</a></li>
+<li><a href="https://liam.page/2016/07/22/using-the-tcolorbox-package-to-create-a-new-theorem-environment/">LaTeX 黑魔法（一）：tcolorbox 宏包简明教程</a></li>
+<li><a href="https://www.overleaf.com/learn/latex/Code_listing">Code listing - Overleaf</a></li>
+<li><a href="https://www.overleaf.com/learn/latex/Code_Highlighting_with_minted">Code Highlighting with minted</a></li>
+</ol>
+</div>
+</div>
+<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-latex.html">latex</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

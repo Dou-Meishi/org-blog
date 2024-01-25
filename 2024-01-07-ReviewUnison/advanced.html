@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/rss.xml"
+      title="RSS feed for file:///home/dou/Documents/2024-01-24-MyOrgBlog/">
+<title>An Advanced Guide to Unison</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "/home/dou/Documents/2024-01-24-MyOrgBlog/static/dou-org.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/index.html">Home</a>
+    |
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">07 Jan 2024</div><h1 class="post-title"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-07-ReviewUnison/advanced.html">An Advanced Guide to Unison</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orge6becf5">Preferences</a></li>
+<li><a href="#org09c6900">Setting Preference</a></li>
+<li><a href="#org9d3d793">Profiles</a></li>
+<li><a href="#org255fa7f">Path Specification</a></li>
+<li><a href="#org93e0f62">Ignoring</a></li>
+<li><a href="#org93ff1ef">Backup</a></li>
+<li><a href="#org8433a24">Scenario: Synchronize with a USB Drive</a>
+<ul>
+<li><a href="#org051e813">Possible Errors</a></li>
+<li><a href="#orgf5d7b49">Syncrhonize with FAT/NTFS Filesystems</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<p>
+In the previous blog, we introduced basics of <a href="https://github.com/bcpierce00/unison">Unison</a>, the lightweight yet versatile file-synchronization tool for Unix and Windows.
+In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>ignoring</i>, <i>backup,</i> etc.
+You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
+</p>
+
+<div id="outline-container-orge6becf5" class="outline-2">
+<h2 id="orge6becf5">Preferences</h2>
+<div class="outline-text-2" id="text-orge6becf5">
+<p>
+Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
+options, in other words). If we type <code>unison -help</code>, then the outputs will look like
+</p>
+
+<pre class="example" id="orga785e31">
+Usage: unison [options]
+    or unison root1 root2 [options]
+    or unison profilename [options]
+
+Basic options:
+
+  General:
+   -doc xxx            show documentation ('-doc topics' lists topics)
+   -version            print version and exit
+
+  What to sync:
+   ...
+
+  How to sync:
+   ...
+
+  ...
+</pre>
+
+<p>
+Here, we see that there are three ways to run Unison, and each way accepts <code>[options]</code>,
+standing for various options grouped and detailed below the <i>Usage</i> section.
+</p>
+
+<p>
+The most general way of running Unison is the first one <code>unison [options]</code>.
+Indeed, you can set the two directories that you want to synchronize
+inside the options. For example,
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">unison work mirror
+</pre>
+</div>
+
+<p>
+is equivalent to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">unison -root work -root mirror
+</pre>
+</div>
+
+<p>
+Here, the preference <code>root</code> appears twice, standing for the root directories we want to synchronize.
+</p>
+
+<p>
+The thrid way of running Unison, <code>unison profilename [options]</code>, is a convenient way
+to apply a collection of preferences predefined in profile. Of course, the preferences given
+after the <code>profilename</code> will override the values defined in the profile if necessary.
+</p>
+
+<p>
+Unison provides a lot of preferences for customizing its behaviors and it is recommended to
+go through these options once by typing <code>unison -help</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org09c6900" class="outline-2">
+<h2 id="org09c6900">Setting Preference</h2>
+<div class="outline-text-2" id="text-org09c6900">
+<p>
+There are two ways to set the values of preferences: temporarily, by providing command-line arguments
+to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
+the client host.
+</p>
+
+<p>
+In the command line, if we want to set a value of a preference, say <code>p</code>, then we should be careful about its type.
+</p>
+
+<ul class="org-ul">
+<li>If <code>p</code> is a boolean flag, then adding an argument <code>-p=false</code> will set <code>p</code> to false and adding <code>-p=true</code> (or simply
+<code>-p</code>) will set <code>p</code> to true.</li>
+
+<li>If <code>p</code> is a numeric or string preference, then adding an argument <code>-p value</code> is enough.</li>
+</ul>
+
+<p>
+In the profile, a line in the form <code>p = value</code> works for both boolean flags and non-boolean falgs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9d3d793" class="outline-2">
+<h2 id="org9d3d793">Profiles</h2>
+<div class="outline-text-2" id="text-org9d3d793">
+<p>
+A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
+Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
+The <code>.unison</code> directory is by default set to <code>$HOME/.unison</code> in Unix; see <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>
+for more details on its location in other systems and how to change it.
+</p>
+
+<p>
+If Unison is started  with just one argument <code>name</code> on the command line, it looks for a profile called
+<code>name</code> (or <code>name.prf</code>, if not found) in the <code>.unison</code> directory.
+ If Unison is started with no arguments, it will behave as <code>name</code> has been set to <code>default</code>,
+i.e., looking for a profile called <code>default</code> or <code>default.prf</code>.
+</p>
+
+<p>
+Inside a profile,
+</p>
+
+<ul class="org-ul">
+<li>blank lines and lines beginning with <code>#</code> both are ignored;</li>
+<li>a line of the form <code>p = value</code> sets the value of preference <code>p</code> to <code>value</code>;</li>
+<li>Spaces and tabs before and after <code>p</code> and <code>value</code> are ignored;</li>
+<li>Spaces, tabs, and non-printable characters within values are treated literally,
+so that e.g. <code>root = /foo bar</code> refers to a directory containing a space;</li>
+<li>a line of the form <code>include name</code> causes the file <code>name</code> (or <code>name .prf</code>,
+if not found) to be read at the point, and included as if its contents;</li>
+<li>a line of the form <code>source name</code> does the same as <code>include name</code> except that it does not
+attempt to add a suffix to name;</li>
+<li>Similar lines of the form <code>include? name</code> or <code>source? name</code> do the same
+as their respective lines without the question mark except that it does not constitute an error to specify a
+non-existing file name.</li>
+</ul>
+
+<p>
+A profile may include a special preference <code>label</code> to provide a description of the options selected in this
+profile. Its value is listed along with the profile name in the graphical user interface.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org255fa7f" class="outline-2">
+<h2 id="org255fa7f">Path Specification</h2>
+<div class="outline-text-2" id="text-org255fa7f">
+<p>
+Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
+These preferences can be set to any of the following patterns.
+</p>
+
+<ol class="org-ol">
+<li><code>Name name</code> matches any path in which the last component matches <code>name</code>.
+For example, <code>Name N</code> can match a pathlike <code>mirror/N</code>, even if it is a directory.</li>
+
+<li><code>Path path</code> matches exactly the path <code>path</code>.</li>
+
+<li><code>BelowPath path</code> matches the path <code>path</code> and any path below.</li>
+</ol>
+
+<p>
+In those forms, the <code>name</code> or <code>path</code> argument can be a glob pattern, which means
+<code>*</code>, <code>?</code>, <code>[]</code> and <code>{}</code> have their special meanings.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org93e0f62" class="outline-2">
+<h2 id="org93e0f62">Ignoring</h2>
+<div class="outline-text-2" id="text-org93e0f62">
+<p>
+We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
+in a profile tells Unison to ignore the path <code>a/b</code>:
+</p>
+
+<pre class="example" id="orge8db7eb">
+ignore = Path a/b
+</pre>
+
+<p>
+Of course, you can set <code>ignore</code> multiple times to ignore as many files as you want.
+</p>
+
+<p>
+There is also an <code>ignorenot</code> preference, which specifies a set of patterns for paths that should not be
+ignored, even if they match an ignore pattern.
+</p>
+
+<p>
+Here are a few extra points regarding the ignore preference you probably want to know.
+</p>
+
+<ol class="org-ol">
+<li>If a directory is ignored, then <i>all its descendants</i> will be too.</li>
+
+<li>Be careful about renaming directories containing ignored files. Because Unison understands the rename
+as a delete plus a create, any ignored files in the directory will be lost.</li>
+
+<li>The interaction of these two sets of patterns can be a little tricky.
+If a path matches an <i>ignore</i> pattern and does not match an
+<i>ignorenot</i> pattern, then this whole path <i>including everything below it</i> will be ignored.
+For example, if the ignore pattern contains <code>Name data</code> and the ignorenot pattern contains <code>Name *.py</code>,
+then Unison still ignores a path like <code>data/a.py</code>.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org93ff1ef" class="outline-2">
+<h2 id="org93ff1ef">Backup</h2>
+<div class="outline-text-2" id="text-org93ff1ef">
+<p>
+When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
+it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
+to require what kind of files should be backed up. For example,
+</p>
+
+<pre class="example" id="orgb61abfb">
+backup = Name *
+</pre>
+
+<p>
+causes Unison to create backups for <i>all</i> files and directories. You can also set the preference
+<code>backupnot</code> for exceptions, just like <code>ignorenot</code> for <code>ignore</code>.
+</p>
+
+<p>
+The location of backup files are controlled by <code>backuploc</code>, whose value must be either
+</p>
+
+<ul class="org-ul">
+<li><code>local</code>, meaning that backup files are stored in the same directory as the original;</li>
+<li><code>central</code>, which is the default value, meaning that all backup files should be stored in
+the directory specified by preference <code>backupdir</code>. The default value of <code>backupdir</code> is
+<code>.unison/backup</code>.</li>
+</ul>
+
+<p>
+We can have finer controls on backup files by setting preferences like
+<code>maxbackups</code>, <code>backupprefix</code>, <code>backupsuffix</code> and etc.
+</p>
+
+<p>
+It is important to note that Unison will backup will only be checked against updated paths,
+not their descendants. For example, if you set <code>backup = Name *.txt</code> and then delete a whole directory named
+<code>foo</code> containing some text files, these files will not be backed up because Unison will just check that <code>foo</code>
+is updated and it does not match <code>*.txt</code>. Similarly, if the directory itself happened to be called <code>foo.txt</code>,
+then the whole directory and all the files in it will be backed up, regardless of their names.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8433a24" class="outline-2">
+<h2 id="org8433a24">Scenario: Synchronize with a USB Drive</h2>
+<div class="outline-text-2" id="text-org8433a24">
+<p>
+Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
+mounted at <code>/media/dou/KINGSTON</code>.
+It is very likely that Unison will raise errors time to time. But don't worry. Those errors are
+intended and we explain them below.
+</p>
+</div>
+
+<div id="outline-container-org051e813" class="outline-3">
+<h3 id="org051e813">Possible Errors</h3>
+<div class="outline-text-3" id="text-org051e813">
+<p>
+If our USB drive is empty, the first time we run Unison will simply copying files.
+Suppose we have done and reject the USB drive. What will happen if we accidentally
+run Unison again, e.g., triggered by a crontab task?
+</p>
+
+<p>
+The answer is that Unison will try to <i>remove our whole home directory</i>!
+As Unison keeps a records of the state of last synchronization,
+it sees that <code>/home/dou</code> hasn't changed and <code>/media/dou/KINGSTON</code> is now empty.
+So it will try the apply the changes made in the latter to the former,
+which results the deletion of a whoe replica.
+Fortunately, if <code>confirmbigdel</code> is set to true, which is the default case,
+Unison will ask for the confirmation of such deletion.
+If Unison is run in batch mode, it will simply abort and exit.
+</p>
+
+<p>
+If what we want to do is synchronizing <code>/home/dou/Documents</code> with <code>/media/dou/KINGSTON/Documents</code>,
+then Unison might throw the <i>No such file or directory</i> error.
+This is the case when our USB drive is rejected, the default mount point <code>/media/dou/KINGSTON</code>
+is also deleted. As the second root directory
+ <code>/media/dou/KINGSTON/Documents</code>  does not exist, Unison will first try to
+cd to the parent directory <code>/media/dou/KINGSTON</code>, which does not exist too.
+So Unison exits with <i>Fatal Error: Cannot find canonical name of &#x2026;</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf5d7b49" class="outline-3">
+<h3 id="orgf5d7b49">Syncrhonize with FAT/NTFS Filesystems</h3>
+<div class="outline-text-3" id="text-orgf5d7b49">
+<p>
+If Unison is running on a Unix-like machine but told to synchronize
+with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,
+which is equivalent to
+</p>
+
+<ul class="org-ul">
+<li>do not synchronize permissions, <code>perms = 0</code>;</li>
+<li>never use chmod, <code>dontchmod = true</code>;</li>
+<li>treat filenames as case insensitive, <code>ignorecase = true</code>;</li>
+<li>do not attempt to synchronize symbolic links, <code>links = false</code>;</li>
+<li>ignore inode number changes when detecting updates, <code>ignoreinodenumbers = true</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-tool.html">tool</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

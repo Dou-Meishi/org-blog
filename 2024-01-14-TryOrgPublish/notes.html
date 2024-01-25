@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/rss.xml"
+      title="RSS feed for file:///home/dou/Documents/2024-01-24-MyOrgBlog/">
+<title>Review org-publish Utility</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "/home/dou/Documents/2024-01-24-MyOrgBlog/static/dou-org.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/index.html">Home</a>
+    |
+    <a href="/home/dou/Documents/2024-01-24-MyOrgBlog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">14 Jan 2024</div><h1 class="post-title"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/2024-01-14-TryOrgPublish/notes.html">Review org-publish Utility</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org42305e0">Go through the manual</a></li>
+<li><a href="#orgaa5c4ad">Practice</a></li>
+<li><a href="#org4666e0b">Questions</a></li>
+<li><a href="#org223c785">Further consideration</a></li>
+<li><a href="#orgcc80d3e">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+</ul>
+</div>
+</nav>
+<p>
+Recently, I finally decided to create my personal blog site. I
+researched a few tools and then I suddenly remembered the <code>org-publish</code>
+function in Emacs. Although I have been using Emacs and Org mode for
+three years, I never wrote a script in elisp. But since my interest in
+Emacs is continuously growing, I think it's a good time to play around
+with it. It is also a good practice for me to understand the source code
+of <a href="https://github.com/bastibe/org-static-blog/tree/master">Org Static Blog</a>, which is the actual blogging tool I want to use.
+</p>
+
+<div id="outline-container-org42305e0" class="outline-2">
+<h2 id="org42305e0">Go through the manual</h2>
+<div class="outline-text-2" id="text-org42305e0">
+<p>
+According to <a href="https://orgmode.org/manual/Publishing.html">the manual</a>, publishing in org-mode is configured almost
+entirely through setting the value of one variable, called
+<code>org-publish-project-alist</code>. Each element of the list configures one
+project, and may be in one of the two following forms:
+</p>
+
+<ol class="org-ol">
+<li><code>("project-name" :property value :property value ...)</code></li>
+<li><code>("project-name" :components ("project-name" "project-name" ...))</code></li>
+</ol>
+
+<p>
+After properly configuring the variable, calling <code>org-publish</code> will prompt for a project name
+and publish all files that belong to it. Calling <code>org-publish-all</code> will publish all projects.
+</p>
+
+<p>
+Publishing means that a file is copied to the destination directory and possibly transformed in the process.
+The transformation is controlled by the property <code>publishing-function</code>. Typical values include
+</p>
+
+<ol class="org-ol">
+<li><code>org-html-publish-to-html</code>, which calls the HTML exporter to export org files to HTML files;</li>
+<li><code>org-publish-attachment</code>, which does not modify files but simply copy them.</li>
+</ol>
+
+<p>
+We may also generate a sitemap for a given project by customizing following properties;
+see <a href="https://orgmode.org/manual/Site-map.html">Section 14.1.7</a> in the org manual. Interesting properties include:
+</p>
+
+<ol class="org-ol">
+<li><code>sitemap-format-entry</code>: tell how a published entry is formatted in the sitemap;</li>
+<li><code>sitemap-sort-folders</code>: where folders should appear in the sitemap;</li>
+<li><code>sitemap-sort-files</code>: how the files are sorted in the sitemap.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgaa5c4ad" class="outline-2">
+<h2 id="orgaa5c4ad">Practice</h2>
+<div class="outline-text-2" id="text-orgaa5c4ad">
+<p>
+<i>A simple setting:</i> given a folder <code>./content</code> with several org files in it, we want to publish them
+into a different folder <code>./public</code>. Assets should be copied too.
+</p>
+
+<blockquote>
+<p>
+It is convenient to put publishing related source in a standalone <code>build.el</code> file.
+Visit it in Emacs and call <code>eval-buffer</code> to publish projects defined it.
+</p>
+</blockquote>
+
+<p>
+First, we define our <code>sitemap-format-entry</code> function, which will format an entry into
+a timestamp followed by a URL whose description is the title of the entry.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/org-sitemap-format-entry</span> (entry style project)
+  <span style="color: #2aa198;">"Format ENTRY in org-publish PROJECT Sitemap as [date] [[file][title]]."</span>
+  (<span style="color: #859900; font-weight: bold;">let</span> ((filetitle (org-publish-find-title entry project)))
+    (<span style="color: #859900; font-weight: bold;">if</span> (= (length filetitle) 0)
+        (format <span style="color: #2aa198;">"*%s*"</span> entry)
+      (format <span style="color: #2aa198;">"[%s] [[file:%s][%s]]"</span>
+              (format-time-string <span style="color: #2aa198;">"%Y-%m-%d"</span>
+                                  (org-publish-find-date entry project))
+              entry
+              filetitle))))
+</pre>
+</div>
+
+<p>
+Then, we set <code>org-publish-project-alist</code>. We create two projects, one for exporting org files
+and other one for copying assets. Both projects recursively search files based on a particular REGEXP on
+file extension. In addition, we require to generate a sitemap and format entries by our
+<code>dms/org-sitemap-format-entry</code> function. In addition, entries  are sorted by date
+and organized as a plain list, instead of nested list containing subfolders.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Define the publishing project</span>
+(<span style="color: #859900; font-weight: bold;">setq</span> org-publish-project-alist
+      (list
+       (list <span style="color: #2aa198;">"try-org-publish-org"</span>
+             <span style="color: #657b83; font-weight: bold;">:base-directory</span> <span style="color: #2aa198;">"./content"</span>
+             <span style="color: #657b83; font-weight: bold;">:base-extension</span> <span style="color: #2aa198;">"org"</span>
+             <span style="color: #657b83; font-weight: bold;">:publishing-directory</span> <span style="color: #2aa198;">"./public"</span>
+             <span style="color: #657b83; font-weight: bold;">:publishing-function</span> 'org-html-publish-to-html
+             <span style="color: #657b83; font-weight: bold;">:recursive</span> t
+             <span style="color: #657b83; font-weight: bold;">:auto-sitemap</span> t
+             <span style="color: #657b83; font-weight: bold;">:sitemap-title</span> <span style="color: #2aa198;">"Doumeishi's Mainpage"</span>
+             <span style="color: #657b83; font-weight: bold;">:sitemap-format-entry</span> 'dms/org-sitemap-format-entry
+             <span style="color: #657b83; font-weight: bold;">:sitemap-sort-files</span> 'anti-chronologically
+             <span style="color: #657b83; font-weight: bold;">:sitemap-style</span> 'list
+             )
+       (list <span style="color: #2aa198;">"try-org-publish-assets"</span>
+             <span style="color: #657b83; font-weight: bold;">:base-directory</span> <span style="color: #2aa198;">"./content"</span>
+             <span style="color: #657b83; font-weight: bold;">:base-extension</span> <span style="color: #2aa198;">"css</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">js</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">png</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">jpg</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">gif</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">pdf</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">mp3</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">ogg</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">swf</span><span style="color: #859900; font-weight: bold;">\\</span><span style="color: #b58900; font-weight: bold;">|</span><span style="color: #2aa198;">mov"</span>
+             <span style="color: #657b83; font-weight: bold;">:publishing-directory</span> <span style="color: #2aa198;">"./public"</span>
+             <span style="color: #657b83; font-weight: bold;">:publishing-function</span> 'org-publish-attachment
+             <span style="color: #657b83; font-weight: bold;">:recursive</span> t
+             )
+       )
+)
+</pre>
+</div>
+
+<p>
+Finally, we publish all projects.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Generate the site output</span>
+(org-publish-all t)
+
+(message <span style="color: #2aa198;">"Publish complete!"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4666e0b" class="outline-2">
+<h2 id="org4666e0b">Questions</h2>
+<div class="outline-text-2" id="text-org4666e0b">
+<ol class="org-ol">
+<li><p>
+Can I customize the way of Emacs searching for intended org files rather than
+a base dir + extension?
+</p>
+
+<p>
+Yes, we can first exclude all files by setting the base extension to <code>"dummy"</code> and then use <code>:include</code>
+to include a list of files we want to publish.
+</p></li>
+
+<li><p>
+Aware of privacy, can I customize the exporting scheme to exclude publishing particular files?
+</p>
+
+<p>
+Yes, we can set the <code>exclude</code> property. Or we can set the <code>:exclude-tags</code> property.
+</p></li>
+
+<li><p>
+Can I adjust publication settings for particular subfolders?
+</p>
+
+<p>
+Yes, we can exclude the subfolder from existing projects, then create a new project for it
+and apply different rules for this subfolder.
+</p></li>
+
+<li><p>
+How the <i>last modified</i> time is set? I want it to be set by the mtime of org files.
+</p>
+
+<p>
+I am not sure about this. With some test I found that if I run the script in Emacs
+then everything work as expected. But if I run the script in terminal by
+<code>emacs -Q --script</code> then every exported file will update the modification time
+to the current time.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org223c785" class="outline-2">
+<h2 id="org223c785">Further consideration</h2>
+<div class="outline-text-2" id="text-org223c785">
+<p>
+<i>A slightly complicated setting:</i> my document folder consists of event directories and looks like
+</p>
+
+<pre class="example" id="org6e2d2d9">
+.
+├── 2023-09-03-CustomizePrompt/
+├── 2023-11-18-ContentManagementSystem/
+├── 2024-01-03-ReviewPham/
+├── 2024-01-07-ReviewUnison/
+├── 2024-01-11-CodeBlockinLaTeX/
+</pre>
+
+<p>
+In each event directory, there is an org file <code>notes.org</code> which contains my notes on this event.
+I want to generate a sitemap for my document folder (or some folder with the same
+strcture) such that I can review what I have done in browser. In particular, I want to
+publish only those event notes, i.e., no other org files are exported during the creation of
+my sitemap. Moreover, I want to publish those notes in-place, i.e., the generated html should
+be placed in the its event directory.
+</p>
+
+<p>
+In order to do this, we can first define two variables. One is the root directory to be considered,
+and is set to <code>~/Document</code>. The other one is a textual file, in which every line specifies a event
+name that should not be published.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defcustom</span> <span style="color: #268bd2;">dms/org-publish-event-root-dir</span> <span style="color: #2aa198;">"~/Documents"</span>
+  <span style="color: #2aa198;">"The directory contains a list of event directories."</span>)
+
+(<span style="color: #859900; font-weight: bold;">defcustom</span> <span style="color: #268bd2;">dms/org-publish-nopublish-events-fp</span> <span style="color: #2aa198;">"~/org/nopublish-events.txt"</span>
+  <span style="color: #2aa198;">"The file path whose content is a list of event names</span>
+<span style="color: #2aa198;">which should not be considered when do publishing.</span>
+<span style="color: #2aa198;">This file should be a textual file and each line corresponds to</span>
+<span style="color: #2aa198;">an event name."</span>)
+</pre>
+</div>
+
+<p>
+Then we define a function to generate the list of event notes to be published.
+In this function I first filtered the event directory under the root folder with
+the content of that nopublish file, then I concat the filename <code>notes.org</code>
+for each event and check the existence of such file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/org-publish-get-event-notes</span> ()
+  <span style="color: #2aa198;">"Return a list of event notes to be published according to the value</span>
+<span style="color: #2aa198;">of dms/org-publish-event-root-dir and dms/org-publish-nopublish-events-fp.</span>
+
+<span style="color: #2aa198;">An event is a directory whose name has the format YYYY-MM-DD-EventName.</span>
+<span style="color: #2aa198;">A event note is the file named notes.org under the event directory."</span>
+  (<span style="color: #859900; font-weight: bold;">let*</span> ((events (directory-files dms/org-publish-event-root-dir nil
+                    <span style="color: #2aa198;">"^[0-9]\\{</span><span style="color: #268bd2;">4\\</span><span style="color: #2aa198;">}-[0-9]\\{</span><span style="color: #268bd2;">2\\</span><span style="color: #2aa198;">}-[0-9]\\{</span><span style="color: #268bd2;">2\\</span><span style="color: #2aa198;">}-.+"</span>))
+         (nopublish-event-alist
+          (<span style="color: #859900; font-weight: bold;">if</span> dms/org-publish-nopublish-events-fp
+              (<span style="color: #859900; font-weight: bold;">with-temp-buffer</span>
+                (insert-file-contents dms/org-publish-nopublish-events-fp)
+                (split-string (buffer-string) <span style="color: #2aa198;">"\n"</span> t))))
+         (filtered-events (seq-difference events nopublish-event-alist))
+         (event-notes-to-publish
+          (mapcar (<span style="color: #859900; font-weight: bold;">lambda</span> (event) (concat
+                                   (file-name-as-directory event)
+                                   <span style="color: #2aa198;">"notes.org"</span>)) <span style="color: #cb4b16; font-weight: bold;">filtered-events)))</span>
+    (seq-filter (<span style="color: #859900; font-weight: bold;">lambda</span> (event-note)
+                  (file-exists-p (concat (file-name-as-directory
+                                          dms/org-publish-event-root-dir)
+                                         event-note)))
+                event-notes-to-publish)))
+</pre>
+</div>
+
+<p>
+After that we define the way to format the event note in the sitemap, i.e.,
+formatting as <code>=date= [[path][title]]</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/org-sitemap-format-event-note-entry</span> (entry style project)
+  <span style="color: #2aa198;">"Format an event note ENTRY in org-publish PROJECT Sitemap as</span>
+<span style="color: #2aa198;">=date= [[file][title]]."</span>
+  (<span style="color: #859900; font-weight: bold;">let</span> ((filetitle (org-publish-find-title entry project)))
+    (<span style="color: #859900; font-weight: bold;">if</span> (= (length filetitle) 0)
+        (format <span style="color: #2aa198;">"*%s*"</span> entry)
+      (format <span style="color: #2aa198;">"=%s= [[file:%s][%s]]"</span>
+              (format-time-string <span style="color: #2aa198;">"%Y-%m-%d"</span>
+                                  (org-publish-find-date entry project))
+              entry
+              filetitle))))
+</pre>
+</div>
+
+<p>
+Finally, we set up the project alist variable and publish. By the way, we can always check the returned value
+of <code>dms/org-publish-get-event-notes</code> to see the list of files to be published.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Define the publishing project</span>
+(<span style="color: #859900; font-weight: bold;">setq</span> org-publish-project-alist
+      (list
+       (list <span style="color: #2aa198;">"event-notes"</span>
+             <span style="color: #657b83; font-weight: bold;">:base-directory</span> dms/org-publish-event-root-dir
+             <span style="color: #657b83; font-weight: bold;">:base-extension</span> <span style="color: #2aa198;">"dummy"</span>
+             <span style="color: #657b83; font-weight: bold;">:include</span> (dms/org-publish-get-event-notes)
+             <span style="color: #657b83; font-weight: bold;">:publishing-directory</span> dms/org-publish-event-root-dir
+             <span style="color: #657b83; font-weight: bold;">:publishing-function</span> 'org-html-publish-to-html
+             <span style="color: #657b83; font-weight: bold;">:recursive</span> nil
+             <span style="color: #657b83; font-weight: bold;">:auto-sitemap</span> t
+             <span style="color: #657b83; font-weight: bold;">:sitemap-title</span> <span style="color: #2aa198;">"Event Notes"</span>
+             <span style="color: #657b83; font-weight: bold;">:sitemap-filename</span> <span style="color: #2aa198;">"index.org"</span>
+             <span style="color: #657b83; font-weight: bold;">:sitemap-format-entry</span> 'dms/org-sitemap-format-event-note-entry
+             <span style="color: #657b83; font-weight: bold;">:sitemap-sort-files</span> 'anti-chronologically
+             <span style="color: #657b83; font-weight: bold;">:sitemap-style</span> 'list
+             )))
+
+<span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Generate the site output</span>
+(org-publish-all t)
+
+(message <span style="color: #2aa198;">"Publish complete!"</span>)
+</pre>
+</div>
+
+<p>
+We can place this script in our <code>.emacs.d/</code> directory.
+Whenever we want to rebuild the index page of the document folder,
+simply visit it and run <code>eval-buffer</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcc80d3e" class="outline-2">
+<h2 id="orgcc80d3e">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-orgcc80d3e">
+<ol class="org-ol">
+<li><a href="https://orgmode.org/manual/Publishing.html">Publishing - The Org Mode Manual</a></li>
+<li><a href="https://taingram.org/blog/org-mode-blog.html">Building a Emacs Org-Mode Blog</a></li>
+<li><a href="https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/">Build Your Website with Org Mode - System Crafaters</a></li>
+<li><a href="https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">Publishing Org-mode files to HTML</a></li>
+<li><a href="https://remacs.cc/posts/%E9%9D%A2%E5%90%91%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84emacs%E6%95%99%E7%A8%8B17.-%E9%80%9A%E8%BF%87org-mode%E5%86%99%E5%8D%9A%E5%AE%A2/">面向产品经理的Emacs教程：17. 通过Org mode写博客</a></li>
+</ol>
+</div>
+</div>
+<div class="taglist"><a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tags.html">Tags</a>: <a href="file:///home/dou/Documents/2024-01-24-MyOrgBlog/tag-emacs.html">emacs</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>
