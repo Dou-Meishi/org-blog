@@ -9,7 +9,7 @@
 <title>Org Static Blog: A Simple Static Site Generator</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
-<link href= "http://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
@@ -33,11 +33,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org944512b">Go through the manual</a></li>
-<li><a href="#orgbc53448">Minimal Configuration</a></li>
-<li><a href="#org61f5dd3">Question</a></li>
-<li><a href="#orgbdb5263">Build My Blog Site</a></li>
-<li><a href="#org0f862de">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org54090b4">Go through the manual</a></li>
+<li><a href="#org4f8ead8">Minimal Configuration</a></li>
+<li><a href="#orgee9d456">Question</a></li>
+<li><a href="#org3efd47a">Build My Blog Site</a></li>
+<li><a href="#org165be10">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -74,9 +74,9 @@ Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
 
-<div id="outline-container-org944512b" class="outline-2">
-<h2 id="org944512b">Go through the manual</h2>
-<div class="outline-text-2" id="text-org944512b">
+<div id="outline-container-org54090b4" class="outline-2">
+<h2 id="org54090b4">Go through the manual</h2>
+<div class="outline-text-2" id="text-org54090b4">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -187,9 +187,9 @@ These key bindings are:
 </div>
 </div>
 
-<div id="outline-container-orgbc53448" class="outline-2">
-<h2 id="orgbc53448">Minimal Configuration</h2>
-<div class="outline-text-2" id="text-orgbc53448">
+<div id="outline-container-org4f8ead8" class="outline-2">
+<h2 id="org4f8ead8">Minimal Configuration</h2>
+<div class="outline-text-2" id="text-org4f8ead8">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -275,7 +275,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="orgd55d1fc">
+<pre class="example" id="orgedca356">
 org-blog/
 ├── drafts
 ├── org
@@ -294,7 +294,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org9687723">
+<pre class="example" id="org536b62d">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -316,9 +316,9 @@ org-blog/
 </div>
 </div>
 
-<div id="outline-container-org61f5dd3" class="outline-2">
-<h2 id="org61f5dd3">Question</h2>
-<div class="outline-text-2" id="text-org61f5dd3">
+<div id="outline-container-orgee9d456" class="outline-2">
+<h2 id="orgee9d456">Question</h2>
+<div class="outline-text-2" id="text-orgee9d456">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -339,7 +339,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org906d4a5">
+<pre class="example" id="orgd99dbed">
 org-blog/
 ├── drafts
 ├── org
@@ -394,9 +394,9 @@ the drafts directory will not be included in the index.
 </div>
 </div>
 
-<div id="outline-container-orgbdb5263" class="outline-2">
-<h2 id="orgbdb5263">Build My Blog Site</h2>
-<div class="outline-text-2" id="text-orgbdb5263">
+<div id="outline-container-org3efd47a" class="outline-2">
+<h2 id="org3efd47a">Build My Blog Site</h2>
+<div class="outline-text-2" id="text-org3efd47a">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -477,7 +477,7 @@ rules in <a href="https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"http://gongzhitaao.org/orgcss/org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
+<pre class="src src-html">&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://gongzhitaao.org/orgcss/org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
 &lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
 </pre>
 </div></li>
@@ -489,9 +489,9 @@ The script and static assets are all included in <a href="https://github.com/Dou
 </div>
 </div>
 
-<div id="outline-container-org0f862de" class="outline-2">
-<h2 id="org0f862de">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org0f862de">
+<div id="outline-container-org165be10" class="outline-2">
+<h2 id="org165be10">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org165be10">
 <p>
 Below are other users' configuration on org static blog.
 </p>

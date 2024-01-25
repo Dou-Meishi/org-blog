@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Thu, 25 Jan 2024 19:34:16 +0800</lastBuildDate>
+<lastBuildDate>Thu, 25 Jan 2024 19:41:54 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Org Static Blog: A Simple Static Site Generator]]></title>
   <description><![CDATA[
@@ -12,11 +12,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org944512b">Go through the manual</a></li>
-<li><a href="#orgbc53448">Minimal Configuration</a></li>
-<li><a href="#org61f5dd3">Question</a></li>
-<li><a href="#orgbdb5263">Build My Blog Site</a></li>
-<li><a href="#org0f862de">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org54090b4">Go through the manual</a></li>
+<li><a href="#org4f8ead8">Minimal Configuration</a></li>
+<li><a href="#orgee9d456">Question</a></li>
+<li><a href="#org3efd47a">Build My Blog Site</a></li>
+<li><a href="#org165be10">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -53,9 +53,9 @@ Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
 
-<div id="outline-container-org944512b" class="outline-2">
-<h2 id="org944512b">Go through the manual</h2>
-<div class="outline-text-2" id="text-org944512b">
+<div id="outline-container-org54090b4" class="outline-2">
+<h2 id="org54090b4">Go through the manual</h2>
+<div class="outline-text-2" id="text-org54090b4">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -166,9 +166,9 @@ These key bindings are:
 </div>
 </div>
 
-<div id="outline-container-orgbc53448" class="outline-2">
-<h2 id="orgbc53448">Minimal Configuration</h2>
-<div class="outline-text-2" id="text-orgbc53448">
+<div id="outline-container-org4f8ead8" class="outline-2">
+<h2 id="org4f8ead8">Minimal Configuration</h2>
+<div class="outline-text-2" id="text-org4f8ead8">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -254,7 +254,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="orgd55d1fc">
+<pre class="example" id="orgedca356">
 org-blog/
 ├── drafts
 ├── org
@@ -273,7 +273,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org9687723">
+<pre class="example" id="org536b62d">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -295,9 +295,9 @@ org-blog/
 </div>
 </div>
 
-<div id="outline-container-org61f5dd3" class="outline-2">
-<h2 id="org61f5dd3">Question</h2>
-<div class="outline-text-2" id="text-org61f5dd3">
+<div id="outline-container-orgee9d456" class="outline-2">
+<h2 id="orgee9d456">Question</h2>
+<div class="outline-text-2" id="text-orgee9d456">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -318,7 +318,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org906d4a5">
+<pre class="example" id="orgd99dbed">
 org-blog/
 ├── drafts
 ├── org
@@ -373,9 +373,9 @@ the drafts directory will not be included in the index.
 </div>
 </div>
 
-<div id="outline-container-orgbdb5263" class="outline-2">
-<h2 id="orgbdb5263">Build My Blog Site</h2>
-<div class="outline-text-2" id="text-orgbdb5263">
+<div id="outline-container-org3efd47a" class="outline-2">
+<h2 id="org3efd47a">Build My Blog Site</h2>
+<div class="outline-text-2" id="text-org3efd47a">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -456,7 +456,7 @@ rules in <a href="https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"http://gongzhitaao.org/orgcss/org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
+<pre class="src src-html">&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://gongzhitaao.org/orgcss/org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
 &lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
 </pre>
 </div></li>
@@ -468,9 +468,9 @@ The script and static assets are all included in <a href="https://github.com/Dou
 </div>
 </div>
 
-<div id="outline-container-org0f862de" class="outline-2">
-<h2 id="org0f862de">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org0f862de">
+<div id="outline-container-org165be10" class="outline-2">
+<h2 id="org165be10">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org165be10">
 <p>
 Below are other users' configuration on org static blog.
 </p>
@@ -495,11 +495,11 @@ Below are other users' configuration on org static blog.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge084a07">Go through the manual</a></li>
-<li><a href="#org8bcf280">Practice</a></li>
-<li><a href="#org2dac804">Questions</a></li>
-<li><a href="#orgbce6653">Further consideration</a></li>
-<li><a href="#org21fd964">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orge5440b8">Go through the manual</a></li>
+<li><a href="#org49f4184">Practice</a></li>
+<li><a href="#org4a3a8d5">Questions</a></li>
+<li><a href="#orgecd02d2">Further consideration</a></li>
+<li><a href="#org1b6dcaa">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -513,9 +513,9 @@ with it. It is also a good practice for me to understand the source code
 of <a href="https://github.com/bastibe/org-static-blog/tree/master">Org Static Blog</a>, which is the actual blogging tool I want to use.
 </p>
 
-<div id="outline-container-orge084a07" class="outline-2">
-<h2 id="orge084a07">Go through the manual</h2>
-<div class="outline-text-2" id="text-orge084a07">
+<div id="outline-container-orge5440b8" class="outline-2">
+<h2 id="orge5440b8">Go through the manual</h2>
+<div class="outline-text-2" id="text-orge5440b8">
 <p>
 According to <a href="https://orgmode.org/manual/Publishing.html">the manual</a>, publishing in org-mode is configured almost
 entirely through setting the value of one variable, called
@@ -556,9 +556,9 @@ see <a href="https://orgmode.org/manual/Site-map.html">Section 14.1.7</a> in the
 </div>
 </div>
 
-<div id="outline-container-org8bcf280" class="outline-2">
-<h2 id="org8bcf280">Practice</h2>
-<div class="outline-text-2" id="text-org8bcf280">
+<div id="outline-container-org49f4184" class="outline-2">
+<h2 id="org49f4184">Practice</h2>
+<div class="outline-text-2" id="text-org49f4184">
 <p>
 <i>A simple setting:</i> given a folder <code>./content</code> with several org files in it, we want to publish them
 into a different folder <code>./public</code>. Assets should be copied too.
@@ -640,9 +640,9 @@ Finally, we publish all projects.
 </div>
 </div>
 
-<div id="outline-container-org2dac804" class="outline-2">
-<h2 id="org2dac804">Questions</h2>
-<div class="outline-text-2" id="text-org2dac804">
+<div id="outline-container-org4a3a8d5" class="outline-2">
+<h2 id="org4a3a8d5">Questions</h2>
+<div class="outline-text-2" id="text-org4a3a8d5">
 <ol class="org-ol">
 <li><p>
 Can I customize the way of Emacs searching for intended org files rather than
@@ -685,14 +685,14 @@ to the current time.
 </div>
 </div>
 
-<div id="outline-container-orgbce6653" class="outline-2">
-<h2 id="orgbce6653">Further consideration</h2>
-<div class="outline-text-2" id="text-orgbce6653">
+<div id="outline-container-orgecd02d2" class="outline-2">
+<h2 id="orgecd02d2">Further consideration</h2>
+<div class="outline-text-2" id="text-orgecd02d2">
 <p>
 <i>A slightly complicated setting:</i> my document folder consists of event directories and looks like
 </p>
 
-<pre class="example" id="orgc5684c6">
+<pre class="example" id="org429cc0c">
 .
 ├── 2023-09-03-CustomizePrompt/
 ├── 2023-11-18-ContentManagementSystem/
@@ -821,9 +821,9 @@ simply visit it and run <code>eval-buffer</code>.
 </div>
 </div>
 
-<div id="outline-container-org21fd964" class="outline-2">
-<h2 id="org21fd964">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org21fd964">
+<div id="outline-container-org1b6dcaa" class="outline-2">
+<h2 id="org1b6dcaa">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org1b6dcaa">
 <ol class="org-ol">
 <li><a href="https://orgmode.org/manual/Publishing.html">Publishing - The Org Mode Manual</a></li>
 <li><a href="https://taingram.org/blog/org-mode-blog.html">Building a Emacs Org-Mode Blog</a></li>
@@ -886,7 +886,7 @@ The LaTeX code above produces the following output.
 </p>
 
 
-<figure id="orgdac3401">
+<figure id="orgec8aa3b">
 <img src="./simple-code.png" alt="simple-code.png">
 
 </figure>
@@ -900,9 +900,9 @@ and <code>tcolorbox</code> package. While  <code>listings</code> and  <code>mint
 Actually, <code>tcolorbox</code> internally loads <code>listings</code> or <code>minted</code> packages.
 </p>
 
-<div id="outline-container-orgafb3b96" class="outline-2">
-<h2 id="orgafb3b96">Create Own Code Block Environment with tcolorbox</h2>
-<div class="outline-text-2" id="text-orgafb3b96">
+<div id="outline-container-org3ccabb7" class="outline-2">
+<h2 id="org3ccabb7">Create Own Code Block Environment with tcolorbox</h2>
+<div class="outline-text-2" id="text-org3ccabb7">
 <p>
 When <code>tcolorbox</code> is loaded with the option <code>listings</code>, it provides various useful predefined commands
 for rendering source blocks by loading <code>listings</code> package automatically. Besides the <code>listings</code> option,
@@ -1017,16 +1017,16 @@ This is the <span style="color: #859900; font-weight: bold;">\LaTeX</span>\ sour
 </div>
 
 
-<figure id="orga556e9d">
+<figure id="orge18aba1">
 <img src="./tcolorbox-listings.png" alt="tcolorbox-listings.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org9d04ee9" class="outline-2">
-<h2 id="org9d04ee9">Explanation of the Created Code Environment</h2>
-<div class="outline-text-2" id="text-org9d04ee9">
+<div id="outline-container-org8d117ee" class="outline-2">
+<h2 id="org8d117ee">Explanation of the Created Code Environment</h2>
+<div class="outline-text-2" id="text-org8d117ee">
 <p>
 First, we load <code>tcolorbox</code> with appropriate options. In addition, we load the <code>xcolor</code> package for color support.
 </p>
@@ -1135,9 +1135,9 @@ name of the source file.
 </div>
 </div>
 
-<div id="outline-container-org5ee1b39" class="outline-2">
-<h2 id="org5ee1b39">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org5ee1b39">
+<div id="outline-container-org7ed04a9" class="outline-2">
+<h2 id="org7ed04a9">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org7ed04a9">
 <ol class="org-ol">
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf">the official manual of tcolorbox - CTAN</a></li>
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the official manual of listings - CTAN</a></li>
@@ -1160,16 +1160,16 @@ name of the source file.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbaab90d">Preferences</a></li>
-<li><a href="#orgba68153">Setting Preference</a></li>
-<li><a href="#orge47d209">Profiles</a></li>
-<li><a href="#org7371daa">Path Specification</a></li>
-<li><a href="#org5c2392b">Ignoring</a></li>
-<li><a href="#orgec48cb6">Backup</a></li>
-<li><a href="#orgc33e05b">Scenario: Synchronize with a USB Drive</a>
+<li><a href="#org15d7833">Preferences</a></li>
+<li><a href="#orgbaf68b9">Setting Preference</a></li>
+<li><a href="#org734dc43">Profiles</a></li>
+<li><a href="#orga73aab6">Path Specification</a></li>
+<li><a href="#org39a2cb1">Ignoring</a></li>
+<li><a href="#orgede1925">Backup</a></li>
+<li><a href="#orgc8e8855">Scenario: Synchronize with a USB Drive</a>
 <ul>
-<li><a href="#org72915cf">Possible Errors</a></li>
-<li><a href="#orgb730766">Syncrhonize with FAT/NTFS Filesystems</a></li>
+<li><a href="#orga0671ff">Possible Errors</a></li>
+<li><a href="#org0d9316e">Syncrhonize with FAT/NTFS Filesystems</a></li>
 </ul>
 </li>
 </ul>
@@ -1181,15 +1181,15 @@ In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>
 You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
 
-<div id="outline-container-orgbaab90d" class="outline-2">
-<h2 id="orgbaab90d">Preferences</h2>
-<div class="outline-text-2" id="text-orgbaab90d">
+<div id="outline-container-org15d7833" class="outline-2">
+<h2 id="org15d7833">Preferences</h2>
+<div class="outline-text-2" id="text-org15d7833">
 <p>
 Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
 options, in other words). If we type <code>unison -help</code>, then the outputs will look like
 </p>
 
-<pre class="example" id="orgccafbbb">
+<pre class="example" id="org4fde6f3">
 Usage: unison [options]
     or unison root1 root2 [options]
     or unison profilename [options]
@@ -1251,9 +1251,9 @@ go through these options once by typing <code>unison -help</code>.
 </div>
 </div>
 
-<div id="outline-container-orgba68153" class="outline-2">
-<h2 id="orgba68153">Setting Preference</h2>
-<div class="outline-text-2" id="text-orgba68153">
+<div id="outline-container-orgbaf68b9" class="outline-2">
+<h2 id="orgbaf68b9">Setting Preference</h2>
+<div class="outline-text-2" id="text-orgbaf68b9">
 <p>
 There are two ways to set the values of preferences: temporarily, by providing command-line arguments
 to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
@@ -1277,9 +1277,9 @@ In the profile, a line in the form <code>p = value</code> works for both boolean
 </div>
 </div>
 
-<div id="outline-container-orge47d209" class="outline-2">
-<h2 id="orge47d209">Profiles</h2>
-<div class="outline-text-2" id="text-orge47d209">
+<div id="outline-container-org734dc43" class="outline-2">
+<h2 id="org734dc43">Profiles</h2>
+<div class="outline-text-2" id="text-org734dc43">
 <p>
 A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
 Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
@@ -1320,9 +1320,9 @@ profile. Its value is listed along with the profile name in the graphical user i
 </div>
 </div>
 
-<div id="outline-container-org7371daa" class="outline-2">
-<h2 id="org7371daa">Path Specification</h2>
-<div class="outline-text-2" id="text-org7371daa">
+<div id="outline-container-orga73aab6" class="outline-2">
+<h2 id="orga73aab6">Path Specification</h2>
+<div class="outline-text-2" id="text-orga73aab6">
 <p>
 Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
 These preferences can be set to any of the following patterns.
@@ -1344,15 +1344,15 @@ In those forms, the <code>name</code> or <code>path</code> argument can be a glo
 </div>
 </div>
 
-<div id="outline-container-org5c2392b" class="outline-2">
-<h2 id="org5c2392b">Ignoring</h2>
-<div class="outline-text-2" id="text-org5c2392b">
+<div id="outline-container-org39a2cb1" class="outline-2">
+<h2 id="org39a2cb1">Ignoring</h2>
+<div class="outline-text-2" id="text-org39a2cb1">
 <p>
 We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
 in a profile tells Unison to ignore the path <code>a/b</code>:
 </p>
 
-<pre class="example" id="orgfce6163">
+<pre class="example" id="org4380973">
 ignore = Path a/b
 </pre>
 
@@ -1384,16 +1384,16 @@ then Unison still ignores a path like <code>data/a.py</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-orgec48cb6" class="outline-2">
-<h2 id="orgec48cb6">Backup</h2>
-<div class="outline-text-2" id="text-orgec48cb6">
+<div id="outline-container-orgede1925" class="outline-2">
+<h2 id="orgede1925">Backup</h2>
+<div class="outline-text-2" id="text-orgede1925">
 <p>
 When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
 it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
 to require what kind of files should be backed up. For example,
 </p>
 
-<pre class="example" id="org3fc05a2">
+<pre class="example" id="orga9357f1">
 backup = Name *
 </pre>
 
@@ -1428,9 +1428,9 @@ then the whole directory and all the files in it will be backed up, regardless o
 </div>
 </div>
 
-<div id="outline-container-orgc33e05b" class="outline-2">
-<h2 id="orgc33e05b">Scenario: Synchronize with a USB Drive</h2>
-<div class="outline-text-2" id="text-orgc33e05b">
+<div id="outline-container-orgc8e8855" class="outline-2">
+<h2 id="orgc8e8855">Scenario: Synchronize with a USB Drive</h2>
+<div class="outline-text-2" id="text-orgc8e8855">
 <p>
 Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
 mounted at <code>/media/dou/KINGSTON</code>.
@@ -1439,9 +1439,9 @@ intended and we explain them below.
 </p>
 </div>
 
-<div id="outline-container-org72915cf" class="outline-3">
-<h3 id="org72915cf">Possible Errors</h3>
-<div class="outline-text-3" id="text-org72915cf">
+<div id="outline-container-orga0671ff" class="outline-3">
+<h3 id="orga0671ff">Possible Errors</h3>
+<div class="outline-text-3" id="text-orga0671ff">
 <p>
 If our USB drive is empty, the first time we run Unison will simply copying files.
 Suppose we have done and reject the USB drive. What will happen if we accidentally
@@ -1471,9 +1471,9 @@ So Unison exits with <i>Fatal Error: Cannot find canonical name of &#x2026;</i>
 </div>
 </div>
 
-<div id="outline-container-orgb730766" class="outline-3">
-<h3 id="orgb730766">Syncrhonize with FAT/NTFS Filesystems</h3>
-<div class="outline-text-3" id="text-orgb730766">
+<div id="outline-container-org0d9316e" class="outline-3">
+<h3 id="org0d9316e">Syncrhonize with FAT/NTFS Filesystems</h3>
+<div class="outline-text-3" id="text-org0d9316e">
 <p>
 If Unison is running on a Unix-like machine but told to synchronize
 with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,
@@ -1503,11 +1503,11 @@ which is equivalent to
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9416166">A Demo</a></li>
-<li><a href="#org442fe3a">Basic Concepts</a></li>
-<li><a href="#orgd13efc7">Typical Usage</a></li>
-<li><a href="#org0cd91bb">Caveats and Shortcomings</a></li>
-<li><a href="#orgb17c174">Going Further</a></li>
+<li><a href="#orga347e03">A Demo</a></li>
+<li><a href="#orgc32ca73">Basic Concepts</a></li>
+<li><a href="#orgad3737d">Typical Usage</a></li>
+<li><a href="#orga18ee62">Caveats and Shortcomings</a></li>
+<li><a href="#orgf8e49fe">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -1522,9 +1522,9 @@ brought up to date by propagating the changes in each replica to the other.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
 
-<div id="outline-container-org9416166" class="outline-2">
-<h2 id="org9416166">A Demo</h2>
-<div class="outline-text-2" id="text-org9416166">
+<div id="outline-container-orga347e03" class="outline-2">
+<h2 id="orga347e03">A Demo</h2>
+<div class="outline-text-2" id="text-orga347e03">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -1595,7 +1595,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="orgf555593">
+<pre class="example" id="org7353d82">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -1610,7 +1610,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="orge47c2a4">
+<pre class="example" id="org2ca6daa">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -1618,7 +1618,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="orgfd36772">
+<pre class="example" id="org7a68d7e">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -1628,7 +1628,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="orgb6865e9">
+<pre class="example" id="org5180b6b">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -1650,9 +1650,9 @@ click the <i>Go</i> button to set them in motion.
 </div>
 </div>
 
-<div id="outline-container-org442fe3a" class="outline-2">
-<h2 id="org442fe3a">Basic Concepts</h2>
-<div class="outline-text-2" id="text-org442fe3a">
+<div id="outline-container-orgc32ca73" class="outline-2">
+<h2 id="orgc32ca73">Basic Concepts</h2>
+<div class="outline-text-2" id="text-orgc32ca73">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -1773,9 +1773,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </div>
 </div>
 
-<div id="outline-container-orgd13efc7" class="outline-2">
-<h2 id="orgd13efc7">Typical Usage</h2>
-<div class="outline-text-2" id="text-orgd13efc7">
+<div id="outline-container-orgad3737d" class="outline-2">
+<h2 id="orgad3737d">Typical Usage</h2>
+<div class="outline-text-2" id="text-orgad3737d">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -1808,9 +1808,9 @@ synchronizing only with the hub.
 </div>
 </div>
 
-<div id="outline-container-org0cd91bb" class="outline-2">
-<h2 id="org0cd91bb">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-org0cd91bb">
+<div id="outline-container-orga18ee62" class="outline-2">
+<h2 id="orga18ee62">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-orga18ee62">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -1866,9 +1866,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </div>
 </div>
 
-<div id="outline-container-orgb17c174" class="outline-2">
-<h2 id="orgb17c174">Going Further</h2>
-<div class="outline-text-2" id="text-orgb17c174">
+<div id="outline-container-orgf8e49fe" class="outline-2">
+<h2 id="orgf8e49fe">Going Further</h2>
+<div class="outline-text-2" id="text-orgf8e49fe">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>
@@ -1904,10 +1904,10 @@ following sections in the official manual:
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org46d6850">Prerequisite Concepts</a></li>
-<li><a href="#org7b701d6">Definition</a></li>
-<li><a href="#org9bc5377">Main Results</a></li>
-<li><a href="#org167381d">Examples</a></li>
+<li><a href="#org2bf1f98">Prerequisite Concepts</a></li>
+<li><a href="#org22cfde1">Definition</a></li>
+<li><a href="#org7c1a68c">Main Results</a></li>
+<li><a href="#orgfda5e64">Examples</a></li>
 </ul>
 </div>
 </nav>
@@ -1922,9 +1922,9 @@ Space</i> in the book <i>Munkres, J. Topology Second Edition</i> for more
 details.
 </p>
 
-<div id="outline-container-org46d6850" class="outline-2">
-<h2 id="org46d6850">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-org46d6850">
+<div id="outline-container-org2bf1f98" class="outline-2">
+<h2 id="org2bf1f98">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-org2bf1f98">
 <ul class="org-ul">
 <li>normed linear space</li>
 <li>complete metric space</li>
@@ -1934,9 +1934,9 @@ details.
 </div>
 </div>
 
-<div id="outline-container-org7b701d6" class="outline-2">
-<h2 id="org7b701d6">Definition</h2>
-<div class="outline-text-2" id="text-org7b701d6">
+<div id="outline-container-org22cfde1" class="outline-2">
+<h2 id="org22cfde1">Definition</h2>
+<div class="outline-text-2" id="text-org22cfde1">
 <p>
 A complete normed linear space is called a <b>Banach space</b>.
 </p>
@@ -1989,9 +1989,9 @@ corresponding to \(\|\cdot\|\) is defined by
 </div>
 </div>
 
-<div id="outline-container-org9bc5377" class="outline-2">
-<h2 id="org9bc5377">Main Results</h2>
-<div class="outline-text-2" id="text-org9bc5377">
+<div id="outline-container-org7c1a68c" class="outline-2">
+<h2 id="org7c1a68c">Main Results</h2>
+<div class="outline-text-2" id="text-org7c1a68c">
 <p>
 <b>Lemma 1.</b> If \((Y,d)\) is complete, then \((Y^X,\bar{\rho})\) is also
 complete.
@@ -2011,9 +2011,9 @@ are both complete in the uniform metric.
 </div>
 </div>
 
-<div id="outline-container-org167381d" class="outline-2">
-<h2 id="org167381d">Examples</h2>
-<div class="outline-text-2" id="text-org167381d">
+<div id="outline-container-orgfda5e64" class="outline-2">
+<h2 id="orgfda5e64">Examples</h2>
+<div class="outline-text-2" id="text-orgfda5e64">
 <p>
 <b>Example.</b> \((\mathcal{C}[a,b],\|\cdot\|_\infty)\) is a Banach
 space.
@@ -2053,10 +2053,10 @@ Consider \(f_n(x):=\sqrt{x^2+\frac{1}{n}}\). It is easy to check that
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf171fa8">Prerequisite Concepts</a></li>
-<li><a href="#org7c331a7">Definitions</a></li>
-<li><a href="#org7c8a90e">Main Results</a></li>
-<li><a href="#org9320faa">Detailed Proofs</a></li>
+<li><a href="#orgdceb8e4">Prerequisite Concepts</a></li>
+<li><a href="#org3f369df">Definitions</a></li>
+<li><a href="#org93d7d4c">Main Results</a></li>
+<li><a href="#orgb6f7c18">Detailed Proofs</a></li>
 </ul>
 </div>
 </nav>
@@ -2066,9 +2066,9 @@ This note is a review of Chapter IV.8 of the book
 by Freiwald.
 </p>
 
-<div id="outline-container-orgf171fa8" class="outline-2">
-<h2 id="orgf171fa8">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-orgf171fa8">
+<div id="outline-container-orgdceb8e4" class="outline-2">
+<h2 id="orgdceb8e4">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-orgdceb8e4">
 <ul class="org-ul">
 <li>topological space and its subspace</li>
 <li>T1 topological space and T2 topological space</li>
@@ -2082,9 +2082,9 @@ by Freiwald.
 </div>
 </div>
 
-<div id="outline-container-org7c331a7" class="outline-2">
-<h2 id="org7c331a7">Definitions</h2>
-<div class="outline-text-2" id="text-org7c331a7">
+<div id="outline-container-org3f369df" class="outline-2">
+<h2 id="org3f369df">Definitions</h2>
+<div class="outline-text-2" id="text-org3f369df">
 <p>
 Two equivalent definition of a <b>compact</b> topological space \((X,\mathcal{T})\):
 </p>
@@ -2121,15 +2121,15 @@ a finite number of \(\epsilon\)-balls.</dd>
 </div>
 </div>
 
-<div id="outline-container-org7c8a90e" class="outline-2">
-<h2 id="org7c8a90e">Main Results</h2>
-<div class="outline-text-2" id="text-org7c8a90e">
+<div id="outline-container-org93d7d4c" class="outline-2">
+<h2 id="org93d7d4c">Main Results</h2>
+<div class="outline-text-2" id="text-org93d7d4c">
 <p>
 Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.5.</b> <a id="org4946d72"></a> <i>Let \(K \subset X\).</i>
+<b>Theorem 8.5.</b> <a id="org3b60112"></a> <i>Let \(K \subset X\).</i>
 </p>
 
 <p>
@@ -2141,33 +2141,33 @@ Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.11.</b> <a id="org659d9c9"></a> <i>The following implications hold generally.</i>
+<b>Theorem 8.11.</b> <a id="org9b4cb71"></a> <i>The following implications hold generally.</i>
 \[ X\text{ is (sequentially) compact }\Rightarrow X\text{ is countably compact }
 \Rightarrow X\text{ is pseudocompact}.\]
 </p>
 
 <p>
-<b>Lemma 8.12.</b> <a id="org1619070"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
+<b>Lemma 8.12.</b> <a id="orgda55a51"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
 if \(X\) is first countable.
 </p>
 
 <p>
-<b>Lemma 8.16.</b> <a id="org7a70530"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
+<b>Lemma 8.16.</b> <a id="orge07dc5b"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
 </p>
 
 <p>
-<b>Theorem 8.17.</b> <a id="org9417954"></a> In a pseudometric space \((X,d)\),
+<b>Theorem 8.17.</b> <a id="orgefd2c6a"></a> In a pseudometric space \((X,d)\),
 the property of compactness, sequentially compactness, countably compactness
 and pseudocompactness are all equivalent.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org9320faa" class="outline-2">
-<h2 id="org9320faa">Detailed Proofs</h2>
-<div class="outline-text-2" id="text-org9320faa">
+<div id="outline-container-orgb6f7c18" class="outline-2">
+<h2 id="orgb6f7c18">Detailed Proofs</h2>
+<div class="outline-text-2" id="text-orgb6f7c18">
 <p>
-<i>Proof to <a href="#org4946d72">Theorem 8.5</a>.</i>
+<i>Proof to <a href="#org3b60112">Theorem 8.5</a>.</i>
 Assume \(K\) is closed and \(X\) is compact, then any open cover
 of \(K\) would form an open cover of \(X\) if augmented by \(K^\mathsf{c}\).
 This implies that a finite subcover of \(K\) exists.
@@ -2188,7 +2188,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org659d9c9">Theorem 8.11</a>.</i>
+<i>Proof to <a href="#org9b4cb71">Theorem 8.11</a>.</i>
 </p>
 
 <p>
@@ -2218,7 +2218,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org1619070">Lemma 8.12</a>.</i>
+<i>Proof to <a href="#orgda55a51">Lemma 8.12</a>.</i>
 First, we prove that \(X\) <span class="underline">is countably compact if and only if every sequence
 has a cluster point</span>. The <i>if</i> part has been proved in Theorem 8.11. To prove
 the <i>only if</i> part, assume \(X\) be countably compact and \((x_n)\) is a sequence
@@ -2264,7 +2264,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org7a70530">Lemma 8.16</a>.</i>
+<i>Proof to <a href="#orge07dc5b">Lemma 8.16</a>.</i>
 Let \((X,d)\) be a totally bounded pseudometric space.
 </p>
 
@@ -2324,7 +2324,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org9417954">Theorem 8.17</a>.</i>
+<i>Proof to <a href="#orgefd2c6a">Theorem 8.17</a>.</i>
 Based on Theorem 8.11, we need only to prove the following implications.
 </p>
 
