@@ -33,20 +33,18 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf89352f">Lagrangian and KKT Points</a></li>
-<li><a href="#orgab6e72a">Dual Problem</a></li>
+<li><a href="#org0d2f20f">Lagrangian and KKT Points</a></li>
+<li><a href="#orga782b09">Dual Problem</a></li>
 </ul>
 </div>
 </nav>
 <p>
 Consider the following constrained optimization problem
-</p>
-\begin{align*}
+\[\begin{aligned}
 \min_{x\in\mathbb{R}^n}\quad & f(x) \\
 \mathrm{s.t.}\quad & c_i(x) = 0,\qquad i\in\mathcal{E},\\
 &c_i(x) \geq 0,\qquad i\in\mathcal{I}.
-\end{align*}
-<p>
+\end{aligned}\]
 Here, \(f\) is a convex function, and
 \(\{c_i \mid i\in\mathcal{E}\cup\mathcal{I}\}\) are linear functions. This
 problem encompasses linear programming and quadratic programming, and
@@ -115,9 +113,9 @@ Therefore, for the considered problem any stable point is also a
 minimizer.
 </p>
 
-<div id="outline-container-orgf89352f" class="outline-2">
-<h2 id="orgf89352f">Lagrangian and KKT Points</h2>
-<div class="outline-text-2" id="text-orgf89352f">
+<div id="outline-container-org0d2f20f" class="outline-2">
+<h2 id="org0d2f20f">Lagrangian and KKT Points</h2>
+<div class="outline-text-2" id="text-org0d2f20f">
 <p>
 The <i>Lagrangian</i> of the considered problem is defined by
 \[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
@@ -254,9 +252,9 @@ Q.E.D.
 </div>
 </div>
 
-<div id="outline-container-orgab6e72a" class="outline-2">
-<h2 id="orgab6e72a">Dual Problem</h2>
-<div class="outline-text-2" id="text-orgab6e72a">
+<div id="outline-container-orga782b09" class="outline-2">
+<h2 id="orga782b09">Dual Problem</h2>
+<div class="outline-text-2" id="text-orga782b09">
 <p>
 Recall the definition of Lagrangian
 \[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
