@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Optimality Conditions in Convex Optimization</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">30 Apr 2023</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2023-04-30-OptimalityandKKTCondition/notes.html">Optimality Conditions in Convex Optimization</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgf89352f">Lagrangian and KKT Points</a></li>
+<li><a href="#orgab6e72a">Dual Problem</a></li>
+</ul>
+</div>
+</nav>
+<p>
+Consider the following constrained optimization problem
+</p>
+\begin{align*}
+\min_{x\in\mathbb{R}^n}\quad & f(x) \\
+\mathrm{s.t.}\quad & c_i(x) = 0,\qquad i\in\mathcal{E},\\
+&c_i(x) \geq 0,\qquad i\in\mathcal{I}.
+\end{align*}
+<p>
+Here, \(f\) is a convex function, and
+\(\{c_i \mid i\in\mathcal{E}\cup\mathcal{I}\}\) are linear functions. This
+problem encompasses linear programming and quadratic programming, and
+represents a special case of general convex optimization problems.
+Therefore, it serves as an good starting point for learning about
+optimization methods.
+</p>
+
+<p>
+Let us start by some notations and terminologies.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Concept</th>
+<th scope="col" class="org-left">Notation</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Feasible set</td>
+<td class="org-left">\(\Omega\)</td>
+<td class="org-left">the set of \(x\) satisfying all constraints</td>
+</tr>
+
+<tr>
+<td class="org-left">Minimizer</td>
+<td class="org-left">\(x^\ast\)</td>
+<td class="org-left">the smallest feasible point in its neighbors</td>
+</tr>
+
+<tr>
+<td class="org-left">Mimimum</td>
+<td class="org-left">\(f^\ast\)</td>
+<td class="org-left">\(f(x^\ast)\)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Below is a very basic property of minimizers.
+</p>
+
+<p>
+<i>Minimizer is stable.</i> If \(x^\ast\) is a minimizer of the considered
+optimization problem, then
+\[ \langle \nabla f(x^\ast), x-x^\ast \rangle \geq 0, \qquad \forall x \in\Omega.\]
+</p>
+
+<p>
+In general, if \(f\) is convex, then for any two points \(x_1\) and \(x_2\),
+there is
+\[ f(x_2) \geq f(x_1) + \langle \nabla f(x_1), x_2 - x_1\rangle. \]
+Therefore, for the considered problem any stable point is also a
+minimizer.
+</p>
+
+<div id="outline-container-orgf89352f" class="outline-2">
+<h2 id="orgf89352f">Lagrangian and KKT Points</h2>
+<div class="outline-text-2" id="text-orgf89352f">
+<p>
+The <i>Lagrangian</i> of the considered problem is defined by
+\[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
+\qquad x\in\mathbb{R}^n, u\in\mathbb{R}_+^{|\mathcal{I}|}, v\in\mathbb{R}^{|\mathcal{E}|},\]
+where \(\mathbf{g}(x)\geq 0\) is the collection of inequality constraints
+and \(\mathbf{h}(x)=0\) is the collection of equality constraints. It is
+important to note that by writting \(L(x,u,v)\) the multiplier \(u\)
+associated with inequality constraints is required to be nonnegative.
+</p>
+
+<p>
+A KKT point \((x^\ast, u^\ast, v^\ast)\) is a point in the domain of
+Lagrangian \(L\) which satsifies the following set of conditions (known as
+KKT conditions) \[\begin{cases}
+\nabla_{x}L(x^\ast, u^\ast, v^\ast) = 0, \\
+\nabla_{u}L(x^\ast, u^\ast, v^\ast) \leq 0, \\
+\nabla_{v}L(x^\ast, u^\ast, v^\ast) = 0, \\
+\langle \nabla_{u}L(x^\ast, u^\ast, v^\ast), u^\ast\rangle = 0.
+\end{cases}\] The last equality is known as the <i>Complementary
+slackness</i> condition. In addition, \(u^\ast\geq 0\) is included implicitly
+by writting \(L(x^\ast,u^\ast,v^\ast)\).
+</p>
+
+<p>
+For the considered problem. KKT conditions are necessary.
+</p>
+
+<p>
+<b>KKT conditions are necessary.</b> <i>If \(x^\ast\) is a minimizer of the
+considered problem, then there exists
+\(u^\ast\in\mathbb{R}_+^{|\mathcal{I}|}\) and
+\(v^\ast\in\mathbb{R}^{|\mathcal{E}|}\) such that
+\((x^\ast, u^\ast, v^\ast)\) is a KKT point.</i>
+</p>
+
+<blockquote>
+<p>
+The proof, which utilizes Farkas' lemma, is omitted.
+</p>
+</blockquote>
+
+<p>
+It turns out that KKT conditions are also sufficient to ensure
+optimality. To see this, we need to introduce a useful concept <i>saddle
+points of Lagrangian</i>.
+</p>
+
+<p>
+<i>A saddle point of Lagrangian</i> is a point \((x^\ast, u^\ast, v^\ast)\)
+which satisfying that
+\[ L(x^\ast, u, v) \leq L(x^\ast, u^\ast, v^\ast) \leq L(x, u^\ast, v^\ast),\qquad\forall x, u, v.\]
+It is implicit in this definition that \(u^\ast\geq0\) and \(u\geq0\), since
+this requirement follows from writing out \(L(x^\ast, u^\ast, v^\ast)\)
+and \(L(x^\ast, u, v)\). This convention will be assumed throughout,
+unless otherwise specified.
+</p>
+
+<p>
+The saddle point condition is the most restrictive condition for a
+convex optimization problem.
+</p>
+
+<p>
+<i>Any saddle point is a KKT point, and moreover, any saddle point is a
+global minimizer.</i>
+</p>
+
+<blockquote>
+<p>
+<i>Proof.</i> Suppose \((x^\ast,u^\ast,v^\ast)\) is a saddle point. Fix
+\(u^\ast,v^\ast\), \(L(\cdot,u^\ast,v^\ast)\) has a minimizer \(x^\ast\).
+Therefore \[ \nabla_xL(x^\ast,u^\ast,v^\ast) = 0.\] Fix
+\(x^\ast,u^\ast\), \(L(x^\ast,u^\ast,\cdot)\) has a maximizer \(v^\ast\).
+Therefore \[ \nabla_vL(x^\ast,u^\ast,v^\ast) = 0.\] Fix
+\(x^\ast,v^\ast\), \(L(x^\ast, u, v^\ast)\) has a maxmizer \(u^\ast\) on
+\(\mathbb{R}_+^{|\mathcal{I}|}\). Therefore
+\[ \langle \nabla_uL(x^\ast,u^\ast,v^\ast), u-u^\ast\rangle \leq 0,\qquad\forall u\geq 0.\]
+By choosing \(u=u^\ast+\epsilon_i\), where \(\epsilon_i\) is a unit vector
+with only one nonzero component,
+\[ \nabla_uL(x^\ast,u^\ast,v^\ast) \leq 0.\] Moreover, by choosing
+\(u=0\) and \(u=2u^\ast\), it is clear that
+\[ \langle \nabla_uL(x^\ast,u^\ast,v^\ast), u^\ast\rangle = 0.\] This
+concludes that \((x^\ast,u^\ast,v^\ast)\) is a KKT point.
+</p>
+
+<p>
+As \((x^\ast,u^\ast,v^\ast)\) satisfies the KKT conditions, it holds
+that \[\mathbf{g}(x^\ast)\geq0,\qquad\mathbf{h}(x^\ast)=0.\] This
+implies that \(x^\ast\in\Omega\). In addition, KKT conditions imply that
+\[(u^\ast)^\intercal \mathbf{g}(x^\ast) = 0,\qquad (v^\ast)^\intercal \mathbf{h}(x^\ast) = 0.\]
+For any \(x\in\Omega\), there is
+\[(u^\ast)^\intercal \mathbf{g}(x) \geq 0, \qquad (v^\ast)^\intercal \mathbf{h}(x) = 0.\]
+Hence,
+\[ f(x) \geq L(x, u^\ast, v^\ast) \geq L(x^\ast, u^\ast, v^\ast) = f(x^\ast),\]
+where the second inequality uses the fact that
+\((x^\ast,u^\ast,v^\ast)\) is a saddle point. This concludes that
+\((x^\ast,u^\ast,v^\ast)\) is a global minimizer.
+</p>
+
+<p>
+Q.E.D.
+</p>
+</blockquote>
+
+<p>
+Finally, we can prove the sufficiency of KKT conditions by showing that
+for the considered problem any KKT point is a saddle point.
+</p>
+
+<p>
+<b>KKT conditions are sufficient.</b> <i>For the considered problem, if
+\((x^\ast, u^\ast, v^\ast)\) is a KKT point, then it is also a saddle
+point of Lagrangian. Consequently, it is a global minimizer.</i>
+</p>
+
+<blockquote>
+<p>
+<i>Proof.</i> On one hand, \((u^\ast, v^\ast)\) is a maximizer of
+\(L(x^\ast, \cdot, \cdot)\) on
+\(\mathbb{R}^{|\mathcal{I}|}_+\times\mathbb{R}^{|\mathcal{E}|}\) because
+\(\mathbf{g}(x^\ast)\geq 0\) and \(\mathbf{h}(x^\ast)=0\).
+</p>
+
+<p>
+On the otherhand, \(x^\ast\) is a minimizer of
+\(L(\cdot, u^\ast, v^\ast)\) on \(\mathbb{R}^n\) because it is convex and
+there is \(\nabla_xL(x^\ast, u^\ast, v^\ast)=0\).
+</p>
+
+<p>
+Q.E.D.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgab6e72a" class="outline-2">
+<h2 id="orgab6e72a">Dual Problem</h2>
+<div class="outline-text-2" id="text-orgab6e72a">
+<p>
+Recall the definition of Lagrangian
+\[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
+\qquad x\in\mathbb{R}^n, u\in\mathbb{R}_+^{|\mathcal{I}|}, v\in\mathbb{R}^{|\mathcal{E}|}.\]
+It is not hard to show that
+\[ \max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} L(x, u, v) =
+\begin{cases}
+\infty, \qquad \mathrm{if}\ x\not\in\Omega,\\
+f(x),\qquad\mathrm{if}\ x\in\Omega.
+\end{cases}\] Hence, the original optimization problem (referred to as
+the <i>primal problem</i> below) can be rewritten as
+\[ \min_{x\in\mathbb{R}^n}\max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} L(x, u, v).\]
+The <i>Dual problem</i> is then defined by
+\[ \max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} \min_{x\in\mathbb{R}^n} L(x, u, v).\]
+</p>
+
+<p>
+Dual problem has the following properties:
+</p>
+
+<ul class="org-ul">
+<li>the objective function \(\min_{x}L(x,u,v)\) is concave, regardless of
+the convexity of \(f, \mathbf{g}\) and \(\mathbf{h}\).</li>
+<li>the optimal objective value is not greater than the optimal value of
+the primal problem.</li>
+</ul>
+
+<p>
+The first property is expected because \(u\) and \(v\) appear linear in \(L\),
+and the \(\min\) operator does not break the concavity. The second
+property, also known as the <i>weak duality</i>, is a direct consequence of
+the following general proposition.
+</p>
+
+<p>
+<b>Min Max is greater or equal to Max Min</b>. <i>For any function
+\(f: X\times Y \to \mathbb{R}\), the following inequality holds trivially</i>
+\[ \min_{x\in X}\max_{y\in Y} f(x, y) \geq \max_{y\in Y}\min_{x\in X} f(x, y).\]
+</p>
+
+<p>
+The <i>duality gap</i> is then defined as the difference between the optimal
+values between the primal and dual problems. We have seen that this gap
+is always nonnegative. If the duality gap is zero, then we say that
+<i>strong duality</i> holds.
+</p>
+
+<p>
+<b>Strong duality holds if constraints are linear.</b> <i>For the considered
+problem, where \(f\) is convex and constraints are linear, the strong
+duality holds if any minimizer of the primal problem exists.</i>
+</p>
+
+<blockquote>
+<p>
+<i>Proof.</i> Assume \(x^\ast\) is a minimizer of the primal problem. Due to
+the necessity of KKT conditions, there exists \(u^\ast\) and \(v^\ast\)
+such that \((x^\ast, u^\ast, v^\ast)\) forms a KKT point. In addition,
+we have proved that, for the considered problem, any KKT point is also
+a saddle point of Lagrangian. Hence, \[ \begin{aligned}
+  f(x^\ast) &= \min_{x}\max_{u\geq0, v} L(x, u, v)& \qquad&  \\
+  &\geq \max_{u\geq 0, v}\min_{x}L(x, u, v) & \qquad&\textsf{(weaker duality)} \\
+  &\geq \min_{x}L(x, u^\ast, v^\ast)&\qquad& \\
+  &= L(x^\ast, u^\ast, v^\ast) &\qquad&\textsf{(saddle point)} \\
+  &= f(x^\ast)&\qquad &\textsf{(KKT point)}.
+  \end{aligned} \]
+</p>
+
+<p>
+Q.E.D.
+</p>
+</blockquote>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

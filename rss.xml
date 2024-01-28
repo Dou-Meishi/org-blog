@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Thu, 25 Jan 2024 20:08:12 +0800</lastBuildDate>
+<lastBuildDate>Sun, 28 Jan 2024 13:02:28 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Org Static Blog: A Simple Static Site Generator]]></title>
   <description><![CDATA[
@@ -12,11 +12,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga5d8d79">Go through the manual</a></li>
-<li><a href="#orgfe5e5c1">Minimal Configuration</a></li>
-<li><a href="#orgd974237">Question</a></li>
-<li><a href="#orgbd68d2e">Build My Blog Site</a></li>
-<li><a href="#orge0f950b">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orgafbecae">Go through the manual</a></li>
+<li><a href="#org78688c1">Minimal Configuration</a></li>
+<li><a href="#org4e41046">Question</a></li>
+<li><a href="#org0ae630e">Build My Blog Site</a></li>
+<li><a href="#org5f867cc">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -53,9 +53,9 @@ Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
 
-<div id="outline-container-orga5d8d79" class="outline-2">
-<h2 id="orga5d8d79">Go through the manual</h2>
-<div class="outline-text-2" id="text-orga5d8d79">
+<div id="outline-container-orgafbecae" class="outline-2">
+<h2 id="orgafbecae">Go through the manual</h2>
+<div class="outline-text-2" id="text-orgafbecae">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -166,9 +166,9 @@ These key bindings are:
 </div>
 </div>
 
-<div id="outline-container-orgfe5e5c1" class="outline-2">
-<h2 id="orgfe5e5c1">Minimal Configuration</h2>
-<div class="outline-text-2" id="text-orgfe5e5c1">
+<div id="outline-container-org78688c1" class="outline-2">
+<h2 id="org78688c1">Minimal Configuration</h2>
+<div class="outline-text-2" id="text-org78688c1">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -254,7 +254,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="org939da93">
+<pre class="example" id="orga3f5248">
 org-blog/
 ├── drafts
 ├── org
@@ -273,7 +273,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="orge58c522">
+<pre class="example" id="org23be5b2">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -295,9 +295,9 @@ org-blog/
 </div>
 </div>
 
-<div id="outline-container-orgd974237" class="outline-2">
-<h2 id="orgd974237">Question</h2>
-<div class="outline-text-2" id="text-orgd974237">
+<div id="outline-container-org4e41046" class="outline-2">
+<h2 id="org4e41046">Question</h2>
+<div class="outline-text-2" id="text-org4e41046">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -318,7 +318,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org0606c63">
+<pre class="example" id="org6dbeaf9">
 org-blog/
 ├── drafts
 ├── org
@@ -373,9 +373,9 @@ the drafts directory will not be included in the index.
 </div>
 </div>
 
-<div id="outline-container-orgbd68d2e" class="outline-2">
-<h2 id="orgbd68d2e">Build My Blog Site</h2>
-<div class="outline-text-2" id="text-orgbd68d2e">
+<div id="outline-container-org0ae630e" class="outline-2">
+<h2 id="org0ae630e">Build My Blog Site</h2>
+<div class="outline-text-2" id="text-org0ae630e">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -499,9 +499,9 @@ The lisp script and static assets are all included in <a href="https://github.co
 </div>
 </div>
 
-<div id="outline-container-orge0f950b" class="outline-2">
-<h2 id="orge0f950b">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orge0f950b">
+<div id="outline-container-org5f867cc" class="outline-2">
+<h2 id="org5f867cc">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org5f867cc">
 <p>
 Below are other users' configuration on org static blog.
 </p>
@@ -526,11 +526,11 @@ Below are other users' configuration on org static blog.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org84afa19">Go through the manual</a></li>
-<li><a href="#orgd70b9d5">Practice</a></li>
-<li><a href="#orga81a88e">Questions</a></li>
-<li><a href="#orgfbce5be">Further consideration</a></li>
-<li><a href="#org0349cb4">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org98e45c0">Go through the manual</a></li>
+<li><a href="#org1a7a3e3">Practice</a></li>
+<li><a href="#org8f592d2">Questions</a></li>
+<li><a href="#orgf796ee0">Further consideration</a></li>
+<li><a href="#org7b524b2">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -544,9 +544,9 @@ with it. It is also a good practice for me to understand the source code
 of <a href="https://github.com/bastibe/org-static-blog/tree/master">Org Static Blog</a>, which is the actual blogging tool I want to use.
 </p>
 
-<div id="outline-container-org84afa19" class="outline-2">
-<h2 id="org84afa19">Go through the manual</h2>
-<div class="outline-text-2" id="text-org84afa19">
+<div id="outline-container-org98e45c0" class="outline-2">
+<h2 id="org98e45c0">Go through the manual</h2>
+<div class="outline-text-2" id="text-org98e45c0">
 <p>
 According to <a href="https://orgmode.org/manual/Publishing.html">the manual</a>, publishing in org-mode is configured almost
 entirely through setting the value of one variable, called
@@ -587,9 +587,9 @@ see <a href="https://orgmode.org/manual/Site-map.html">Section 14.1.7</a> in the
 </div>
 </div>
 
-<div id="outline-container-orgd70b9d5" class="outline-2">
-<h2 id="orgd70b9d5">Practice</h2>
-<div class="outline-text-2" id="text-orgd70b9d5">
+<div id="outline-container-org1a7a3e3" class="outline-2">
+<h2 id="org1a7a3e3">Practice</h2>
+<div class="outline-text-2" id="text-org1a7a3e3">
 <p>
 <i>A simple setting:</i> given a folder <code>./content</code> with several org files in it, we want to publish them
 into a different folder <code>./public</code>. Assets should be copied too.
@@ -671,9 +671,9 @@ Finally, we publish all projects.
 </div>
 </div>
 
-<div id="outline-container-orga81a88e" class="outline-2">
-<h2 id="orga81a88e">Questions</h2>
-<div class="outline-text-2" id="text-orga81a88e">
+<div id="outline-container-org8f592d2" class="outline-2">
+<h2 id="org8f592d2">Questions</h2>
+<div class="outline-text-2" id="text-org8f592d2">
 <ol class="org-ol">
 <li><p>
 Can I customize the way of Emacs searching for intended org files rather than
@@ -716,14 +716,14 @@ to the current time.
 </div>
 </div>
 
-<div id="outline-container-orgfbce5be" class="outline-2">
-<h2 id="orgfbce5be">Further consideration</h2>
-<div class="outline-text-2" id="text-orgfbce5be">
+<div id="outline-container-orgf796ee0" class="outline-2">
+<h2 id="orgf796ee0">Further consideration</h2>
+<div class="outline-text-2" id="text-orgf796ee0">
 <p>
 <i>A slightly complicated setting:</i> my document folder consists of event directories and looks like
 </p>
 
-<pre class="example" id="org5588be7">
+<pre class="example" id="orge336f51">
 .
 ├── 2023-09-03-CustomizePrompt/
 ├── 2023-11-18-ContentManagementSystem/
@@ -852,9 +852,9 @@ simply visit it and run <code>eval-buffer</code>.
 </div>
 </div>
 
-<div id="outline-container-org0349cb4" class="outline-2">
-<h2 id="org0349cb4">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org0349cb4">
+<div id="outline-container-org7b524b2" class="outline-2">
+<h2 id="org7b524b2">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org7b524b2">
 <ol class="org-ol">
 <li><a href="https://orgmode.org/manual/Publishing.html">Publishing - The Org Mode Manual</a></li>
 <li><a href="https://taingram.org/blog/org-mode-blog.html">Building a Emacs Org-Mode Blog</a></li>
@@ -917,7 +917,7 @@ The LaTeX code above produces the following output.
 </p>
 
 
-<figure id="org23073b0">
+<figure id="orgcc70cd4">
 <img src="./simple-code.png" alt="simple-code.png">
 
 </figure>
@@ -931,9 +931,9 @@ and <code>tcolorbox</code> package. While  <code>listings</code> and  <code>mint
 Actually, <code>tcolorbox</code> internally loads <code>listings</code> or <code>minted</code> packages.
 </p>
 
-<div id="outline-container-org7810489" class="outline-2">
-<h2 id="org7810489">Create Own Code Block Environment with tcolorbox</h2>
-<div class="outline-text-2" id="text-org7810489">
+<div id="outline-container-org44219d9" class="outline-2">
+<h2 id="org44219d9">Create Own Code Block Environment with tcolorbox</h2>
+<div class="outline-text-2" id="text-org44219d9">
 <p>
 When <code>tcolorbox</code> is loaded with the option <code>listings</code>, it provides various useful predefined commands
 for rendering source blocks by loading <code>listings</code> package automatically. Besides the <code>listings</code> option,
@@ -1048,16 +1048,16 @@ This is the <span style="color: #859900; font-weight: bold;">\LaTeX</span>\ sour
 </div>
 
 
-<figure id="org8072c75">
+<figure id="org643c108">
 <img src="./tcolorbox-listings.png" alt="tcolorbox-listings.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-orgf2cca5f" class="outline-2">
-<h2 id="orgf2cca5f">Explanation of the Created Code Environment</h2>
-<div class="outline-text-2" id="text-orgf2cca5f">
+<div id="outline-container-org26fc407" class="outline-2">
+<h2 id="org26fc407">Explanation of the Created Code Environment</h2>
+<div class="outline-text-2" id="text-org26fc407">
 <p>
 First, we load <code>tcolorbox</code> with appropriate options. In addition, we load the <code>xcolor</code> package for color support.
 </p>
@@ -1166,9 +1166,9 @@ name of the source file.
 </div>
 </div>
 
-<div id="outline-container-org4a7c32e" class="outline-2">
-<h2 id="org4a7c32e">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org4a7c32e">
+<div id="outline-container-orgc4fc538" class="outline-2">
+<h2 id="orgc4fc538">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-orgc4fc538">
 <ol class="org-ol">
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf">the official manual of tcolorbox - CTAN</a></li>
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the official manual of listings - CTAN</a></li>
@@ -1191,16 +1191,16 @@ name of the source file.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1f74e0f">Preferences</a></li>
-<li><a href="#org809b63a">Setting Preference</a></li>
-<li><a href="#org98c386b">Profiles</a></li>
-<li><a href="#org1ce9e00">Path Specification</a></li>
-<li><a href="#org1d428d7">Ignoring</a></li>
-<li><a href="#orgab031fd">Backup</a></li>
-<li><a href="#orgef8fcb7">Scenario: Synchronize with a USB Drive</a>
+<li><a href="#org0b3c5f4">Preferences</a></li>
+<li><a href="#org0f0b2ed">Setting Preference</a></li>
+<li><a href="#org312df37">Profiles</a></li>
+<li><a href="#org57a2ef7">Path Specification</a></li>
+<li><a href="#org55ef2db">Ignoring</a></li>
+<li><a href="#org036ff8d">Backup</a></li>
+<li><a href="#org3c99753">Scenario: Synchronize with a USB Drive</a>
 <ul>
-<li><a href="#orgdc89974">Possible Errors</a></li>
-<li><a href="#org7f1fddb">Syncrhonize with FAT/NTFS Filesystems</a></li>
+<li><a href="#org88731ce">Possible Errors</a></li>
+<li><a href="#org9edca16">Syncrhonize with FAT/NTFS Filesystems</a></li>
 </ul>
 </li>
 </ul>
@@ -1212,15 +1212,15 @@ In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>
 You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
 
-<div id="outline-container-org1f74e0f" class="outline-2">
-<h2 id="org1f74e0f">Preferences</h2>
-<div class="outline-text-2" id="text-org1f74e0f">
+<div id="outline-container-org0b3c5f4" class="outline-2">
+<h2 id="org0b3c5f4">Preferences</h2>
+<div class="outline-text-2" id="text-org0b3c5f4">
 <p>
 Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
 options, in other words). If we type <code>unison -help</code>, then the outputs will look like
 </p>
 
-<pre class="example" id="org8b24fea">
+<pre class="example" id="org1225f28">
 Usage: unison [options]
     or unison root1 root2 [options]
     or unison profilename [options]
@@ -1282,9 +1282,9 @@ go through these options once by typing <code>unison -help</code>.
 </div>
 </div>
 
-<div id="outline-container-org809b63a" class="outline-2">
-<h2 id="org809b63a">Setting Preference</h2>
-<div class="outline-text-2" id="text-org809b63a">
+<div id="outline-container-org0f0b2ed" class="outline-2">
+<h2 id="org0f0b2ed">Setting Preference</h2>
+<div class="outline-text-2" id="text-org0f0b2ed">
 <p>
 There are two ways to set the values of preferences: temporarily, by providing command-line arguments
 to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
@@ -1308,9 +1308,9 @@ In the profile, a line in the form <code>p = value</code> works for both boolean
 </div>
 </div>
 
-<div id="outline-container-org98c386b" class="outline-2">
-<h2 id="org98c386b">Profiles</h2>
-<div class="outline-text-2" id="text-org98c386b">
+<div id="outline-container-org312df37" class="outline-2">
+<h2 id="org312df37">Profiles</h2>
+<div class="outline-text-2" id="text-org312df37">
 <p>
 A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
 Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
@@ -1351,9 +1351,9 @@ profile. Its value is listed along with the profile name in the graphical user i
 </div>
 </div>
 
-<div id="outline-container-org1ce9e00" class="outline-2">
-<h2 id="org1ce9e00">Path Specification</h2>
-<div class="outline-text-2" id="text-org1ce9e00">
+<div id="outline-container-org57a2ef7" class="outline-2">
+<h2 id="org57a2ef7">Path Specification</h2>
+<div class="outline-text-2" id="text-org57a2ef7">
 <p>
 Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
 These preferences can be set to any of the following patterns.
@@ -1375,15 +1375,15 @@ In those forms, the <code>name</code> or <code>path</code> argument can be a glo
 </div>
 </div>
 
-<div id="outline-container-org1d428d7" class="outline-2">
-<h2 id="org1d428d7">Ignoring</h2>
-<div class="outline-text-2" id="text-org1d428d7">
+<div id="outline-container-org55ef2db" class="outline-2">
+<h2 id="org55ef2db">Ignoring</h2>
+<div class="outline-text-2" id="text-org55ef2db">
 <p>
 We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
 in a profile tells Unison to ignore the path <code>a/b</code>:
 </p>
 
-<pre class="example" id="org8fde933">
+<pre class="example" id="orgdd6d085">
 ignore = Path a/b
 </pre>
 
@@ -1415,16 +1415,16 @@ then Unison still ignores a path like <code>data/a.py</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-orgab031fd" class="outline-2">
-<h2 id="orgab031fd">Backup</h2>
-<div class="outline-text-2" id="text-orgab031fd">
+<div id="outline-container-org036ff8d" class="outline-2">
+<h2 id="org036ff8d">Backup</h2>
+<div class="outline-text-2" id="text-org036ff8d">
 <p>
 When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
 it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
 to require what kind of files should be backed up. For example,
 </p>
 
-<pre class="example" id="orgaa2e6ec">
+<pre class="example" id="orga95de67">
 backup = Name *
 </pre>
 
@@ -1459,9 +1459,9 @@ then the whole directory and all the files in it will be backed up, regardless o
 </div>
 </div>
 
-<div id="outline-container-orgef8fcb7" class="outline-2">
-<h2 id="orgef8fcb7">Scenario: Synchronize with a USB Drive</h2>
-<div class="outline-text-2" id="text-orgef8fcb7">
+<div id="outline-container-org3c99753" class="outline-2">
+<h2 id="org3c99753">Scenario: Synchronize with a USB Drive</h2>
+<div class="outline-text-2" id="text-org3c99753">
 <p>
 Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
 mounted at <code>/media/dou/KINGSTON</code>.
@@ -1470,9 +1470,9 @@ intended and we explain them below.
 </p>
 </div>
 
-<div id="outline-container-orgdc89974" class="outline-3">
-<h3 id="orgdc89974">Possible Errors</h3>
-<div class="outline-text-3" id="text-orgdc89974">
+<div id="outline-container-org88731ce" class="outline-3">
+<h3 id="org88731ce">Possible Errors</h3>
+<div class="outline-text-3" id="text-org88731ce">
 <p>
 If our USB drive is empty, the first time we run Unison will simply copying files.
 Suppose we have done and reject the USB drive. What will happen if we accidentally
@@ -1502,9 +1502,9 @@ So Unison exits with <i>Fatal Error: Cannot find canonical name of &#x2026;</i>
 </div>
 </div>
 
-<div id="outline-container-org7f1fddb" class="outline-3">
-<h3 id="org7f1fddb">Syncrhonize with FAT/NTFS Filesystems</h3>
-<div class="outline-text-3" id="text-org7f1fddb">
+<div id="outline-container-org9edca16" class="outline-3">
+<h3 id="org9edca16">Syncrhonize with FAT/NTFS Filesystems</h3>
+<div class="outline-text-3" id="text-org9edca16">
 <p>
 If Unison is running on a Unix-like machine but told to synchronize
 with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,
@@ -1534,11 +1534,11 @@ which is equivalent to
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7c980c7">A Demo</a></li>
-<li><a href="#org7fc4cbf">Basic Concepts</a></li>
-<li><a href="#orga183843">Typical Usage</a></li>
-<li><a href="#orgd9d7d7d">Caveats and Shortcomings</a></li>
-<li><a href="#org92c6186">Going Further</a></li>
+<li><a href="#org4cc1eed">A Demo</a></li>
+<li><a href="#org18b194c">Basic Concepts</a></li>
+<li><a href="#org182b82d">Typical Usage</a></li>
+<li><a href="#org60c31f2">Caveats and Shortcomings</a></li>
+<li><a href="#org4bc05c3">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -1553,9 +1553,9 @@ brought up to date by propagating the changes in each replica to the other.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
 
-<div id="outline-container-org7c980c7" class="outline-2">
-<h2 id="org7c980c7">A Demo</h2>
-<div class="outline-text-2" id="text-org7c980c7">
+<div id="outline-container-org4cc1eed" class="outline-2">
+<h2 id="org4cc1eed">A Demo</h2>
+<div class="outline-text-2" id="text-org4cc1eed">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -1626,7 +1626,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="org45b6550">
+<pre class="example" id="org298f060">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -1641,7 +1641,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="org4606891">
+<pre class="example" id="org550d8b9">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -1649,7 +1649,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="orgab3a833">
+<pre class="example" id="orgfab7013">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -1659,7 +1659,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org9113e98">
+<pre class="example" id="org2ba5235">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -1681,9 +1681,9 @@ click the <i>Go</i> button to set them in motion.
 </div>
 </div>
 
-<div id="outline-container-org7fc4cbf" class="outline-2">
-<h2 id="org7fc4cbf">Basic Concepts</h2>
-<div class="outline-text-2" id="text-org7fc4cbf">
+<div id="outline-container-org18b194c" class="outline-2">
+<h2 id="org18b194c">Basic Concepts</h2>
+<div class="outline-text-2" id="text-org18b194c">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -1804,9 +1804,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </div>
 </div>
 
-<div id="outline-container-orga183843" class="outline-2">
-<h2 id="orga183843">Typical Usage</h2>
-<div class="outline-text-2" id="text-orga183843">
+<div id="outline-container-org182b82d" class="outline-2">
+<h2 id="org182b82d">Typical Usage</h2>
+<div class="outline-text-2" id="text-org182b82d">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -1839,9 +1839,9 @@ synchronizing only with the hub.
 </div>
 </div>
 
-<div id="outline-container-orgd9d7d7d" class="outline-2">
-<h2 id="orgd9d7d7d">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-orgd9d7d7d">
+<div id="outline-container-org60c31f2" class="outline-2">
+<h2 id="org60c31f2">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-org60c31f2">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -1897,9 +1897,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </div>
 </div>
 
-<div id="outline-container-org92c6186" class="outline-2">
-<h2 id="org92c6186">Going Further</h2>
-<div class="outline-text-2" id="text-org92c6186">
+<div id="outline-container-org4bc05c3" class="outline-2">
+<h2 id="org4bc05c3">Going Further</h2>
+<div class="outline-text-2" id="text-org4bc05c3">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>
@@ -1935,10 +1935,10 @@ following sections in the official manual:
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5063950">Prerequisite Concepts</a></li>
-<li><a href="#org6604190">Definition</a></li>
-<li><a href="#org1ee8e5a">Main Results</a></li>
-<li><a href="#orgb6dd908">Examples</a></li>
+<li><a href="#org79a12d3">Prerequisite Concepts</a></li>
+<li><a href="#orga15a0dd">Definition</a></li>
+<li><a href="#org00a12c1">Main Results</a></li>
+<li><a href="#orgb90be52">Examples</a></li>
 </ul>
 </div>
 </nav>
@@ -1953,9 +1953,9 @@ Space</i> in the book <i>Munkres, J. Topology Second Edition</i> for more
 details.
 </p>
 
-<div id="outline-container-org5063950" class="outline-2">
-<h2 id="org5063950">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-org5063950">
+<div id="outline-container-org79a12d3" class="outline-2">
+<h2 id="org79a12d3">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-org79a12d3">
 <ul class="org-ul">
 <li>normed linear space</li>
 <li>complete metric space</li>
@@ -1965,9 +1965,9 @@ details.
 </div>
 </div>
 
-<div id="outline-container-org6604190" class="outline-2">
-<h2 id="org6604190">Definition</h2>
-<div class="outline-text-2" id="text-org6604190">
+<div id="outline-container-orga15a0dd" class="outline-2">
+<h2 id="orga15a0dd">Definition</h2>
+<div class="outline-text-2" id="text-orga15a0dd">
 <p>
 A complete normed linear space is called a <b>Banach space</b>.
 </p>
@@ -2020,9 +2020,9 @@ corresponding to \(\|\cdot\|\) is defined by
 </div>
 </div>
 
-<div id="outline-container-org1ee8e5a" class="outline-2">
-<h2 id="org1ee8e5a">Main Results</h2>
-<div class="outline-text-2" id="text-org1ee8e5a">
+<div id="outline-container-org00a12c1" class="outline-2">
+<h2 id="org00a12c1">Main Results</h2>
+<div class="outline-text-2" id="text-org00a12c1">
 <p>
 <b>Lemma 1.</b> If \((Y,d)\) is complete, then \((Y^X,\bar{\rho})\) is also
 complete.
@@ -2042,9 +2042,9 @@ are both complete in the uniform metric.
 </div>
 </div>
 
-<div id="outline-container-orgb6dd908" class="outline-2">
-<h2 id="orgb6dd908">Examples</h2>
-<div class="outline-text-2" id="text-orgb6dd908">
+<div id="outline-container-orgb90be52" class="outline-2">
+<h2 id="orgb90be52">Examples</h2>
+<div class="outline-text-2" id="text-orgb90be52">
 <p>
 <b>Example.</b> \((\mathcal{C}[a,b],\|\cdot\|_\infty)\) is a Banach
 space.
@@ -2084,10 +2084,10 @@ Consider \(f_n(x):=\sqrt{x^2+\frac{1}{n}}\). It is easy to check that
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3ae32be">Prerequisite Concepts</a></li>
-<li><a href="#org0dff743">Definitions</a></li>
-<li><a href="#orgc551080">Main Results</a></li>
-<li><a href="#org0f2f5c9">Detailed Proofs</a></li>
+<li><a href="#orgb1327ff">Prerequisite Concepts</a></li>
+<li><a href="#orge937615">Definitions</a></li>
+<li><a href="#org963470b">Main Results</a></li>
+<li><a href="#orgd4394c2">Detailed Proofs</a></li>
 </ul>
 </div>
 </nav>
@@ -2097,9 +2097,9 @@ This note is a review of Chapter IV.8 of the book
 by Freiwald.
 </p>
 
-<div id="outline-container-org3ae32be" class="outline-2">
-<h2 id="org3ae32be">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-org3ae32be">
+<div id="outline-container-orgb1327ff" class="outline-2">
+<h2 id="orgb1327ff">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-orgb1327ff">
 <ul class="org-ul">
 <li>topological space and its subspace</li>
 <li>T1 topological space and T2 topological space</li>
@@ -2113,9 +2113,9 @@ by Freiwald.
 </div>
 </div>
 
-<div id="outline-container-org0dff743" class="outline-2">
-<h2 id="org0dff743">Definitions</h2>
-<div class="outline-text-2" id="text-org0dff743">
+<div id="outline-container-orge937615" class="outline-2">
+<h2 id="orge937615">Definitions</h2>
+<div class="outline-text-2" id="text-orge937615">
 <p>
 Two equivalent definition of a <b>compact</b> topological space \((X,\mathcal{T})\):
 </p>
@@ -2152,15 +2152,15 @@ a finite number of \(\epsilon\)-balls.</dd>
 </div>
 </div>
 
-<div id="outline-container-orgc551080" class="outline-2">
-<h2 id="orgc551080">Main Results</h2>
-<div class="outline-text-2" id="text-orgc551080">
+<div id="outline-container-org963470b" class="outline-2">
+<h2 id="org963470b">Main Results</h2>
+<div class="outline-text-2" id="text-org963470b">
 <p>
 Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.5.</b> <a id="org2610434"></a> <i>Let \(K \subset X\).</i>
+<b>Theorem 8.5.</b> <a id="org9ff266f"></a> <i>Let \(K \subset X\).</i>
 </p>
 
 <p>
@@ -2172,33 +2172,33 @@ Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.11.</b> <a id="orged4e4e9"></a> <i>The following implications hold generally.</i>
+<b>Theorem 8.11.</b> <a id="org83b3360"></a> <i>The following implications hold generally.</i>
 \[ X\text{ is (sequentially) compact }\Rightarrow X\text{ is countably compact }
 \Rightarrow X\text{ is pseudocompact}.\]
 </p>
 
 <p>
-<b>Lemma 8.12.</b> <a id="org468a3b6"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
+<b>Lemma 8.12.</b> <a id="orgbe75744"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
 if \(X\) is first countable.
 </p>
 
 <p>
-<b>Lemma 8.16.</b> <a id="orgb0c8ff1"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
+<b>Lemma 8.16.</b> <a id="org2eb4465"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
 </p>
 
 <p>
-<b>Theorem 8.17.</b> <a id="orge1a4054"></a> In a pseudometric space \((X,d)\),
+<b>Theorem 8.17.</b> <a id="orgdb4504f"></a> In a pseudometric space \((X,d)\),
 the property of compactness, sequentially compactness, countably compactness
 and pseudocompactness are all equivalent.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org0f2f5c9" class="outline-2">
-<h2 id="org0f2f5c9">Detailed Proofs</h2>
-<div class="outline-text-2" id="text-org0f2f5c9">
+<div id="outline-container-orgd4394c2" class="outline-2">
+<h2 id="orgd4394c2">Detailed Proofs</h2>
+<div class="outline-text-2" id="text-orgd4394c2">
 <p>
-<i>Proof to <a href="#org2610434">Theorem 8.5</a>.</i>
+<i>Proof to <a href="#org9ff266f">Theorem 8.5</a>.</i>
 Assume \(K\) is closed and \(X\) is compact, then any open cover
 of \(K\) would form an open cover of \(X\) if augmented by \(K^\mathsf{c}\).
 This implies that a finite subcover of \(K\) exists.
@@ -2219,7 +2219,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orged4e4e9">Theorem 8.11</a>.</i>
+<i>Proof to <a href="#org83b3360">Theorem 8.11</a>.</i>
 </p>
 
 <p>
@@ -2249,7 +2249,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org468a3b6">Lemma 8.12</a>.</i>
+<i>Proof to <a href="#orgbe75744">Lemma 8.12</a>.</i>
 First, we prove that \(X\) <span class="underline">is countably compact if and only if every sequence
 has a cluster point</span>. The <i>if</i> part has been proved in Theorem 8.11. To prove
 the <i>only if</i> part, assume \(X\) be countably compact and \((x_n)\) is a sequence
@@ -2295,7 +2295,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orgb0c8ff1">Lemma 8.16</a>.</i>
+<i>Proof to <a href="#org2eb4465">Lemma 8.16</a>.</i>
 Let \((X,d)\) be a totally bounded pseudometric space.
 </p>
 
@@ -2355,7 +2355,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orge1a4054">Theorem 8.17</a>.</i>
+<i>Proof to <a href="#orgdb4504f">Theorem 8.17</a>.</i>
 Based on Theorem 8.11, we need only to prove the following implications.
 </p>
 
@@ -2516,6 +2516,317 @@ but it make no sense to say a topological space is closed.
   <link>https://dou-meishi.github.io/org-blog/2023-09-19-Compactness/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2023-09-19-Compactness/notes.html</guid>
   <pubDate>Tue, 19 Sep 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Optimality Conditions in Convex Optimization]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgf89352f">Lagrangian and KKT Points</a></li>
+<li><a href="#orgab6e72a">Dual Problem</a></li>
+</ul>
+</div>
+</nav>
+<p>
+Consider the following constrained optimization problem
+</p>
+\begin{align*}
+\min_{x\in\mathbb{R}^n}\quad & f(x) \\
+\mathrm{s.t.}\quad & c_i(x) = 0,\qquad i\in\mathcal{E},\\
+&c_i(x) \geq 0,\qquad i\in\mathcal{I}.
+\end{align*}
+<p>
+Here, \(f\) is a convex function, and
+\(\{c_i \mid i\in\mathcal{E}\cup\mathcal{I}\}\) are linear functions. This
+problem encompasses linear programming and quadratic programming, and
+represents a special case of general convex optimization problems.
+Therefore, it serves as an good starting point for learning about
+optimization methods.
+</p>
+
+<p>
+Let us start by some notations and terminologies.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Concept</th>
+<th scope="col" class="org-left">Notation</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Feasible set</td>
+<td class="org-left">\(\Omega\)</td>
+<td class="org-left">the set of \(x\) satisfying all constraints</td>
+</tr>
+
+<tr>
+<td class="org-left">Minimizer</td>
+<td class="org-left">\(x^\ast\)</td>
+<td class="org-left">the smallest feasible point in its neighbors</td>
+</tr>
+
+<tr>
+<td class="org-left">Mimimum</td>
+<td class="org-left">\(f^\ast\)</td>
+<td class="org-left">\(f(x^\ast)\)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Below is a very basic property of minimizers.
+</p>
+
+<p>
+<i>Minimizer is stable.</i> If \(x^\ast\) is a minimizer of the considered
+optimization problem, then
+\[ \langle \nabla f(x^\ast), x-x^\ast \rangle \geq 0, \qquad \forall x \in\Omega.\]
+</p>
+
+<p>
+In general, if \(f\) is convex, then for any two points \(x_1\) and \(x_2\),
+there is
+\[ f(x_2) \geq f(x_1) + \langle \nabla f(x_1), x_2 - x_1\rangle. \]
+Therefore, for the considered problem any stable point is also a
+minimizer.
+</p>
+
+<div id="outline-container-orgf89352f" class="outline-2">
+<h2 id="orgf89352f">Lagrangian and KKT Points</h2>
+<div class="outline-text-2" id="text-orgf89352f">
+<p>
+The <i>Lagrangian</i> of the considered problem is defined by
+\[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
+\qquad x\in\mathbb{R}^n, u\in\mathbb{R}_+^{|\mathcal{I}|}, v\in\mathbb{R}^{|\mathcal{E}|},\]
+where \(\mathbf{g}(x)\geq 0\) is the collection of inequality constraints
+and \(\mathbf{h}(x)=0\) is the collection of equality constraints. It is
+important to note that by writting \(L(x,u,v)\) the multiplier \(u\)
+associated with inequality constraints is required to be nonnegative.
+</p>
+
+<p>
+A KKT point \((x^\ast, u^\ast, v^\ast)\) is a point in the domain of
+Lagrangian \(L\) which satsifies the following set of conditions (known as
+KKT conditions) \[\begin{cases}
+\nabla_{x}L(x^\ast, u^\ast, v^\ast) = 0, \\
+\nabla_{u}L(x^\ast, u^\ast, v^\ast) \leq 0, \\
+\nabla_{v}L(x^\ast, u^\ast, v^\ast) = 0, \\
+\langle \nabla_{u}L(x^\ast, u^\ast, v^\ast), u^\ast\rangle = 0.
+\end{cases}\] The last equality is known as the <i>Complementary
+slackness</i> condition. In addition, \(u^\ast\geq 0\) is included implicitly
+by writting \(L(x^\ast,u^\ast,v^\ast)\).
+</p>
+
+<p>
+For the considered problem. KKT conditions are necessary.
+</p>
+
+<p>
+<b>KKT conditions are necessary.</b> <i>If \(x^\ast\) is a minimizer of the
+considered problem, then there exists
+\(u^\ast\in\mathbb{R}_+^{|\mathcal{I}|}\) and
+\(v^\ast\in\mathbb{R}^{|\mathcal{E}|}\) such that
+\((x^\ast, u^\ast, v^\ast)\) is a KKT point.</i>
+</p>
+
+<blockquote>
+<p>
+The proof, which utilizes Farkas' lemma, is omitted.
+</p>
+</blockquote>
+
+<p>
+It turns out that KKT conditions are also sufficient to ensure
+optimality. To see this, we need to introduce a useful concept <i>saddle
+points of Lagrangian</i>.
+</p>
+
+<p>
+<i>A saddle point of Lagrangian</i> is a point \((x^\ast, u^\ast, v^\ast)\)
+which satisfying that
+\[ L(x^\ast, u, v) \leq L(x^\ast, u^\ast, v^\ast) \leq L(x, u^\ast, v^\ast),\qquad\forall x, u, v.\]
+It is implicit in this definition that \(u^\ast\geq0\) and \(u\geq0\), since
+this requirement follows from writing out \(L(x^\ast, u^\ast, v^\ast)\)
+and \(L(x^\ast, u, v)\). This convention will be assumed throughout,
+unless otherwise specified.
+</p>
+
+<p>
+The saddle point condition is the most restrictive condition for a
+convex optimization problem.
+</p>
+
+<p>
+<i>Any saddle point is a KKT point, and moreover, any saddle point is a
+global minimizer.</i>
+</p>
+
+<blockquote>
+<p>
+<i>Proof.</i> Suppose \((x^\ast,u^\ast,v^\ast)\) is a saddle point. Fix
+\(u^\ast,v^\ast\), \(L(\cdot,u^\ast,v^\ast)\) has a minimizer \(x^\ast\).
+Therefore \[ \nabla_xL(x^\ast,u^\ast,v^\ast) = 0.\] Fix
+\(x^\ast,u^\ast\), \(L(x^\ast,u^\ast,\cdot)\) has a maximizer \(v^\ast\).
+Therefore \[ \nabla_vL(x^\ast,u^\ast,v^\ast) = 0.\] Fix
+\(x^\ast,v^\ast\), \(L(x^\ast, u, v^\ast)\) has a maxmizer \(u^\ast\) on
+\(\mathbb{R}_+^{|\mathcal{I}|}\). Therefore
+\[ \langle \nabla_uL(x^\ast,u^\ast,v^\ast), u-u^\ast\rangle \leq 0,\qquad\forall u\geq 0.\]
+By choosing \(u=u^\ast+\epsilon_i\), where \(\epsilon_i\) is a unit vector
+with only one nonzero component,
+\[ \nabla_uL(x^\ast,u^\ast,v^\ast) \leq 0.\] Moreover, by choosing
+\(u=0\) and \(u=2u^\ast\), it is clear that
+\[ \langle \nabla_uL(x^\ast,u^\ast,v^\ast), u^\ast\rangle = 0.\] This
+concludes that \((x^\ast,u^\ast,v^\ast)\) is a KKT point.
+</p>
+
+<p>
+As \((x^\ast,u^\ast,v^\ast)\) satisfies the KKT conditions, it holds
+that \[\mathbf{g}(x^\ast)\geq0,\qquad\mathbf{h}(x^\ast)=0.\] This
+implies that \(x^\ast\in\Omega\). In addition, KKT conditions imply that
+\[(u^\ast)^\intercal \mathbf{g}(x^\ast) = 0,\qquad (v^\ast)^\intercal \mathbf{h}(x^\ast) = 0.\]
+For any \(x\in\Omega\), there is
+\[(u^\ast)^\intercal \mathbf{g}(x) \geq 0, \qquad (v^\ast)^\intercal \mathbf{h}(x) = 0.\]
+Hence,
+\[ f(x) \geq L(x, u^\ast, v^\ast) \geq L(x^\ast, u^\ast, v^\ast) = f(x^\ast),\]
+where the second inequality uses the fact that
+\((x^\ast,u^\ast,v^\ast)\) is a saddle point. This concludes that
+\((x^\ast,u^\ast,v^\ast)\) is a global minimizer.
+</p>
+
+<p>
+Q.E.D.
+</p>
+</blockquote>
+
+<p>
+Finally, we can prove the sufficiency of KKT conditions by showing that
+for the considered problem any KKT point is a saddle point.
+</p>
+
+<p>
+<b>KKT conditions are sufficient.</b> <i>For the considered problem, if
+\((x^\ast, u^\ast, v^\ast)\) is a KKT point, then it is also a saddle
+point of Lagrangian. Consequently, it is a global minimizer.</i>
+</p>
+
+<blockquote>
+<p>
+<i>Proof.</i> On one hand, \((u^\ast, v^\ast)\) is a maximizer of
+\(L(x^\ast, \cdot, \cdot)\) on
+\(\mathbb{R}^{|\mathcal{I}|}_+\times\mathbb{R}^{|\mathcal{E}|}\) because
+\(\mathbf{g}(x^\ast)\geq 0\) and \(\mathbf{h}(x^\ast)=0\).
+</p>
+
+<p>
+On the otherhand, \(x^\ast\) is a minimizer of
+\(L(\cdot, u^\ast, v^\ast)\) on \(\mathbb{R}^n\) because it is convex and
+there is \(\nabla_xL(x^\ast, u^\ast, v^\ast)=0\).
+</p>
+
+<p>
+Q.E.D.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgab6e72a" class="outline-2">
+<h2 id="orgab6e72a">Dual Problem</h2>
+<div class="outline-text-2" id="text-orgab6e72a">
+<p>
+Recall the definition of Lagrangian
+\[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
+\qquad x\in\mathbb{R}^n, u\in\mathbb{R}_+^{|\mathcal{I}|}, v\in\mathbb{R}^{|\mathcal{E}|}.\]
+It is not hard to show that
+\[ \max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} L(x, u, v) =
+\begin{cases}
+\infty, \qquad \mathrm{if}\ x\not\in\Omega,\\
+f(x),\qquad\mathrm{if}\ x\in\Omega.
+\end{cases}\] Hence, the original optimization problem (referred to as
+the <i>primal problem</i> below) can be rewritten as
+\[ \min_{x\in\mathbb{R}^n}\max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} L(x, u, v).\]
+The <i>Dual problem</i> is then defined by
+\[ \max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} \min_{x\in\mathbb{R}^n} L(x, u, v).\]
+</p>
+
+<p>
+Dual problem has the following properties:
+</p>
+
+<ul class="org-ul">
+<li>the objective function \(\min_{x}L(x,u,v)\) is concave, regardless of
+the convexity of \(f, \mathbf{g}\) and \(\mathbf{h}\).</li>
+<li>the optimal objective value is not greater than the optimal value of
+the primal problem.</li>
+</ul>
+
+<p>
+The first property is expected because \(u\) and \(v\) appear linear in \(L\),
+and the \(\min\) operator does not break the concavity. The second
+property, also known as the <i>weak duality</i>, is a direct consequence of
+the following general proposition.
+</p>
+
+<p>
+<b>Min Max is greater or equal to Max Min</b>. <i>For any function
+\(f: X\times Y \to \mathbb{R}\), the following inequality holds trivially</i>
+\[ \min_{x\in X}\max_{y\in Y} f(x, y) \geq \max_{y\in Y}\min_{x\in X} f(x, y).\]
+</p>
+
+<p>
+The <i>duality gap</i> is then defined as the difference between the optimal
+values between the primal and dual problems. We have seen that this gap
+is always nonnegative. If the duality gap is zero, then we say that
+<i>strong duality</i> holds.
+</p>
+
+<p>
+<b>Strong duality holds if constraints are linear.</b> <i>For the considered
+problem, where \(f\) is convex and constraints are linear, the strong
+duality holds if any minimizer of the primal problem exists.</i>
+</p>
+
+<blockquote>
+<p>
+<i>Proof.</i> Assume \(x^\ast\) is a minimizer of the primal problem. Due to
+the necessity of KKT conditions, there exists \(u^\ast\) and \(v^\ast\)
+such that \((x^\ast, u^\ast, v^\ast)\) forms a KKT point. In addition,
+we have proved that, for the considered problem, any KKT point is also
+a saddle point of Lagrangian. Hence, \[ \begin{aligned}
+  f(x^\ast) &= \min_{x}\max_{u\geq0, v} L(x, u, v)& \qquad&  \\
+  &\geq \max_{u\geq 0, v}\min_{x}L(x, u, v) & \qquad&\textsf{(weaker duality)} \\
+  &\geq \min_{x}L(x, u^\ast, v^\ast)&\qquad& \\
+  &= L(x^\ast, u^\ast, v^\ast) &\qquad&\textsf{(saddle point)} \\
+  &= f(x^\ast)&\qquad &\textsf{(KKT point)}.
+  \end{aligned} \]
+</p>
+
+<p>
+Q.E.D.
+</p>
+</blockquote>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>]]></description>
+  <category><![CDATA[math]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2023-04-30-OptimalityandKKTCondition/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-04-30-OptimalityandKKTCondition/notes.html</guid>
+  <pubDate>Sun, 30 Apr 2023 00:00:00 +0800</pubDate>
 </item>
 </channel>
 </rss>

@@ -33,11 +33,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7c980c7">A Demo</a></li>
-<li><a href="#org7fc4cbf">Basic Concepts</a></li>
-<li><a href="#orga183843">Typical Usage</a></li>
-<li><a href="#orgd9d7d7d">Caveats and Shortcomings</a></li>
-<li><a href="#org92c6186">Going Further</a></li>
+<li><a href="#org4cc1eed">A Demo</a></li>
+<li><a href="#org18b194c">Basic Concepts</a></li>
+<li><a href="#org182b82d">Typical Usage</a></li>
+<li><a href="#org60c31f2">Caveats and Shortcomings</a></li>
+<li><a href="#org4bc05c3">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -52,9 +52,9 @@ brought up to date by propagating the changes in each replica to the other.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
 
-<div id="outline-container-org7c980c7" class="outline-2">
-<h2 id="org7c980c7">A Demo</h2>
-<div class="outline-text-2" id="text-org7c980c7">
+<div id="outline-container-org4cc1eed" class="outline-2">
+<h2 id="org4cc1eed">A Demo</h2>
+<div class="outline-text-2" id="text-org4cc1eed">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -125,7 +125,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="org45b6550">
+<pre class="example" id="org298f060">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -140,7 +140,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="org4606891">
+<pre class="example" id="org550d8b9">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -148,7 +148,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="orgab3a833">
+<pre class="example" id="orgfab7013">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -158,7 +158,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org9113e98">
+<pre class="example" id="org2ba5235">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -180,9 +180,9 @@ click the <i>Go</i> button to set them in motion.
 </div>
 </div>
 
-<div id="outline-container-org7fc4cbf" class="outline-2">
-<h2 id="org7fc4cbf">Basic Concepts</h2>
-<div class="outline-text-2" id="text-org7fc4cbf">
+<div id="outline-container-org18b194c" class="outline-2">
+<h2 id="org18b194c">Basic Concepts</h2>
+<div class="outline-text-2" id="text-org18b194c">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -303,9 +303,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </div>
 </div>
 
-<div id="outline-container-orga183843" class="outline-2">
-<h2 id="orga183843">Typical Usage</h2>
-<div class="outline-text-2" id="text-orga183843">
+<div id="outline-container-org182b82d" class="outline-2">
+<h2 id="org182b82d">Typical Usage</h2>
+<div class="outline-text-2" id="text-org182b82d">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -338,9 +338,9 @@ synchronizing only with the hub.
 </div>
 </div>
 
-<div id="outline-container-orgd9d7d7d" class="outline-2">
-<h2 id="orgd9d7d7d">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-orgd9d7d7d">
+<div id="outline-container-org60c31f2" class="outline-2">
+<h2 id="org60c31f2">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-org60c31f2">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -396,9 +396,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </div>
 </div>
 
-<div id="outline-container-org92c6186" class="outline-2">
-<h2 id="org92c6186">Going Further</h2>
-<div class="outline-text-2" id="text-org92c6186">
+<div id="outline-container-org4bc05c3" class="outline-2">
+<h2 id="org4bc05c3">Going Further</h2>
+<div class="outline-text-2" id="text-org4bc05c3">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>
