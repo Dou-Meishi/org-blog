@@ -23,6 +23,6 @@
 (setq org-static-blog-preview-ellipsis "...")
 
 ;; publish
-(org-static-blog-publish t)
+(org-static-blog-publish)
 
 (message "Publish complete!")
