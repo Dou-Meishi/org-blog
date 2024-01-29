@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sun, 28 Jan 2024 13:10:01 +0800</lastBuildDate>
+<lastBuildDate>Mon, 29 Jan 2024 10:53:37 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Org Static Blog: A Simple Static Site Generator]]></title>
   <description><![CDATA[
@@ -2825,6 +2825,247 @@ Q.E.D.
   <link>https://dou-meishi.github.io/org-blog/2023-04-30-OptimalityandKKTCondition/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2023-04-30-OptimalityandKKTCondition/notes.html</guid>
   <pubDate>Sun, 30 Apr 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Manage All Your Files]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgc71307d">Motivation</a></li>
+<li><a href="#org94683e6">A combined solution</a></li>
+<li><a href="#orgcca7b10">Further Discussion</a></li>
+</ul>
+</div>
+</nav>
+<p>
+随着工作和学习的需要，个人电脑里的文件越来越多，几乎每天都会因为各种各样的原因而
+或下载或创建各种文件。如何有条理的管理这些文件是一个非常值得讨论和思考的问题。
+</p>
+
+<div id="outline-container-orgc71307d" class="outline-2">
+<h2 id="orgc71307d">Motivation</h2>
+<div class="outline-text-2" id="text-orgc71307d">
+<p>
+在正式讨论之前，先让我们罗列几种日常情形。
+</p>
+
+<ol class="org-ol">
+<li>比如当前这篇笔记，它是我心中思考很久的话题，但今天晚上终于正式写成文字讨论一二。
+显然，我有必要它保存下来，以供后续的思考和改进。</li>
+
+<li>比如为学习某个课程/书籍创建的笔记，以及伴随学习而产生的其他文件，例如一些代码，图片等等。</li>
+
+<li>比如毕业论文。因为我使用 latex
+写论文，所以这要求我管理和保存一系列文件，包括源文件 .tex,
+参考文献数据库 .bib, 一些生成的图片，甚至一些下载下来的参考文献 pdf.</li>
+
+<li>比如某次汇报。同样，在准备这个汇报的过程中，我可能不止需要保存汇报所用的
+ppt, 还有与此相关的 所有文件，例如视频，代码，图片等等。</li>
+
+<li>一些其他的任务。比如针对某篇文章写的笔记，针对某个研究课题写的综述调研，针对审稿意见写的反馈，
+针对某个特别问题的一点点小研究，针对某个特别喜爱游戏做的攻略等等。</li>
+
+<li>收集到的资源。例如字体，软件，音乐等等。</li>
+</ol>
+
+<p>
+从上面的这些实际情景可以看出，日常里碰见的各种文件来源十分广泛。除去音乐，照片，视频和软件这些
+没有上下文的资源文件外，在各种具体情形下遇见的文档显然不能简单粗暴地都放在
+<code>Documents</code> 文件夹 下进行管理。
+</p>
+
+<p>
+以前我的做法是根据类别进行归类。比如属于笔记的归于 <code>Notes</code>
+文件夹，属于汇报的归于 <code>Presentation</code> 文件夹， 属于科研的归于 <code>Research</code>
+文件夹，属于参考资料的归于 <code>References</code> 文件夹, 属于代码的归于 <code>Code</code>
+等等。 但随着时间的推移，我渐渐发现这种方法的一些弊端:
+</p>
+
+<ol class="org-ol">
+<li><p>
+要求设计一组完美的互斥且互补的标签作为 *文件类别*。对我而言 Musics,
+Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
+的概念就太大了点。随着时间推移，
+这个文件夹下的文档越来越多，以至于我必须创建二级文件类别，也就是子文件夹进行管理，比如
+<code>Notes</code>, <code>Research</code>, <code>References</code>, <code>Presentation</code>
+等。然而可以预见，随着时间推移，
+这些子文件夹也会越来越大，以至于将来需要创建三级文件类别。
+</p>
+
+<p>
+从另一个角度讲，这种方法里
+*文件类别的设计先于所需要管理的文件*。这可能是导致实际体验差的根本原因。
+在将来一年甚至几年的文件出现之前，文件类别就必需先设定好。如果反过来，对于当前已经存在的文件进行分类管理，
+那么文件类别是容易设计的。但实际使用中并不是这样，新的文件每天都在出现。这导致极有可能几个月前设计
+的文件类别并不能很好的归类这几个月出现的新文件。这就是
+*文件类别设计先于被管理文件的出现*。
+</p></li>
+
+<li>不同类别的文件相互之间是内在联系的，是构成上下文关系的。比如为了探究一个小问题而写的思考和
+为了验证我的想法而写的代码。如果按照类别归类，那么思考笔记和代码应该分属两个不同的文件夹。
+但这就破坏了文件之间的关系，不便于后续的回顾和继续更新。</li>
+</ol>
+
+<p>
+简而言之，基于文件类别的管理方式十分依赖于 <b>文件类别</b> 标签的设计,
+同时，在分类管理的同时，也会导致本来相互之间 具有联系的文件被分开放置。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org94683e6" class="outline-2">
+<h2 id="org94683e6">A combined solution</h2>
+<div class="outline-text-2" id="text-org94683e6">
+<p>
+目前的解决办法是：在基于类别管理的基础上,
+对某些类别的文件夹设计一套专门的文件组织方式。
+具体而言，主目录按照类别进行管理，放有文件夹
+</p>
+
+<ul class="org-ul">
+<li>Documents.
+日常工作所用文件夹，所有文档或者相关文件存放于此，按照特别设计的方式进行组织。</li>
+<li>References. 放各种书籍或者参考文献。按照特别设计的方式进行组织。</li>
+<li>Plugins.
+放各种很有用但相对小众的小软件。各种大型知名软件不必放在这里。</li>
+<li>Pictures, Videos, Musics 等等。</li>
+</ul>
+
+<p>
+目前关于 <code>References</code>
+文件夹的管理还没有很成熟的方案，只是简单地根据各个书籍/文献所属的类别进行了二级文件夹的分类。
+对于可能属于多个不同子类的书籍/文献，则创建拷贝 (链接)
+分别放在需要放置的子类下。
+</p>
+
+<p>
+<code>Documents</code> 是目前的主要使用的文件夹,
+里面放置了近两三年来我所需要管理的几乎所有文件。
+它的组织方式是不基于子类别的。事实上，主要是出于解决上面提到
+"不同文件相互之间存在上下文联系" 问题的考虑，=Documents=
+文件夹被设计成了按照 <b>事件</b> 进行组织，以时间 +
+事件名称的方式命名子文件夹以保存文件的形式。例如下面是一些 <code>Documents</code>
+下的子文件夹的内容。
+</p>
+
+<pre class="example" id="org1e07249">
+  ├── 2022-11-25-MidtermExam/
+  │   ├── notes.md
+  │   ├── report.pdf
+  │   └── report.tex
+  ├── 2022-11-28-ReviewPIBSDE/
+  │   ├── latex/
+  │   └── notes.md
+  ├── 2022-12-04-PhDSubmission/
+  │   ├── About-TOEFL-home-edition.pdf
+  │   ├── CV.pdf
+  │   ├── PS.pdf
+  │   ├── RP.pdf
+  │   ├── TOEFL-SCORE.pdf
+  │   ├── academic-certificates/
+  │   ├── academic-recommendation/
+  │   └── transcript/
+  └── 2022-12-09-NotesSystemPlan/
+      └── notes.md
+</pre>
+
+<p>
+可以看到，对于简单的笔记，例如 <code>2022-12-09-NotesSystemPlan/</code>,
+里面可以只放一个单独的笔记文件 <code>notes.md</code>. 如果需要使用 latex, 例如
+<code>2022-11-25-MidtermExam</code> 和 <code>2022-11-28-ReviewPIBSDE</code>,
+里面也可以放对应的文件。特别的，对于某个特定的任务，比如
+<code>2022-12-04-PhDSubmission</code>, 文件夹里可以放此任务需要的所有相关资料。
+</p>
+
+<p>
+这样一来，所有的文件都以它们所针对的 <b>事件</b> 进行存储。
+虽然过去半年多，但是只要我看到 tree 的输出，我就能很轻松地说出上面示例里
+针对的到底是那些事件
+</p>
+
+<ul class="org-ul">
+<li>2022-11-25-MidtermExam, 研二上学期的期中考核</li>
+<li>2022-11-28-ReviewPIBSDE, 对课题 PIBSDE 的一些思考</li>
+<li>2022-12-04-PhDSubmission, 申请 PhD 需要提交的相关材料</li>
+<li>2022-12-09-NotesSystemPlan, 一个关于笔记系统的初步想法</li>
+</ul>
+
+<p>
+我认为以 <b>事件</b> 进行组织，按照时间 +
+事件名的方式创建子文件夹保存文件的好处有以下几点：
+</p>
+
+<ol class="org-ol">
+<li>便于回顾和查找文件。就实践下来的经验而言， 时间 +
+事件名以及足够我回忆起和此文件夹的几乎所有内容，
+包括创建它的目的，里面主要用于放那些文件等等。</li>
+<li>几乎不会因为时间增加而增大管理难度。实践表明，在一个具体的时间段，
+我一般最多只关心十来个 <b>事件</b>
+文件夹，即这个时间段我只需要管理这些特定的文件夹。
+其他文件夹只作为背景存在。得益于这种组织形式，所有不太关心的文件都被收容在这些背景
+文件夹中。换而言之， <code>Documents</code> 文件夹等价于永远只有十来个子文件夹。</li>
+<li>方便备份。一般而言时间超过一年的事件文件夹不在有很大的变动，可以在做好备份后直接删去。</li>
+<li>能保证文件之间的联系。因为同一个事件的相关文件都放在一起。</li>
+<li>不必操心每个文件到底该如何归类。当有需要时，直接创建事件文件夹即可。</li>
+<li>方便后续批量管理。比如可以在每个事件文件夹下放一个数据文件，
+用来指定此事件的各种元数据。</li>
+</ol>
+
+<p>
+坏处则有
+</p>
+
+<ol class="org-ol">
+<li>内容太分散。可能许多个 <b>事件</b> 是围绕一个 <b>主题</b>
+的，比如都是个人笔记。
+但因为还有其他的事件文件夹混在一起，所以如果我想检阅最近一个月做的所有笔记，
+那么只能列出这一个月内创建的文件夹后手动筛选。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgcca7b10" class="outline-2">
+<h2 id="orgcca7b10">Further Discussion</h2>
+<div class="outline-text-2" id="text-orgcca7b10">
+<p>
+我认为文件的 <b>存储</b> 和 <b>浏览/管理</b> 是可以区分开的。
+</p>
+
+<p>
+<b>存储</b> 面向的是存储设备。因为文件系统都是以树的形式组织的，
+所以每个文件有且仅有 <i>唯一</i> 的存储位置。
+</p>
+
+<p>
+<b>浏览/管理</b>
+则面向的是使用者。我们在考虑一个文件时，其实并不关心它被存储在哪里。
+我们真正对一个文件的印象是它的用途，它的内容，它的类别。为了方便浏览/管理，
+我们可以根据文件的各种元数据给打上合适的标签。这些标签对文件归了类，
+但标签与文件所存放的位置不必相关。
+</p>
+
+<p>
+一个典型的例子就是 Git. 在 Git 中，文件以特定的形式存储在 <code>.git</code>
+文件夹中。 当使用者指定需要哪个版本的哪个文件时，Git
+才会将指定的文件取出放在当前文件夹下。
+使用者不必清楚文件的具体存放方式，他清楚他需要哪些文件即可。
+</p>
+
+<p>
+一些文献管理软件，例如 Zotero
+也是采用的这种逻辑。呈现给使用者的是文献的各种元数据，
+例如文章标题，作者，发表年份等等。而软件内部对文献的组织方式和这些元数据
+(标签) 完全无关。
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div>]]></description>
+  <category><![CDATA[think]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2023-04-09-ManageFiles/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-04-09-ManageFiles/notes.html</guid>
+  <pubDate>Sun, 09 Apr 2023 00:00:00 +0800</pubDate>
 </item>
 </channel>
 </rss>
