@@ -4,7 +4,144 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Mon, 29 Jan 2024 10:53:37 +0800</lastBuildDate>
+<lastBuildDate>Wed, 31 Jan 2024 00:07:07 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Events-oriented File Storage Framework]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org152b633">Organize files into events</a>
+<ul>
+<li><a href="#org81291e9">Groupping files into categories is not I want</a></li>
+<li><a href="#org1b92995">Tagging files is not I want</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<p>
+Every day, as I create, receive or update a lot of files (like notes,
+blogs, papers, books, assets, slides, git repositories, experimental
+codes, and various other types), I find myself pondering the
+possibility of having a cohesive method to store, access, and back
+them up.
+</p>
+
+<p>
+After years of thinking and trying, I guess it is time to settle down
+my framework of <i>storing</i> files. This framework aims to be simple and
+clean, and serve as a solid foundation for scripting access and backup
+functionalities that meet my specific requirements..
+</p>
+
+<div id="outline-container-org152b633" class="outline-2">
+<h2 id="org152b633">Organize files into events</h2>
+<div class="outline-text-2" id="text-org152b633">
+<p>
+The central idea of this file storage framework is organizing files
+into different <i>events</i>. As I described in <a href="../2023-04-09-ManageFiles/notes.html">this post</a>, an event is simple
+a folder with name pattern <code>YYYY-mm-dd-BriefName/</code>.
+</p>
+
+<p>
+Before elaborating on reasons why I choose this <i>event</i>-oriented
+approach, let me first discuss two approaches that I tried but gave up
+eventually.
+</p>
+</div>
+
+<div id="outline-container-org81291e9" class="outline-3">
+<h3 id="org81291e9">Groupping files into categories is not I want</h3>
+<div class="outline-text-3" id="text-org81291e9">
+<p>
+The first approach I tried is <i>category</i>-oriented. It is not surprised,
+since we all have those pre-created folders named <i>Documents</i>, <i>Videos</i>,
+<i>Musics</i> etc. To better classifying my files, I created new folders
+named <i>References</i>, <i>Slides</i>, <i>Codes</i>, <i>Subjects</i>, and later on more specific
+folders such as <i>Manuscripts</i>, <i>Notes</i>, <i>Templates</i>, <i>Plugins</i>.
+</p>
+
+<p>
+Some of those folders work well, like <i>Musics</i>, <i>Books</i> and <i>Plugins</i>.  They
+are well defined and I am very confident on whether a new file or
+folder should be placed inside them and whether some file or folder I
+am looking for will be there. However, some folders quickly become too
+deep and their positions overlap with other folders. For example, the
+<i>Subjects</i> folder is created with subfolders named <i>Math</i>, <i>Physics</i> and <i>CS</i>,
+and each subfolder contains course subsubfolders like
+<i>RealAnalysis</i>, <i>Probability</i> and <i>Mechanics</i>.
+</p>
+
+<pre class="example" id="org110ed0a">
+Subjects/
+├── CS/
+├── Math/
+│   ├── Probability/
+│   └── RealAnalysis/
+└── Physics/
+    └── Mechanics/
+</pre>
+
+<p>
+Looks like neatly organized, right? But when it comes to practice, it
+is a totally different story. Imagine I have attend one lecture of
+probability, downloaded professor's slide and the homework. After
+several days of self-studying, I probably finished the homework and
+wrote a small note on what I had learnt. Now, how do I deal with those
+files?
+</p>
+
+<p>
+If I insist on organizing files according to their categories, the
+slide and note should be placed in the top level <i>Slides</i> folder and
+<i>Notes</i> folder respectively. It seems that only the homework will be
+placed in the <i>Probability</i> folder, which is clearly not a folder meant
+for homeworks however.  Moreover, when I move that slide into the
+<i>Slides</i> folder, should I follow the oroginal hierarchy like
+<code>Slides/Math/Probability/</code>? Should I also move that note into
+<code>Notes/Math/Probability/</code>?  What if I also wrote some experimental
+code?
+</p>
+
+<p>
+Manually enforcing that a file should be placed inside a certain
+category folder is boring and also breaks the connection between a
+group of files. In this scenario, these files are produced within a
+small period of time and have strong connections to each other. In
+addition, storing them in different folders is a bad idea for
+synchronization. Imagine that I have to switch between different
+machines during writing my note and that homework. Comparing with a
+single folder, storing in several folders with complex hierarchy
+structures is clearly more troublesome.
+</p>
+
+<p>
+There are also other problems with this category-oriented approach,
+like the inefficiency introduced by very deep folder structures, and
+unbalanced folder sizes.
+</p>
+
+<p>
+While I can continue to use <i>Musics</i>, <i>Videos</i> and <i>Books</i>, I will certainly
+not continue to create new top level folders and enforce that any file
+matching a category should be placed inside the corresponding top
+level folder.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1b92995" class="outline-3">
+<h3 id="org1b92995">Tagging files is not I want</h3>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div>]]></description>
+  <category><![CDATA[think]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework.html</guid>
+  <pubDate>Wed, 31 Jan 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Org Static Blog: A Simple Static Site Generator]]></title>
   <description><![CDATA[
