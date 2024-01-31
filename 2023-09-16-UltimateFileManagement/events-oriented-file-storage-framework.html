@@ -6,11 +6,13 @@
       type="application/rss+xml"
       href="https://dou-meishi.github.io/org-blog/rss.xml"
       title="RSS feed for https://dou-meishi.github.io/org-blog/">
-<title>Events-oriented File Storage Framework</title>
+<title>Event-oriented File Storage Framework</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<link href= "../static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" /> -->
+<!-- <link href= "https://dou-meishi.github.io/orgcss/dou-org.css" rel="stylesheet" type="text/css" /> -->
 <!-- Math Support by KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 <!-- The loading of KaTeX is deferred to speed up page rendering -->
@@ -28,15 +30,24 @@
 </div>
 </div>
 <div id="content">
-<div class="post-date">31 Jan 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework.html">Events-oriented File Storage Framework</a></h1>
+<div class="post-date">31 Jan 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework.html">Event-oriented File Storage Framework</a></h1>
 <nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org152b633">Organize files into events</a>
+<li><a href="#org27e4ed2">Organize files into events</a>
 <ul>
-<li><a href="#org81291e9">Groupping files into categories is not I want</a></li>
-<li><a href="#org1b92995">Tagging files is not I want</a></li>
+<li><a href="#org1329096">Groupping files into categories is not I want</a></li>
+<li><a href="#org09579f7">Tagging every file is not I want</a></li>
+<li><a href="#org3f8c44e">Event directory is all I need</a></li>
+</ul>
+</li>
+<li><a href="#orge3c4ce8">Further discussion on the event-oriented approach</a>
+<ul>
+<li><a href="#org7f6d476">Share assets between events</a></li>
+<li><a href="#org2bd43df">Write a descriptive journal for each event</a></li>
+<li><a href="#orge6f3230">How to transform a folder to an event folder</a></li>
+<li><a href="#org828a94a">Tips</a></li>
 </ul>
 </li>
 </ul>
@@ -57,13 +68,31 @@ clean, and serve as a solid foundation for scripting access and backup
 functionalities that meet my specific requirements..
 </p>
 
-<div id="outline-container-org152b633" class="outline-2">
-<h2 id="org152b633">Organize files into events</h2>
-<div class="outline-text-2" id="text-org152b633">
+<div id="outline-container-org27e4ed2" class="outline-2">
+<h2 id="org27e4ed2">Organize files into events</h2>
+<div class="outline-text-2" id="text-org27e4ed2">
 <p>
 The central idea of this file storage framework is organizing files
 into different <i>events</i>. As I described in <a href="../2023-04-09-ManageFiles/notes.html">this post</a>, an event is simple
-a folder with name pattern <code>YYYY-mm-dd-BriefName/</code>.
+a folder with name pattern <code>YYYY-mm-dd-BriefName/</code>.  Almost all my files
+are placed in <code>~/Documents/</code> folder, under which I put all my event
+folders.
+</p>
+
+<pre class="example" id="org3307b7a">
+drwxrwxr-x  2 dou dou   4096 Jan 29 10:53 2023-04-09-ManageFiles/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:10 2023-04-30-OptimalityandKKTCondition/
+drwxrwxr-x  2 dou dou   4096 Jan 31 00:07 2023-09-16-UltimateFileManagement/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2023-09-19-Compactness/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2023-10-23-BanachSpaceExample/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-07-ReviewUnison/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-11-CodeBlockinLaTeX/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-14-TryOrgPublish/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-22-TryOrgStaticBlog/
+</pre>
+
+<p>
+When I review or share my works, event is the smallest unit.
 </p>
 
 <p>
@@ -73,9 +102,9 @@ eventually.
 </p>
 </div>
 
-<div id="outline-container-org81291e9" class="outline-3">
-<h3 id="org81291e9">Groupping files into categories is not I want</h3>
-<div class="outline-text-3" id="text-org81291e9">
+<div id="outline-container-org1329096" class="outline-3">
+<h3 id="org1329096">Groupping files into categories is not I want</h3>
+<div class="outline-text-3" id="text-org1329096">
 <p>
 The first approach I tried is <i>category</i>-oriented. It is not surprised,
 since we all have those pre-created folders named <i>Documents</i>, <i>Videos</i>,
@@ -95,7 +124,7 @@ and each subfolder contains course subsubfolders like
 <i>RealAnalysis</i>, <i>Probability</i> and <i>Mechanics</i>.
 </p>
 
-<pre class="example" id="org110ed0a">
+<pre class="example" id="org108b7bd">
 Subjects/
 ├── CS/
 ├── Math/
@@ -107,7 +136,7 @@ Subjects/
 
 <p>
 Looks like neatly organized, right? But when it comes to practice, it
-is a totally different story. Imagine I have attend one lecture of
+is a totally different story. Imagine that I attend one lecture of
 probability, downloaded professor's slide and the homework. After
 several days of self-studying, I probably finished the homework and
 wrote a small note on what I had learnt. Now, how do I deal with those
@@ -120,7 +149,7 @@ slide and note should be placed in the top level <i>Slides</i> folder and
 <i>Notes</i> folder respectively. It seems that only the homework will be
 placed in the <i>Probability</i> folder, which is clearly not a folder meant
 for homeworks however.  Moreover, when I move that slide into the
-<i>Slides</i> folder, should I follow the oroginal hierarchy like
+<i>Slides</i> folder, should I follow the original hierarchy like
 <code>Slides/Math/Probability/</code>? Should I also move that note into
 <code>Notes/Math/Probability/</code>?  What if I also wrote some experimental
 code?
@@ -128,8 +157,8 @@ code?
 
 <p>
 Manually enforcing that a file should be placed inside a certain
-category folder is boring and also breaks the connection between a
-group of files. In this scenario, these files are produced within a
+category folder is boring. Doing so also breaks the connection between
+a group of files. In this scenario, these files are produced within a
 small period of time and have strong connections to each other. In
 addition, storing them in different folders is a bad idea for
 synchronization. Imagine that I have to switch between different
@@ -145,16 +174,291 @@ unbalanced folder sizes.
 </p>
 
 <p>
-While I can continue to use <i>Musics</i>, <i>Videos</i> and <i>Books</i>, I will certainly
-not continue to create new top level folders and enforce that any file
-matching a category should be placed inside the corresponding top
-level folder.
+While I may continue to use folders like <i>Musics</i>, <i>Videos</i> and <i>Books</i>, I
+will certainly not continue to create new top level folders and
+enforce that any file matching a category should be placed inside the
+corresponding top level folder.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1b92995" class="outline-3">
-<h3 id="org1b92995">Tagging files is not I want</h3>
+<div id="outline-container-org09579f7" class="outline-3">
+<h3 id="org09579f7">Tagging every file is not I want</h3>
+<div class="outline-text-3" id="text-org09579f7">
+<p>
+After the failure of category-based approach, I was still looking for
+a way to organize my files in a logical structure.  Soon or later, I
+realized that one of the crucial drawbacks of the previous approach is
+the exclusive nature of categories, i.e., a file must belong to one
+category (one top-level folder) or another one, but not both.
+</p>
+
+<p>
+Indeed, it is quite natural to think a file can only sit in one place
+on the disk. However, in terms of the various attributes of a
+particular file, we may want to find it in different locations. Take
+the example mentioned before of attending a lecture. It would be very
+natural to assume the note should appear in both
+<code>Notes/Math/Probability/</code> and <code>Subjects/Math/Probability/</code>.  When I am
+looking for a slide, I may consult the top-level folder <i>Slides</i>. When I
+am looking for all staffs related to a particular subject, I may
+consult the top-level folder <i>Subjects</i>.
+</p>
+
+<p>
+Following this line of thinking, I then realized that the (sub)folder
+name acts like tags. A file in <code>Notes/Math/Probability/</code> are expected to
+have tags <i>Notes</i>, <i>Math</i> and <i>Probability</i>. In this point of view, the
+deep hierarchy structure is actually not important. It is meaningless
+to differentiate between folder <code>Notes/Math/Probability/</code> and folder
+<code>Math/Probability/Notes/</code>.
+</p>
+
+<p>
+Then I imagined a tag-based approach of organizing files. A file may
+have arbitrary tags, e.g., <code>tagA, tagB, tagC</code>.  For each tag, I create a
+top-level folder with the same name. The true location of a file does
+not matter. I can put it at anywhere. However, as long as I give a tag
+to the file, I will create a symbolic link of this file in the
+corresponding tag folder. Then it is not hard to write a small script
+which can list all files having a particular collection of tags.
+</p>
+
+<p>
+Of course, there are other ways of implementing a tag-based file
+system. Besides the way of symbolic links, one can also use
+</p>
+
+<ol class="org-ol">
+<li>hard links;</li>
+<li>database, keeping records of file paths and their tags;</li>
+<li>special name convention, similar to database, but tags are
+embedded in the file name.</li>
+</ol>
+
+<p>
+Well, this approach sounds very nice theoretically too.  But I never
+seriously try it in practice.
+</p>
+
+<ol class="org-ol">
+<li>It is actually a framework of file access, not file storage.  It
+does not answer how to organize files in the disk.  Indeed, all
+current file systems are tree/folder based, not tag based.</li>
+
+<li>Too sophisticated to maintain. Links in tag folders, database and
+special words in filenames are all too complicated to manipulate.</li>
+
+<li>Tagging every file is tedious, especially since the need to search
+by tags doesn't arise frequently.</li>
+</ol>
+
+<p>
+I want a simple solution to <i>store</i> my files. Assigning tags to files
+might be useful for viewing and searching, but does not solve my
+problem. For special type of files, like books and notes, I may try to
+manage them by tags, but I will not try to put every file in this
+framework.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3f8c44e" class="outline-3">
+<h3 id="org3f8c44e">Event directory is all I need</h3>
+<div class="outline-text-3" id="text-org3f8c44e">
+<p>
+In practice, after I abandoned those category folders, I went to the
+event-oriented approach to organize files. Actually, I adopted this
+approach even before I notice the concept of event directory.  At the
+beginning, I simply put all files I need for a particular task in a
+separate folder. Then I had so many those folders and I decided to add
+a date prefix to sort them antichronologically. That's it. I found
+myself so comfortable with this file structure.
+</p>
+
+<ol class="org-ol">
+<li><i>Self-contained.</i> An event folder contains all files I need to work
+on this task. I can work on it without boring myself on other
+folders most of the time.  When I switch machines, I need only to
+ensure this event folder is synchronized, without wasting time on
+syncing unnecessary files.</li>
+
+<li><i>Flexible.</i> I can put anything inside an event folder and organize
+them in the way I like. For example, I can put pictures required by
+a latex manuscript, a git repo to track some experimental scripts,
+some assets collected from the internet, etc. In fact, I just treat
+an event folder as the workspace for it and put any necessary files
+in it.</li>
+
+<li><i>Flat strcture.</i> All even folders are placed in the same level.  No
+intermediate folders like <code>2023/</code> or <code>2024/</code>. Flat structure is more
+efficient to browse and work with. Moreover, by prepending date,
+all folders are neatly sorted. Events in the same month come to
+close by default, both in file explorer and terminal output of <code>ls</code>.
+Adding intermediate folders is meaningless.</li>
+
+<li><i>Archive automatically.</i> Thanks to the nature of self-containing,
+moving old event folders to other place does not influence my
+workflow.  In parctice, most event folders are rarely needed after
+a short period of time. Though from time to time I may want to
+review what I have done in the past month, I rarely visit an event
+folder created years ago. Even when I want to visit, I typically do
+not want to change the content. This fact make it very convenient
+to archive event folders and backup them. At any time, the number
+of event folders I need pay attention to is generally not larger
+than 20.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge3c4ce8" class="outline-2">
+<h2 id="orge3c4ce8">Further discussion on the event-oriented approach</h2>
+<div class="outline-text-2" id="text-orge3c4ce8">
+<p>
+Now I summarize some properties of an event folder should have.
+</p>
+
+<ol class="org-ol">
+<li>Its name starts with a date string in the format <code>YYYY-mm-dd-</code> and
+ends with the event name.</li>
+
+<li>It should be self-contained and include necessary staffs for
+working on.</li>
+</ol>
+
+<p>
+Below I want to add two more properties:
+</p>
+
+<ol class="org-ol">
+<li value="3">It should occupied less than 500MB disk space.</li>
+<li>All files with base name <code>notes</code> are reserved for storing metadata of
+the event. (This rule does not apply to subfolders in the event
+directory.)</li>
+</ol>
+</div>
+
+<div id="outline-container-org7f6d476" class="outline-3">
+<h3 id="org7f6d476">Share assets between events</h3>
+<div class="outline-text-3" id="text-org7f6d476">
+<p>
+The second property is crucial but sometimes can be troublesome.  For
+example, if an event involves working with a lot of large immutable
+assets, like a lot of data files or a lot of pictures, the event
+folder might grow too large, say larger than 4GB.  In addition, if
+there is another event involves working with the same assets, copying
+them to the new folder does not seem to be a good idea.
+</p>
+
+<p>
+My resolution is creating another top-level folder, say <code>~/Assets/</code>,
+which acts like a repo for large files. For example, if an event
+involves accessing to the famous MNIST dataset, I can move the dataset
+to folder <code>~/Assets/MNIST/</code> and leave a symbolic link in the event
+folder. The folder <code>~/Assets/</code> is also a good place to store data
+outputs, like model weights of neural networks.
+</p>
+
+<p>
+The folder <code>~/Assets/</code> is synced across machines.  In order to avoid
+name conflict, I often add the same date prefix when allocating new
+asset folders.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2bd43df" class="outline-3">
+<h3 id="org2bd43df">Write a descriptive journal for each event</h3>
+<div class="outline-text-3" id="text-org2bd43df">
+<p>
+I always create a <code>notes.org</code> in each event folder, which serves like a
+private README and journal for this event whose audience is future
+myself.
+</p>
+
+<p>
+Generally, I add meta data of the event in the front matter,including
+<i>TITLE</i> and <i>DATE</i>. In <a href="../2024-01-14-TryOrgPublish/notes.html">this post</a>, I introduced how I use <code>org-publish</code> to
+generate a sitemap of all events based on those notes files. In the
+near future, I may add the <i>KEYWORDS</i> field for searching. The body may
+contain journal of working on the event, links to useful resources and
+anything I want to write down. In general, this file can possibly
+contain descriptions to
+</p>
+
+<ol class="org-ol">
+<li>metadata of the event, like tags, title, date and so on;</li>
+<li>purpose and state of the event, like in what circumstance I create it and what is going on;</li>
+<li>git repos related to the event;</li>
+<li>notes/blogs related to the event;</li>
+<li>papers/books related to the event;</li>
+<li>assets related to the event, like resources, large files and so on;</li>
+<li>file/folder structure of the event; represented as org entries, possibly tagged;</li>
+</ol>
+
+<p>
+Different from the README file of a git repo, <code>notes.org</code> is always
+private and never gets public. If I want to publish some content of it
+to my blog, I just create a new post, cut and paste from it and leave
+a link in the notes which looks like <i>see my post here</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge6f3230" class="outline-3">
+<h3 id="orge6f3230">How to transform a folder to an event folder</h3>
+<div class="outline-text-3" id="text-orge6f3230">
+<p>
+Given an existed folder <code>dirname/</code>, I go through these steps to transform
+it into an event folder.
+</p>
+
+<ol class="org-ol">
+<li>Normalize its name to ensure it matches the format <code>YYYY-mm-dd-EventName</code>.
+Here the date may be inferred from the folder content.</li>
+
+<li><p>
+Normalize the journal file <code>notes.org</code>. Ensure there are two metadata
+entry <code>#+TITLE</code> and <code>#+DATE</code>. The latter is recommended to be
+consistent with the folder name, but not strictly required.
+</p>
+
+<p>
+In addition, check the content of <code>notes.org</code>. Ensure it can remind
+me of the purpose of this folder.
+</p></li>
+
+<li>Normalize the folder size to be smaller than 500MB.  If not,
+reorganize files inside this folder and move large assets to
+<code>~/Assets/</code>.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org828a94a" class="outline-3">
+<h3 id="org828a94a">Tips</h3>
+<div class="outline-text-3" id="text-org828a94a">
+<ol class="org-ol">
+<li><p>
+This approach may not be suitable to organize context-free assets.
+</p>
+
+<p>
+However, for me, most assets have context. For example, books on probability theory
+are most refered in writing notes of the subject. So these books are placed in the
+same event directory as these notes.
+</p></li>
+
+<li><p>
+Create a new event and refer to the old event, instead of enlarge the old event folder.
+</p>
+
+<p>
+Remember to briefly conclude what you obtained from the old event.
+</p></li>
+</ol>
+</div>
 </div>
 </div>
 <div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div></div>
