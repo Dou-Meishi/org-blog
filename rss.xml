@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Thu, 01 Feb 2024 00:06:53 +0800</lastBuildDate>
+<lastBuildDate>Sat, 03 Feb 2024 11:06:45 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Event-oriented File Storage Framework]]></title>
   <description><![CDATA[
@@ -3505,6 +3505,412 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
   <link>https://dou-meishi.github.io/org-blog/2023-04-09-ManageFiles/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2023-04-09-ManageFiles/notes.html</guid>
   <pubDate>Sun, 09 Apr 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[配置 Ubuntu 系统]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org9d4a617">Get Ubuntu</a></li>
+<li><a href="#org59530f6">Appearance</a>
+<ul>
+<li><a href="#org419fab1">Customize Fonts</a></li>
+<li><a href="#orgf641046">Customize Bash</a></li>
+<li><a href="#org7c6ff56">GNOME Tweaks</a></li>
+<li><a href="#orgddbeca8">Choose Cinnamon (Deprecated)</a></li>
+</ul>
+</li>
+<li><a href="#org9eebb58">Toolkits</a>
+<ul>
+<li><a href="#org2e2c5bc">Install Edge</a></li>
+<li><a href="#org2fab879">Install VS code</a></li>
+<li><a href="#orgb4267bc">Install Clash</a></li>
+<li><a href="#orgc6cd740">Install Git</a></li>
+<li><a href="#org21f9e88">Install Emacs</a></li>
+<li><a href="#orge7912f7">Install Python</a></li>
+<li><a href="#orgdf6b989">Install TeXLive</a></li>
+<li><a href="#org67ff524">Customize Input Methods (Deprecated)</a></li>
+</ul>
+</li>
+<li><a href="#org2acb479">Future Customization</a></li>
+<li><a href="#org0dadf42">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+</ul>
+</div>
+</nav>
+<p>
+用了五年的小破本今早又罢工了.
+系统启动卡在某个硬盘挂载出错.
+费了老劲儿, 一度以为这位战友终于走到寿命尽头,
+还感慨前两天才奶了一口能再战几年呢.
+最后发现似乎是 UEFI 分区挂了,
+在 BIOS 里调成 Legacy 模式就能顺利启动.
+尽管看起来是回到了一天前的样子,
+能跑能跳的,
+但我知道,
+看起来流畅运行的表面下是已经服役五年多的残躯.
+</p>
+
+<p>
+终于, 我下定决心将实验室电脑也配置成它的形状.
+以后就让这位老战友退居二线吧.
+</p>
+
+<div id="outline-container-org9d4a617" class="outline-2">
+<h2 id="org9d4a617">Get Ubuntu</h2>
+<div class="outline-text-2" id="text-org9d4a617">
+<p>
+在 Ubuntu 官网下载 20.04 LTS 版本,
+用 Universal USB Installer 将 <code>.iso</code> 文件烧录到 U 盘上.
+</p>
+
+<blockquote>
+<p>
+22.04 LTS 版 Ubuntu 的安装推荐参考 <a href="https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview">官方指南</a>
+</p>
+</blockquote>
+
+<p>
+启动盘做好后直接遵照引导安装,
+因为懒得自己规划分区,
+就干脆将所有文档备份后选择格式化整个硬盘,
+交给 Ubuntu 自己划分.
+(这一步居然没出什么岔子,
+着实让我有点小惊讶.)
+最后正常登陆,
+</p>
+
+<p>
+系统安装, 完成!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org59530f6" class="outline-2">
+<h2 id="org59530f6">Appearance</h2>
+<div class="outline-text-2" id="text-org59530f6">
+<p>
+安装完成后首先更新
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt update
+sudo apt upgrade
+</pre>
+</div>
+
+<p>
+然后浏览 `设置` 并根据喜欢进行调整.
+</p>
+
+<p>
+在 <code>~/.config/user-dirs.dirs</code> 里修改默认下载路径, 默认桌面路径, 默认图片路径等等.
+</p>
+</div>
+
+<div id="outline-container-org419fab1" class="outline-3">
+<h3 id="org419fab1">Customize Fonts</h3>
+<div class="outline-text-3" id="text-org419fab1">
+<p>
+从小破本里将 <code>~/.local/share/fonts/</code> 复制到主目录.
+然后刷新缓存
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo fc-cache -fsv
+</pre>
+</div>
+
+<p>
+用 <code>dconf-editor</code> 更改终端字体为 FiraCode Nerd Font Mono Ret 14
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf641046" class="outline-3">
+<h3 id="orgf641046">Customize Bash</h3>
+<div class="outline-text-3" id="text-orgf641046">
+<p>
+将 <code>.bashrc</code>, <code>.bash_env</code>, <code>.bash_aliases</code>, <code>.inputrc</code>, <code>bin/</code> 复制到主目录.
+</p>
+
+<p>
+然后配置 GNOME 终端颜色.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt install dconf-cli git
+git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git
+<span style="color: #657b83; font-weight: bold;">cd</span> gnome-terminal-colors-solarized
+./install.sh
+</pre>
+</div>
+
+<p>
+装好后运行 <code>set_light.sh</code> (或者 <code>set_dark.sh</code>).
+</p>
+
+<p>
+然后安装 <code>oh-my-posh</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/bin
+</pre>
+</div>
+
+<p>
+复制 <code>~/.config/oh-my-posh/</code> 到对应位置.
+</p>
+
+<p>
+重启终端即配置完成.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7c6ff56" class="outline-3">
+<h3 id="org7c6ff56">GNOME Tweaks</h3>
+<div class="outline-text-3" id="text-org7c6ff56">
+<p>
+Ubuntu 的很多系统外观设置需要使用 GNOME Tweaks，
+参考 <a href="https://linuxhint.com/gnome_tweak_installation_ubuntu/">How to Install the Gnome Tweak Tool on Ubuntu 22.04</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo add-apt-repository universe
+sudo apt install gnome-tweaks
+</pre>
+</div>
+
+<p>
+接着安装 GNOME Shell Extensions, 参考 <a href="https://itsfoss.com/gnome-shell-extensions/">How to Use GNOME Shell Extensions [Complete Guide</a>].
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt install gnome-shell-extensions
+</pre>
+</div>
+
+<p>
+一些 <del>有用</del> 有趣的扩展包括
+</p>
+
+<ul class="org-ul">
+<li>Dash to Dock. 可以自定义任务栏外观和行为.</li>
+<li>User Themes. 可以选择更多的系统主题. 个人偏爱 <a href="https://www.gnome-look.org/p/1099856/">Ant alt style</a> (Application theme) + <a href="https://www.gnome-look.org/p/1360254">Oreo Pink</a> (Cursor theme) + <a href="https://www.pling.com/s/Gnome/p/1305251">Candy icons</a> (Icon theme).</li>
+<li>Gesture Improvements. 可以自定义更多的触摸板手势.</li>
+<li>Burn My Windows. 可以自定义窗口打开和关闭的动画.</li>
+<li>Desktop Cube. Workspace 3D 切换动画.</li>
+<li>Compiz alike magic lamp effect. MacOS-like 窗口最小化动画.</li>
+<li>Coverflow Alt-Tab. Alt-Tab 3D 切换动画.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgddbeca8" class="outline-3">
+<h3 id="orgddbeca8">Choose Cinnamon (Deprecated)</h3>
+<div class="outline-text-3" id="text-orgddbeca8">
+<p>
+<del>个人更习惯 Win 风格的 UI
+于是偏爱 Cinnamon 桌面环境</del>
+<b>现在更喜欢 Ubuntu 22.04 LTS Jellyfish 自带 UI.</b>
+</p>
+
+<p>
+在命令行安装后, 登陆界面右下角选择 Cinnamon 启动即可.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt install cinnamon-desktop-environment
+</pre>
+</div>
+
+<p>
+进入 Cinnamon 后找到 系统设置 -&gt; 主题,
+随便调一调.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9eebb58" class="outline-2">
+<h2 id="org9eebb58">Toolkits</h2>
+<div class="outline-text-2" id="text-org9eebb58">
+</div>
+<div id="outline-container-org2e2c5bc" class="outline-3">
+<h3 id="org2e2c5bc">Install Edge</h3>
+<div class="outline-text-3" id="text-org2e2c5bc">
+<p>
+下载 Edge, 设置字体 Fira Sans + Lora, 登陆帐号.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2fab879" class="outline-3">
+<h3 id="org2fab879">Install VS code</h3>
+<div class="outline-text-3" id="text-org2fab879">
+<p>
+下载 VS Code, 登录账号.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb4267bc" class="outline-3">
+<h3 id="orgb4267bc">Install Clash</h3>
+<div class="outline-text-3" id="text-orgb4267bc">
+<p>
+准备科学上网.
+从小破本上复制 <del>或者从 github 上下载</del> 到 <del>最新版本的</del> clash,
+然后进行如下配置
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">mkdir ~/clash
+mv ~/Download/clash-linux-amd64-v1.7.1 ~/clash/clash
+<span style="color: #657b83; font-weight: bold;">cd</span> ~/clash/
+sudo chmod a+x ./clash
+</pre>
+</div>
+
+<p>
+然后从代理商那里拿到配置文件并覆盖 <code>~/clash/config.yaml</code>,
+在本地网络连接里设置代理端口.
+最后启动 clash 并登陆网址 <a href="http://clash.razord.top/#/settings">http://clash.razord.top/#/settings</a> or <a href="https://yacd.haishan.me/">https://yacd.haishan.me/</a> 进行节点选择.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc6cd740" class="outline-3">
+<h3 id="orgc6cd740">Install Git</h3>
+<div class="outline-text-3" id="text-orgc6cd740">
+<p>
+安装 <code>git</code> 后登陆 GitHub, 按照提示生成 SSH key 并添加.
+</p>
+
+<p>
+安装 diff 程序的语法高亮版 <a href="https://github.com/dandavison/delta">delta</a>.
+</p>
+
+<p>
+将 <code>~/.gitconfig</code> 复制到对应位置.
+</p>
+
+<p>
+<del>配置 <a href="https://github.com/magicmonty/bash-git-prompt">bash git prompt</a></del> (<code>oh-my-posh</code> 已针对 <code>git</code> 仓库做了 prompt segment, 这里无需再次配置)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org21f9e88" class="outline-3">
+<h3 id="org21f9e88">Install Emacs</h3>
+<div class="outline-text-3" id="text-org21f9e88">
+<p>
+添加源并下载最新的 Emacs
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo add-apt-repository ppa:ubuntu-elisp/ppa
+sudo apt update
+sudo apt install emacs-snapshot
+</pre>
+</div>
+
+<p>
+下载后复制小破本 <code>~/.emacs.d</code> 到对应位置.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge7912f7" class="outline-3">
+<h3 id="orge7912f7">Install Python</h3>
+<div class="outline-text-3" id="text-orge7912f7">
+<p>
+Ubuntu 20.04 LTS 是自带 <code>Python3.8</code> 的,
+但一些第三方包还是需要自己装.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt install python3-pip
+pip3 install --user numpy matplotlib pandas jupytext
+</pre>
+</div>
+
+<p>
+然后安装 <a href="https://github.com/dunovank/jupyter-themes">jupyter-themes</a> 并进行一定的配置.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pip3 install --user jupyterthemes
+jt -t solarizedd -T -N -kl -f dejavu -fs 140
+pip3 install --user jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+</pre>
+</div>
+
+<p>
+启动 jupyter 后即可手动选择开启各类扩展.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdf6b989" class="outline-3">
+<h3 id="orgdf6b989">Install TeXLive</h3>
+<div class="outline-text-3" id="text-orgdf6b989">
+<p>
+See official doc
+</p>
+</div>
+</div>
+
+<div id="outline-container-org67ff524" class="outline-3">
+<h3 id="org67ff524">Customize Input Methods (Deprecated)</h3>
+<div class="outline-text-3" id="text-org67ff524">
+<p>
+<b>Ubuntu 22.04 LTS 自带的输入法已经足够使用，不必再进行后续配置</b>
+</p>
+
+<p>
+卸载 <code>ibus</code> 后安装 <code>fcitx</code>, 重启后右下角点击小企鹅图标进一步配置.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">sudo apt purge ibus
+sudo apt install fcitx
+sudo apt install fcitx-googlepinyin
+sudo apt install fcitx-config-gtk
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2acb479" class="outline-2">
+<h2 id="org2acb479">Future Customization</h2>
+<div class="outline-text-2" id="text-org2acb479">
+<ul class="org-ul">
+<li>Customize titlebar</li>
+<li>More funny animations</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0dadf42" class="outline-2">
+<h2 id="org0dadf42">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org0dadf42">
+<ul class="org-ul">
+<li><a href="https://einverne.github.io/post/2021/03/linux-use-clash.html">在 Linux 上使用 Clash 作代理</a></li>
+<li><a href="http://www.webupd8.org/2011/04/solarized-must-have-color-paletter-for.html">SOLARIZED: A MUST HAVE COLOR SCHEME FOR GNOME TERMINAL, VIM, GEDIT AND LOTS MORE</a></li>
+<li><a href="https://stackoverflow.com/questions/36419342/how-to-wrap-code-text-in-jupyter-notebooks">How to wrap code/text in Jupyter notebooks</a></li>
+</ul>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>]]></description>
+  <category><![CDATA[tool]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2021-10-25-CustomizeUbuntu/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2021-10-25-CustomizeUbuntu/notes.html</guid>
+  <pubDate>Mon, 25 Oct 2021 00:00:00 +0800</pubDate>
 </item>
 </channel>
 </rss>
