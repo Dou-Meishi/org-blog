@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>How I backup and sync files</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">03 Feb 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-01-TopLevelFolders/how-i-sync-and-backup-files.html">How I backup and sync files</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga3fb2ed">Presync</a></li>
+<li><a href="#org3bb1eb1">Backup and Sync</a></li>
+</ul>
+</div>
+</nav>
+<p>
+In <a href="https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework">the previous post</a>, I discussed the how I organize the folder
+<code>~/Documents/</code>. In my home directory <code>~/</code>, there are another two folders
+with special purposes: <code>~/Assets/</code> and <code>~/AAA/</code>.
+</p>
+
+<p>
+Generally speaking, <code>AAA/</code> severs as a trash bin; <code>Assets/</code> severs as a
+repo for large files; <code>Documents/</code> severs as the main workspace,
+containing all event folders; see <a href="https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework">this post</a> for what is an event
+folder.  During backups, <code>AAA/</code> is ignored, and only <code>Assets/</code> and
+<code>Documents/</code> are considered.  During synchronization, however, only
+<code>Documents/</code> is considered.
+</p>
+
+<p>
+In general, if any folder or file outside these three folders is of
+interest, they will have a local backup in <code>Assets/</code> or <code>Documents/</code>,
+maintaining by a special script <code>dms-presync</code>. This script should be executed
+before actual backup or sync process begins.
+</p>
+
+<div id="outline-container-orga3fb2ed" class="outline-2">
+<h2 id="orga3fb2ed">Presync</h2>
+<div class="outline-text-2" id="text-orga3fb2ed">
+<ol class="org-ol">
+<li><p>
+For each git repos, sync them with the special upstream <code>backup</code>.
+</p>
+
+<p>
+Use this command to list all git repos.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">find . -name <span style="color: #2aa198;">".git"</span>
+</pre>
+</div></li>
+
+<li>Normalize event folders in <code>Documents/</code>.</li>
+
+<li><p>
+Ensure all files of interest have an up-to-date version in <code>Assets/</code> or <code>Documents/</code>.
+</p>
+
+<p>
+Some folders involved in this stage include, e.g., <code>~/.local/share/fonts/</code>,
+<code>~/org/</code> and <code>~/.themes/</code>.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org3bb1eb1" class="outline-2">
+<h2 id="org3bb1eb1">Backup and Sync</h2>
+<div class="outline-text-2" id="text-org3bb1eb1">
+<p>
+Suppose I want to backup all necessary files in <code>/home/dou</code> to
+<code>/media/dou/BACKUP/dou/</code>, I go through the following steps (in this
+stage, all <code>.git/</code> folders are ignored).
+</p>
+
+<ol class="org-ol">
+<li value="0">Ensure <code>/media/dou/BACKUP/dou/</code> is a git repo.</li>
+
+<li>Run the script <code>dms-sync</code> to bakcup <code>~/Assets/</code> and <code>~/Documents/</code>.</li>
+
+<li>Commit in <code>/media/dou/BACKUP/dou/</code>.</li>
+</ol>
+
+<p>
+For synchronization with the cloud, only <code>~/Documents/</code> is synced.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

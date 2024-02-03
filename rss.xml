@@ -4,7 +4,100 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sat, 03 Feb 2024 11:06:45 +0800</lastBuildDate>
+<lastBuildDate>Sat, 03 Feb 2024 23:23:45 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[How I backup and sync files]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga3fb2ed">Presync</a></li>
+<li><a href="#org3bb1eb1">Backup and Sync</a></li>
+</ul>
+</div>
+</nav>
+<p>
+In <a href="https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework">the previous post</a>, I discussed the how I organize the folder
+<code>~/Documents/</code>. In my home directory <code>~/</code>, there are another two folders
+with special purposes: <code>~/Assets/</code> and <code>~/AAA/</code>.
+</p>
+
+<p>
+Generally speaking, <code>AAA/</code> severs as a trash bin; <code>Assets/</code> severs as a
+repo for large files; <code>Documents/</code> severs as the main workspace,
+containing all event folders; see <a href="https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework">this post</a> for what is an event
+folder.  During backups, <code>AAA/</code> is ignored, and only <code>Assets/</code> and
+<code>Documents/</code> are considered.  During synchronization, however, only
+<code>Documents/</code> is considered.
+</p>
+
+<p>
+In general, if any folder or file outside these three folders is of
+interest, they will have a local backup in <code>Assets/</code> or <code>Documents/</code>,
+maintaining by a special script <code>dms-presync</code>. This script should be executed
+before actual backup or sync process begins.
+</p>
+
+<div id="outline-container-orga3fb2ed" class="outline-2">
+<h2 id="orga3fb2ed">Presync</h2>
+<div class="outline-text-2" id="text-orga3fb2ed">
+<ol class="org-ol">
+<li><p>
+For each git repos, sync them with the special upstream <code>backup</code>.
+</p>
+
+<p>
+Use this command to list all git repos.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">find . -name <span style="color: #2aa198;">".git"</span>
+</pre>
+</div></li>
+
+<li>Normalize event folders in <code>Documents/</code>.</li>
+
+<li><p>
+Ensure all files of interest have an up-to-date version in <code>Assets/</code> or <code>Documents/</code>.
+</p>
+
+<p>
+Some folders involved in this stage include, e.g., <code>~/.local/share/fonts/</code>,
+<code>~/org/</code> and <code>~/.themes/</code>.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org3bb1eb1" class="outline-2">
+<h2 id="org3bb1eb1">Backup and Sync</h2>
+<div class="outline-text-2" id="text-org3bb1eb1">
+<p>
+Suppose I want to backup all necessary files in <code>/home/dou</code> to
+<code>/media/dou/BACKUP/dou/</code>, I go through the following steps (in this
+stage, all <code>.git/</code> folders are ignored).
+</p>
+
+<ol class="org-ol">
+<li value="0">Ensure <code>/media/dou/BACKUP/dou/</code> is a git repo.</li>
+
+<li>Run the script <code>dms-sync</code> to bakcup <code>~/Assets/</code> and <code>~/Documents/</code>.</li>
+
+<li>Commit in <code>/media/dou/BACKUP/dou/</code>.</li>
+</ol>
+
+<p>
+For synchronization with the cloud, only <code>~/Documents/</code> is synced.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div>]]></description>
+  <category><![CDATA[think]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-02-01-TopLevelFolders/how-i-sync-and-backup-files.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-02-01-TopLevelFolders/how-i-sync-and-backup-files.html</guid>
+  <pubDate>Sat, 03 Feb 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Event-oriented File Storage Framework]]></title>
   <description><![CDATA[
