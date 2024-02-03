@@ -1,6 +1,6 @@
 (require 'org-static-blog)
 
-(setq dms/org-static-blog-root-dir "/home/dou/Documents/2024-01-24-MyOrgBlog/")
+(setq dms/org-static-blog-root-dir "/home/dou/Blog/")
 
 (setq org-static-blog-publish-title "Dou Meishi's Blog")
 (setq org-static-blog-publish-url "https://dou-meishi.github.io/org-blog/")
