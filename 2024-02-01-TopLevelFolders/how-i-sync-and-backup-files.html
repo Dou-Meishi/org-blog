@@ -6,7 +6,7 @@
       type="application/rss+xml"
       href="https://dou-meishi.github.io/org-blog/rss.xml"
       title="RSS feed for https://dou-meishi.github.io/org-blog/">
-<title>How I backup and sync files</title>
+<title>How I create backups</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
@@ -28,13 +28,14 @@
 </div>
 </div>
 <div id="content">
-<div class="post-date">03 Feb 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-01-TopLevelFolders/how-i-sync-and-backup-files.html">How I backup and sync files</a></h1>
+<div class="post-date">03 Feb 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-01-TopLevelFolders/how-i-sync-and-backup-files.html">How I create backups</a></h1>
 <nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga3fb2ed">Presync</a></li>
-<li><a href="#org3bb1eb1">Backup and Sync</a></li>
+<li><a href="#org478b2bc">Different focus of syncing and backing up</a></li>
+<li><a href="#org7191ebb">Presync</a></li>
+<li><a href="#org9045173">Backup</a></li>
 </ul>
 </div>
 </nav>
@@ -49,34 +50,52 @@ Generally speaking, <code>AAA/</code> severs as a trash bin; <code>Assets/</code
 repo for large files; <code>Documents/</code> severs as the main workspace,
 containing all event folders; see <a href="https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework">this post</a> for what is an event
 folder.  During backups, <code>AAA/</code> is ignored, and only <code>Assets/</code> and
-<code>Documents/</code> are considered.  During synchronization, however, only
-<code>Documents/</code> is considered.
+<code>Documents/</code> are considered.
 </p>
 
 <p>
 In general, if any folder or file outside these three folders is of
-interest, they will have a local backup in <code>Assets/</code> or <code>Documents/</code>,
-maintaining by a special script <code>dms-presync</code>. This script should be executed
-before actual backup or sync process begins.
+interest, they should have a local backup in <code>Assets/</code> or <code>Documents/</code>,
+maintaining by a special script <code>dms-presync</code>. This script should be
+executed before the actual backup process begins.
 </p>
 
-<div id="outline-container-orga3fb2ed" class="outline-2">
-<h2 id="orga3fb2ed">Presync</h2>
-<div class="outline-text-2" id="text-orga3fb2ed">
-<ol class="org-ol">
-<li><p>
-For each git repos, sync them with the special upstream <code>backup</code>.
+<div id="outline-container-org478b2bc" class="outline-2">
+<h2 id="org478b2bc">Different focus of syncing and backing up</h2>
+<div class="outline-text-2" id="text-org478b2bc">
+<p>
+First, I would like to give some difference between syncing and
+backing up based on personal experiences.
 </p>
 
 <p>
-Use this command to list all git repos.
+In synchronization, it is generally advised to treat folder as the
+smallest unit and avoid excluding some files or subfolders within the
+folder. Doing so ensures a seamless experience in switching machines
+to work on the same folder. When a folder is integrated into the
+synchronization framework, one should expect to have an identical
+experience across different machines.
 </p>
 
-<div class="org-src-container">
-<pre class="src src-bash">find . -name <span style="color: #2aa198;">".git"</span>
-</pre>
-</div></li>
+<p>
+On the other hand, backup procedures differ. In the context of backup,
+the primary goal is to prevent any data loss, rather than emphasizing
+a seamless experience when switching between machines. Consequently,
+certain unnecessary files could and should be ignored.
+</p>
+</div>
+</div>
 
+<div id="outline-container-org7191ebb" class="outline-2">
+<h2 id="org7191ebb">Presync</h2>
+<div class="outline-text-2" id="text-org7191ebb">
+<p>
+The purpose of this stage is to ensure that it is sufficient to
+consider only the two folders <code>Assets/</code> and <code>Documents/</code> in creating
+backups.
+</p>
+
+<ol class="org-ol">
 <li>Normalize event folders in <code>Documents/</code>.</li>
 
 <li><p>
@@ -91,11 +110,22 @@ Some folders involved in this stage include, e.g., <code>~/.local/share/fonts/</
 </div>
 </div>
 
-<div id="outline-container-org3bb1eb1" class="outline-2">
-<h2 id="org3bb1eb1">Backup and Sync</h2>
-<div class="outline-text-2" id="text-org3bb1eb1">
+<div id="outline-container-org9045173" class="outline-2">
+<h2 id="org9045173">Backup</h2>
+<div class="outline-text-2" id="text-org9045173">
 <p>
-Suppose I want to backup all necessary files in <code>/home/dou</code> to
+The actual backup process can be generally split into two steps:
+backup <code>.git/</code> folders and backup other folders.
+</p>
+
+<p>
+For each git repos, I manually back them up to the special upstream
+<code>backup</code>, which could be a remote repo in some cloud server or a local
+repo in the backup drive.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+
+<p>
+Suppose then I want to backup all necessary files in <code>/home/dou</code> to
 <code>/media/dou/BACKUP/dou/</code>, I go through the following steps (in this
 stage, all <code>.git/</code> folders are ignored).
 </p>
@@ -103,17 +133,23 @@ stage, all <code>.git/</code> folders are ignored).
 <ol class="org-ol">
 <li value="0">Ensure <code>/media/dou/BACKUP/dou/</code> is a git repo.</li>
 
-<li>Run the script <code>dms-sync</code> to bakcup <code>~/Assets/</code> and <code>~/Documents/</code>.</li>
+<li>Run <code>unison backup</code> to bakcup <code>~/Assets/</code> and <code>~/Documents/</code>.</li>
 
 <li>Commit in <code>/media/dou/BACKUP/dou/</code>.</li>
 </ol>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
 
-<p>
-For synchronization with the cloud, only <code>~/Documents/</code> is synced.
-</p>
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The command <code>find . -name ".git"</code> can list all git repos.
+</p></div></div>
+
+
 </div>
-</div>
-<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div></div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>
