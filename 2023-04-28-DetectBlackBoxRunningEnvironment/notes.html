@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Detect Blackbox Running Environments in Algorithm Contests</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">28 Apr 2023</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2023-04-28-DetectBlackBoxRunningEnvironment/notes.html">Detect Blackbox Running Environments in Algorithm Contests</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org08733e3">Mathematical Analysis</a>
+<ul>
+<li><a href="#orgc2f7c79">A simple case study</a></li>
+<li><a href="#the-revised-simple-case">The revised simple case</a></li>
+</ul>
+</li>
+<li><a href="#a-demo-determine-the-version-of-scipy">A Demo: determine the version of SciPy</a></li>
+<li><a href="#discussion">Discussion</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<b>Authors: Dou Meishi, ChatGPT</b>
+</p>
+
+<p>
+In some commercial algorithm contests, participants are required to
+upload their code to a secure platform to check their results. To
+protect the test case information, participants can only receive the
+results of their code execution. However, certain information, such as
+dependency details and package versions, is essential for developing
+specific projects. This post provides a systematic way to collect
+useful information about the blackbox running environment by analyzing
+the execution results of carefully crafted scripts.
+</p>
+
+<div id="outline-container-org08733e3" class="outline-2">
+<h2 id="org08733e3">Mathematical Analysis</h2>
+<div class="outline-text-2" id="text-org08733e3">
+</div>
+<div id="outline-container-orgc2f7c79" class="outline-3">
+<h3 id="orgc2f7c79">A simple case study</h3>
+<div class="outline-text-3" id="text-orgc2f7c79">
+<p>
+Given a blackbox environment, we aim to detect the true value of a
+single target variable \(X\), which can take values in a set \(U\). The
+environment can answer queries about \(X\), but the feedback is given in
+terms of another variable \(Y\), taking values in a set \(V\). The challenge
+is to design a procedure that translates query outputs of \(X\) into
+observations of \(Y\) to deduce the true value of \(X\).
+</p>
+
+<p>
+To be specific, let us study the following simple case where \(X\) takes
+discrete values in \(U=\{0, 1, 2, \ldots, 99\}\), and \(Y\) takes boolean
+values in \(V=\{0, 1\}\).
+</p>
+
+<p>
+We may apply the following procedure to determine the true value \(X^*\).
+The basic idea is representing \(X^*\) via 7 bits of data and retrieve one
+bit at a time through the value of \(Y\).
+</p>
+
+<ul class="org-ul">
+<li>Repeat the following steps 7 times to generate 7 observations of \(Y\),
+denoted by \(y_0, y_1, \ldots, y_6\):
+
+<ul class="org-ul">
+<li>For each iteration \(k = 0, 1, \ldots, 6\):
+
+<ul class="org-ul">
+<li>Determine the $k$-th bit of \(X^*\): set
+\(Y = ( \lfloor \frac{X}{2^k} \rfloor ) \bmod 2\).</li>
+
+<li>Emit \(Y\) as an observation and collect the $k$-th observation as
+\(y_k\).</li>
+</ul></li>
+</ul></li>
+
+<li>Analyze the observations and recover the true value of \(X^*\):
+
+<ul class="org-ul">
+<li>Set \(X = \sum_{k=0}^{6} y_k 2^k\).</li>
+
+<li>Return \(X\) as the determined value of \(X^*\).</li>
+</ul></li>
+</ul>
+
+<p>
+In the provided example, we used the binary representation of \(X^*\) to
+deduce its true value with a finite number of observations. Since any
+integer can be uniquely represented using its binary representation, we
+can generalize the procedure to any target variable \(X\) with \(n\)
+possible values, which is nothing but a direct usage of the following
+formula
+</p>
+
+<p>
+\[ n = \sum_{k=0}^{N-1} y_k 2^k, \qquad\forall n = 0, 1, \ldots, 2^{N}-1.\]
+</p>
+
+<p>
+<i>Fact I.</i> Given a target variable \(X\) that takes discrete values within
+a set containing \(n\) elements, and a blackbox environment that can emit
+at least two distinct states as observations, the true value \(X^*\) can
+be determined with \(\lceil\log_2 n\rceil\) observations.
+</p>
+
+<p>
+This fact could be easily extended in terms of the number of distinct
+states.
+</p>
+
+<p>
+<i>Fact II.</i> Given a target variable \(X\) that takes discrete values within
+a set containing \(n\) elements, and a blackbox environment that can emit
+\(m\) distinct states as observations, the true value \(X^*\) can be
+determined with \(\lceil \frac{\log_2 n}{\log_2 m} \rceil\) observations.
+</p>
+</div>
+</div>
+
+<div id="outline-container-the-revised-simple-case" class="outline-3">
+<h3 id="the-revised-simple-case">The revised simple case</h3>
+<div class="outline-text-3" id="text-the-revised-simple-case">
+<p>
+Let's consider the previous example again. But this time assume the
+target variable \(X\) is continous. Without loss of generality, we assume
+\(X\) takes value in \(U=[0, 1]\). For continous variable, obtaining its
+exact value is not reasonable. However, it is possible to narrow down
+the range set \(U\) to a much smaller set \(U_0\subset U\) and ensure
+\(X^*\in U_0\).
+</p>
+
+<ul class="org-ul">
+<li>Repeat the following steps N times to generate N observations of \(Y\),
+denoted by \(y_0, y_1, \ldots, y_{N-1}\):
+
+<ul class="org-ul">
+<li>For each iteration \(k = 0, 1, \ldots, N-1\):
+
+<ul class="org-ul">
+<li>Determine the $k$-th bit of \(X^*\): set
+\(Y = ( \lfloor X\times 2^{k+1} \rfloor ) \bmod 2\).</li>
+
+<li>Emit \(Y\) as an observation and collect the $k$-th observation as
+\(y_k\).</li>
+</ul></li>
+</ul></li>
+
+<li>Analyze the observations and recover the true value of \(X^*\):
+
+<ul class="org-ul">
+<li>Set \(X = 2^{-(N+1)} + \sum_{k=0}^{N-1} y_k 2^{-(k+1)}\).</li>
+
+<li>Return \(X\) as the determined value of \(X^*\).</li>
+</ul></li>
+</ul>
+
+<p>
+In view of the following formula
+</p>
+
+<p>
+\[ x = \sum_{k = 0}^{N-1} y_k 2^{-(k+1)} + \sum_{k=N}^{\infty} y_k 2^{-(k+1)},\qquad\forall x\in[0,1],\]
+</p>
+
+<p>
+the following fact is clearly true.
+</p>
+
+<p>
+<i>Fact III.</i> Given a target variable \(X\) that takes values within the
+continuous set \([0, 1]\), and a blackbox environment that can emit at
+least two distinct states as observations, an approximation \(X\) of the
+true value \(X^*\) can be obtained with \(N\) observations to ensure the
+approximation error \(|X-X^*| \leq 2^{-N-1}\).
+</p>
+
+<p>
+This fact could be extended to \(m\) distinct states similarily.
+</p>
+
+<p>
+<i>Fact IV.</i> Given a target variable \(X\) that takes values within the
+continuous set \([0, 1]\), and a blackbox environment that can emit at
+least \(m\) distinct states as observations, an approximation \(X\) of the
+true value \(X^*\) can be obtained with \(N\) observations to ensure the
+approximation error \(|X-X^*| \leq m^{-N-1}\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-a-demo-determine-the-version-of-scipy" class="outline-2">
+<h2 id="a-demo-determine-the-version-of-scipy">A Demo: determine the version of SciPy</h2>
+<div class="outline-text-2" id="text-a-demo-determine-the-version-of-scipy">
+<p>
+Let us consider a scenario where we are participating in an algorithm
+contest. The contest organizer provides a secure platform to execute our
+code and return the result: (1) a score between 0 and 100, if our code
+executes successfully, and (2) a warning indicating the failure to
+execute our code. Our objective is to determine the version of SciPy in
+the Python environment being used to run our code.
+</p>
+
+<p>
+Currently, the version name <code>x.y.z</code> consists of
+</p>
+
+<ul class="org-ul">
+<li>a major name <code>x</code>, which takes value in \(\{0, 1\}\);</li>
+<li>a minor name <code>y</code>, which takes value in \(\{0, 1, \ldots, 19\}\);</li>
+<li>a micro name <code>z</code>, which takes value in \(\{0, 1, \ldots, 9\}\).</li>
+</ul>
+
+<p>
+See <a href="https://scipy.org/news/#releases">SciPy Release News</a> for a
+complete release history.
+</p>
+
+<p>
+A binary search requires at most 1 observation to determine <code>x</code>, at most
+5 observations to determine <code>y</code> and at most 4 observations to determine
+<code>z</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> time
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">get_kbit</span>(n, k):
+    <span style="color: #2aa198;">'''return the value of k-th bit of an integer n.</span>
+<span style="color: #2aa198;">        n == sum(get_kbit(n, k) * 2**k for k in range(n))</span>
+<span style="color: #2aa198;">    should hold trivially.'''</span>
+    <span style="color: #859900; font-weight: bold;">return</span> (n // (2 ** k)) % 2
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">recover_from_bits</span>(bits):
+    <span style="color: #2aa198;">'''restore n from outputs of get_kbit'''</span>
+    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #657b83; font-weight: bold;">sum</span>(bk * 2**k <span style="color: #859900; font-weight: bold;">for</span> k, bk <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span>(bits))
+
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">observation is simulated via exceptions</span>
+<span style="color: #268bd2;">ObservationException</span> = <span style="color: #657b83; font-weight: bold;">type</span>(<span style="color: #2aa198;">'ObservationException'</span>, (<span style="color: #b58900;">BaseException</span>,), {})
+<span style="color: #268bd2;">Observation0</span> = <span style="color: #657b83; font-weight: bold;">type</span>(<span style="color: #2aa198;">'Observation0'</span>, (ObservationException,), {})
+<span style="color: #268bd2;">Observation1</span> = <span style="color: #657b83; font-weight: bold;">type</span>(<span style="color: #2aa198;">'Observation1'</span>, (ObservationException,), {})
+
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">VersionQuerier</span>:
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, version: <span style="color: #657b83; font-weight: bold;">str</span>):
+        <span style="color: #2aa198;">'''version should follow the pattern x.y.z'''</span>
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">version</span> = version
+
+        <span style="color: #268bd2;">major</span>, <span style="color: #268bd2;">minor</span>, <span style="color: #268bd2;">micro</span> = version.split(<span style="color: #2aa198;">'.'</span>)
+
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">major</span> = <span style="color: #657b83; font-weight: bold;">int</span>(major)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">minor</span> = <span style="color: #657b83; font-weight: bold;">int</span>(minor)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">micro</span> = <span style="color: #657b83; font-weight: bold;">int</span>(micro)
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">set_observation</span>(<span style="color: #859900; font-weight: bold;">self</span>, ob):
+        <span style="color: #2aa198;">'''take an action to throw the corresponding observation.'''</span>
+        <span style="color: #859900; font-weight: bold;">if</span> ob == 0:
+            <span style="color: #859900; font-weight: bold;">raise</span> Observation0
+        <span style="color: #859900; font-weight: bold;">elif</span> ob == 1:
+            <span style="color: #859900; font-weight: bold;">raise</span> Observation1
+        <span style="color: #859900; font-weight: bold;">else</span>:
+            <span style="color: #859900; font-weight: bold;">raise</span> <span style="color: #b58900;">ValueError</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">main</span>():
+    <span style="color: #859900; font-weight: bold;">import</span> scipy
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">inititliazation</span>
+    <span style="color: #268bd2;">querier</span> = VersionQuerier(scipy.__version__)
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">only the first constrol statement would be executed</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">comment those lines run before</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">check set_observation</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(0)</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(1)</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(2)</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">query major version name</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.major, 0))     # output: 1</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">query minor version name</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 0))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 1))     # output: 1</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 2))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 3))     # output: 1</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 4))     # output: 0</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">query micro version name</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 0))     # output: 1</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 1))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 2))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 3))     # output: 0</span>
+
+<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">__name__</span> == <span style="color: #2aa198;">'__main__'</span>:
+    <span style="color: #859900; font-weight: bold;">try</span>:
+        main()
+    <span style="color: #859900; font-weight: bold;">except</span> Observation0 <span style="color: #859900; font-weight: bold;">as</span> e:
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">simulate a successful run with a particular score</span>
+        <span style="color: #859900; font-weight: bold;">pass</span>
+    <span style="color: #859900; font-weight: bold;">except</span> Observation1 <span style="color: #859900; font-weight: bold;">as</span> e:
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">simulate a failaure run due to some error of the code</span>
+        <span style="color: #859900; font-weight: bold;">raise</span> e
+    <span style="color: #859900; font-weight: bold;">except</span> <span style="color: #b58900;">BaseException</span> <span style="color: #859900; font-weight: bold;">as</span> e:
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">in case of any other errors</span>
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">simulate a failaure run due to time limit exceeded</span>
+        time.sleep(5)
+</pre>
+</div>
+
+<p>
+The provided code defines a VersionQuerier class that simulates the
+process of querying the version of SciPy installed in the environment.
+It initializes the class with the actual version of SciPy and provides
+methods to set and retrieve observations based on the k-th bit of each
+part of the version number (major, minor, and micro).
+</p>
+
+<p>
+The main function demonstrates how to use the VersionQuerier class by
+querying the bits of the version number in sequence. This information
+can be used to narrow down the range of possible version numbers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-discussion" class="outline-2">
+<h2 id="discussion">Discussion</h2>
+<div class="outline-text-2" id="text-discussion">
+<p>
+If a contest organizer provides an upload limit of at least 20 times per
+day and offers at least two distinct forms of feedback, a participant
+can ascertain the true value of any integer variable once per day,
+provided that it is not greater than \(10^6\). Furthermore, if the
+participant can maintain stable occurrence of four different feedback
+states (e.g., by observing their score instead of relying solely on
+failed code submissions), the number of integer variables they can
+determine will double. In general, this number grows linearly with
+respect to the logarithm of the number of distinct feedbacks.
+</p>
+
+<p>
+The procedure demonstrated in the previous section can be automated by
+generating a script to be uploaded via another script, which can also
+parse the result from the contest website in real time. Ultimately, this
+leads to another standard problem: <i>the communication between two
+systems</i>.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

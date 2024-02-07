@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Visual Studion Code - A Morden Source Code Editor</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">06 Apr 2023</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2023-04-06-IntroVSCode/notes.html">Visual Studion Code - A Morden Source Code Editor</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#interface">1. Interface</a></li>
+<li><a href="#command-palette">2. Command Palette</a></li>
+<li><a href="#customization">3. Customization</a></li>
+<li><a href="#extensions">4. Extensions</a></li>
+<li><a href="#snippets">5. Snippets</a></li>
+</ul>
+</div>
+</nav>
+<p>
+Visual Studio Code is a lightweight but powerful source code editor
+which runs on your desktop and is available for Windows, macOS and
+Linux. It comes with built-in support for JavaScript, TypeScript and
+Node.js and has a rich ecosystem of extensions for other languages and
+runtimes (such as C++, C#, Java, Python, PHP, Go, .NET).
+</p>
+
+<p>
+Here is the official documentation <a href="https://code.visualstudio.com/docs">VS Code - Get Started</a>
+</p>
+
+<p>
+See also <a href="https://adamtheautomator.com/visual-studio-code-tutorial/">The Visual Studio Code Tutorial Worth Learning</a> for a brief
+introduction to VS Code.
+</p>
+
+<p>
+TODO
+</p>
+
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> Add a section to discuss math in Markdown. Consider Extension
+<code>Markdown+Math</code>.</li>
+
+<li class="off"><code>[&#xa0;]</code> Add a section to discuss output to html. Consider Extension
+<code>Markdown All in One</code>.</li>
+</ul>
+
+<div id="outline-container-interface" class="outline-2">
+<h2 id="interface">1. Interface</h2>
+<div class="outline-text-2" id="text-interface">
+<p>
+The UI is divided into five areas:
+</p>
+
+<ul class="org-ul">
+<li>Editor - The main area to edit your files. You can open as many
+editors as you like side by side vertically and horizontally.</li>
+
+<li>Side Bar - Contains different views like the Explorer to assist you
+while working on your project.</li>
+
+<li>Status Bar - Information about the opened project and the files you
+edit.</li>
+
+<li>Activity Bar - Located on the far left-hand side, this lets you switch
+between views and gives you additional context-specific indicators,
+like the number of outgoing changes when Git is enabled.</li>
+
+<li>Panels - You can display different panels below the editor region for
+output or debug information, errors and warnings, or an integrated
+terminal. Panel can also be moved to the right for more vertical
+space.</li>
+</ul>
+
+
+<figure id="orgfc4b0ca">
+<img src="./vscode-UI.png" alt="vscode-UI.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>VS Code UI</figcaption>
+</figure>
+</div>
+</div>
+
+<div id="outline-container-command-palette" class="outline-2">
+<h2 id="command-palette">2. Command Palette</h2>
+<div class="outline-text-2" id="text-command-palette">
+<p>
+The Command Palette in VS Code is a menu that <b><i>provides access to all
+functionality within VS Code and any installed extensions</i></b>. It can be
+accessed via the View menu or by using the <code>Ctrl-Shift-P</code> shortcut. The
+Command Palette is <i>a single location for managing tasks, settings,
+snippets, and more</i>, making it a useful tool for easy and efficient
+navigation within VS Code.
+</p>
+</div>
+</div>
+
+<div id="outline-container-customization" class="outline-2">
+<h2 id="customization">3. Customization</h2>
+<div class="outline-text-2" id="text-customization">
+<p>
+There are many things you can do to customize VS Code.
+</p>
+
+<ul class="org-ul">
+<li>Change your theme <code>&gt;Preferences: Color Theme</code></li>
+
+<li><p>
+Change your keyboard shortcuts <code>&gt;Preferences: Open Keyboard Shortcuts</code>
+</p>
+
+<blockquote>
+<p>
+See also<a href="https://code.visualstudio.com/docs/getstarted/keybindings#_detecting-keybinding-conflicts">Detecting keybinding conflicts</a> if necessary.
+</p>
+</blockquote></li>
+
+<li><p>
+Tune your settings <code>&gt;Preferences: Open Settings (UI)</code>
+</p>
+
+<blockquote>
+<p>
+You can scope the settings that you only want for specific languages
+by the language identifier, see <a href="https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_language-specific-settings">Language specific settings</a>.
+</p>
+</blockquote></li>
+
+<li>Create snippets</li>
+
+<li>Install extensions</li>
+</ul>
+
+<p>
+To manage settings, open the Command Palette with <code>Ctrl-Shift-P</code>. Type
+"settings" and choose <code>Preferences: Open Settings (JSON)</code> or
+<code>Preferences: Open Settings (UI)</code>
+</p>
+
+<p>
+Depending on your platform, the user settings file is located here:
+</p>
+
+<ul class="org-ul">
+<li>Windows <code>%APPDATA%\Code\User\settings.json</code></li>
+<li>macOS <code>$HOME/Library/Application\ Support/Code/User/settings.json</code></li>
+<li>Linux <code>$HOME/.config/Code/User/settings.json</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-extensions" class="outline-2">
+<h2 id="extensions">4. Extensions</h2>
+<div class="outline-text-2" id="text-extensions">
+<p>
+One of the most important features of VS Code is its extensions. An
+extension is a small package you can load into VS Code that makes
+working with various resources easier.
+</p>
+
+<p>
+Extensions are installed in a per user extensions folder. Depending on
+your platform, the location is in the following folder:
+</p>
+
+<ul class="org-ul">
+<li>Windows <code>%USERPROFILE%\.vscode\extensions</code></li>
+<li>macOS <code>~/.vscode/extensions</code></li>
+<li>Linux <code>~/.vscode/extensions</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-snippets" class="outline-2">
+<h2 id="snippets">5. Snippets</h2>
+<div class="outline-text-2" id="text-snippets">
+<p>
+Snippets allow you to type a few characters in a code editor tab that
+quickly expands to whatever you need. Each snippet is a single JSON
+element that matches a particular syntax.
+</p>
+
+<p>
+Snippets exist by language or extension and are stored in JSON files.
+For example, you can have a set of PowerShell, ARM template, Python, C#,
+and Javascript snippets installed simultaneously.
+</p>
+
+<p>
+You can find snippets by opening up the command palette with
+<code>Ctrl-Shift-P</code>, typing "snippets" and hitting Enter.
+</p>
+
+<p>
+See <a href="https://code.visualstudio.com/docs/editor/userdefinedsnippets">Snippets in Visual Studio Code</a> for more details.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

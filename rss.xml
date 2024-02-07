@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sun, 04 Feb 2024 22:50:42 +0800</lastBuildDate>
+<lastBuildDate>Wed, 07 Feb 2024 10:38:31 +0800</lastBuildDate>
 <item>
   <title><![CDATA[How I create backups]]></title>
   <description><![CDATA[
@@ -3395,6 +3395,741 @@ Q.E.D.
   <pubDate>Sun, 30 Apr 2023 00:00:00 +0800</pubDate>
 </item>
 <item>
+  <title><![CDATA[Detect Blackbox Running Environments in Algorithm Contests]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org08733e3">Mathematical Analysis</a>
+<ul>
+<li><a href="#orgc2f7c79">A simple case study</a></li>
+<li><a href="#the-revised-simple-case">The revised simple case</a></li>
+</ul>
+</li>
+<li><a href="#a-demo-determine-the-version-of-scipy">A Demo: determine the version of SciPy</a></li>
+<li><a href="#discussion">Discussion</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<b>Authors: Dou Meishi, ChatGPT</b>
+</p>
+
+<p>
+In some commercial algorithm contests, participants are required to
+upload their code to a secure platform to check their results. To
+protect the test case information, participants can only receive the
+results of their code execution. However, certain information, such as
+dependency details and package versions, is essential for developing
+specific projects. This post provides a systematic way to collect
+useful information about the blackbox running environment by analyzing
+the execution results of carefully crafted scripts.
+</p>
+
+<div id="outline-container-org08733e3" class="outline-2">
+<h2 id="org08733e3">Mathematical Analysis</h2>
+<div class="outline-text-2" id="text-org08733e3">
+</div>
+<div id="outline-container-orgc2f7c79" class="outline-3">
+<h3 id="orgc2f7c79">A simple case study</h3>
+<div class="outline-text-3" id="text-orgc2f7c79">
+<p>
+Given a blackbox environment, we aim to detect the true value of a
+single target variable \(X\), which can take values in a set \(U\). The
+environment can answer queries about \(X\), but the feedback is given in
+terms of another variable \(Y\), taking values in a set \(V\). The challenge
+is to design a procedure that translates query outputs of \(X\) into
+observations of \(Y\) to deduce the true value of \(X\).
+</p>
+
+<p>
+To be specific, let us study the following simple case where \(X\) takes
+discrete values in \(U=\{0, 1, 2, \ldots, 99\}\), and \(Y\) takes boolean
+values in \(V=\{0, 1\}\).
+</p>
+
+<p>
+We may apply the following procedure to determine the true value \(X^*\).
+The basic idea is representing \(X^*\) via 7 bits of data and retrieve one
+bit at a time through the value of \(Y\).
+</p>
+
+<ul class="org-ul">
+<li>Repeat the following steps 7 times to generate 7 observations of \(Y\),
+denoted by \(y_0, y_1, \ldots, y_6\):
+
+<ul class="org-ul">
+<li>For each iteration \(k = 0, 1, \ldots, 6\):
+
+<ul class="org-ul">
+<li>Determine the $k$-th bit of \(X^*\): set
+\(Y = ( \lfloor \frac{X}{2^k} \rfloor ) \bmod 2\).</li>
+
+<li>Emit \(Y\) as an observation and collect the $k$-th observation as
+\(y_k\).</li>
+</ul></li>
+</ul></li>
+
+<li>Analyze the observations and recover the true value of \(X^*\):
+
+<ul class="org-ul">
+<li>Set \(X = \sum_{k=0}^{6} y_k 2^k\).</li>
+
+<li>Return \(X\) as the determined value of \(X^*\).</li>
+</ul></li>
+</ul>
+
+<p>
+In the provided example, we used the binary representation of \(X^*\) to
+deduce its true value with a finite number of observations. Since any
+integer can be uniquely represented using its binary representation, we
+can generalize the procedure to any target variable \(X\) with \(n\)
+possible values, which is nothing but a direct usage of the following
+formula
+</p>
+
+<p>
+\[ n = \sum_{k=0}^{N-1} y_k 2^k, \qquad\forall n = 0, 1, \ldots, 2^{N}-1.\]
+</p>
+
+<p>
+<i>Fact I.</i> Given a target variable \(X\) that takes discrete values within
+a set containing \(n\) elements, and a blackbox environment that can emit
+at least two distinct states as observations, the true value \(X^*\) can
+be determined with \(\lceil\log_2 n\rceil\) observations.
+</p>
+
+<p>
+This fact could be easily extended in terms of the number of distinct
+states.
+</p>
+
+<p>
+<i>Fact II.</i> Given a target variable \(X\) that takes discrete values within
+a set containing \(n\) elements, and a blackbox environment that can emit
+\(m\) distinct states as observations, the true value \(X^*\) can be
+determined with \(\lceil \frac{\log_2 n}{\log_2 m} \rceil\) observations.
+</p>
+</div>
+</div>
+
+<div id="outline-container-the-revised-simple-case" class="outline-3">
+<h3 id="the-revised-simple-case">The revised simple case</h3>
+<div class="outline-text-3" id="text-the-revised-simple-case">
+<p>
+Let's consider the previous example again. But this time assume the
+target variable \(X\) is continous. Without loss of generality, we assume
+\(X\) takes value in \(U=[0, 1]\). For continous variable, obtaining its
+exact value is not reasonable. However, it is possible to narrow down
+the range set \(U\) to a much smaller set \(U_0\subset U\) and ensure
+\(X^*\in U_0\).
+</p>
+
+<ul class="org-ul">
+<li>Repeat the following steps N times to generate N observations of \(Y\),
+denoted by \(y_0, y_1, \ldots, y_{N-1}\):
+
+<ul class="org-ul">
+<li>For each iteration \(k = 0, 1, \ldots, N-1\):
+
+<ul class="org-ul">
+<li>Determine the $k$-th bit of \(X^*\): set
+\(Y = ( \lfloor X\times 2^{k+1} \rfloor ) \bmod 2\).</li>
+
+<li>Emit \(Y\) as an observation and collect the $k$-th observation as
+\(y_k\).</li>
+</ul></li>
+</ul></li>
+
+<li>Analyze the observations and recover the true value of \(X^*\):
+
+<ul class="org-ul">
+<li>Set \(X = 2^{-(N+1)} + \sum_{k=0}^{N-1} y_k 2^{-(k+1)}\).</li>
+
+<li>Return \(X\) as the determined value of \(X^*\).</li>
+</ul></li>
+</ul>
+
+<p>
+In view of the following formula
+</p>
+
+<p>
+\[ x = \sum_{k = 0}^{N-1} y_k 2^{-(k+1)} + \sum_{k=N}^{\infty} y_k 2^{-(k+1)},\qquad\forall x\in[0,1],\]
+</p>
+
+<p>
+the following fact is clearly true.
+</p>
+
+<p>
+<i>Fact III.</i> Given a target variable \(X\) that takes values within the
+continuous set \([0, 1]\), and a blackbox environment that can emit at
+least two distinct states as observations, an approximation \(X\) of the
+true value \(X^*\) can be obtained with \(N\) observations to ensure the
+approximation error \(|X-X^*| \leq 2^{-N-1}\).
+</p>
+
+<p>
+This fact could be extended to \(m\) distinct states similarily.
+</p>
+
+<p>
+<i>Fact IV.</i> Given a target variable \(X\) that takes values within the
+continuous set \([0, 1]\), and a blackbox environment that can emit at
+least \(m\) distinct states as observations, an approximation \(X\) of the
+true value \(X^*\) can be obtained with \(N\) observations to ensure the
+approximation error \(|X-X^*| \leq m^{-N-1}\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-a-demo-determine-the-version-of-scipy" class="outline-2">
+<h2 id="a-demo-determine-the-version-of-scipy">A Demo: determine the version of SciPy</h2>
+<div class="outline-text-2" id="text-a-demo-determine-the-version-of-scipy">
+<p>
+Let us consider a scenario where we are participating in an algorithm
+contest. The contest organizer provides a secure platform to execute our
+code and return the result: (1) a score between 0 and 100, if our code
+executes successfully, and (2) a warning indicating the failure to
+execute our code. Our objective is to determine the version of SciPy in
+the Python environment being used to run our code.
+</p>
+
+<p>
+Currently, the version name <code>x.y.z</code> consists of
+</p>
+
+<ul class="org-ul">
+<li>a major name <code>x</code>, which takes value in \(\{0, 1\}\);</li>
+<li>a minor name <code>y</code>, which takes value in \(\{0, 1, \ldots, 19\}\);</li>
+<li>a micro name <code>z</code>, which takes value in \(\{0, 1, \ldots, 9\}\).</li>
+</ul>
+
+<p>
+See <a href="https://scipy.org/news/#releases">SciPy Release News</a> for a
+complete release history.
+</p>
+
+<p>
+A binary search requires at most 1 observation to determine <code>x</code>, at most
+5 observations to determine <code>y</code> and at most 4 observations to determine
+<code>z</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> time
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">get_kbit</span>(n, k):
+    <span style="color: #2aa198;">'''return the value of k-th bit of an integer n.</span>
+<span style="color: #2aa198;">        n == sum(get_kbit(n, k) * 2**k for k in range(n))</span>
+<span style="color: #2aa198;">    should hold trivially.'''</span>
+    <span style="color: #859900; font-weight: bold;">return</span> (n // (2 ** k)) % 2
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">recover_from_bits</span>(bits):
+    <span style="color: #2aa198;">'''restore n from outputs of get_kbit'''</span>
+    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #657b83; font-weight: bold;">sum</span>(bk * 2**k <span style="color: #859900; font-weight: bold;">for</span> k, bk <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span>(bits))
+
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">observation is simulated via exceptions</span>
+<span style="color: #268bd2;">ObservationException</span> = <span style="color: #657b83; font-weight: bold;">type</span>(<span style="color: #2aa198;">'ObservationException'</span>, (<span style="color: #b58900;">BaseException</span>,), {})
+<span style="color: #268bd2;">Observation0</span> = <span style="color: #657b83; font-weight: bold;">type</span>(<span style="color: #2aa198;">'Observation0'</span>, (ObservationException,), {})
+<span style="color: #268bd2;">Observation1</span> = <span style="color: #657b83; font-weight: bold;">type</span>(<span style="color: #2aa198;">'Observation1'</span>, (ObservationException,), {})
+
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">VersionQuerier</span>:
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, version: <span style="color: #657b83; font-weight: bold;">str</span>):
+        <span style="color: #2aa198;">'''version should follow the pattern x.y.z'''</span>
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">version</span> = version
+
+        <span style="color: #268bd2;">major</span>, <span style="color: #268bd2;">minor</span>, <span style="color: #268bd2;">micro</span> = version.split(<span style="color: #2aa198;">'.'</span>)
+
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">major</span> = <span style="color: #657b83; font-weight: bold;">int</span>(major)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">minor</span> = <span style="color: #657b83; font-weight: bold;">int</span>(minor)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">micro</span> = <span style="color: #657b83; font-weight: bold;">int</span>(micro)
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">set_observation</span>(<span style="color: #859900; font-weight: bold;">self</span>, ob):
+        <span style="color: #2aa198;">'''take an action to throw the corresponding observation.'''</span>
+        <span style="color: #859900; font-weight: bold;">if</span> ob == 0:
+            <span style="color: #859900; font-weight: bold;">raise</span> Observation0
+        <span style="color: #859900; font-weight: bold;">elif</span> ob == 1:
+            <span style="color: #859900; font-weight: bold;">raise</span> Observation1
+        <span style="color: #859900; font-weight: bold;">else</span>:
+            <span style="color: #859900; font-weight: bold;">raise</span> <span style="color: #b58900;">ValueError</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">main</span>():
+    <span style="color: #859900; font-weight: bold;">import</span> scipy
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">inititliazation</span>
+    <span style="color: #268bd2;">querier</span> = VersionQuerier(scipy.__version__)
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">only the first constrol statement would be executed</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">comment those lines run before</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">check set_observation</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(0)</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(1)</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(2)</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">query major version name</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.major, 0))     # output: 1</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">query minor version name</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 0))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 1))     # output: 1</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 2))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 3))     # output: 1</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.minor, 4))     # output: 0</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">query micro version name</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 0))     # output: 1</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 1))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 2))     # output: 0</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">querier.set_observation(get_kbit(querier.micro, 3))     # output: 0</span>
+
+<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">__name__</span> == <span style="color: #2aa198;">'__main__'</span>:
+    <span style="color: #859900; font-weight: bold;">try</span>:
+        main()
+    <span style="color: #859900; font-weight: bold;">except</span> Observation0 <span style="color: #859900; font-weight: bold;">as</span> e:
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">simulate a successful run with a particular score</span>
+        <span style="color: #859900; font-weight: bold;">pass</span>
+    <span style="color: #859900; font-weight: bold;">except</span> Observation1 <span style="color: #859900; font-weight: bold;">as</span> e:
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">simulate a failaure run due to some error of the code</span>
+        <span style="color: #859900; font-weight: bold;">raise</span> e
+    <span style="color: #859900; font-weight: bold;">except</span> <span style="color: #b58900;">BaseException</span> <span style="color: #859900; font-weight: bold;">as</span> e:
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">in case of any other errors</span>
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">simulate a failaure run due to time limit exceeded</span>
+        time.sleep(5)
+</pre>
+</div>
+
+<p>
+The provided code defines a VersionQuerier class that simulates the
+process of querying the version of SciPy installed in the environment.
+It initializes the class with the actual version of SciPy and provides
+methods to set and retrieve observations based on the k-th bit of each
+part of the version number (major, minor, and micro).
+</p>
+
+<p>
+The main function demonstrates how to use the VersionQuerier class by
+querying the bits of the version number in sequence. This information
+can be used to narrow down the range of possible version numbers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-discussion" class="outline-2">
+<h2 id="discussion">Discussion</h2>
+<div class="outline-text-2" id="text-discussion">
+<p>
+If a contest organizer provides an upload limit of at least 20 times per
+day and offers at least two distinct forms of feedback, a participant
+can ascertain the true value of any integer variable once per day,
+provided that it is not greater than \(10^6\). Furthermore, if the
+participant can maintain stable occurrence of four different feedback
+states (e.g., by observing their score instead of relying solely on
+failed code submissions), the number of integer variables they can
+determine will double. In general, this number grows linearly with
+respect to the logarithm of the number of distinct feedbacks.
+</p>
+
+<p>
+The procedure demonstrated in the previous section can be automated by
+generating a script to be uploaded via another script, which can also
+parse the result from the contest website in real time. Ultimately, this
+leads to another standard problem: <i>the communication between two
+systems</i>.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div>]]></description>
+  <category><![CDATA[think]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2023-04-28-DetectBlackBoxRunningEnvironment/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-04-28-DetectBlackBoxRunningEnvironment/notes.html</guid>
+  <pubDate>Fri, 28 Apr 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Simulating Swap Operations Without Modifying Data]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org28800ef">Introduction</a></li>
+<li><a href="#org4bf6a28">Background and Applications</a></li>
+<li><a href="#org817dfff">Problem Statement and Our Solution</a></li>
+<li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#org3dac822">Mathematical Justifications</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<b>Authors</b>: Dou Meishi, ChatGPT
+</p>
+
+<div id="outline-container-org28800ef" class="outline-2">
+<h2 id="org28800ef">Introduction</h2>
+<div class="outline-text-2" id="text-org28800ef">
+<p>
+In many applications, it is often required to simulate swap operations
+on a list of elements without actually modifying the underlying data.
+This can be useful in various scenarios, such as when you need to
+analyze the impact of different permutations on a given data structure
+or when you want to maintain multiple views of the data with different
+sorting orders.
+</p>
+
+<p>
+In this blog post, we will discuss the problem of simulating swap
+operations without modifying the data, explore the background and
+applications, and provide a Python code example that demonstrates how to
+implement this functionality using a simple class structure. Finally, we
+will explain the reasons behind our implementation and conclude.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4bf6a28" class="outline-2">
+<h2 id="org4bf6a28">Background and Applications</h2>
+<div class="outline-text-2" id="text-org4bf6a28">
+<p>
+Swapping elements in a list is a fundamental operation in many
+algorithms, such as sorting algorithms and combinatorial search
+algorithms. However, there are situations where we want to simulate
+these swaps without actually modifying the original data. Some possible
+applications include:
+</p>
+
+<ol class="org-ol">
+<li><b>Data visualization</b>: When working with interactive visualizations,
+it is often necessary to display different views of the same data,
+based on user interactions. By simulating swaps without modifying the
+data, we can easily switch between different views without affecting
+the underlying data.</li>
+
+<li><b>Algorithm analysis</b>: Analyzing the performance of algorithms that
+involve swapping elements can be done more efficiently by simulating
+swaps without modifying the data. This allows us to observe the
+impact of different permutations on the algorithm's performance
+without the overhead of actually modifying the data structure.</li>
+
+<li><b>Undo/redo functionality</b>: In some applications, like text editors or
+image editing software, users may want to undo or redo certain
+actions. By simulating swaps without modifying the data, we can
+maintain a history of actions and easily revert to previous states
+without affecting the original data.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org817dfff" class="outline-2">
+<h2 id="org817dfff">Problem Statement and Our Solution</h2>
+<div class="outline-text-2" id="text-org817dfff">
+<p>
+Suppose we have a list of elements and we want to simulate swap
+operations on this list without modifying the actual data. We also want
+to be able to retrieve the elements in their current order, reflecting
+the simulated swap operations.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">data</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'eta'</span>]
+<span style="color: #268bd2;">vec</span> = Vector(data)
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 1-th and 3-th value</span>
+vec.swap(1, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'beta'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i]==expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 2-th and 3-th value</span>
+vec.swap(2, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i]==expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">restore data from view</span>
+<span style="color: #268bd2;">restored_data</span> = [view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> vec.addr2name]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(data[i]==restored_data[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+</pre>
+</div>
+
+<p>
+To address this problem, we propose the implementation of a class called
+<code>Viewable_Mixin</code>. This class maintains two lists, <code>self.indices</code> and
+<code>self.inverse_indices</code>, that store the forward and inverse mappings
+between the view and the data, respectively. The <code>swap</code> method is used
+to simulate swap operations on the view, while the <code>view</code> property
+returns the current state of the view.
+</p>
+
+<p>
+Below is the complete Python code that demonstrates how to simulate swap
+operations without modifying the data using a simple class structure
+called <code>Viewable_Mixin</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Viewable_Mixin</span>(<span style="color: #657b83; font-weight: bold;">object</span>):
+    <span style="color: #2aa198;">'''Allow swap index without actually modifying the data.'''</span>
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, *args, **kws):
+        <span style="color: #2aa198;">'''Assume data is a list'''</span>
+        <span style="color: #657b83; font-weight: bold;">super</span>().__init__(*args, **kws)
+
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">indices</span> = <span style="color: #657b83; font-weight: bold;">list</span>(<span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(<span style="color: #859900; font-weight: bold;">self</span>)))
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">inverse_indices</span> = <span style="color: #657b83; font-weight: bold;">list</span>(<span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(<span style="color: #859900; font-weight: bold;">self</span>)))
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">swap</span>(<span style="color: #859900; font-weight: bold;">self</span>, i, j):
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap i-th and j-th value without actually modifying data</span>
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">indices</span>[<span style="color: #268bd2;">i</span>], <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">indices</span>[j] = <span style="color: #859900; font-weight: bold;">self</span>.indices[j], <span style="color: #859900; font-weight: bold;">self</span>.indices[i]
+
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">update inverse_indices</span>
+        <span style="color: #859900; font-weight: bold;">self</span>.inverse_indices[<span style="color: #859900; font-weight: bold;">self</span>.indices[i]] = i
+        <span style="color: #859900; font-weight: bold;">self</span>.inverse_indices[<span style="color: #859900; font-weight: bold;">self</span>.indices[j]] = j
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__getitem__</span>(<span style="color: #859900; font-weight: bold;">self</span>, i):
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">return the view</span>
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #657b83; font-weight: bold;">super</span>().__getitem__(<span style="color: #859900; font-weight: bold;">self</span>.indices[i])
+
+    @<span style="color: #657b83; font-weight: bold;">property</span>
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">view</span>(<span style="color: #859900; font-weight: bold;">self</span>):
+        <span style="color: #859900; font-weight: bold;">return</span> [<span style="color: #859900; font-weight: bold;">self</span>[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(<span style="color: #859900; font-weight: bold;">self</span>))]
+
+    @<span style="color: #657b83; font-weight: bold;">property</span>
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">addr2name</span>(<span style="color: #859900; font-weight: bold;">self</span>):
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">self</span>.inverse_indices
+
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Vector</span>(Viewable_Mixin, <span style="color: #657b83; font-weight: bold;">list</span>):
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, *args, **kws):
+        <span style="color: #657b83; font-weight: bold;">super</span>().__init__(*args, **kws)
+
+
+<span style="color: #268bd2;">data</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'eta'</span>]
+<span style="color: #268bd2;">vec</span> = Vector(data)
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 1-th and 3-th value</span>
+vec.swap(1, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'beta'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i] == expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 2-th and 3-th value</span>
+vec.swap(2, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i] == expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">restore data from view</span>
+<span style="color: #268bd2;">restored_data</span> = [view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> vec.addr2name]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(data[i]==restored_data[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-explanation-of-the-implementation" class="outline-2">
+<h2 id="explanation-of-the-implementation">Explanation of the Implementation</h2>
+<div class="outline-text-2" id="text-explanation-of-the-implementation">
+<p>
+Our solution is based on creating a class called <code>Viewable_Mixin</code> that
+maintains two lists: <code>self.indices</code> (name2addr) and
+<code>self.inverse_indices</code> (addr2name). These lists represent the forward
+and inverse mappings between the view and the data, respectively.
+</p>
+
+<p>
+<code>self.indices</code> is initialized with a range of indices from 0 to the
+length of the data minus 1. This list represents the mapping from the
+view's indices to the data's indices. When we swap elements in the view,
+we only swap their indices in this list, without actually modifying the
+data.
+</p>
+
+<p>
+<code>self.inverse_indices</code> is also initialized with a range of indices from
+0 to the length of the data minus 1. This list represents the inverse
+mapping from the data's indices to the view's indices. It is updated
+whenever elements are swapped in the view, ensuring that the inverse
+mapping remains consistent with the forward mapping.
+</p>
+
+<p>
+The <code>swap</code> method takes two indices, i and j, and swaps the i-th and
+j-th elements in the view without modifying the actual data. This is
+achieved by swapping the corresponding indices in <code>self.indices</code> and
+updating <code>self.inverse_indices</code>.
+</p>
+
+<p>
+The <code>__getitem__</code> method is used to return the element in the view at a
+given index. It does this by returning the data element at the index
+specified by <code>self.indices[i]</code>.
+</p>
+
+<p>
+Finally, the <code>view</code> and <code>addr2name</code> properties return the current state
+of the view and the inverse mapping (<code>self.inverse_indices</code>),
+respectively.
+</p>
+</div>
+</div>
+
+<div id="outline-container-conclusion" class="outline-2">
+<h2 id="conclusion">Conclusion</h2>
+<div class="outline-text-2" id="text-conclusion">
+<p>
+In this blog post, we have explored the problem of simulating swap
+operations without modifying the underlying data. We provided a Python
+code example that demonstrates how to achieve this using a simple class
+structure called <code>Viewable_Mixin</code>. The solution maintains two lists,
+<code>self.indices</code> and <code>self.inverse_indices</code>, to store the forward and
+inverse mappings between the view and the data. By swapping elements in
+the view and updating the mappings accordingly, we can efficiently
+simulate swaps without modifying the actual data.
+</p>
+
+<p>
+This approach can be useful in various applications, such as data
+visualization, algorithm analysis, and undo/redo functionality, where it
+is necessary to maintain multiple views of the same data or analyze the
+impact of different permutations without affecting the underlying data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3dac822" class="outline-2">
+<h2 id="org3dac822">Mathematical Justifications</h2>
+<div class="outline-text-2" id="text-org3dac822">
+<p>
+It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
+$$
+</p>
+\begin{aligned}
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+\alpha \\ \beta \\ \gamma \\ \eta
+\end{bmatrix}
+&= \begin{bmatrix}
+\alpha \\ \eta \\ \beta \\ \gamma
+\end{bmatrix}, %
+%
+\\
+%
+\begin{bmatrix}
+\alpha \\ \beta \\ \gamma \\ \eta
+\end{bmatrix}
+&= \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+\alpha \\ \eta \\ \beta \\ \gamma
+\end{bmatrix}.
+\end{aligned}
+<p>
+$$
+Hence, <code>indices</code> represents the permutation matrix in the first equation, denoted by \(A\) below, and <code>inversed_indices</code> represents the matrix in the second equation, denoted by \(B\).
+</p>
+
+<p>
+Clearly, \(AB=I\). Moreover, because \(A\) and \(B\) are othrogonal matrix, \(A=B^\intercal\) holds too.
+</p>
+
+<p>
+In this point of view, <code>indices[i]</code> stores the unique column index <code>j</code> such that \(A_{ij}=1\),
+\[ \sum_{j}A_{ij} \mathtt{data[j]} = \mathtt{view[i]} = \mathtt{data[indices[i]]}.\]
+Similarly, <code>inversed_indices[i]</code> stores the unique column index <code>j</code> such that \(B_{ij}=1\),
+\[ \sum_{j}B_{ij} \mathtt{view[j]} = \mathtt{data[i]} = \mathtt{view[inversed\_indices[i]]}.\]
+For arbitary vector \(v\), we have (introduce the notation that \(\mathbb{I}[\mathtt{cond}]=1\) if and only if \(\mathtt{cond}\) is true)
+\[ \begin{aligned}
+(BAv)_i &= \sum_{k} \sum_{j} A_{ik} B_{kj} v_j \\
+&= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \sum_{j} \mathbb{I}(j=\mathtt{inversed\_indices}[k]) \cdot v_j \\
+&= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \cdot v[\mathtt{inversed\_indices}[k]] \\
+&= v[\mathtt{inversed\_indices}[\mathtt{indices}[i]]].
+\end{aligned}.\]
+Thus, we have
+\[ i = \mathtt{inversed\_indices}[\mathtt{indices}[i]]. \]
+This is the reflection of the matrix equation \(BA=I\).
+</p>
+
+<p>
+Now look back to the equation transforming <code>data</code> to <code>view</code>
+</p>
+\begin{equation}
+\begin{aligned}
+\begin{bmatrix}
+\mathbb{I}(j = \mathtt{indices}[0]) \\
+\mathbb{I}(j = \mathtt{indices}[1]) \\
+\mathbb{I}(j = \mathtt{indices}[2]) \\
+\mathbb{I}(j = \mathtt{indices}[3])
+\end{bmatrix}
+\begin{bmatrix}
+\mathtt{data}[0] \\
+\mathtt{data}[1] \\
+\mathtt{data}[2] \\
+\mathtt{data}[3]
+\end{bmatrix}
+&= \begin{bmatrix}
+\mathtt{view}[0] \\
+\mathtt{view}[1] \\
+\mathtt{view}[2] \\
+\mathtt{view}[3]
+\end{bmatrix}
+\end{aligned},
+\end{equation}
+<p>
+where \(\mathbb{I}(j = \mathtt{indices}[0])\) denotes a row vector with subscript \(j\). To swap the <code>view</code> vector without modifying the <code>data</code> vector, we can swap rows of \(A\) to satisfying the transforming equation. For example, if we want to swap the $i<sub>1</sub>$-th and $i<sub>2</sub>$-th entry of <code>view</code>, we can create another indices to represent the new permutation matrix:
+\[ \begin{cases}
+\mathtt{indices}'[i_1] &= \mathtt{indices}[i_2],\\
+\mathtt{indices}'[i_2] &= \mathtt{indices}[i_1],\\
+\mathtt{indices}'[i] &= \mathtt{indices}[i],\quad \forall i\not\in\{i_1,i_2\}.
+\end{cases}\]
+The inversed indices need to update accordingly:
+\[ \begin{cases}
+j_1 = \mathtt{indices}[i_1], \\
+j_2 = \mathtt{indices}[i_2], \\
+\mathtt{inversed\_indices}'[j_1] &= \mathtt{inversed\_indices}[j_2],\\
+\mathtt{inversed\_indices}'[j_2] &= \mathtt{inversed\_indices}[j_1],\\
+\mathtt{inversed\_indices}'[j] &= \mathtt{inversed\_indices}[j],\quad \forall j\not\in\{j_1,j_2\},
+\end{cases}\]
+or in a more intuitive expression
+\[ \begin{cases}
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_1]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_2]] = i_1,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_2]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_1]] = i_2,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i]] = i,\quad \forall i\not\in\{i_1, i_2\},
+\end{cases}\]
+It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse mapping of \(\mathtt{indices}'\).
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div>]]></description>
+  <category><![CDATA[think]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2023-04-20-SwapBookkeeping/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-04-20-SwapBookkeeping/notes.html</guid>
+  <pubDate>Thu, 20 Apr 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
   <title><![CDATA[Manage All Your Files]]></title>
   <description><![CDATA[
 <nav id="table-of-contents" role="doc-toc">
@@ -3636,35 +4371,441 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
   <pubDate>Sun, 09 Apr 2023 00:00:00 +0800</pubDate>
 </item>
 <item>
+  <title><![CDATA[Visual Studion Code - A Morden Source Code Editor]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#interface">1. Interface</a></li>
+<li><a href="#command-palette">2. Command Palette</a></li>
+<li><a href="#customization">3. Customization</a></li>
+<li><a href="#extensions">4. Extensions</a></li>
+<li><a href="#snippets">5. Snippets</a></li>
+</ul>
+</div>
+</nav>
+<p>
+Visual Studio Code is a lightweight but powerful source code editor
+which runs on your desktop and is available for Windows, macOS and
+Linux. It comes with built-in support for JavaScript, TypeScript and
+Node.js and has a rich ecosystem of extensions for other languages and
+runtimes (such as C++, C#, Java, Python, PHP, Go, .NET).
+</p>
+
+<p>
+Here is the official documentation <a href="https://code.visualstudio.com/docs">VS Code - Get Started</a>
+</p>
+
+<p>
+See also <a href="https://adamtheautomator.com/visual-studio-code-tutorial/">The Visual Studio Code Tutorial Worth Learning</a> for a brief
+introduction to VS Code.
+</p>
+
+<p>
+TODO
+</p>
+
+<ul class="org-ul">
+<li class="off"><code>[&#xa0;]</code> Add a section to discuss math in Markdown. Consider Extension
+<code>Markdown+Math</code>.</li>
+
+<li class="off"><code>[&#xa0;]</code> Add a section to discuss output to html. Consider Extension
+<code>Markdown All in One</code>.</li>
+</ul>
+
+<div id="outline-container-interface" class="outline-2">
+<h2 id="interface">1. Interface</h2>
+<div class="outline-text-2" id="text-interface">
+<p>
+The UI is divided into five areas:
+</p>
+
+<ul class="org-ul">
+<li>Editor - The main area to edit your files. You can open as many
+editors as you like side by side vertically and horizontally.</li>
+
+<li>Side Bar - Contains different views like the Explorer to assist you
+while working on your project.</li>
+
+<li>Status Bar - Information about the opened project and the files you
+edit.</li>
+
+<li>Activity Bar - Located on the far left-hand side, this lets you switch
+between views and gives you additional context-specific indicators,
+like the number of outgoing changes when Git is enabled.</li>
+
+<li>Panels - You can display different panels below the editor region for
+output or debug information, errors and warnings, or an integrated
+terminal. Panel can also be moved to the right for more vertical
+space.</li>
+</ul>
+
+
+<figure id="orgfc4b0ca">
+<img src="./vscode-UI.png" alt="vscode-UI.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>VS Code UI</figcaption>
+</figure>
+</div>
+</div>
+
+<div id="outline-container-command-palette" class="outline-2">
+<h2 id="command-palette">2. Command Palette</h2>
+<div class="outline-text-2" id="text-command-palette">
+<p>
+The Command Palette in VS Code is a menu that <b><i>provides access to all
+functionality within VS Code and any installed extensions</i></b>. It can be
+accessed via the View menu or by using the <code>Ctrl-Shift-P</code> shortcut. The
+Command Palette is <i>a single location for managing tasks, settings,
+snippets, and more</i>, making it a useful tool for easy and efficient
+navigation within VS Code.
+</p>
+</div>
+</div>
+
+<div id="outline-container-customization" class="outline-2">
+<h2 id="customization">3. Customization</h2>
+<div class="outline-text-2" id="text-customization">
+<p>
+There are many things you can do to customize VS Code.
+</p>
+
+<ul class="org-ul">
+<li>Change your theme <code>&gt;Preferences: Color Theme</code></li>
+
+<li><p>
+Change your keyboard shortcuts <code>&gt;Preferences: Open Keyboard Shortcuts</code>
+</p>
+
+<blockquote>
+<p>
+See also<a href="https://code.visualstudio.com/docs/getstarted/keybindings#_detecting-keybinding-conflicts">Detecting keybinding conflicts</a> if necessary.
+</p>
+</blockquote></li>
+
+<li><p>
+Tune your settings <code>&gt;Preferences: Open Settings (UI)</code>
+</p>
+
+<blockquote>
+<p>
+You can scope the settings that you only want for specific languages
+by the language identifier, see <a href="https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_language-specific-settings">Language specific settings</a>.
+</p>
+</blockquote></li>
+
+<li>Create snippets</li>
+
+<li>Install extensions</li>
+</ul>
+
+<p>
+To manage settings, open the Command Palette with <code>Ctrl-Shift-P</code>. Type
+"settings" and choose <code>Preferences: Open Settings (JSON)</code> or
+<code>Preferences: Open Settings (UI)</code>
+</p>
+
+<p>
+Depending on your platform, the user settings file is located here:
+</p>
+
+<ul class="org-ul">
+<li>Windows <code>%APPDATA%\Code\User\settings.json</code></li>
+<li>macOS <code>$HOME/Library/Application\ Support/Code/User/settings.json</code></li>
+<li>Linux <code>$HOME/.config/Code/User/settings.json</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-extensions" class="outline-2">
+<h2 id="extensions">4. Extensions</h2>
+<div class="outline-text-2" id="text-extensions">
+<p>
+One of the most important features of VS Code is its extensions. An
+extension is a small package you can load into VS Code that makes
+working with various resources easier.
+</p>
+
+<p>
+Extensions are installed in a per user extensions folder. Depending on
+your platform, the location is in the following folder:
+</p>
+
+<ul class="org-ul">
+<li>Windows <code>%USERPROFILE%\.vscode\extensions</code></li>
+<li>macOS <code>~/.vscode/extensions</code></li>
+<li>Linux <code>~/.vscode/extensions</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-snippets" class="outline-2">
+<h2 id="snippets">5. Snippets</h2>
+<div class="outline-text-2" id="text-snippets">
+<p>
+Snippets allow you to type a few characters in a code editor tab that
+quickly expands to whatever you need. Each snippet is a single JSON
+element that matches a particular syntax.
+</p>
+
+<p>
+Snippets exist by language or extension and are stored in JSON files.
+For example, you can have a set of PowerShell, ARM template, Python, C#,
+and Javascript snippets installed simultaneously.
+</p>
+
+<p>
+You can find snippets by opening up the command palette with
+<code>Ctrl-Shift-P</code>, typing "snippets" and hitting Enter.
+</p>
+
+<p>
+See <a href="https://code.visualstudio.com/docs/editor/userdefinedsnippets">Snippets in Visual Studio Code</a> for more details.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>]]></description>
+  <category><![CDATA[tool]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2023-04-06-IntroVSCode/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-04-06-IntroVSCode/notes.html</guid>
+  <pubDate>Thu, 06 Apr 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Configure Git]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org245d1d9">1. Basic Configuration</a>
+<ul>
+<li><a href="#org29b6188">1.1. Transfer Existed Configuration</a></li>
+<li><a href="#orge7ce122">1.2. First-Time Set up</a></li>
+</ul>
+</li>
+<li><a href="#orgfb63118">2. Add-ons</a>
+<ul>
+<li><a href="#org3aa08be">2.1. Prompt</a></li>
+<li><a href="#orgf2947ae">2.2. Pager</a></li>
+</ul>
+</li>
+<li><a href="#orgdc0a108">3. An Example of .gitconfig</a></li>
+</ul>
+</div>
+</nav>
+<p>
+See <a href="https://git-scm.com/book/en/v2">Pro Git</a> if you are not familiar
+with Git.
+</p>
+
+<div id="outline-container-org245d1d9" class="outline-2">
+<h2 id="org245d1d9">1. Basic Configuration</h2>
+<div class="outline-text-2" id="text-org245d1d9">
+</div>
+<div id="outline-container-org29b6188" class="outline-3">
+<h3 id="org29b6188">1.1. Transfer Existed Configuration</h3>
+<div class="outline-text-3" id="text-org29b6188">
+<ol class="org-ol">
+<li>Copy the global git configuration file to <code>~/.gitconfig</code>.</li>
+
+<li>Copy SSH keys to <code>~/.ssh/</code>.</li>
+
+<li><p>
+Add SSH key to <code>ssh-agent</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #657b83; font-weight: bold;">eval</span> <span style="color: #2aa198;">"$(</span><span style="color: #6c71c4; font-weight: bold;">ssh-agent -s</span><span style="color: #2aa198;">)"</span>
+ssh-add ~/.ssh/id_ed25519
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge7ce122" class="outline-3">
+<h3 id="orge7ce122">1.2. First-Time Set up</h3>
+<div class="outline-text-3" id="text-orge7ce122">
+<p>
+See also <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">Pro Git - Section 1.6</a>
+</p>
+
+<ol class="org-ol">
+<li><p>
+Set up your identity
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global user.name <span style="color: #2aa198;">"John Doe"</span>
+git config --global user.email johndoe@example.com
+</pre>
+</div></li>
+
+<li><p>
+Set up default editor
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global core.editor vim
+</pre>
+</div></li>
+
+<li><p>
+Set up default branch name
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global init.defaultBranch master
+</pre>
+</div></li>
+
+<li><p>
+Set up git aliases
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+</pre>
+</div></li>
+
+<li><p>
+(Optional) Review your settings
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --list --show-origin
+</pre>
+</div></li>
+
+<li>Set up SSH.
+
+<ol class="org-ol">
+<li>See  <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Generating  a new SSH key and adding it to the ssh-agent</a></li>
+<li>See  <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">Adding  a new SSH key to your GitHub account</a></li>
+</ol></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb63118" class="outline-2">
+<h2 id="orgfb63118">2. Add-ons</h2>
+<div class="outline-text-2" id="text-orgfb63118">
+</div>
+<div id="outline-container-org3aa08be" class="outline-3">
+<h3 id="org3aa08be">2.1. Prompt</h3>
+<div class="outline-text-3" id="text-org3aa08be">
+<p>
+<a href="https://github.com/magicmonty/bash-git-prompt">bash-git-prompt</a>: A bash prompt that displays information about the
+current git repository.  In particular the branch name, difference
+with remote branch, number of files staged, changed, etc.
+</p>
+
+
+<figure id="org082717c">
+<img src="./gitprompt.png" alt="gitprompt.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>Example of bash-git-prompt</figcaption>
+</figure>
+</div>
+</div>
+
+<div id="outline-container-orgf2947ae" class="outline-3">
+<h3 id="orgf2947ae">2.2. Pager</h3>
+<div class="outline-text-3" id="text-orgf2947ae">
+<p>
+<a href="https://github.com/dandavison/delta">delta</a>: A syntax-highlighting pager for git, diff, and grep output.
+</p>
+
+
+<figure id="org5431c03">
+<img src="./delta.png" alt="delta.png">
+
+<figcaption><span class="figure-number">Figure 2: </span>Example of delta</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdc0a108" class="outline-2">
+<h2 id="orgdc0a108">3. An Example of .gitconfig</h2>
+<div class="outline-text-2" id="text-orgdc0a108">
+<pre class="example" id="org7205e2d">
+[user]
+    name = John Doe
+    email = johndoe@example.com
+[core]
+    editor = code --wait
+    pager = delta
+[init]
+    defaultBranch = master
+[alias]
+    a = add
+    b = branch
+    co = checkout
+    ci = commit
+    ca = commit -a
+    cm = commit -m
+    d = diff
+    l = log --oneline -15
+    la = log --oneline --all -15
+    rb = rebase
+    s = status
+
+    last = log -1
+    squash = rebase --autosquash -i
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    light = true      # set to true if you're in a terminal light background color
+    side-by-side = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+</pre>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>]]></description>
+  <category><![CDATA[tool]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2023-04-05-ConfigGit/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2023-04-05-ConfigGit/notes.html</guid>
+  <pubDate>Wed, 05 Apr 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
   <title><![CDATA[配置 Ubuntu 系统]]></title>
   <description><![CDATA[
 <nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9d4a617">Get Ubuntu</a></li>
-<li><a href="#org59530f6">Appearance</a>
+<li><a href="#org7258851">Get Ubuntu</a></li>
+<li><a href="#org78e26f3">Appearance</a>
 <ul>
-<li><a href="#org419fab1">Customize Fonts</a></li>
-<li><a href="#orgf641046">Customize Bash</a></li>
-<li><a href="#org7c6ff56">GNOME Tweaks</a></li>
-<li><a href="#orgddbeca8">Choose Cinnamon (Deprecated)</a></li>
+<li><a href="#org2b91ef8">Customize Fonts</a></li>
+<li><a href="#org062d7ba">Customize Bash</a></li>
+<li><a href="#orgd501bf9">GNOME Tweaks</a></li>
+<li><a href="#orgc5c282d">Choose Cinnamon (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#org9eebb58">Toolkits</a>
+<li><a href="#org450f770">Toolkits</a>
 <ul>
-<li><a href="#org2e2c5bc">Install Edge</a></li>
-<li><a href="#org2fab879">Install VS code</a></li>
-<li><a href="#orgb4267bc">Install Clash</a></li>
-<li><a href="#orgc6cd740">Install Git</a></li>
-<li><a href="#org21f9e88">Install Emacs</a></li>
-<li><a href="#orge7912f7">Install Python</a></li>
-<li><a href="#orgdf6b989">Install TeXLive</a></li>
-<li><a href="#org67ff524">Customize Input Methods (Deprecated)</a></li>
+<li><a href="#orgb23a466">Install Edge</a></li>
+<li><a href="#org836d105">Install VS code</a></li>
+<li><a href="#org6fc5993">Install Clash</a></li>
+<li><a href="#orga52832e">Install Git</a></li>
+<li><a href="#orga54ec0f">Install Emacs</a></li>
+<li><a href="#orge4c582d">Install Python</a></li>
+<li><a href="#org81ccadf">Install TeXLive</a></li>
+<li><a href="#org313dc3d">Customize Input Methods (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#org2acb479">Future Customization</a></li>
-<li><a href="#org0dadf42">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orgb27ac32">Future Customization</a></li>
+<li><a href="#org8782143">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -3686,9 +4827,9 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 以后就让这位老战友退居二线吧.
 </p>
 
-<div id="outline-container-org9d4a617" class="outline-2">
-<h2 id="org9d4a617">Get Ubuntu</h2>
-<div class="outline-text-2" id="text-org9d4a617">
+<div id="outline-container-org7258851" class="outline-2">
+<h2 id="org7258851">Get Ubuntu</h2>
+<div class="outline-text-2" id="text-org7258851">
 <p>
 在 Ubuntu 官网下载 20.04 LTS 版本,
 用 Universal USB Installer 将 <code>.iso</code> 文件烧录到 U 盘上.
@@ -3716,9 +4857,9 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 </div>
 </div>
 
-<div id="outline-container-org59530f6" class="outline-2">
-<h2 id="org59530f6">Appearance</h2>
-<div class="outline-text-2" id="text-org59530f6">
+<div id="outline-container-org78e26f3" class="outline-2">
+<h2 id="org78e26f3">Appearance</h2>
+<div class="outline-text-2" id="text-org78e26f3">
 <p>
 安装完成后首先更新
 </p>
@@ -3738,9 +4879,9 @@ sudo apt upgrade
 </p>
 </div>
 
-<div id="outline-container-org419fab1" class="outline-3">
-<h3 id="org419fab1">Customize Fonts</h3>
-<div class="outline-text-3" id="text-org419fab1">
+<div id="outline-container-org2b91ef8" class="outline-3">
+<h3 id="org2b91ef8">Customize Fonts</h3>
+<div class="outline-text-3" id="text-org2b91ef8">
 <p>
 从小破本里将 <code>~/.local/share/fonts/</code> 复制到主目录.
 然后刷新缓存
@@ -3757,9 +4898,9 @@ sudo apt upgrade
 </div>
 </div>
 
-<div id="outline-container-orgf641046" class="outline-3">
-<h3 id="orgf641046">Customize Bash</h3>
-<div class="outline-text-3" id="text-orgf641046">
+<div id="outline-container-org062d7ba" class="outline-3">
+<h3 id="org062d7ba">Customize Bash</h3>
+<div class="outline-text-3" id="text-org062d7ba">
 <p>
 将 <code>.bashrc</code>, <code>.bash_env</code>, <code>.bash_aliases</code>, <code>.inputrc</code>, <code>bin/</code> 复制到主目录.
 </p>
@@ -3799,9 +4940,9 @@ git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git
 </div>
 </div>
 
-<div id="outline-container-org7c6ff56" class="outline-3">
-<h3 id="org7c6ff56">GNOME Tweaks</h3>
-<div class="outline-text-3" id="text-org7c6ff56">
+<div id="outline-container-orgd501bf9" class="outline-3">
+<h3 id="orgd501bf9">GNOME Tweaks</h3>
+<div class="outline-text-3" id="text-orgd501bf9">
 <p>
 Ubuntu 的很多系统外观设置需要使用 GNOME Tweaks，
 参考 <a href="https://linuxhint.com/gnome_tweak_installation_ubuntu/">How to Install the Gnome Tweak Tool on Ubuntu 22.04</a>.
@@ -3838,9 +4979,9 @@ sudo apt install gnome-tweaks
 </div>
 </div>
 
-<div id="outline-container-orgddbeca8" class="outline-3">
-<h3 id="orgddbeca8">Choose Cinnamon (Deprecated)</h3>
-<div class="outline-text-3" id="text-orgddbeca8">
+<div id="outline-container-orgc5c282d" class="outline-3">
+<h3 id="orgc5c282d">Choose Cinnamon (Deprecated)</h3>
+<div class="outline-text-3" id="text-orgc5c282d">
 <p>
 <del>个人更习惯 Win 风格的 UI
 于是偏爱 Cinnamon 桌面环境</del>
@@ -3864,31 +5005,31 @@ sudo apt install gnome-tweaks
 </div>
 </div>
 
-<div id="outline-container-org9eebb58" class="outline-2">
-<h2 id="org9eebb58">Toolkits</h2>
-<div class="outline-text-2" id="text-org9eebb58">
+<div id="outline-container-org450f770" class="outline-2">
+<h2 id="org450f770">Toolkits</h2>
+<div class="outline-text-2" id="text-org450f770">
 </div>
-<div id="outline-container-org2e2c5bc" class="outline-3">
-<h3 id="org2e2c5bc">Install Edge</h3>
-<div class="outline-text-3" id="text-org2e2c5bc">
+<div id="outline-container-orgb23a466" class="outline-3">
+<h3 id="orgb23a466">Install Edge</h3>
+<div class="outline-text-3" id="text-orgb23a466">
 <p>
 下载 Edge, 设置字体 Fira Sans + Lora, 登陆帐号.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org2fab879" class="outline-3">
-<h3 id="org2fab879">Install VS code</h3>
-<div class="outline-text-3" id="text-org2fab879">
+<div id="outline-container-org836d105" class="outline-3">
+<h3 id="org836d105">Install VS code</h3>
+<div class="outline-text-3" id="text-org836d105">
 <p>
-下载 VS Code, 登录账号.
+下载 VS Code, 登录账号. See also <a href="../2023-04-06-IntroVSCode/notes.html">this note</a> for a brief intro to VS code.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgb4267bc" class="outline-3">
-<h3 id="orgb4267bc">Install Clash</h3>
-<div class="outline-text-3" id="text-orgb4267bc">
+<div id="outline-container-org6fc5993" class="outline-3">
+<h3 id="org6fc5993">Install Clash</h3>
+<div class="outline-text-3" id="text-org6fc5993">
 <p>
 准备科学上网.
 从小破本上复制 <del>或者从 github 上下载</del> 到 <del>最新版本的</del> clash,
@@ -3911,11 +5052,12 @@ sudo chmod a+x ./clash
 </div>
 </div>
 
-<div id="outline-container-orgc6cd740" class="outline-3">
-<h3 id="orgc6cd740">Install Git</h3>
-<div class="outline-text-3" id="text-orgc6cd740">
+<div id="outline-container-orga52832e" class="outline-3">
+<h3 id="orga52832e">Install Git</h3>
+<div class="outline-text-3" id="text-orga52832e">
 <p>
 安装 <code>git</code> 后登陆 GitHub, 按照提示生成 SSH key 并添加.
+See also <a href="../2023-04-05-ConfigGit/notes.html">this note</a> for details.
 </p>
 
 <p>
@@ -3932,9 +5074,9 @@ sudo chmod a+x ./clash
 </div>
 </div>
 
-<div id="outline-container-org21f9e88" class="outline-3">
-<h3 id="org21f9e88">Install Emacs</h3>
-<div class="outline-text-3" id="text-org21f9e88">
+<div id="outline-container-orga54ec0f" class="outline-3">
+<h3 id="orga54ec0f">Install Emacs</h3>
+<div class="outline-text-3" id="text-orga54ec0f">
 <p>
 添加源并下载最新的 Emacs
 </p>
@@ -3952,9 +5094,9 @@ sudo apt install emacs-snapshot
 </div>
 </div>
 
-<div id="outline-container-orge7912f7" class="outline-3">
-<h3 id="orge7912f7">Install Python</h3>
-<div class="outline-text-3" id="text-orge7912f7">
+<div id="outline-container-orge4c582d" class="outline-3">
+<h3 id="orge4c582d">Install Python</h3>
+<div class="outline-text-3" id="text-orge4c582d">
 <p>
 Ubuntu 20.04 LTS 是自带 <code>Python3.8</code> 的,
 但一些第三方包还是需要自己装.
@@ -3984,18 +5126,18 @@ jupyter contrib nbextension install --user
 </div>
 </div>
 
-<div id="outline-container-orgdf6b989" class="outline-3">
-<h3 id="orgdf6b989">Install TeXLive</h3>
-<div class="outline-text-3" id="text-orgdf6b989">
+<div id="outline-container-org81ccadf" class="outline-3">
+<h3 id="org81ccadf">Install TeXLive</h3>
+<div class="outline-text-3" id="text-org81ccadf">
 <p>
 See official doc
 </p>
 </div>
 </div>
 
-<div id="outline-container-org67ff524" class="outline-3">
-<h3 id="org67ff524">Customize Input Methods (Deprecated)</h3>
-<div class="outline-text-3" id="text-org67ff524">
+<div id="outline-container-org313dc3d" class="outline-3">
+<h3 id="org313dc3d">Customize Input Methods (Deprecated)</h3>
+<div class="outline-text-3" id="text-org313dc3d">
 <p>
 <b>Ubuntu 22.04 LTS 自带的输入法已经足够使用，不必再进行后续配置</b>
 </p>
@@ -4015,9 +5157,9 @@ sudo apt install fcitx-config-gtk
 </div>
 </div>
 
-<div id="outline-container-org2acb479" class="outline-2">
-<h2 id="org2acb479">Future Customization</h2>
-<div class="outline-text-2" id="text-org2acb479">
+<div id="outline-container-orgb27ac32" class="outline-2">
+<h2 id="orgb27ac32">Future Customization</h2>
+<div class="outline-text-2" id="text-orgb27ac32">
 <ul class="org-ul">
 <li>Customize titlebar</li>
 <li>More funny animations</li>
@@ -4025,9 +5167,9 @@ sudo apt install fcitx-config-gtk
 </div>
 </div>
 
-<div id="outline-container-org0dadf42" class="outline-2">
-<h2 id="org0dadf42">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org0dadf42">
+<div id="outline-container-org8782143" class="outline-2">
+<h2 id="org8782143">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org8782143">
 <ul class="org-ul">
 <li><a href="https://einverne.github.io/post/2021/03/linux-use-clash.html">在 Linux 上使用 Clash 作代理</a></li>
 <li><a href="http://www.webupd8.org/2011/04/solarized-must-have-color-paletter-for.html">SOLARIZED: A MUST HAVE COLOR SCHEME FOR GNOME TERMINAL, VIM, GEDIT AND LOTS MORE</a></li>

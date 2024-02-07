@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Configure Git</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">05 Apr 2023</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2023-04-05-ConfigGit/notes.html">Configure Git</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org245d1d9">1. Basic Configuration</a>
+<ul>
+<li><a href="#org29b6188">1.1. Transfer Existed Configuration</a></li>
+<li><a href="#orge7ce122">1.2. First-Time Set up</a></li>
+</ul>
+</li>
+<li><a href="#orgfb63118">2. Add-ons</a>
+<ul>
+<li><a href="#org3aa08be">2.1. Prompt</a></li>
+<li><a href="#orgf2947ae">2.2. Pager</a></li>
+</ul>
+</li>
+<li><a href="#orgdc0a108">3. An Example of .gitconfig</a></li>
+</ul>
+</div>
+</nav>
+<p>
+See <a href="https://git-scm.com/book/en/v2">Pro Git</a> if you are not familiar
+with Git.
+</p>
+
+<div id="outline-container-org245d1d9" class="outline-2">
+<h2 id="org245d1d9">1. Basic Configuration</h2>
+<div class="outline-text-2" id="text-org245d1d9">
+</div>
+<div id="outline-container-org29b6188" class="outline-3">
+<h3 id="org29b6188">1.1. Transfer Existed Configuration</h3>
+<div class="outline-text-3" id="text-org29b6188">
+<ol class="org-ol">
+<li>Copy the global git configuration file to <code>~/.gitconfig</code>.</li>
+
+<li>Copy SSH keys to <code>~/.ssh/</code>.</li>
+
+<li><p>
+Add SSH key to <code>ssh-agent</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #657b83; font-weight: bold;">eval</span> <span style="color: #2aa198;">"$(</span><span style="color: #6c71c4; font-weight: bold;">ssh-agent -s</span><span style="color: #2aa198;">)"</span>
+ssh-add ~/.ssh/id_ed25519
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge7ce122" class="outline-3">
+<h3 id="orge7ce122">1.2. First-Time Set up</h3>
+<div class="outline-text-3" id="text-orge7ce122">
+<p>
+See also <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">Pro Git - Section 1.6</a>
+</p>
+
+<ol class="org-ol">
+<li><p>
+Set up your identity
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global user.name <span style="color: #2aa198;">"John Doe"</span>
+git config --global user.email johndoe@example.com
+</pre>
+</div></li>
+
+<li><p>
+Set up default editor
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global core.editor vim
+</pre>
+</div></li>
+
+<li><p>
+Set up default branch name
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global init.defaultBranch master
+</pre>
+</div></li>
+
+<li><p>
+Set up git aliases
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+</pre>
+</div></li>
+
+<li><p>
+(Optional) Review your settings
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git config --list --show-origin
+</pre>
+</div></li>
+
+<li>Set up SSH.
+
+<ol class="org-ol">
+<li>See  <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Generating  a new SSH key and adding it to the ssh-agent</a></li>
+<li>See  <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">Adding  a new SSH key to your GitHub account</a></li>
+</ol></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb63118" class="outline-2">
+<h2 id="orgfb63118">2. Add-ons</h2>
+<div class="outline-text-2" id="text-orgfb63118">
+</div>
+<div id="outline-container-org3aa08be" class="outline-3">
+<h3 id="org3aa08be">2.1. Prompt</h3>
+<div class="outline-text-3" id="text-org3aa08be">
+<p>
+<a href="https://github.com/magicmonty/bash-git-prompt">bash-git-prompt</a>: A bash prompt that displays information about the
+current git repository.  In particular the branch name, difference
+with remote branch, number of files staged, changed, etc.
+</p>
+
+
+<figure id="org082717c">
+<img src="./gitprompt.png" alt="gitprompt.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>Example of bash-git-prompt</figcaption>
+</figure>
+</div>
+</div>
+
+<div id="outline-container-orgf2947ae" class="outline-3">
+<h3 id="orgf2947ae">2.2. Pager</h3>
+<div class="outline-text-3" id="text-orgf2947ae">
+<p>
+<a href="https://github.com/dandavison/delta">delta</a>: A syntax-highlighting pager for git, diff, and grep output.
+</p>
+
+
+<figure id="org5431c03">
+<img src="./delta.png" alt="delta.png">
+
+<figcaption><span class="figure-number">Figure 2: </span>Example of delta</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdc0a108" class="outline-2">
+<h2 id="orgdc0a108">3. An Example of .gitconfig</h2>
+<div class="outline-text-2" id="text-orgdc0a108">
+<pre class="example" id="org7205e2d">
+[user]
+    name = John Doe
+    email = johndoe@example.com
+[core]
+    editor = code --wait
+    pager = delta
+[init]
+    defaultBranch = master
+[alias]
+    a = add
+    b = branch
+    co = checkout
+    ci = commit
+    ca = commit -a
+    cm = commit -m
+    d = diff
+    l = log --oneline -15
+    la = log --oneline --all -15
+    rb = rebase
+    s = status
+
+    last = log -1
+    squash = rebase --autosquash -i
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    light = true      # set to true if you're in a terminal light background color
+    side-by-side = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+</pre>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

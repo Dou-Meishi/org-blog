@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Simulating Swap Operations Without Modifying Data</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">20 Apr 2023</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2023-04-20-SwapBookkeeping/notes.html">Simulating Swap Operations Without Modifying Data</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org28800ef">Introduction</a></li>
+<li><a href="#org4bf6a28">Background and Applications</a></li>
+<li><a href="#org817dfff">Problem Statement and Our Solution</a></li>
+<li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#org3dac822">Mathematical Justifications</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<b>Authors</b>: Dou Meishi, ChatGPT
+</p>
+
+<div id="outline-container-org28800ef" class="outline-2">
+<h2 id="org28800ef">Introduction</h2>
+<div class="outline-text-2" id="text-org28800ef">
+<p>
+In many applications, it is often required to simulate swap operations
+on a list of elements without actually modifying the underlying data.
+This can be useful in various scenarios, such as when you need to
+analyze the impact of different permutations on a given data structure
+or when you want to maintain multiple views of the data with different
+sorting orders.
+</p>
+
+<p>
+In this blog post, we will discuss the problem of simulating swap
+operations without modifying the data, explore the background and
+applications, and provide a Python code example that demonstrates how to
+implement this functionality using a simple class structure. Finally, we
+will explain the reasons behind our implementation and conclude.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4bf6a28" class="outline-2">
+<h2 id="org4bf6a28">Background and Applications</h2>
+<div class="outline-text-2" id="text-org4bf6a28">
+<p>
+Swapping elements in a list is a fundamental operation in many
+algorithms, such as sorting algorithms and combinatorial search
+algorithms. However, there are situations where we want to simulate
+these swaps without actually modifying the original data. Some possible
+applications include:
+</p>
+
+<ol class="org-ol">
+<li><b>Data visualization</b>: When working with interactive visualizations,
+it is often necessary to display different views of the same data,
+based on user interactions. By simulating swaps without modifying the
+data, we can easily switch between different views without affecting
+the underlying data.</li>
+
+<li><b>Algorithm analysis</b>: Analyzing the performance of algorithms that
+involve swapping elements can be done more efficiently by simulating
+swaps without modifying the data. This allows us to observe the
+impact of different permutations on the algorithm's performance
+without the overhead of actually modifying the data structure.</li>
+
+<li><b>Undo/redo functionality</b>: In some applications, like text editors or
+image editing software, users may want to undo or redo certain
+actions. By simulating swaps without modifying the data, we can
+maintain a history of actions and easily revert to previous states
+without affecting the original data.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org817dfff" class="outline-2">
+<h2 id="org817dfff">Problem Statement and Our Solution</h2>
+<div class="outline-text-2" id="text-org817dfff">
+<p>
+Suppose we have a list of elements and we want to simulate swap
+operations on this list without modifying the actual data. We also want
+to be able to retrieve the elements in their current order, reflecting
+the simulated swap operations.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">data</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'eta'</span>]
+<span style="color: #268bd2;">vec</span> = Vector(data)
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 1-th and 3-th value</span>
+vec.swap(1, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'beta'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i]==expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 2-th and 3-th value</span>
+vec.swap(2, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i]==expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">restore data from view</span>
+<span style="color: #268bd2;">restored_data</span> = [view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> vec.addr2name]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(data[i]==restored_data[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+</pre>
+</div>
+
+<p>
+To address this problem, we propose the implementation of a class called
+<code>Viewable_Mixin</code>. This class maintains two lists, <code>self.indices</code> and
+<code>self.inverse_indices</code>, that store the forward and inverse mappings
+between the view and the data, respectively. The <code>swap</code> method is used
+to simulate swap operations on the view, while the <code>view</code> property
+returns the current state of the view.
+</p>
+
+<p>
+Below is the complete Python code that demonstrates how to simulate swap
+operations without modifying the data using a simple class structure
+called <code>Viewable_Mixin</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Viewable_Mixin</span>(<span style="color: #657b83; font-weight: bold;">object</span>):
+    <span style="color: #2aa198;">'''Allow swap index without actually modifying the data.'''</span>
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, *args, **kws):
+        <span style="color: #2aa198;">'''Assume data is a list'''</span>
+        <span style="color: #657b83; font-weight: bold;">super</span>().__init__(*args, **kws)
+
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">indices</span> = <span style="color: #657b83; font-weight: bold;">list</span>(<span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(<span style="color: #859900; font-weight: bold;">self</span>)))
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">inverse_indices</span> = <span style="color: #657b83; font-weight: bold;">list</span>(<span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(<span style="color: #859900; font-weight: bold;">self</span>)))
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">swap</span>(<span style="color: #859900; font-weight: bold;">self</span>, i, j):
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap i-th and j-th value without actually modifying data</span>
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">indices</span>[<span style="color: #268bd2;">i</span>], <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">indices</span>[j] = <span style="color: #859900; font-weight: bold;">self</span>.indices[j], <span style="color: #859900; font-weight: bold;">self</span>.indices[i]
+
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">update inverse_indices</span>
+        <span style="color: #859900; font-weight: bold;">self</span>.inverse_indices[<span style="color: #859900; font-weight: bold;">self</span>.indices[i]] = i
+        <span style="color: #859900; font-weight: bold;">self</span>.inverse_indices[<span style="color: #859900; font-weight: bold;">self</span>.indices[j]] = j
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__getitem__</span>(<span style="color: #859900; font-weight: bold;">self</span>, i):
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">return the view</span>
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #657b83; font-weight: bold;">super</span>().__getitem__(<span style="color: #859900; font-weight: bold;">self</span>.indices[i])
+
+    @<span style="color: #657b83; font-weight: bold;">property</span>
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">view</span>(<span style="color: #859900; font-weight: bold;">self</span>):
+        <span style="color: #859900; font-weight: bold;">return</span> [<span style="color: #859900; font-weight: bold;">self</span>[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(<span style="color: #859900; font-weight: bold;">self</span>))]
+
+    @<span style="color: #657b83; font-weight: bold;">property</span>
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">addr2name</span>(<span style="color: #859900; font-weight: bold;">self</span>):
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">self</span>.inverse_indices
+
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Vector</span>(Viewable_Mixin, <span style="color: #657b83; font-weight: bold;">list</span>):
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, *args, **kws):
+        <span style="color: #657b83; font-weight: bold;">super</span>().__init__(*args, **kws)
+
+
+<span style="color: #268bd2;">data</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'eta'</span>]
+<span style="color: #268bd2;">vec</span> = Vector(data)
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 1-th and 3-th value</span>
+vec.swap(1, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'gamma'</span>, <span style="color: #2aa198;">'beta'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i] == expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">swap 2-th and 3-th value</span>
+vec.swap(2, 3)
+<span style="color: #268bd2;">view</span> = vec.view
+<span style="color: #268bd2;">expect_view</span> = [<span style="color: #2aa198;">'alpha'</span>, <span style="color: #2aa198;">'eta'</span>, <span style="color: #2aa198;">'beta'</span>, <span style="color: #2aa198;">'gamma'</span>]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(view[i] == expect_view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">restore data from view</span>
+<span style="color: #268bd2;">restored_data</span> = [view[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> vec.addr2name]
+
+<span style="color: #859900; font-weight: bold;">assert</span> <span style="color: #657b83; font-weight: bold;">all</span>(data[i]==restored_data[i] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(data)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-explanation-of-the-implementation" class="outline-2">
+<h2 id="explanation-of-the-implementation">Explanation of the Implementation</h2>
+<div class="outline-text-2" id="text-explanation-of-the-implementation">
+<p>
+Our solution is based on creating a class called <code>Viewable_Mixin</code> that
+maintains two lists: <code>self.indices</code> (name2addr) and
+<code>self.inverse_indices</code> (addr2name). These lists represent the forward
+and inverse mappings between the view and the data, respectively.
+</p>
+
+<p>
+<code>self.indices</code> is initialized with a range of indices from 0 to the
+length of the data minus 1. This list represents the mapping from the
+view's indices to the data's indices. When we swap elements in the view,
+we only swap their indices in this list, without actually modifying the
+data.
+</p>
+
+<p>
+<code>self.inverse_indices</code> is also initialized with a range of indices from
+0 to the length of the data minus 1. This list represents the inverse
+mapping from the data's indices to the view's indices. It is updated
+whenever elements are swapped in the view, ensuring that the inverse
+mapping remains consistent with the forward mapping.
+</p>
+
+<p>
+The <code>swap</code> method takes two indices, i and j, and swaps the i-th and
+j-th elements in the view without modifying the actual data. This is
+achieved by swapping the corresponding indices in <code>self.indices</code> and
+updating <code>self.inverse_indices</code>.
+</p>
+
+<p>
+The <code>__getitem__</code> method is used to return the element in the view at a
+given index. It does this by returning the data element at the index
+specified by <code>self.indices[i]</code>.
+</p>
+
+<p>
+Finally, the <code>view</code> and <code>addr2name</code> properties return the current state
+of the view and the inverse mapping (<code>self.inverse_indices</code>),
+respectively.
+</p>
+</div>
+</div>
+
+<div id="outline-container-conclusion" class="outline-2">
+<h2 id="conclusion">Conclusion</h2>
+<div class="outline-text-2" id="text-conclusion">
+<p>
+In this blog post, we have explored the problem of simulating swap
+operations without modifying the underlying data. We provided a Python
+code example that demonstrates how to achieve this using a simple class
+structure called <code>Viewable_Mixin</code>. The solution maintains two lists,
+<code>self.indices</code> and <code>self.inverse_indices</code>, to store the forward and
+inverse mappings between the view and the data. By swapping elements in
+the view and updating the mappings accordingly, we can efficiently
+simulate swaps without modifying the actual data.
+</p>
+
+<p>
+This approach can be useful in various applications, such as data
+visualization, algorithm analysis, and undo/redo functionality, where it
+is necessary to maintain multiple views of the same data or analyze the
+impact of different permutations without affecting the underlying data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3dac822" class="outline-2">
+<h2 id="org3dac822">Mathematical Justifications</h2>
+<div class="outline-text-2" id="text-org3dac822">
+<p>
+It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
+$$
+</p>
+\begin{aligned}
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+\alpha \\ \beta \\ \gamma \\ \eta
+\end{bmatrix}
+&= \begin{bmatrix}
+\alpha \\ \eta \\ \beta \\ \gamma
+\end{bmatrix}, %
+%
+\\
+%
+\begin{bmatrix}
+\alpha \\ \beta \\ \gamma \\ \eta
+\end{bmatrix}
+&= \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+\alpha \\ \eta \\ \beta \\ \gamma
+\end{bmatrix}.
+\end{aligned}
+<p>
+$$
+Hence, <code>indices</code> represents the permutation matrix in the first equation, denoted by \(A\) below, and <code>inversed_indices</code> represents the matrix in the second equation, denoted by \(B\).
+</p>
+
+<p>
+Clearly, \(AB=I\). Moreover, because \(A\) and \(B\) are othrogonal matrix, \(A=B^\intercal\) holds too.
+</p>
+
+<p>
+In this point of view, <code>indices[i]</code> stores the unique column index <code>j</code> such that \(A_{ij}=1\),
+\[ \sum_{j}A_{ij} \mathtt{data[j]} = \mathtt{view[i]} = \mathtt{data[indices[i]]}.\]
+Similarly, <code>inversed_indices[i]</code> stores the unique column index <code>j</code> such that \(B_{ij}=1\),
+\[ \sum_{j}B_{ij} \mathtt{view[j]} = \mathtt{data[i]} = \mathtt{view[inversed\_indices[i]]}.\]
+For arbitary vector \(v\), we have (introduce the notation that \(\mathbb{I}[\mathtt{cond}]=1\) if and only if \(\mathtt{cond}\) is true)
+\[ \begin{aligned}
+(BAv)_i &= \sum_{k} \sum_{j} A_{ik} B_{kj} v_j \\
+&= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \sum_{j} \mathbb{I}(j=\mathtt{inversed\_indices}[k]) \cdot v_j \\
+&= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \cdot v[\mathtt{inversed\_indices}[k]] \\
+&= v[\mathtt{inversed\_indices}[\mathtt{indices}[i]]].
+\end{aligned}.\]
+Thus, we have
+\[ i = \mathtt{inversed\_indices}[\mathtt{indices}[i]]. \]
+This is the reflection of the matrix equation \(BA=I\).
+</p>
+
+<p>
+Now look back to the equation transforming <code>data</code> to <code>view</code>
+</p>
+\begin{equation}
+\begin{aligned}
+\begin{bmatrix}
+\mathbb{I}(j = \mathtt{indices}[0]) \\
+\mathbb{I}(j = \mathtt{indices}[1]) \\
+\mathbb{I}(j = \mathtt{indices}[2]) \\
+\mathbb{I}(j = \mathtt{indices}[3])
+\end{bmatrix}
+\begin{bmatrix}
+\mathtt{data}[0] \\
+\mathtt{data}[1] \\
+\mathtt{data}[2] \\
+\mathtt{data}[3]
+\end{bmatrix}
+&= \begin{bmatrix}
+\mathtt{view}[0] \\
+\mathtt{view}[1] \\
+\mathtt{view}[2] \\
+\mathtt{view}[3]
+\end{bmatrix}
+\end{aligned},
+\end{equation}
+<p>
+where \(\mathbb{I}(j = \mathtt{indices}[0])\) denotes a row vector with subscript \(j\). To swap the <code>view</code> vector without modifying the <code>data</code> vector, we can swap rows of \(A\) to satisfying the transforming equation. For example, if we want to swap the $i<sub>1</sub>$-th and $i<sub>2</sub>$-th entry of <code>view</code>, we can create another indices to represent the new permutation matrix:
+\[ \begin{cases}
+\mathtt{indices}'[i_1] &= \mathtt{indices}[i_2],\\
+\mathtt{indices}'[i_2] &= \mathtt{indices}[i_1],\\
+\mathtt{indices}'[i] &= \mathtt{indices}[i],\quad \forall i\not\in\{i_1,i_2\}.
+\end{cases}\]
+The inversed indices need to update accordingly:
+\[ \begin{cases}
+j_1 = \mathtt{indices}[i_1], \\
+j_2 = \mathtt{indices}[i_2], \\
+\mathtt{inversed\_indices}'[j_1] &= \mathtt{inversed\_indices}[j_2],\\
+\mathtt{inversed\_indices}'[j_2] &= \mathtt{inversed\_indices}[j_1],\\
+\mathtt{inversed\_indices}'[j] &= \mathtt{inversed\_indices}[j],\quad \forall j\not\in\{j_1,j_2\},
+\end{cases}\]
+or in a more intuitive expression
+\[ \begin{cases}
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_1]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_2]] = i_1,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_2]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_1]] = i_2,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i]] = i,\quad \forall i\not\in\{i_1, i_2\},
+\end{cases}\]
+It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse mapping of \(\mathtt{indices}'\).
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>
