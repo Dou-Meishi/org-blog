@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Helly's Selection Theorem</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">25 Jun 2022</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2022-06-25-HellySelectionTheorem/notes.html">Helly's Selection Theorem</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org6b3cd0a">Statement</a></li>
+<li><a href="#org673ef1a">Problems</a></li>
+<li><a href="#org664b97e">Further discussion</a></li>
+<li><a href="#orgd19e674">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+</ul>
+</div>
+</nav>
+<p>
+By Bolzano-Weierstrass’ theorem, we know that any bounded sequence of
+real values has a convergent subsequence. This result can be extended
+to finite dimensional space, i.e, any bounded sequence in
+\(\mathbb{R}^n\) has a convergent subsequence. However, it is not true
+in infinite dimensional space, say,
+\(\mathbb{R}^{[0,1]}\). Nevertheless, there are two well-known theorem
+to establish the convergence of a sequence of functions, the
+<a href="https://en.wikipedia.org/wiki/Arzel%C3%A0%E2%80%93Ascoli_theorem">Arzelà–Ascoli theorem</a> and <a href="https://en.wikipedia.org/wiki/Helly%27s_selection_theorem">Helly's selection theorem</a>. The main
+difference between these two results is the notion of convergence of a
+function sequence. Arzelà–Ascoli theorem deals with the uniformly
+convergence and Helly's selection theorem deals with the pointwise
+convergence.
+</p>
+
+<div id="outline-container-org6b3cd0a" class="outline-2">
+<h2 id="org6b3cd0a">Statement</h2>
+<div class="outline-text-2" id="text-org6b3cd0a">
+<p>
+<i>Lemma (Helly).</i> Suppose that \(\{f_n\}_{n\in\mathbb{N}}\) is a <i>uniformly
+bounded</i> sequence of <i>increasing</i> functions on an interval. Then there is
+a subsequence converging <i>pointwise</i> to an increasing function.
+</p>
+
+<p>
+In probability theory, this theorem is often stated in the following manner.
+</p>
+
+<p>
+<i>Theorem (Helly).</i> For every sequence of \(\{F_n\}\) of distribution
+functions from \(\mathbb{R}\) to \([0,1]\), there exists a subsequence
+\(\{F_{n_k}\}\) and a nondecreasing, right-continuous function \(F\) such
+that \(\lim_k F_{n_k}(x) = F(x)\) at continuity points \(x\) of \(F\).
+</p>
+
+<p>
+<i>Proof.</i> The proof is based on the <a href="./diagonal-argument.jpg">diagonal argument</a>. See <a href="./proof-Helly-by-Billingsley.png">here</a> for the
+complete proof given in Billingsley's book.
+</p>
+
+<p>
+<i>Remark.</i> The limiting funciton \(F\) may not be a distribution function.
+For example, let \(F_n(x) = \mathbb{1}(x \geq n)\) be the distribution
+function corresponding to a unit mass at \(n\). Then the limiting
+function \(F(x)\equiv0\) is clearly not a distribution function.
+</p>
+
+<p>
+<i>Remark.</i> The proof of this version can be adapted to prove the original
+version. First, it is necessary that \(0 \leq F_n \leq 1\) but \(F_n\)
+need not to be a distribution function.  Second, if we do not require
+\(F\) to be right-continuous, then we can redefine the values of \(F\) at
+discontinuity points, and select a finer subsequence such that \(\lim_k
+F_{n_k}(x)=F(x)\) at every \(x\).  This is because the set of
+discontinuity points of a monotone function is countable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org673ef1a" class="outline-2">
+<h2 id="org673ef1a">Problems</h2>
+<div class="outline-text-2" id="text-org673ef1a">
+<ol class="org-ol">
+<li>Is there a subsequence of \((\sin (x/k))_{k=1}^\infty\) converges pointwise?</li>
+<li>Is there a subsequence of \((\sin (x+k))_{k=1}^\infty\) converges pointwise?</li>
+<li>Is there s subsequence of \((\sin (kx))_{k=1}^\infty\) converges pointwise?</li>
+</ol>
+
+<p>
+Answers to the first two questions are positive, which can be shown
+easily by Arzelà–Ascoli theorem. The answer to the last question,
+however, is negative; see <a href="https://math.stackexchange.com/questions/1380286/pointwise-almost-everywhere-convergent-subsequence-of-sin-nx">this discussion</a>. Hence, the last
+one is a perfect example that shows the monotone condition is
+essential in Helly's selection theorem.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org664b97e" class="outline-2">
+<h2 id="org664b97e">Further discussion</h2>
+<div class="outline-text-2" id="text-org664b97e">
+<p>
+<i>Pointwise convergence is weaker than uniformly convergence.</i> In
+\(\mathbb{R}^{\mathbb{N}}\), let \(e^n=(e^n_k)_{k=1}^\infty\) be the
+sequence with all zero entries except the \(n\)-th entry be 1. Then
+the sequence \((e^n)_{n=1}^\infty\) is bounded under the sup
+norm. Moreover, it converges pointwise to \(e^*\equiv0\). However, The
+sequence \((e^n)\) is clearly divergent under the sup norm.
+Indeed, by the diagonal argument, any uniformly bounded sequence in
+\(\mathbb{R}^{\mathbb{N}}\) has a subsequence which converges pointwise.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd19e674" class="outline-2">
+<h2 id="orgd19e674">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-orgd19e674">
+<ol class="org-ol">
+<li><a href="https://math.stackexchange.com/questions/397931/hellys-selection-theorem">Helly's selection theorem - Mathematics</a></li>
+</ol>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>
