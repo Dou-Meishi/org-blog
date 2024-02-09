@@ -4,7 +4,216 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Fri, 09 Feb 2024 18:58:00 +0800</lastBuildDate>
+<lastBuildDate>Fri, 09 Feb 2024 21:47:31 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Convergence in Distribution and Weak Convergence]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgd940a5e">Definitions</a></li>
+<li><a href="#orgf203430">Skorohod's theorem</a></li>
+<li><a href="#org821c23f">Equivalent definition of weak convergence</a></li>
+</ul>
+</div>
+</nav>
+<p>
+In statistics, we often want to study the asymptotic behavior of
+random variables, or in other words, the limit of their
+distributions. This concept appears in the central limit theorem which
+asserts that the imperial mean of random observations always converges
+to a normal distribution, regardless the distribution of the observed
+random variable.
+</p>
+
+<p>
+There are several concepts of the convergence of random variables,
+e.g, almost surely convergence, convergence in probability and
+convergence in distribution. <i>Convergence in distribution</i> (also called
+<i>convergence in law</i>) is the weakest type of convergence among them. It
+is actually defined in terms of the pointwise convergence of
+distribution functions. Hence, it is also a type of convergence of
+probability measures, as there is a one-to-one correspondence between
+distribution functions and probability measures. The concept of weak
+convergence of probability measures is therefore introduced.
+</p>
+
+<p>
+Below, we first give the definitions of convergence in distribution of
+random variables and weak convergence of probability measures.  Then
+the Skorhod's theorem is proved and a direct application of it is
+given. Finally, we discuss equivalent characterization of weak
+convergence without referring to distribution functions.  The result
+is helpful in understanding the weak topology in the space of
+probability measures. For complete discussions, please refer to
+Billingsley's book and Parthasarathy's book.
+</p>
+
+<p>
+Random variables mentioned below are all real-valued.  The
+distribution function \(F\) of a random variable \(X\) is thereby \(F(x)=
+\mathbb{P}(X \leq x)\).  The theory of random variables valued in
+\(\mathbb{R}^n\), and or more general in a Polish space, is a bit
+complicated and left untouched.
+</p>
+
+<div id="outline-container-orgd940a5e" class="outline-2">
+<h2 id="orgd940a5e">Definitions</h2>
+<div class="outline-text-2" id="text-orgd940a5e">
+<p>
+<i>Definition.</i> A sequence of real-valued random variables \(\{X_n\}\) (with
+distribution functions \(\{F_n\}\)) is said to <i>converge in distribution</i>
+or <i>in law</i> to \(X\) (with distribution function \(F\)) if \(F_n(x)\)
+converges to \(F(x)\) at continuity points \(x\) of \(F\), i.e., \[\lim_n
+F_n(x) = F(x), \quad\text{for every continuity point $x$ of $F$}.\]
+</p>
+
+<p>
+<i>Remark.</i> In this definition, it is the distribution function which
+matters, and there is nothing to do with the underlying probability
+space. So, random variables \(\{X_n\}\) may be defined on entirely
+different probability space.
+</p>
+
+<p>
+As we all know, there is a one-to-one correspondence between
+distribution functions and probability measures<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.  Therefore, we
+can define the convergence of probability measures in the same vain.
+</p>
+
+<p>
+<i>Definition.</i> A sequence of probability measures \(\{\mu_n\}\) on the real
+line is said to <i>converge weakly</i> to a probability measure \(\mu\) if \[
+\lim_n \mu_n((-\infty, x]) = \mu((-\infty, x]), \quad \text{for which
+$\mu(\{x\}) = 0$}.\]
+</p>
+
+<p>
+<i>Remark.</i> Like the continuity condition in the definition of convergence
+in distributions, here the condition \(\mu(\{x\})=0\) is also essential.
+In fact, the set \((\infty, x])\) is called a \(\mu\)-continuity set if
+\(\mu(\{x\})=0\). If a set \(A\) is not a \(\mu\)-continuity set, then
+\(\lim_n\mu_n(A)\) may fail to converge to \(\mu(A)\).
+</p>
+
+<p>
+<i>Notation.</i> We write \(X_n ⇒ X\) if \(X_n\) converge in law to \(X\).  In this
+case, we may also write \(F_n ⇒ F\).  Similarly, we write \(\mu_n ⇒ \mu\)
+if \(\mu_n\) converge weakly to \(\mu\).
+</p>
+
+<p>
+Obviously, random variables \(X_n\) converge in law to \(X\) if
+and only if probability measures \(\mathbb{P}_{ X_n}\) converge weakly
+to \(\mathbb{P}_{X}\), i.e.,
+\[\lim_n \mathbb{P}_{X_n}((-\infty, x]) =
+\mathbb{P}_{X}((-\infty, x]), \quad\text{for every $x$ such that
+$\mathbb{P}_X(\{x\})=0$}.\]
+</p>
+
+<p>
+<i>Example.</i> Let \(\mu_n\) corresponds to a mass of \(1/n\) at each point \(0,
+\frac{1}{n}, \frac{2}{n}, \ldots, \frac{n-1}{n}\). Then it is clear
+that \(\mu_n\) converges weakly to \(\mu\), the Lebesgue measure confined
+on \([0,1]\).  However, \(\mu_n(\mathbb{Q}\cap[0,1])=1\) for all \(n\) but
+\(\mu(\mathbb{Q}\cap[0,1])=0\).
+</p>
+
+<p>
+<i>Example.</i> Let \(X_n\equiv a_n\) and \(X\equiv a\). Then
+ \(F_n(x)=\mathbb{1}(x\geq a_n)\) and \(F(x)=\mathbb{1}(x\geq a)\).
+ Clearly, \(X_n\) converges in distribution to \(X\) if and only if
+ \(a_n\to a\). However, if \(a_n > a\) for infinite many \(n\), then
+ \(F_n(a)\) fails to converge to \(F(a)\).
+</p>
+
+<p>
+Finally, we shoult mention that the limit of convergence in law and
+weak convergence is unique. If \(F_n ⇒ F\) and \(F_n ⇒ G\), then
+\(F(x)=G(x)\) holds for every \(x\), including their discontinuities.
+The proof is very simple; see <a href="./proof-to-uniqueness-of-weak-limit.png">here</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf203430" class="outline-2">
+<h2 id="orgf203430">Skorohod's theorem</h2>
+<div class="outline-text-2" id="text-orgf203430">
+<p>
+For any probability measure \(\mu_n\) on the real line, we can construct
+a probability space and a random variable \(Y_n\) on it such that \(Y_n\)
+induces \(\mu_n\). For probability measures \(\mu_n ⇒ \mu\), the following
+theorem states that \(Y_n\) and \(Y\) can be constructed on the same
+probability space, and even in such a way that \(Y_n(\omega) \to
+Y(\omega)\) fo every \(\omega\), which is a much stronger condition than
+\(Y_n ⇒ Y\).
+</p>
+
+<p>
+<i>Theorem [Skorohod].</i> Suppose that \(\mu_n ⇒ \mu\). Then there exists a
+probability space \((\Omega,\mathcal{F},\mathbb{P})\) and random
+variables \(Y_n\) and \(Y\) on it such that \(Y_n\) has distribution
+\(\mu_n\), \(Y\) has distribution \(\mu\), and \(Y_n(\omega)\to Y(\omega)\)
+for every \(\omega\).
+</p>
+
+<p>
+<i>Corollary 1.</i> If \(X_n ⇒ X\) and \(\mathbb{P}(X \in D_h)=0\), then \(h(X_n)
+⇒ h(X)\).  Here, \(D_h\) is the set of discontinuity points of the
+measurable function \(h\).
+</p>
+
+<p>
+<i>Corollary 2.</i> If \(X_n ⇒ a\) and \(h\) is continuous at \(a\), then \(h(X_n) ⇒
+h(X)\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org821c23f" class="outline-2">
+<h2 id="org821c23f">Equivalent definition of weak convergence</h2>
+<div class="outline-text-2" id="text-org821c23f">
+<p>
+<i>Definition.</i> A set \(A\) is a \(\mu\)-continuity set if it is a Borel set
+and \(\mu(\partial A)=0\).  Here, the boundary \(\partial A\) is the
+closure of \(A\) minus its interior.
+</p>
+
+<p>
+<i>Theorem.</i> The following three conditions are equivalent.
+</p>
+
+<ol class="org-ol">
+<li>\(\mu_n ⇒\mu\);</li>
+<li>\(\int f\,d\mu_n \to \int f\,d\mu\) for every bounded and continuous real function \(f\);</li>
+<li>\(\mu_n(A)\to \mu(A)\) for every \(\mu\)-continuity set \(A\).</li>
+</ol>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+For a given probability measure \(\mu\) on the real line, the
+function \(F(x):=\mu((-\infty,x])\) is nondecreasing, right-continuous,
+and satisfies \(F(-\infty)=0\) and \(F(\infty)=1\), and thus is a
+distribution function. Conversely, for a given distribution function
+\(F\), let \(q:(0,1)\to\mathbb{R}\) be the quantile function of \(F\): \(q(u)
+= \inf\{x: u\leq F(x)\}\). Then \(q(u) \leq x\) if and only if \(u \leq
+F(x)\). Hence, the random variable \(q\) has the distribution \(F\) and
+induces a probability measure \(\mu\).
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>]]></description>
+  <category><![CDATA[math]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-02-09-ConvinDistandWeakConv/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-02-09-ConvinDistandWeakConv/notes.html</guid>
+  <pubDate>Fri, 09 Feb 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[How I create backups]]></title>
   <description><![CDATA[
