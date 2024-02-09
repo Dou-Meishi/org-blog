@@ -33,12 +33,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7aa0aa6">Introduction</a></li>
-<li><a href="#org20bacd8">Background and Applications</a></li>
-<li><a href="#org9cd1641">Problem Statement and Our Solution</a></li>
+<li><a href="#orga0e523c">Introduction</a></li>
+<li><a href="#org79902ba">Background and Applications</a></li>
+<li><a href="#org552407b">Problem Statement and Our Solution</a></li>
 <li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#org8534c47">Mathematical Justifications</a></li>
+<li><a href="#orgf1384e6">Mathematical Justifications</a></li>
 </ul>
 </div>
 </nav>
@@ -46,9 +46,9 @@
 <b>Authors</b>: Dou Meishi, ChatGPT
 </p>
 
-<div id="outline-container-org7aa0aa6" class="outline-2">
-<h2 id="org7aa0aa6">Introduction</h2>
-<div class="outline-text-2" id="text-org7aa0aa6">
+<div id="outline-container-orga0e523c" class="outline-2">
+<h2 id="orga0e523c">Introduction</h2>
+<div class="outline-text-2" id="text-orga0e523c">
 <p>
 In many applications, it is often required to simulate swap operations
 on a list of elements without actually modifying the underlying data.
@@ -68,9 +68,9 @@ will explain the reasons behind our implementation and conclude.
 </div>
 </div>
 
-<div id="outline-container-org20bacd8" class="outline-2">
-<h2 id="org20bacd8">Background and Applications</h2>
-<div class="outline-text-2" id="text-org20bacd8">
+<div id="outline-container-org79902ba" class="outline-2">
+<h2 id="org79902ba">Background and Applications</h2>
+<div class="outline-text-2" id="text-org79902ba">
 <p>
 Swapping elements in a list is a fundamental operation in many
 algorithms, such as sorting algorithms and combinatorial search
@@ -101,9 +101,9 @@ without affecting the original data.</li>
 </div>
 </div>
 
-<div id="outline-container-org9cd1641" class="outline-2">
-<h2 id="org9cd1641">Problem Statement and Our Solution</h2>
-<div class="outline-text-2" id="text-org9cd1641">
+<div id="outline-container-org552407b" class="outline-2">
+<h2 id="org552407b">Problem Statement and Our Solution</h2>
+<div class="outline-text-2" id="text-org552407b">
 <p>
 Suppose we have a list of elements and we want to simulate swap
 operations on this list without modifying the actual data. We also want
@@ -285,13 +285,14 @@ impact of different permutations without affecting the underlying data.
 </div>
 </div>
 
-<div id="outline-container-org8534c47" class="outline-2">
-<h2 id="org8534c47">Mathematical Justifications</h2>
-<div class="outline-text-2" id="text-org8534c47">
+<div id="outline-container-orgf1384e6" class="outline-2">
+<h2 id="orgf1384e6">Mathematical Justifications</h2>
+<div class="outline-text-2" id="text-orgf1384e6">
 <p>
 It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
-$$\begin{aligned}
 </p>
+
+$$ \begin{aligned}
 \begin{bmatrix}
 1 & 0 & 0 & 0 \\
 0 & 0 & 0 & 1 \\
@@ -301,51 +302,70 @@ $$\begin{aligned}
 \begin{bmatrix}
 \alpha \\ \beta \\ \gamma \\ \eta
 \end{bmatrix}
-<p>
-&amp;= \begin{bmatrix}
-&alpha; \\ &eta; \\ &beta; \\ &gamma;
-\end{bmatrix}, %
-%
-<br>
-%
-</p>
+&= \begin{bmatrix}
+\alpha \\ \eta \\ \beta \\ \gamma
+\end{bmatrix},
+\\
 \begin{bmatrix}
 \alpha \\ \beta \\ \gamma \\ \eta
 \end{bmatrix}
-<p>
-&amp;= \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 <br>
-0 &amp; 0 &amp; 1 &amp; 0 <br>
-0 &amp; 0 &amp; 0 &amp; 1 <br>
-0 &amp; 1 &amp; 0 &amp; 0
+&= \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0
 \end{bmatrix}
-</p>
 \begin{bmatrix}
 \alpha \\ \eta \\ \beta \\ \gamma
 \end{bmatrix}.
-\end{aligned}$$
-Hence, =indices= represents the permutation matrix in the first equation, denoted by $A$ below, and =inversed_indices= represents the matrix in the second equation, denoted by $B$.
+\end{aligned} $$
 
-Clearly, $AB=I$. Moreover, because $A$ and $B$ are othrogonal matrix, $A=B^\intercal$ holds too.
+<p>
+Hence, <code>indices</code> represents the permutation matrix in the first equation, denoted by \(A\) below, and <code>inversed_indices</code> represents the matrix in the second equation, denoted by \(B\).
+</p>
 
-In this point of view, =indices[i]= stores the unique column index =j= such that $A_{ij}=1$,
-$$ \sum_{j}A_{ij} \mathtt{data[j]} = \mathtt{view[i]} = \mathtt{data[indices[i]]}.$$
-Similarly, =inversed_indices[i]= stores the unique column index =j= such that $B_{ij}=1$,
-$$ \sum_{j}B_{ij} \mathtt{view[j]} = \mathtt{data[i]} = \mathtt{view[inversed\_indices[i]]}.$$
-For arbitary vector $v$, we have (introduce the notation that $\mathbb{I}[\mathtt{cond}]=1$ if and only if $\mathtt{cond}$ is true)
+<p>
+Clearly, \(AB=I\). Moreover, because \(A\) and \(B\) are othrogonal matrix, \(A=B^\intercal\) holds too.
+</p>
+
+<p>
+In this point of view, <code>indices[i]</code> stores the unique column index <code>j</code> such that \(A_{ij}=1\),
+</p>
+
+<p>
+\[ \sum_{j}A_{ij} \mathtt{data[j]} = \mathtt{view[i]} = \mathtt{data[indices[i]]}.\]
+</p>
+
+<p>
+Similarly, <code>inversed_indices[i]</code> stores the unique column index <code>j</code> such that \(B_{ij}=1\),
+</p>
+
+<p>
+\[ \sum_{j}B_{ij} \mathtt{view[j]} = \mathtt{data[i]} = \mathtt{view[inversed\_indices[i]]}.\]
+</p>
+
+<p>
+For arbitary vector \(v\), we have (introduce the notation that \(\mathbb{I}[\mathtt{cond}]=1\) if and only if \(\mathtt{cond}\) is true)
+</p>
+
 $$ \begin{aligned}
 (BAv)_i &= \sum_{k} \sum_{j} A_{ik} B_{kj} v_j \\
 &= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \sum_{j} \mathbb{I}(j=\mathtt{inversed\_indices}[k]) \cdot v_j \\
 &= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \cdot v[\mathtt{inversed\_indices}[k]] \\
 &= v[\mathtt{inversed\_indices}[\mathtt{indices}[i]]].
-\end{aligned}.$$
-Thus, we have
-$$ i = \mathtt{inversed\_indices}[\mathtt{indices}[i]]. $$
-This is the reflection of the matrix equation $BA=I$.
+\end{aligned} $$
 
-Now look back to the equation transforming =data= to =view=
-$$ \begin{aligned}
-\begin{bmatrix}
+<p>
+Thus, we have
+\[i  = \mathtt{inversed\_indices}[\mathtt{indices}[i]].\]
+This is the reflection of the matrix equation \(BA=I\).
+</p>
+
+<p>
+Now look back to the equation transforming <code>data</code> to <code>view</code>
+</p>
+
+$$ \begin{bmatrix}
 \mathbb{I}(j = \mathtt{indices}[0]) \\
 \mathbb{I}(j = \mathtt{indices}[1]) \\
 \mathbb{I}(j = \mathtt{indices}[2]) \\
@@ -357,34 +377,47 @@ $$ \begin{aligned}
 \mathtt{data}[2] \\
 \mathtt{data}[3]
 \end{bmatrix}
-<p>
-&amp;= \begin{bmatrix}
-\mathtt{view}[0] <br>
-\mathtt{view}[1] <br>
-\mathtt{view}[2] <br>
+= \begin{bmatrix}
+\mathtt{view}[0] \\
+\mathtt{view}[1] \\
+\mathtt{view}[2] \\
 \mathtt{view}[3]
-\end{bmatrix}
-\end{aligned}, \[
-where $\mathbb{I}(j = \mathtt{indices}[0])$ denotes a row vector with subscript $j$. To swap the =view= vector without modifying the =data= vector, we can swap rows of $A$ to satisfying the transforming equation. For example, if we want to swap the $i_1$-th and $i_2$-th entry of =view=, we can create another indices to represent the new permutation matrix:
-\] \begin{cases}
-\mathtt{indices}'[i<sub>1</sub>] &amp;= \mathtt{indices}[i_2],<br>
-\mathtt{indices}'[i<sub>2</sub>] &amp;= \mathtt{indices}[i_1],<br>
-\mathtt{indices}'[i] &amp;= \mathtt{indices}[i],\quad &forall; i&not;&isin;\{i<sub>1,i</sub><sub>2</sub>\}.
-\end{cases}\[
-The inversed indices need to update accordingly:
-\] \begin{cases}
-j<sub>1</sub> = \mathtt{indices}[i_1], <br>
-j<sub>2</sub> = \mathtt{indices}[i_2], <br>
-\mathtt{inversed\_indices}'[j<sub>1</sub>] &amp;= \mathtt{inversed\_indices}[j_2],<br>
-\mathtt{inversed\_indices}'[j<sub>2</sub>] &amp;= \mathtt{inversed\_indices}[j_1],<br>
-\mathtt{inversed\_indices}'[j] &amp;= \mathtt{inversed\_indices}[j],\quad &forall; j&not;&isin;\{j<sub>1,j</sub><sub>2</sub>\},
-\end{cases}\[
-or in a more intuitive expression
-\] \begin{cases}
-\mathtt{inversed\_indices}'[\mathtt{indices}'[i<sub>1</sub>]] &amp;= \mathtt{inversed\_indices}[\mathtt{indices}'[i<sub>2</sub>]] = i<sub>1</sub>,<br>
-\mathtt{inversed\_indices}'[\mathtt{indices}'[i<sub>2</sub>]] &amp;= \mathtt{inversed\_indices}[\mathtt{indices}'[i<sub>1</sub>]] = i<sub>2</sub>,<br>
-\mathtt{inversed\_indices}'[\mathtt{indices}'[i]] &amp;= \mathtt{inversed\_indices}[\mathtt{indices}'[i]] = i,\quad &forall; i&not;&isin;\{i<sub>1</sub>, i<sub>2</sub>\},
+\end{bmatrix}, $$
+
+<p>
+where \(\mathbb{I}(j = \mathtt{indices}[0])\) denotes a row vector with
+subscript \(j\). To swap the <code>view</code> vector without modifying the <code>data</code>
+vector, we can swap rows of \(A\) to satisfying the transforming
+equation. For example, if we want to swap the $i<sub>1</sub>$-th and $i<sub>2</sub>$-th
+entry of <code>view</code>, we can create another indices to represent the new
+permutation matrix:
+</p>
+
+$$ \begin{cases}
+\mathtt{indices}'[i_1] &= \mathtt{indices}[i_2],\\
+\mathtt{indices}'[i_2] &= \mathtt{indices}[i_1],\\
+\mathtt{indices}'[i] &= \mathtt{indices}[i],\quad \forall i\not\in\{i_1,i_2\}.
 \end{cases}$$
+The inversed indices need to update accordingly:
+$$ \begin{cases}
+j_1 = \mathtt{indices}[i_1], \\
+j_2 = \mathtt{indices}[i_2], \\
+\mathtt{inversed\_indices}'[j_1] &= \mathtt{inversed\_indices}[j_2],\\
+\mathtt{inversed\_indices}'[j_2] &= \mathtt{inversed\_indices}[j_1],\\
+\mathtt{inversed\_indices}'[j] &= \mathtt{inversed\_indices}[j],\quad \forall j\not\in\{j_1,j_2\},
+\end{cases}$$
+
+<p>
+or in a more intuitive expression
+</p>
+
+$$ \begin{cases}
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_1]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_2]] = i_1,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_2]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_1]] = i_2,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i]] = i,\quad \forall i\not\in\{i_1, i_2\},
+\end{cases} $$
+
+<p>
 It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse mapping of \(\mathtt{indices}'\).
 </p>
 </div>
