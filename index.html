@@ -28,7 +28,15 @@
 </div>
 </div>
 <div id="content">
-<h1 class=title> Recent Posts </h1><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-09-ConvinDistandWeakConv/notes.html">Convergence in Distribution and Weak Convergence</a></h2><div class="post-date">09 Feb 2024</div><p>
+<h1 class=title> Recent Posts </h1><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-13-QuantileFunction/notes.html">Quantile Functions</a></h2><div class="post-date">13 Feb 2024</div><p>
+For a distribution function \(F:\mathbb{R}\to [0,1]\), its quatile
+function \(q:(0,1)\to\mathbb{R}\) is defined by<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> \[
+q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
+is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
+\(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
+there is also (see the section <a href="#org317492e">Properties</a>) \[ F(x) = \sup\{u: q(u)
+\leq x\}.\]
+</p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-09-ConvinDistandWeakConv/notes.html">Convergence in Distribution and Weak Convergence</a></h2><div class="post-date">09 Feb 2024</div><p>
 In statistics, we often want to study the asymptotic behavior of
 random variables, or in other words, the limit of their
 distributions. This concept appears in the central limit theorem which
@@ -55,14 +63,6 @@ the built-in functionality <code>org-publish</code>.  After browsing a few blog
 sites created with this package, I was impressed by its simplicity and
 the ability to blog using org files. It became clear that this package
 is exactly what I need at this stage.
-</p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-01-14-TryOrgPublish/notes.html">Review org-publish Utility</a></h2><div class="post-date">14 Jan 2024</div><p>
-Recently, I finally decided to create my personal blog site. I
-researched a few tools and then I suddenly remembered the <code>org-publish</code>
-function in Emacs. Although I have been using Emacs and Org mode for
-three years, I never wrote a script in elisp. But since my interest in
-Emacs is continuously growing, I think it's a good time to play around
-with it. It is also a good practice for me to understand the source code
-of <a href="https://github.com/bastibe/org-static-blog/tree/master">Org Static Blog</a>, which is the actual blogging tool I want to use.
 </p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div><div id="archive">
 <a href="https://dou-meishi.github.io/org-blog/archive.html">Other posts</a>
 </div>

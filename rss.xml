@@ -4,7 +4,221 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Fri, 09 Feb 2024 21:47:31 +0800</lastBuildDate>
+<lastBuildDate>Tue, 13 Feb 2024 21:25:31 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Quantile Functions]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org478c924">Examples</a></li>
+<li><a href="#org317492e">Properties</a></li>
+</ul>
+</div>
+</nav>
+<p>
+For a distribution function \(F:\mathbb{R}\to [0,1]\), its quatile
+function \(q:(0,1)\to\mathbb{R}\) is defined by<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> \[
+q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
+is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
+\(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
+there is also (see the section <a href="#org317492e">Properties</a>) \[ F(x) = \sup\{u: q(u)
+\leq x\}.\]
+</p>
+
+
+<p>
+The graph of a quantile function can be conveniently derived from the graph of the corresponding
+distribution function.
+</p>
+
+<ol class="org-ol">
+<li>Plot the graph \((x, F(x))\) for \(x\in(-\infty,+\infty)\).</li>
+<li>Connect all discontinuity points of \(F\) by adding vertical lines.</li>
+<li>Swap the horizontal axis with the vertical axes.</li>
+<li>Shrink vertical lines to their lowest points to avoid multiple values.</li>
+</ol>
+
+<p>
+By the definition of quantile functions, in the last step we should
+choose the lowest point as the proper function value while removing a
+vertical line. This reveals that, unlike distribution functions,
+quantile functions are left continuous.
+</p>
+
+<div id="outline-container-org478c924" class="outline-2">
+<h2 id="org478c924">Examples</h2>
+<div class="outline-text-2" id="text-org478c924">
+<p>
+<i>Example 1.</i> The distribution function of a exponentially distributed random variable is
+</p>
+
+$$
+F(x) = \begin{cases}
+1 - e^{-x},&\quad x \geq 0,\\
+0,&\quad x < 0.
+\end{cases}
+$$
+
+<p>
+Its quantile function is
+\[ q(u) = -\ln (1-u),\quad u\in(0,1). \]
+</p>
+
+<p>
+In this case,
+</p>
+
+$$
+q(F(x)) = \begin{cases}
+x,&\quad x \geq 0,\\
+0,&\quad x < 0,
+\end{cases}
+\quad\text{and}\quad
+F(q(u)) = u, \quad 0 < u < 1.
+$$
+
+<p>
+<i>Example 2.</i> The distribution function of a unit mass is
+</p>
+
+$$
+F(x) = \begin{cases}
+1 ,&\quad x \geq 0,\\
+0,&\quad x < 0.
+\end{cases}
+$$
+
+<p>
+Its quantile function is
+\[ q(u) = 0,\quad u\in(0,1).\]
+</p>
+
+<p>
+In this case, \(q(F(x))\) is void and
+\[ F(q(u)) = 1, \quad 0 < u < 1.\]
+</p>
+
+<p>
+<i>Example 3.</i> The distribution function of two equal mass is
+</p>
+
+$$
+F(x) = \begin{cases}
+1 ,&\quad x \geq 1,\\
+1/2, &\quad -1 \leq x < 1,\\
+0,&\quad x < -1.
+\end{cases}
+$$
+
+<p>
+Its quantile function is
+</p>
+
+$$
+q(u) = \begin{cases}
+1, &\quad 1/2 < u < 1 \\
+-1, &\quad 0 < u \leq 1/2.
+\end{cases}
+$$
+
+<p>
+In this case,
+</p>
+
+$$
+q(F(x)) = -1,\quad -1\leq x < 1\quad\text{and}\quad
+F(q(u)) = \begin{cases}
+1,&\quad 1/2 < u < 1,\\
+1/2,&\quad 0 < u \leq 1/2.
+\end{cases}
+$$
+
+<p>
+Note that in this example, the quantile function is left continuous.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org317492e" class="outline-2">
+<h2 id="org317492e">Properties</h2>
+<div class="outline-text-2" id="text-org317492e">
+<p>
+By definition, a quantile function is clearly nondecreasing due to the
+nondecreasing nature of distribution functions. However, a quantile
+function is left continuous, while distribution functions are right
+continuous. Indeed, as \(q\) is nondecreasing, we can show that
+\(q(u-) = q(u)\)<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+By definition, \[ q(F(x_0)) = \inf\{x: F(x) \geq F(x_0)\} \leq x_0,
+\quad\forall x_0\in\mathbb{R}.\] This inequality even holds when
+\(F(x_0)\) equals 0 or 1<sup><a id="fnr.1.100" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.  This inequality leads to the equation
+\(F(x)=\sup\{u:q(u) \leq x\}\)<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. Thus, \[ F(q(u_0)) = \sup\{u: q(u)
+\leq q(u_0)\} \geq u_0,\quad\forall u_0\in(0,1).\] Similarly, the
+supremum can be replaced by maximum as \(q\) is left continuous.
+</p>
+
+<p>
+As a result, there are \[ x \geq q(u) ⇒ F(x) \geq F(q(u)) \geq u \]
+and \[ F(x) \geq u ⇒ x \geq q(F(x)) \geq q(u),\]
+which means \(x \geq q(u)\) if and only if \(F(x) \geq u\).
+</p>
+
+<p>
+Assume \(U\) is a uniformly distributed variable with distribution
+\(\mathbb{P}(U \leq u)=u\) for \(u\in(0,1)\). Then the random variable
+\(X=q(U)\) has distribution \[ \mathbb{P}(X \leq x) = \mathbb{P}(q(U)
+\leq x) = \mathbb{P}(U \leq F(x)) = F(x).\]
+</p>
+
+<p>
+<i>Summary of properties of quantile functions.</i>
+</p>
+
+<ol class="org-ol">
+<li>Domain is \((0, 1)\) and range is \(\mathbb{R}\).</li>
+<li>Nondecreasing and left continuous.</li>
+<li>\(q(F(x)) \leq x\) and \(F(q(u)) \geq u\)</li>
+<li>\(x \geq q(u)\) if and only if \(F(x) \geq u\)</li>
+<li>\(q(U)\) has distribution function \(F\)</li>
+</ol>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Define that \(F(-\infty)=0\) and \(F(\infty)=1\).  Then \(F\) becomes
+a function from \(\overline{\mathbb{R}}\) to \([0,1]\) and \(q\) becomes a
+function from \([0,1]\) to \(\overline{\mathbb{R}}\).
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+For any \(ϵ > 0\), we have \(F(q(u-ϵ)) \leq
+F(q(u-))\). Applying \(F(q(u)) \geq u\) yields \(u-ϵ \leq F(q(u-))\).
+Hence, \(F(q(u-)) \geq u\) and by the
+definition of quantile functions \(q(u-) \geq q(u)\).
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+As \(q(F(x)) \leq x\), we know that \(F(x) \in \{u: q(u) \leq
+x\}\), which means \(F(x) \leq \sup\{u:q(u) \leq x\}\).  For the converse
+direction, it suffices to show that if \(q(u) \leq x\) then \(u \leq F(x)\).
+However, this is true by definition.
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>]]></description>
+  <category><![CDATA[math]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-02-13-QuantileFunction/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-02-13-QuantileFunction/notes.html</guid>
+  <pubDate>Tue, 13 Feb 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Convergence in Distribution and Weak Convergence]]></title>
   <description><![CDATA[
