@@ -33,8 +33,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org478c924">Examples</a></li>
-<li><a href="#org317492e">Properties</a></li>
+<li><a href="#orgb467b6f">Examples</a></li>
+<li><a href="#org1efdebf">Properties</a></li>
 </ul>
 </div>
 </nav>
@@ -44,7 +44,7 @@ function \(q:(0,1)\to\mathbb{R}\) is defined by<sup><a id="fnr.1" class="footref
 q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
 is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
 \(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
-there is also (see the section <a href="#org317492e">Properties</a>) \[ F(x) = \sup\{u: q(u)
+there is also (see the section <a href="#org1efdebf">Properties</a>) \[ F(x) = \sup\{u: q(u)
 \leq x\}.\]
 </p>
 
@@ -68,9 +68,9 @@ vertical line. This reveals that, unlike distribution functions,
 quantile functions are left continuous.
 </p>
 
-<div id="outline-container-org478c924" class="outline-2">
-<h2 id="org478c924">Examples</h2>
-<div class="outline-text-2" id="text-org478c924">
+<div id="outline-container-orgb467b6f" class="outline-2">
+<h2 id="orgb467b6f">Examples</h2>
+<div class="outline-text-2" id="text-orgb467b6f">
 <p>
 <i>Example 1.</i> The distribution function of a exponentially distributed random variable is
 </p>
@@ -162,9 +162,9 @@ Note that in this example, the quantile function is left continuous.
 </div>
 </div>
 
-<div id="outline-container-org317492e" class="outline-2">
-<h2 id="org317492e">Properties</h2>
-<div class="outline-text-2" id="text-org317492e">
+<div id="outline-container-org1efdebf" class="outline-2">
+<h2 id="org1efdebf">Properties</h2>
+<div class="outline-text-2" id="text-org1efdebf">
 <p>
 By definition, a quantile function is clearly nondecreasing due to the
 nondecreasing nature of distribution functions. However, a quantile
@@ -184,8 +184,11 @@ supremum can be replaced by maximum as \(q\) is left continuous.
 
 <p>
 As a result, there are \[ x \geq q(u) ⇒ F(x) \geq F(q(u)) \geq u \]
-and \[ F(x) \geq u ⇒ x \geq q(F(x)) \geq q(u),\]
-which means \(x \geq q(u)\) if and only if \(F(x) \geq u\).
+and \[ F(x) \geq u ⇒ x \geq q(F(x)) \geq q(u),\] which means \(x \geq
+q(u)\) if and only if \(F(x) \geq u\).  It is also true that \(x < q(u)\)
+if and only if \(F(x) < u\). However, it is possible that \(x \leq q(u)\)
+holds but \(F(x) \leq u\) fails. This happens when \(F(q(u)) > u\), where
+\(x=q(u)\) but \(F(x) > u\).
 </p>
 
 <p>

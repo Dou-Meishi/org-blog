@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Tue, 13 Feb 2024 21:25:31 +0800</lastBuildDate>
+<lastBuildDate>Sat, 17 Feb 2024 16:44:15 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Quantile Functions]]></title>
   <description><![CDATA[
@@ -12,8 +12,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org478c924">Examples</a></li>
-<li><a href="#org317492e">Properties</a></li>
+<li><a href="#orgb467b6f">Examples</a></li>
+<li><a href="#org1efdebf">Properties</a></li>
 </ul>
 </div>
 </nav>
@@ -23,7 +23,7 @@ function \(q:(0,1)\to\mathbb{R}\) is defined by<sup><a id="fnr.1" class="footref
 q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
 is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
 \(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
-there is also (see the section <a href="#org317492e">Properties</a>) \[ F(x) = \sup\{u: q(u)
+there is also (see the section <a href="#org1efdebf">Properties</a>) \[ F(x) = \sup\{u: q(u)
 \leq x\}.\]
 </p>
 
@@ -47,9 +47,9 @@ vertical line. This reveals that, unlike distribution functions,
 quantile functions are left continuous.
 </p>
 
-<div id="outline-container-org478c924" class="outline-2">
-<h2 id="org478c924">Examples</h2>
-<div class="outline-text-2" id="text-org478c924">
+<div id="outline-container-orgb467b6f" class="outline-2">
+<h2 id="orgb467b6f">Examples</h2>
+<div class="outline-text-2" id="text-orgb467b6f">
 <p>
 <i>Example 1.</i> The distribution function of a exponentially distributed random variable is
 </p>
@@ -141,9 +141,9 @@ Note that in this example, the quantile function is left continuous.
 </div>
 </div>
 
-<div id="outline-container-org317492e" class="outline-2">
-<h2 id="org317492e">Properties</h2>
-<div class="outline-text-2" id="text-org317492e">
+<div id="outline-container-org1efdebf" class="outline-2">
+<h2 id="org1efdebf">Properties</h2>
+<div class="outline-text-2" id="text-org1efdebf">
 <p>
 By definition, a quantile function is clearly nondecreasing due to the
 nondecreasing nature of distribution functions. However, a quantile
@@ -163,8 +163,11 @@ supremum can be replaced by maximum as \(q\) is left continuous.
 
 <p>
 As a result, there are \[ x \geq q(u) ⇒ F(x) \geq F(q(u)) \geq u \]
-and \[ F(x) \geq u ⇒ x \geq q(F(x)) \geq q(u),\]
-which means \(x \geq q(u)\) if and only if \(F(x) \geq u\).
+and \[ F(x) \geq u ⇒ x \geq q(F(x)) \geq q(u),\] which means \(x \geq
+q(u)\) if and only if \(F(x) \geq u\).  It is also true that \(x < q(u)\)
+if and only if \(F(x) < u\). However, it is possible that \(x \leq q(u)\)
+holds but \(F(x) \leq u\) fails. This happens when \(F(q(u)) > u\), where
+\(x=q(u)\) but \(F(x) > u\).
 </p>
 
 <p>
@@ -226,9 +229,9 @@ However, this is true by definition.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd940a5e">Definitions</a></li>
-<li><a href="#orgf203430">Skorohod's theorem</a></li>
-<li><a href="#org821c23f">Equivalent definition of weak convergence</a></li>
+<li><a href="#orga602515">Definitions</a></li>
+<li><a href="#org4b714ed">Skorohod's theorem</a></li>
+<li><a href="#orgcbbe7b7">Equivalent definition of weak convergence</a></li>
 </ul>
 </div>
 </nav>
@@ -272,9 +275,9 @@ distribution function \(F\) of a random variable \(X\) is thereby \(F(x)=
 complicated and left untouched.
 </p>
 
-<div id="outline-container-orgd940a5e" class="outline-2">
-<h2 id="orgd940a5e">Definitions</h2>
-<div class="outline-text-2" id="text-orgd940a5e">
+<div id="outline-container-orga602515" class="outline-2">
+<h2 id="orga602515">Definitions</h2>
+<div class="outline-text-2" id="text-orga602515">
 <p>
 <i>Definition.</i> A sequence of real-valued random variables \(\{X_n\}\) (with
 distribution functions \(\{F_n\}\)) is said to <i>converge in distribution</i>
@@ -343,17 +346,20 @@ on \([0,1]\).  However, \(\mu_n(\mathbb{Q}\cap[0,1])=1\) for all \(n\) but
 </p>
 
 <p>
-Finally, we shoult mention that the limit of convergence in law and
+Finally, we should mention that the limit of convergence in law and
 weak convergence is unique. If \(F_n ⇒ F\) and \(F_n ⇒ G\), then
 \(F(x)=G(x)\) holds for every \(x\), including their discontinuities.
-The proof is very simple; see <a href="./proof-to-uniqueness-of-weak-limit.png">here</a>.
+Indeed, by the definition of weak convergence, \(F\) and \(G\) agree on
+the real line except countable points. As \(F\) and \(G\) are right
+continuous, they must agree on those countable points. See <a href="./proof-to-uniqueness-of-weak-limit.png">here</a> for a
+complete proof.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf203430" class="outline-2">
-<h2 id="orgf203430">Skorohod's theorem</h2>
-<div class="outline-text-2" id="text-orgf203430">
+<div id="outline-container-org4b714ed" class="outline-2">
+<h2 id="org4b714ed">Skorohod's theorem</h2>
+<div class="outline-text-2" id="text-org4b714ed">
 <p>
 For any probability measure \(\mu_n\) on the real line, we can construct
 a probability space and a random variable \(Y_n\) on it such that \(Y_n\)
@@ -380,14 +386,14 @@ measurable function \(h\).
 
 <p>
 <i>Corollary 2.</i> If \(X_n ⇒ a\) and \(h\) is continuous at \(a\), then \(h(X_n) ⇒
-h(X)\).
+h(a)\).
 </p>
 </div>
 </div>
 
-<div id="outline-container-org821c23f" class="outline-2">
-<h2 id="org821c23f">Equivalent definition of weak convergence</h2>
-<div class="outline-text-2" id="text-org821c23f">
+<div id="outline-container-orgcbbe7b7" class="outline-2">
+<h2 id="orgcbbe7b7">Equivalent definition of weak convergence</h2>
+<div class="outline-text-2" id="text-orgcbbe7b7">
 <p>
 <i>Definition.</i> A set \(A\) is a \(\mu\)-continuity set if it is a Borel set
 and \(\mu(\partial A)=0\).  Here, the boundary \(\partial A\) is the
@@ -395,14 +401,24 @@ closure of \(A\) minus its interior.
 </p>
 
 <p>
-<i>Theorem.</i> The following three conditions are equivalent.
+<i>Theorem.</i> The following conditions are equivalent.
 </p>
 
 <ol class="org-ol">
 <li>\(\mu_n ⇒\mu\);</li>
-<li>\(\int f\,d\mu_n \to \int f\,d\mu\) for every bounded and continuous real function \(f\);</li>
+<li>\(\int f\,d\mu_n \to \int f\,d\mu\) for every bounded and continuous
+real function \(f\);</li>
+<li>\(\int f\,d\mu_n \to \int f\,d\mu\) for every bounded and uniformly
+continuous real function \(f\);</li>
 <li>\(\mu_n(A)\to \mu(A)\) for every \(\mu\)-continuity set \(A\).</li>
 </ol>
+
+<p>
+Those equivalent statements can be used to define the weak convergence
+of probability measures on general Polish spaces, not limited to the
+real line. See Parthasarathy's book <i>Probability Measures on Metric
+Spaces</i> for a complete discussion
+</p>
 </div>
 </div>
 <div id="footnotes">
@@ -417,7 +433,8 @@ distribution function. Conversely, for a given distribution function
 \(F\), let \(q:(0,1)\to\mathbb{R}\) be the quantile function of \(F\): \(q(u)
 = \inf\{x: u\leq F(x)\}\). Then \(q(u) \leq x\) if and only if \(u \leq
 F(x)\). Hence, the random variable \(q\) has the distribution \(F\) and
-induces a probability measure \(\mu\).
+induces a probability measure \(\mu\). See also <a href="../2024-02-13-QuantileFunction/notes.html">this post</a> for a brief
+discussion on quantile functions.
 </p></div></div>
 
 
@@ -5223,6 +5240,451 @@ with remote branch, number of files staged, changed, etc.
   <link>https://dou-meishi.github.io/org-blog/2023-04-05-ConfigGit/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2023-04-05-ConfigGit/notes.html</guid>
   <pubDate>Wed, 05 Apr 2023 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[斗地主中的概率]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org2291034">小球模型</a></li>
+<li><a href="#orgbbe4b1e">事件模型</a></li>
+<li><a href="#org8e95f22">模型应用</a></li>
+<li><a href="#org98e150d">进阶应用</a></li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org2291034" class="outline-2">
+<h2 id="org2291034">小球模型</h2>
+<div class="outline-text-2" id="text-org2291034">
+<p>
+<b>问.</b> 现有 \(N\) 个小球, 其中有 \(M\) 个作了标记. 今随机地挑出 \(K\) 个, 写出其中标记球的个数的分布.
+</p>
+
+<p>
+<b>答</b>. 为了问题有意义，我们不妨要求 \(N, M, K \geq 1\)，且 \(N\geq M\) 和 \(N\geq K\).
+</p>
+
+<p>
+记挑出标记球的个数为 \(X\), 那么必然有 \(X \leq K\) 和 \(X \leq M\)，以及\(X
+\geq 0\). 另外，如果绝大多数球都被标记，那么只要挑出的球不至于太少 \(K >
+N-M\)，那么一定有被标记的球. 换而言之，\(X\) 的最小取值未必是零，也可能是
+\(K - (N - M)\). 如此不难看出 \(X\) 的可能取值为 \(\max(0, K-N+M)\) 到
+\(\min(K, M)\) 中间的任何值.
+</p>
+
+<p>
+\[ \mathbb{P}(X=i) = \frac{
+\binom{M}{i}\binom{N-M}{K-i}}{\binom{N}{K}},\qquad \max(0,K+M-N)\leq
+i\leq \min(K,M). \]
+</p>
+
+<p>
+<b>注.</b> 设 \(N, M, K\) 是大于 1 的正整数, 且有 \(N\geq M\) 和 \(N\geq K\), 那么有恒等式
+\[ \sum_{i=\max(0,K+M-N)}^{\min(K,M)}\binom{M}{i}\binom{N-M}{K-i} = \binom{N}{K}.\]
+</p>
+
+<p>
+<b>例 1.</b> 取 \(N=54,M=6,K=20\), 则 \(X\) 分布如下
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">\(X\)</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">\(p\)</td>
+<td class="org-right">0.052</td>
+<td class="org-right">0.22</td>
+<td class="org-right">0.34</td>
+<td class="org-right">0.26</td>
+<td class="org-right">0.11</td>
+<td class="org-right">0.02</td>
+<td class="org-right">0.0015</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>例 2.</b> 取 \(N=54,M=6,K=17\), 则 \(X\) 分布如下
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">\(X\)</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">\(p\)</td>
+<td class="org-right">0.09</td>
+<td class="org-right">0.29</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.2</td>
+<td class="org-right">0.061</td>
+<td class="org-right">0.0089</td>
+<td class="org-right">0.00048</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>例 3.</b> 取 \(N=54,M=6,K=3\), 则 \(X\) 分布如下
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">\(X\)</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">\(p\)</td>
+<td class="org-right">0.7</td>
+<td class="org-right">0.27</td>
+<td class="org-right">0.029</td>
+<td class="org-right">0.00081</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+计算上述概率的代码 <a href="./balls.py">在这</a> 。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbbe4b1e" class="outline-2">
+<h2 id="orgbbe4b1e">事件模型</h2>
+<div class="outline-text-2" id="text-orgbbe4b1e">
+<p>
+<b>问.</b> 现有事件族 \(\{A_i\}_{i=1}^n\), 写出至少有一个事件发生的概率.
+</p>
+
+<p>
+<b>答.</b> 记 \(S_1=\sum_i\mathbb{P}(A_i)\) 为一个事件发生的概率之和；记
+\(S_2=\sum_{i < j}\mathbb{P}(A_i\cap A_j)\) 为两个不同事件发生的概率之和；
+记 \[S_k=\sum_{i_1 < i_2 < \cdots < i_k}\mathbb{P}(A_{i_1} \cap
+A_{i_2} \cap \cdots \cap A_{i_k})\] 为 \(k\) 个不同事件发生概率之和；则
+有 \[\mathbb{P}\biggl(\bigcup_{i=1}^nA_i\biggr)=S_1 - S_2 + S_3 -
+\cdots + (-1)^{n+1}S_n.\]
+</p>
+
+<p>
+<b>证.</b> 对 \(n\) 作数学归纳法。显然 \(n=2\) 时命题成立。假设命题对 \(n\) 成立，
+下面证命题对 \(n+1\) 成立。
+</p>
+
+<p>
+为清晰起见，用 \(S_k(\mathcal{E})\) 记事件族 \(\mathcal{E}=\{E_i\}\) 中
+\(k\) 个不同事件发生概率之和。令 \(\mathcal{A}_n = \{A_i\}_{i=1}^n\) 及
+\(\mathcal{A}_{n+1}=\{A_i\}_{i=1}^{n+1}\). 那么已知 \[
+\mathbb{P}\biggl(\bigcup_{i=1}^nA_i\biggr)=S_1(\mathcal{A}_n) -
+S_2(\mathcal{A}_n) + S_3(\mathcal{A}_n) - \cdots +
+(-1)^{n+1}S_n(\mathcal{A}_n). \] 欲证 \[
+\mathbb{P}\biggl(\bigcup_{i=1}^{n+1}
+A_i\biggr)=S_1(\mathcal{A}_{n+1}) - S_2(\mathcal{A}_{n+1}) +
+S_3(\mathcal{A}_{n+1}) - \cdots + (-1)^{n+1}S_n(\mathcal{A}_{n+1}). \]
+</p>
+
+<p>
+不难看出 \[ \mathbb{P}\biggl(\bigcup_{i=1}^{n+1} A_i\biggr) =
+\mathbb{P}(A_{n+1}) + \mathbb{P}\biggl(\bigcup_{i=1}^{n} A_i\biggr) -
+\mathbb{P}\biggl(\bigcup_{i=1}^{n} (A_i\cap A_{n+1})\biggr). \]
+</p>
+
+<p>
+令 \(\mathcal{B} = \{A_i\cap A_{n+1}\}_{i=1}^n\). 那么
+</p>
+
+$$
+\begin{aligned}
+\mathbb{P}\biggl(\bigcup_{i=1}^{n+1} A_i\biggr)
+=& \mathbb{P}(A_{n+1}) + S_1(\mathcal{A}_n) \\
+& - S_1(\mathcal{B}) - S_2(\mathcal{A}_n) \\
+& + S_2(\mathcal{B}) + S_3(\mathcal{A}_n) \\
+& - S_3(\mathcal{B}) - S_4(\mathcal{A}_n) \\
+& \cdots \\
+& +(-1)^{n+1}S_{n-1}(\mathcal{B}) + (-1)^{n+1}S_n(\mathcal{A}_n) \\
+& +(-1)^{n+2}S_{n}(\mathcal{B}).
+\end{aligned}
+$$
+
+<p>
+注意到 \(S_k(\mathcal{B}) + S_{k+1}(\mathcal{A}_n) = S_{k+1}(\mathcal{A}_{n+1})\)
+即完成证明。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8e95f22" class="outline-2">
+<h2 id="org8e95f22">模型应用</h2>
+<div class="outline-text-2" id="text-org8e95f22">
+<p>
+以下考虑经典规则: 54 张牌, 地主分到 20 张, 两个农民各 17 张.
+</p>
+
+<ol class="org-ol">
+<li><p>
+摸到王牌的概率
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">个数</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left">地主</td>
+<td class="org-right">0.39</td>
+<td class="org-right">0.48</td>
+<td class="org-right">0.13</td>
+</tr>
+
+<tr>
+<td class="org-left">农民</td>
+<td class="org-right">0.47</td>
+<td class="org-right">0.44</td>
+<td class="org-right">0.095</td>
+</tr>
+</tbody>
+</table></li>
+
+<li><p>
+摸到 2 的概率
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">个数</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-left">地主</td>
+<td class="org-right">0.15</td>
+<td class="org-right">0.38</td>
+<td class="org-right">0.34</td>
+<td class="org-right">0.12</td>
+<td class="org-right">0.015</td>
+</tr>
+
+<tr>
+<td class="org-left">农民</td>
+<td class="org-right">0.21</td>
+<td class="org-right">0.42</td>
+<td class="org-right">0.29</td>
+<td class="org-right">0.08</td>
+<td class="org-right">0.0075</td>
+</tr>
+</tbody>
+</table></li>
+
+<li><p>
+摸到王牌或者 2 的概率
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">个数</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-left">地主</td>
+<td class="org-right">0.052</td>
+<td class="org-right">0.22</td>
+<td class="org-right">0.34</td>
+<td class="org-right">0.26</td>
+<td class="org-right">0.11</td>
+<td class="org-right">0.02</td>
+<td class="org-right">0.0015</td>
+</tr>
+
+<tr>
+<td class="org-left">农民</td>
+<td class="org-right">0.09</td>
+<td class="org-right">0.29</td>
+<td class="org-right">0.35</td>
+<td class="org-right">0.2</td>
+<td class="org-right">0.061</td>
+<td class="org-right">0.0089</td>
+<td class="org-right">0.00048</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org98e150d" class="outline-2">
+<h2 id="org98e150d">进阶应用</h2>
+<div class="outline-text-2" id="text-org98e150d">
+<p>
+<b>问.</b> 写出经典规则下地主摸到至少一炸 (王炸或者四炸) 的概率. 农民呢?
+</p>
+
+<p>
+<b>答</b>. 记 \(A_0\) 为事件 "地主摸到王炸", \(A_i\) 为事件 "地主摸到炸 \(i\)" (\(i=1,2,\ldots,13\)). 记 \(a_m\) 为从一组有 \(m\) 个标记球共 54 个球的球堆中取出 20 个球时恰好有 \(m\) 个标记球的概率. 那么 \[\mathbb{P}(A_0)=a_2,\qquad \mathbb{P}(A_i) = a_4,\quad i=1,2,\ldots,13.\] 进一步地, 有
+</p>
+\begin{align*}
+S_1 &= \sum_{i=0}^{13}\mathbb{P}(A_i) = a_2 + 13 a_4,\\
+S_2 &= \sum_{0\leq i < j \leq 13}\mathbb{P}(A_i\cap A_j) = \biggl( \sum_{\substack{1\leq j \leq 13\\i=0}} + \sum_{1\leq i <  j \leq 13} \biggr)\mathbb{P}(A_i\cap A_j)= 13 a_6 + \binom{13}{2}a_8,\\
+S_3 &= \sum_{0\leq i < j < k \leq 13}\mathbb{P}(A_i\cap A_j\cap A_k) = \biggl( \sum_{\substack{1\leq j < k \leq 13\\i=0}} + \sum_{1\leq i <  j < k \leq 13} \biggr)\mathbb{P}(\cdots)= \binom{13}{2}a_{10} + \binom{13}{3}a_{12},\\
+S_4 &= \sum_{0\leq i < j < k < \ell \leq 13}\mathbb{P}(\cdots) = \biggl( \sum_{\substack{1\leq j < k < \ell \leq 13\\i=0}} + \sum_{1\leq i <  j < k < \ell \leq 13} \biggr)\mathbb{P}(\cdots)= \binom{13}{3}a_{14} + \binom{13}{4}a_{16},\\
+\cdots & \cdots,\\
+S_k &= \binom{13}{k-1}a_{4k-2} + \binom{13}{k}a_{4k}.
+\end{align*}
+<p>
+显然, 当 \(k \geq 6\) 时, \(S_k=0\). 故 \[\mathbb{P}\biggl(\bigcup_{i=0}^{13}A_i\biggr) = S_1 - S_2 + S_3 - S_4 + S_5 \approx 30.4\%.\]
+对于农民, 这个数字变为
+\[\mathbb{P}\biggl(\bigcup_{i=0}^{13}A'_i\biggr) = S'_1 - S'_2 + S'_3 - S'_4\approx 18.5\%.\]
+</p>
+
+<p>
+模拟验证的代码 <a href="./bombs.py">在这</a> 。
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>]]></description>
+  <category><![CDATA[math]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2022-07-17-PokerProbability/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2022-07-17-PokerProbability/notes.html</guid>
+  <pubDate>Sun, 17 Jul 2022 00:00:00 +0800</pubDate>
 </item>
 <item>
   <title><![CDATA[Helly's Selection Theorem]]></title>
