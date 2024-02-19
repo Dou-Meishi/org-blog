@@ -33,9 +33,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga602515">Definitions</a></li>
-<li><a href="#org4b714ed">Skorohod's theorem</a></li>
-<li><a href="#orgcbbe7b7">Equivalent definition of weak convergence</a></li>
+<li><a href="#org763e890">Definitions</a></li>
+<li><a href="#orgf822296">Skorohod's theorem</a></li>
+<li><a href="#org3ef1717">Equivalent definition of weak convergence</a></li>
 </ul>
 </div>
 </nav>
@@ -79,9 +79,9 @@ distribution function \(F\) of a random variable \(X\) is thereby \(F(x)=
 complicated and left untouched.
 </p>
 
-<div id="outline-container-orga602515" class="outline-2">
-<h2 id="orga602515">Definitions</h2>
-<div class="outline-text-2" id="text-orga602515">
+<div id="outline-container-org763e890" class="outline-2">
+<h2 id="org763e890">Definitions</h2>
+<div class="outline-text-2" id="text-org763e890">
 <p>
 <i>Definition.</i> A sequence of real-valued random variables \(\{X_n\}\) (with
 distribution functions \(\{F_n\}\)) is said to <i>converge in distribution</i>
@@ -161,9 +161,9 @@ complete proof.
 </div>
 </div>
 
-<div id="outline-container-org4b714ed" class="outline-2">
-<h2 id="org4b714ed">Skorohod's theorem</h2>
-<div class="outline-text-2" id="text-org4b714ed">
+<div id="outline-container-orgf822296" class="outline-2">
+<h2 id="orgf822296">Skorohod's theorem</h2>
+<div class="outline-text-2" id="text-orgf822296">
 <p>
 For any probability measure \(\mu_n\) on the real line, we can construct
 a probability space and a random variable \(Y_n\) on it such that \(Y_n\)
@@ -183,9 +183,52 @@ for every \(\omega\).
 </p>
 
 <p>
+<i>Proof.</i> The proof is constructive and based on quantile functions. See
+<a href="./proof-Skorohod-theorem.png">here</a> for the complete proof. You may also want to look at <a href="../2024-02-13-QuantileFunction/notes.html">this post</a>
+for a brief review of quantile functions. Below is the sketch of
+constructing those random variables.
+</p>
+
+<p>
+Let \(F_n\) and \(F\) be the distribution functions corresponding to
+\(\mu_n\) and \(\mu\).  Let \(q_n\) and \(q\) be the corresponding quantile
+functions.  Take the probability space on which there exists a random
+variable \(U\) which follows the uniform distribution on \((0,1)\). Then
+\(q_n(U)\) and \(q(U)\) have distribution \(\mu_n\) and \(\mu\) respectively.
+It can be proved that if \(F_n(x)\to F(x)\) at continuity points of \(F\)
+then \(q_n(u)\to q(u)\) at continuity points of \(q\). Let
+\(N\subset(0,1)\) be the set of discontinuity points of \(q\).
+Define
+</p>
+
+$$
+Y_n(\omega) = \begin{cases}
+q_n(U(\omega)),&\quad \omega\not\in N,\\
+0,&\quad\omega\in N,
+\end{cases}
+\quad
+Y(\omega) = \begin{cases}
+q(U(\omega)),&\quad \omega\not\in N,\\
+0,&\quad\omega\in N.
+\end{cases}
+$$
+
+<p>
+Then \(Y_n\) and \(Y\) satisfy the desired properties.
+</p>
+
+<p>
+Q.E.D.
+</p>
+
+<p>
 <i>Corollary 1.</i> If \(X_n ⇒ X\) and \(\mathbb{P}(X \in D_h)=0\), then \(h(X_n)
 ⇒ h(X)\).  Here, \(D_h\) is the set of discontinuity points of the
 measurable function \(h\).
+</p>
+
+<p>
+<i>Proof.</i> See <a href="./proof-to-corollary1.png">here</a>.
 </p>
 
 <p>
@@ -195,9 +238,9 @@ h(a)\).
 </div>
 </div>
 
-<div id="outline-container-orgcbbe7b7" class="outline-2">
-<h2 id="orgcbbe7b7">Equivalent definition of weak convergence</h2>
-<div class="outline-text-2" id="text-orgcbbe7b7">
+<div id="outline-container-org3ef1717" class="outline-2">
+<h2 id="org3ef1717">Equivalent definition of weak convergence</h2>
+<div class="outline-text-2" id="text-org3ef1717">
 <p>
 <i>Definition.</i> A set \(A\) is a \(\mu\)-continuity set if it is a Borel set
 and \(\mu(\partial A)=0\).  Here, the boundary \(\partial A\) is the
@@ -222,6 +265,31 @@ Those equivalent statements can be used to define the weak convergence
 of probability measures on general Polish spaces, not limited to the
 real line. See Parthasarathy's book <i>Probability Measures on Metric
 Spaces</i> for a complete discussion
+</p>
+
+<p>
+<i>Proof.</i> See <a href="./proof-equivalent-definition-weak-convergence.png">here</a>. The basic ideas in the proof are listed below.
+</p>
+
+<ol class="org-ol">
+<li>Clearly 4) ⇒ 1) and 2) ⇒ 3).</li>
+<li>If 1) holds, then we can prove <i>for any bounded real function on
+\(\mathbb{R}\) such that the discontinuity points of \(f\) is a
+\(\mu\)-null set there is \(\int f\,d\mu_n\to\int f\,d\mu\)</i>.
+Hence, 1) ⇒ 2), 1) ⇒ 3), 1) ⇒ 4).</li>
+<li>Then it remains to show 3) ⇒ 1). For any \(x\in\mathbb{R}\) and \(ϵ >
+   0\), pick a bounded and uniformly continuous function \(f_ϵ\) such
+that \(\mathbb{1}_{(-\infty, x]} \leq f_ϵ \leq \mathbb{1}_{(-\infty,
+   x+\epsilon]}\) on the real line (e.g., the function \(f_ϵ\) can be
+constructed by piecewise linear function). Then \(\int
+   f_ϵ\,d\mu_n\to\int f_ϵ\,d\mu\) implies \(\limsup \mu_n((-\infty,x])
+   \leq \mu((-\infty,x+ϵ])\). Similarly, there is \(\mu((-\infty, x-ϵ])
+   \leq \liminf \mu_n((-\infty,x])\). Then
+\(\mu_nu((-\infty,x])\to\mu((-\infty,x])\) when \(\mu(\{x\})=0\).</li>
+</ol>
+
+<p>
+Q.E.D.
 </p>
 </div>
 </div>
