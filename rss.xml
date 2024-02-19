@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sat, 17 Feb 2024 16:44:15 +0800</lastBuildDate>
+<lastBuildDate>Mon, 19 Feb 2024 21:07:06 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Quantile Functions]]></title>
   <description><![CDATA[
@@ -5248,17 +5248,17 @@ with remote branch, number of files staged, changed, etc.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2291034">小球模型</a></li>
-<li><a href="#orgbbe4b1e">事件模型</a></li>
-<li><a href="#org8e95f22">模型应用</a></li>
-<li><a href="#org98e150d">进阶应用</a></li>
+<li><a href="#org68a940f">小球模型</a></li>
+<li><a href="#org56b102e">事件模型</a></li>
+<li><a href="#org2b524af">模型应用</a></li>
+<li><a href="#org710bd2b">进阶应用</a></li>
 </ul>
 </div>
 </nav>
 
-<div id="outline-container-org2291034" class="outline-2">
-<h2 id="org2291034">小球模型</h2>
-<div class="outline-text-2" id="text-org2291034">
+<div id="outline-container-org68a940f" class="outline-2">
+<h2 id="org68a940f">小球模型</h2>
+<div class="outline-text-2" id="text-org68a940f">
 <p>
 <b>问.</b> 现有 \(N\) 个小球, 其中有 \(M\) 个作了标记. 今随机地挑出 \(K\) 个, 写出其中标记球的个数的分布.
 </p>
@@ -5427,9 +5427,9 @@ i\leq \min(K,M). \]
 </div>
 </div>
 
-<div id="outline-container-orgbbe4b1e" class="outline-2">
-<h2 id="orgbbe4b1e">事件模型</h2>
-<div class="outline-text-2" id="text-orgbbe4b1e">
+<div id="outline-container-org56b102e" class="outline-2">
+<h2 id="org56b102e">事件模型</h2>
+<div class="outline-text-2" id="text-org56b102e">
 <p>
 <b>问.</b> 现有事件族 \(\{A_i\}_{i=1}^n\), 写出至少有一个事件发生的概率.
 </p>
@@ -5490,9 +5490,9 @@ $$
 </div>
 </div>
 
-<div id="outline-container-org8e95f22" class="outline-2">
-<h2 id="org8e95f22">模型应用</h2>
-<div class="outline-text-2" id="text-org8e95f22">
+<div id="outline-container-org2b524af" class="outline-2">
+<h2 id="org2b524af">模型应用</h2>
+<div class="outline-text-2" id="text-org2b524af">
 <p>
 以下考虑经典规则: 54 张牌, 地主分到 20 张, 两个农民各 17 张.
 </p>
@@ -5651,9 +5651,9 @@ $$
 </div>
 </div>
 
-<div id="outline-container-org98e150d" class="outline-2">
-<h2 id="org98e150d">进阶应用</h2>
-<div class="outline-text-2" id="text-org98e150d">
+<div id="outline-container-org710bd2b" class="outline-2">
+<h2 id="org710bd2b">进阶应用</h2>
+<div class="outline-text-2" id="text-org710bd2b">
 <p>
 <b>问.</b> 写出经典规则下地主摸到至少一炸 (王炸或者四炸) 的概率. 农民呢?
 </p>
@@ -5661,14 +5661,18 @@ $$
 <p>
 <b>答</b>. 记 \(A_0\) 为事件 "地主摸到王炸", \(A_i\) 为事件 "地主摸到炸 \(i\)" (\(i=1,2,\ldots,13\)). 记 \(a_m\) 为从一组有 \(m\) 个标记球共 54 个球的球堆中取出 20 个球时恰好有 \(m\) 个标记球的概率. 那么 \[\mathbb{P}(A_0)=a_2,\qquad \mathbb{P}(A_i) = a_4,\quad i=1,2,\ldots,13.\] 进一步地, 有
 </p>
-\begin{align*}
+
+$$
+\begin{aligned}
 S_1 &= \sum_{i=0}^{13}\mathbb{P}(A_i) = a_2 + 13 a_4,\\
 S_2 &= \sum_{0\leq i < j \leq 13}\mathbb{P}(A_i\cap A_j) = \biggl( \sum_{\substack{1\leq j \leq 13\\i=0}} + \sum_{1\leq i <  j \leq 13} \biggr)\mathbb{P}(A_i\cap A_j)= 13 a_6 + \binom{13}{2}a_8,\\
 S_3 &= \sum_{0\leq i < j < k \leq 13}\mathbb{P}(A_i\cap A_j\cap A_k) = \biggl( \sum_{\substack{1\leq j < k \leq 13\\i=0}} + \sum_{1\leq i <  j < k \leq 13} \biggr)\mathbb{P}(\cdots)= \binom{13}{2}a_{10} + \binom{13}{3}a_{12},\\
 S_4 &= \sum_{0\leq i < j < k < \ell \leq 13}\mathbb{P}(\cdots) = \biggl( \sum_{\substack{1\leq j < k < \ell \leq 13\\i=0}} + \sum_{1\leq i <  j < k < \ell \leq 13} \biggr)\mathbb{P}(\cdots)= \binom{13}{3}a_{14} + \binom{13}{4}a_{16},\\
 \cdots & \cdots,\\
 S_k &= \binom{13}{k-1}a_{4k-2} + \binom{13}{k}a_{4k}.
-\end{align*}
+\end{aligned}
+$$
+
 <p>
 显然, 当 \(k \geq 6\) 时, \(S_k=0\). 故 \[\mathbb{P}\biggl(\bigcup_{i=0}^{13}A_i\biggr) = S_1 - S_2 + S_3 - S_4 + S_5 \approx 30.4\%.\]
 对于农民, 这个数字变为
