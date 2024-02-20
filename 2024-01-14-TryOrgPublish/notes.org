@@ -1,0 +1,254 @@
+#+TITLE: Review org-publish Utility
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-01-14]
+#+FILETAGS: emacs
+
+Recently, I finally decided to create my personal blog site. I
+researched a few tools and then I suddenly remembered the =org-publish=
+function in Emacs. Although I have been using Emacs and Org mode for
+three years, I never wrote a script in elisp. But since my interest in
+Emacs is continuously growing, I think it's a good time to play around
+with it. It is also a good practice for me to understand the source code
+of [[https://github.com/bastibe/org-static-blog/tree/master][Org Static Blog]], which is the actual blogging tool I want to use.
+
+** Go through the manual
+
+According to [[https://orgmode.org/manual/Publishing.html][the manual]], publishing in org-mode is configured almost
+entirely through setting the value of one variable, called
+=org-publish-project-alist=. Each element of the list configures one
+project, and may be in one of the two following forms:
+
+1. =("project-name" :property value :property value ...)=
+2. =("project-name" :components ("project-name" "project-name" ...))=
+
+After properly configuring the variable, calling =org-publish= will prompt for a project name
+and publish all files that belong to it. Calling =org-publish-all= will publish all projects.
+
+Publishing means that a file is copied to the destination directory and possibly transformed in the process.
+The transformation is controlled by the property =publishing-function=. Typical values include
+
+1. =org-html-publish-to-html=, which calls the HTML exporter to export org files to HTML files;
+2. =org-publish-attachment=, which does not modify files but simply copy them.
+
+We may also generate a sitemap for a given project by customizing following properties;
+see [[https://orgmode.org/manual/Site-map.html][Section 14.1.7]] in the org manual. Interesting properties include:
+
+1. =sitemap-format-entry=: tell how a published entry is formatted in the sitemap;
+2. =sitemap-sort-folders=: where folders should appear in the sitemap;
+3. =sitemap-sort-files=: how the files are sorted in the sitemap.
+
+** Practice
+
+/A simple setting:/ given a folder =./content= with several org files in it, we want to publish them
+into a different folder =./public=. Assets should be copied too.
+
+#+BEGIN_QUOTE
+It is convenient to put publishing related source in a standalone =build.el= file.
+Visit it in Emacs and call =eval-buffer= to publish projects defined it.
+#+END_QUOTE
+
+First, we define our =sitemap-format-entry= function, which will format an entry into
+a timestamp followed by a URL whose description is the title of the entry.
+
+#+BEGIN_SRC elisp :tangle ./build.el
+(defun dms/org-sitemap-format-entry (entry style project)
+  "Format ENTRY in org-publish PROJECT Sitemap as [date] [[file][title]]."
+  (let ((filetitle (org-publish-find-title entry project)))
+    (if (= (length filetitle) 0)
+        (format "*%s*" entry)
+      (format "[%s] [[file:%s][%s]]"
+              (format-time-string "%Y-%m-%d"
+                                  (org-publish-find-date entry project))
+              entry
+              filetitle))))
+#+END_SRC
+
+Then, we set =org-publish-project-alist=. We create two projects, one for exporting org files
+and other one for copying assets. Both projects recursively search files based on a particular REGEXP on
+file extension. In addition, we require to generate a sitemap and format entries by our
+=dms/org-sitemap-format-entry= function. In addition, entries  are sorted by date
+and organized as a plain list, instead of nested list containing subfolders.
+
+#+BEGIN_SRC elisp :tangle ./build.el
+;; Define the publishing project
+(setq org-publish-project-alist
+      (list
+       (list "try-org-publish-org"
+             :base-directory "./content"
+             :base-extension "org"
+             :publishing-directory "./public"
+             :publishing-function 'org-html-publish-to-html
+             :recursive t
+             :auto-sitemap t
+             :sitemap-title "Doumeishi's Mainpage"
+             :sitemap-format-entry 'dms/org-sitemap-format-entry
+             :sitemap-sort-files 'anti-chronologically
+             :sitemap-style 'list
+             )
+       (list "try-org-publish-assets"
+             :base-directory "./content"
+             :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|mov"
+             :publishing-directory "./public"
+             :publishing-function 'org-publish-attachment
+             :recursive t
+             )
+       )
+)
+#+END_SRC
+
+Finally, we publish all projects.
+
+#+BEGIN_SRC elisp :tangle ./build.el
+;; Generate the site output
+(org-publish-all t)
+
+(message "Publish complete!")
+#+END_SRC
+
+** Questions
+
+1. Can I customize the way of Emacs searching for intended org files rather than
+   a base dir + extension?
+
+   Yes, we can first exclude all files by setting the base extension to ="dummy"= and then use =:include=
+   to include a list of files we want to publish.
+
+2. Aware of privacy, can I customize the exporting scheme to exclude publishing particular files?
+
+   Yes, we can set the =exclude= property. Or we can set the =:exclude-tags= property.
+
+3. Can I adjust publication settings for particular subfolders?
+
+   Yes, we can exclude the subfolder from existing projects, then create a new project for it
+   and apply different rules for this subfolder.
+
+4. How the /last modified/ time is set? I want it to be set by the mtime of org files.
+
+   I am not sure about this. With some test I found that if I run the script in Emacs
+   then everything work as expected. But if I run the script in terminal by
+   =emacs -Q --script= then every exported file will update the modification time
+   to the current time.
+
+** Further consideration
+
+/A slightly complicated setting:/ my document folder consists of event directories and looks like
+
+#+BEGIN_EXAMPLE
+.
+├── 2023-09-03-CustomizePrompt/
+├── 2023-11-18-ContentManagementSystem/
+├── 2024-01-03-ReviewPham/
+├── 2024-01-07-ReviewUnison/
+├── 2024-01-11-CodeBlockinLaTeX/
+#+END_EXAMPLE
+
+In each event directory, there is an org file =notes.org= which contains my notes on this event.
+I want to generate a sitemap for my document folder (or some folder with the same
+strcture) such that I can review what I have done in browser. In particular, I want to
+publish only those event notes, i.e., no other org files are exported during the creation of
+my sitemap. Moreover, I want to publish those notes in-place, i.e., the generated html should
+be placed in the its event directory.
+
+In order to do this, we can first define two variables. One is the root directory to be considered,
+and is set to =~/Document=. The other one is a textual file, in which every line specifies a event
+name that should not be published.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/generate-event-index.el
+(defcustom dms/org-publish-event-root-dir "~/Documents"
+  "The directory contains a list of event directories.")
+
+(defcustom dms/org-publish-nopublish-events-fp "~/org/nopublish-events.txt"
+  "The file path whose content is a list of event names
+which should not be considered when do publishing.
+This file should be a textual file and each line corresponds to
+an event name.")
+#+END_SRC
+
+Then we define a function to generate the list of event notes to be published.
+In this function I first filtered the event directory under the root folder with
+the content of that nopublish file, then I concat the filename =notes.org=
+for each event and check the existence of such file.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/generate-event-index.el
+(defun dms/org-publish-get-event-notes ()
+  "Return a list of event notes to be published according to the value
+of dms/org-publish-event-root-dir and dms/org-publish-nopublish-events-fp.
+
+An event is a directory whose name has the format YYYY-MM-DD-EventName.
+A event note is the file named notes.org under the event directory."
+  (let* ((events (directory-files dms/org-publish-event-root-dir nil
+                    "^[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}-.+"))
+         (nopublish-event-alist
+          (if dms/org-publish-nopublish-events-fp
+              (with-temp-buffer
+                (insert-file-contents dms/org-publish-nopublish-events-fp)
+                (split-string (buffer-string) "\n" t))))
+         (filtered-events (seq-difference events nopublish-event-alist))
+         (event-notes-to-publish
+          (mapcar (lambda (event) (concat
+                                   (file-name-as-directory event)
+                                   "notes.org")) filtered-events)))
+    (seq-filter (lambda (event-note)
+                  (file-exists-p (concat (file-name-as-directory
+                                          dms/org-publish-event-root-dir)
+                                         event-note)))
+                event-notes-to-publish)))
+#+END_SRC
+
+After that we define the way to format the event note in the sitemap, i.e.,
+formatting as ~=date= [[path][title]]~.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/generate-event-index.el
+(defun dms/org-sitemap-format-event-note-entry (entry style project)
+  "Format an event note ENTRY in org-publish PROJECT Sitemap as
+=date= [[file][title]]."
+  (let ((filetitle (org-publish-find-title entry project)))
+    (if (= (length filetitle) 0)
+        (format "*%s*" entry)
+      (format "=%s= [[file:%s][%s]]"
+              (format-time-string "%Y-%m-%d"
+                                  (org-publish-find-date entry project))
+              entry
+              filetitle))))
+#+END_SRC
+
+Finally, we set up the project alist variable and publish. By the way, we can always check the returned value
+of =dms/org-publish-get-event-notes= to see the list of files to be published.
+
+#+BEGIN_SRC elisp :tangle ~/.emacs.d/generate-event-index.el
+;; Define the publishing project
+(setq org-publish-project-alist
+      (list
+       (list "event-notes"
+             :base-directory dms/org-publish-event-root-dir
+             :base-extension "dummy"
+             :include (dms/org-publish-get-event-notes)
+             :publishing-directory dms/org-publish-event-root-dir
+             :publishing-function 'org-html-publish-to-html
+             :recursive nil
+             :auto-sitemap t
+             :sitemap-title "Event Notes"
+             :sitemap-filename "index.org"
+             :sitemap-format-entry 'dms/org-sitemap-format-event-note-entry
+             :sitemap-sort-files 'anti-chronologically
+             :sitemap-style 'list
+             )))
+
+;; Generate the site output
+(org-publish-all t)
+
+(message "Publish complete!")
+#+END_SRC
+
+We can place this script in our =.emacs.d/= directory.
+Whenever we want to rebuild the index page of the document folder,
+simply visit it and run =eval-buffer=.
+
+** External Links                                                     :refs:
+
+1. [[https://orgmode.org/manual/Publishing.html][Publishing - The Org Mode Manual]]
+2. [[https://taingram.org/blog/org-mode-blog.html][Building a Emacs Org-Mode Blog]]
+3. [[https://systemcrafters.net/publishing-websites-with-org-mode/building-the-site/][Build Your Website with Org Mode - System Crafaters]]
+4. [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Publishing Org-mode files to HTML]]
+5. [[https://remacs.cc/posts/%E9%9D%A2%E5%90%91%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E7%9A%84emacs%E6%95%99%E7%A8%8B17.-%E9%80%9A%E8%BF%87org-mode%E5%86%99%E5%8D%9A%E5%AE%A2/][面向产品经理的Emacs教程：17. 通过Org mode写博客]]
+

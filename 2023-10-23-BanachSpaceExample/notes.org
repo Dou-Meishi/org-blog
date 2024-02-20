@@ -1,0 +1,89 @@
+#+TITLE: Examples of Banach Spaces
+#+AUTHOR: Dou Meishi
+#+DATE: [2023-10-23]
+#+FILETAGS: math
+
+This note gives some common examples of Banach spaces as well as some
+counterexamples.
+
+Readers may refer to /Chapter 7: Complete Metric Space and Functional
+Space/ in the book /Munkres, J. Topology Second Edition/ for more
+details.
+
+* Prerequisite Concepts
+
+- normed linear space
+- complete metric space
+- the metric induced by a norm
+- continuity
+
+* Definition
+
+A complete normed linear space is called a *Banach space*.
+
+Some common used functional spaces are listed below.
+
+1. $Y^X$: the set of all functions from $X$ to $Y$.
+2. $\mathcal{B}(X;Y)$: the set of all bounded functions from $X$ to $Y$.
+3. $\mathcal{C}(X;Y)$: the set of all continuous functions from $X$ to
+  $Y$.
+
+Given a metric space $(Y,d)$, the *sup metric* on
+$\mathcal{B}(X;Y)$ corresponding to $d$ is defined by
+$$
+\rho(f,g):=\sup_{x\in X}d(f(x),g(x)).
+$$
+
+The *standard bounded metric* $\bar{d}$ derived from $d$ is defined by
+$$
+\bar{d}(x,y):=\min(d(x,y),1).
+$$
+
+Given a metric space $(Y,d)$, the *uniform metric* on $Y^X$
+corresponding to $d$ is defined by
+$$
+\bar{\rho}(f,g):=\sup_{x\in X}\bar{d}(f(x),g(x)).
+$$
+Clearly, the relation between uniform metric and sup metric is
+$$
+\bar{\rho}(f,g) = \min(\rho(f,g),1).
+$$
+
+Given a normed linear space $(Y,\|\cdot\|)$, the *sup norm* on $Y^X$
+corresponding to $\|\cdot\|$ is defined by
+$$
+\|f\|_\infty:=\sup_{x\in X}\|f(x)\|.
+$$
+
+* Main Results
+
+*Lemma 1.* If $(Y,d)$ is complete, then $(Y^X,\bar{\rho})$ is also
+complete.
+
+*Lemma 2.* Let $X$ be a topological space and $(Y,d)$ be a metric space
+(not necessarily complete), then $\mathcal{B}(X;Y)$ and
+$\mathcal{C}(X;Y)$ are both closed sets in $(Y^X,\bar{\rho})$.
+
+*Theorem 3.* Let Let $X$ be a topological space and $(Y,d)$ be a
+/complete/ metric space, then $\mathcal{B}(X;Y)$ and $\mathcal{C}(X;Y)$
+are both complete in the uniform metric.
+
+* Examples
+
+*Example.* $(\mathcal{C}[a,b],\|\cdot\|_\infty)$ is a Banach
+space.
+
+*Example.* $(\mathcal{B}[a,b],\|\cdot\|_\infty)$ is a Banach space.
+
+*Example.* $(\ell_\infty,\|\cdot\|_\infty)$
+is a Banach space, where
+$$
+\ell_\infty := \{\mathbf{x}\in\mathbb{R}^\mathbb{N}\mid
+\|\mathbf{x}\|_\infty < \infty\}.
+$$
+
+*Example.* $(\mathcal{C}^1[a,b],\|\cdot\|_\infty)$ is not complete,
+because $\mathcal{C}^1[a,b]$ is not closed in $(Y^X,\bar{\rho})$.
+Consider $f_n(x):=\sqrt{x^2+\frac{1}{n}}$. It is easy to check that
+$f_n$ converges to $|x|$.
+

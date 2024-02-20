@@ -1,0 +1,160 @@
+#+TITLE: Quantile Functions
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-02-13]
+#+FILETAGS: math
+
+For a distribution function $F:\mathbb{R}\to [0,1]$, its quatile
+function $q:(0,1)\to\mathbb{R}$ is defined by[fn:1] $$
+q(u):=\inf\{x:F(x)\geq u\}. $$ Noting that $F$ is right continuous, it
+is clear that $\{x: F(x)\geq u\}$ is closed and bounded below for any
+$0 < u < 1$.  Hence, $q(u)=\min\{x:F(x) \geq u\}$.  Interestingly,
+there is also (see the section [[*Properties][Properties]]) $$ F(x) = \sup\{u: q(u)
+\leq x\}.$$
+
+
+The graph of a quantile function can be conveniently derived from the graph of the corresponding
+distribution function.
+
+1. Plot the graph $(x, F(x))$ for $x\in(-\infty,+\infty)$.
+2. Connect all discontinuity points of $F$ by adding vertical lines.
+3. Swap the horizontal axis with the vertical axes.
+4. Shrink vertical lines to their lowest points to avoid multiple values.
+
+By the definition of quantile functions, in the last step we should
+choose the lowest point as the proper function value while removing a
+vertical line. This reveals that, unlike distribution functions,
+quantile functions are left continuous.
+
+[fn:1] Define that $F(-\infty)=0$ and $F(\infty)=1$.  Then $F$ becomes
+a function from $\overline{\mathbb{R}}$ to $[0,1]$ and $q$ becomes a
+function from $[0,1]$ to $\overline{\mathbb{R}}$.
+
+** Examples
+
+/Example 1./ The distribution function of a exponentially distributed random variable is
+
+#+BEGIN_export HTML
+$$
+F(x) = \begin{cases}
+1 - e^{-x},&\quad x \geq 0,\\
+0,&\quad x < 0.
+\end{cases}
+$$
+#+END_export
+
+Its quantile function is
+$$ q(u) = -\ln (1-u),\quad u\in(0,1). $$
+
+In this case,
+
+#+BEGIN_export HTML
+$$
+q(F(x)) = \begin{cases}
+x,&\quad x \geq 0,\\
+0,&\quad x < 0,
+\end{cases}
+\quad\text{and}\quad
+F(q(u)) = u, \quad 0 < u < 1.
+$$
+#+END_export
+
+/Example 2./ The distribution function of a unit mass is
+
+#+BEGIN_export HTML
+$$
+F(x) = \begin{cases}
+1 ,&\quad x \geq 0,\\
+0,&\quad x < 0.
+\end{cases}
+$$
+#+END_export
+
+Its quantile function is
+$$ q(u) = 0,\quad u\in(0,1).$$
+
+In this case, $q(F(x))$ is void and
+$$ F(q(u)) = 1, \quad 0 < u < 1.$$
+
+/Example 3./ The distribution function of two equal mass is
+
+#+BEGIN_export HTML
+$$
+F(x) = \begin{cases}
+1 ,&\quad x \geq 1,\\
+1/2, &\quad -1 \leq x < 1,\\
+0,&\quad x < -1.
+\end{cases}
+$$
+#+END_export
+
+Its quantile function is
+
+#+BEGIN_export HTML
+$$
+q(u) = \begin{cases}
+1, &\quad 1/2 < u < 1 \\
+-1, &\quad 0 < u \leq 1/2.
+\end{cases}
+$$
+#+END_export
+
+In this case,
+
+#+BEGIN_export HTML
+$$
+q(F(x)) = -1,\quad -1\leq x < 1\quad\text{and}\quad
+F(q(u)) = \begin{cases}
+1,&\quad 1/2 < u < 1,\\
+1/2,&\quad 0 < u \leq 1/2.
+\end{cases}
+$$
+#+END_export
+
+Note that in this example, the quantile function is left continuous.
+
+** Properties
+
+By definition, a quantile function is clearly nondecreasing due to the
+nondecreasing nature of distribution functions. However, a quantile
+function is left continuous, while distribution functions are right
+continuous. Indeed, as $q$ is nondecreasing, we can show that
+$q(u-) = q(u)$[fn:2].
+
+By definition, $$ q(F(x_0)) = \inf\{x: F(x) \geq F(x_0)\} \leq x_0,
+\quad\forall x_0\in\mathbb{R}.$$ This inequality even holds when
+$F(x_0)$ equals 0 or 1[fn:1].  This inequality leads to the equation
+$F(x)=\sup\{u:q(u) \leq x\}$[fn:3]. Thus, $$ F(q(u_0)) = \sup\{u: q(u)
+\leq q(u_0)\} \geq u_0,\quad\forall u_0\in(0,1).$$ Similarly, the
+supremum can be replaced by maximum as $q$ is left continuous.
+
+As a result, there are $$ x \geq q(u) ⇒ F(x) \geq F(q(u)) \geq u $$
+and $$ F(x) \geq u ⇒ x \geq q(F(x)) \geq q(u),$$ which means $x \geq
+q(u)$ if and only if $F(x) \geq u$.  It is also true that $x < q(u)$
+if and only if $F(x) < u$. However, it is possible that $x \leq q(u)$
+holds but $F(x) \leq u$ fails. This happens when $F(q(u)) > u$, where
+$x=q(u)$ but $F(x) > u$.
+
+Assume $U$ is a uniformly distributed variable with distribution
+$\mathbb{P}(U \leq u)=u$ for $u\in(0,1)$. Then the random variable
+$X=q(U)$ has distribution $$ \mathbb{P}(X \leq x) = \mathbb{P}(q(U)
+\leq x) = \mathbb{P}(U \leq F(x)) = F(x).$$
+
+/Summary of properties of quantile functions./
+
+1. Domain is $(0, 1)$ and range is $\mathbb{R}$.
+2. Nondecreasing and left continuous.
+3. $q(F(x)) \leq x$ and $F(q(u)) \geq u$
+4. $q(u) \leq x$ if and only if $u \leq F(x)$
+5.  $q(u) > x$ if and only if $u > F(x)$
+6. $q(U)$ has distribution function $F$
+
+[fn:2] For any $ϵ > 0$, we have $F(q(u-ϵ)) \leq
+F(q(u-))$. Applying $F(q(u)) \geq u$ yields $u-ϵ \leq F(q(u-))$.
+Hence, $F(q(u-)) \geq u$ and by the
+definition of quantile functions $q(u-) \geq q(u)$.
+
+[fn:3] As $q(F(x)) \leq x$, we know that $F(x) \in \{u: q(u) \leq
+x\}$, which means $F(x) \leq \sup\{u:q(u) \leq x\}$.  For the converse
+direction, it suffices to show that if $q(u) \leq x$ then $u \leq F(x)$.
+However, this is true by definition.
+

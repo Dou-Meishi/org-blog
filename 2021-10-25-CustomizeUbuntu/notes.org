@@ -1,0 +1,227 @@
+#+TITLE: 配置 Ubuntu 系统
+#+AUTHOR: Dou Meishi
+#+DATE: [2021-10-25]
+#+FILETAGS: tool
+
+用了五年的小破本今早又罢工了.
+系统启动卡在某个硬盘挂载出错.
+费了老劲儿, 一度以为这位战友终于走到寿命尽头,
+还感慨前两天才奶了一口能再战几年呢.
+最后发现似乎是 UEFI 分区挂了,
+在 BIOS 里调成 Legacy 模式就能顺利启动.
+尽管看起来是回到了一天前的样子,
+能跑能跳的,
+但我知道,
+看起来流畅运行的表面下是已经服役五年多的残躯.
+
+终于, 我下定决心将实验室电脑也配置成它的形状.
+以后就让这位老战友退居二线吧.
+
+** Get Ubuntu
+
+在 Ubuntu 官网下载 20.04 LTS 版本,
+用 Universal USB Installer 将 ~.iso~ 文件烧录到 U 盘上.
+
+#+BEGIN_QUOTE
+22.04 LTS 版 Ubuntu 的安装推荐参考 [[https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview][官方指南]]
+#+END_QUOTE
+
+启动盘做好后直接遵照引导安装,
+因为懒得自己规划分区,
+就干脆将所有文档备份后选择格式化整个硬盘,
+交给 Ubuntu 自己划分.
+(这一步居然没出什么岔子,
+着实让我有点小惊讶.)
+最后正常登陆,
+
+系统安装, 完成!
+
+** Appearance
+
+安装完成后首先更新
+
+#+BEGIN_SRC bash
+sudo apt update
+sudo apt upgrade
+#+END_SRC
+
+然后浏览 `设置` 并根据喜欢进行调整.
+
+在 =~/.config/user-dirs.dirs= 里修改默认下载路径, 默认桌面路径, 默认图片路径等等.
+
+*** Customize Fonts
+
+从小破本里将 =~/.local/share/fonts/= 复制到主目录.
+然后刷新缓存
+
+#+BEGIN_SRC bash
+sudo fc-cache -fsv
+#+END_SRC
+
+用 ~dconf-editor~ 更改终端字体为 FiraCode Nerd Font Mono Ret 14
+
+*** Customize Bash
+
+将 ~.bashrc~, ~.bash_env~, ~.bash_aliases~, ~.inputrc~, ~bin/~ 复制到主目录.
+
+然后配置 GNOME 终端颜色.
+
+#+begin_src bash
+sudo apt install dconf-cli git
+git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git
+cd gnome-terminal-colors-solarized
+./install.sh
+#+end_src
+
+装好后运行 ~set_light.sh~ (或者 ~set_dark.sh~).
+
+然后安装 ~oh-my-posh~
+
+#+begin_src bash
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/bin
+#+end_src
+
+复制 =~/.config/oh-my-posh/= 到对应位置.
+
+重启终端即配置完成.
+
+*** GNOME Tweaks
+
+Ubuntu 的很多系统外观设置需要使用 GNOME Tweaks，
+参考 [[https://linuxhint.com/gnome_tweak_installation_ubuntu/][How to Install the Gnome Tweak Tool on Ubuntu 22.04]].
+
+#+BEGIN_SRC bash
+sudo add-apt-repository universe
+sudo apt install gnome-tweaks
+#+END_SRC
+
+接着安装 GNOME Shell Extensions, 参考 [[https://itsfoss.com/gnome-shell-extensions/][How to Use GNOME Shell Extensions [Complete Guide]]].
+
+#+BEGIN_SRC bash
+sudo apt install gnome-shell-extensions
+#+END_SRC
+
+一些 +有用+ 有趣的扩展包括
+
+- Dash to Dock. 可以自定义任务栏外观和行为.
+- User Themes. 可以选择更多的系统主题. 个人偏爱 [[https://www.gnome-look.org/p/1099856/][Ant alt style]] (Application theme) + [[https://www.gnome-look.org/p/1360254][Oreo Pink]] (Cursor theme) + [[https://www.pling.com/s/Gnome/p/1305251][Candy icons]] (Icon theme).
+- Gesture Improvements. 可以自定义更多的触摸板手势.
+- Burn My Windows. 可以自定义窗口打开和关闭的动画.
+- Desktop Cube. Workspace 3D 切换动画.
+- Compiz alike magic lamp effect. MacOS-like 窗口最小化动画.
+- Coverflow Alt-Tab. Alt-Tab 3D 切换动画.
+
+*** Choose Cinnamon (Deprecated)
+
++个人更习惯 Win 风格的 UI
+于是偏爱 Cinnamon 桌面环境+
+*现在更喜欢 Ubuntu 22.04 LTS Jellyfish 自带 UI.*
+
+在命令行安装后, 登陆界面右下角选择 Cinnamon 启动即可.
+
+#+BEGIN_SRC bash
+sudo apt install cinnamon-desktop-environment
+#+END_SRC
+
+进入 Cinnamon 后找到 系统设置 -> 主题,
+随便调一调.
+
+** Toolkits
+
+*** Install Edge
+
+下载 Edge, 设置字体 Fira Sans + Lora, 登陆帐号.
+
+*** Install VS code
+
+下载 VS Code, 登录账号. See also [[../2023-04-06-IntroVSCode/notes.org][this note]] for a brief intro to VS code.
+
+*** Install Clash
+
+准备科学上网.
+从小破本上复制 +或者从 github 上下载+ 到 +最新版本的+ clash,
+然后进行如下配置
+
+#+BEGIN_SRC bash
+mkdir ~/clash
+mv ~/Download/clash-linux-amd64-v1.7.1 ~/clash/clash
+cd ~/clash/
+sudo chmod a+x ./clash
+#+END_SRC
+
+然后从代理商那里拿到配置文件并覆盖 =~/clash/config.yaml=,
+在本地网络连接里设置代理端口.
+最后启动 clash 并登陆网址 [[http://clash.razord.top/#/settings]] or [[https://yacd.haishan.me/]] 进行节点选择.
+
+*** Install Git
+
+安装 ~git~ 后登陆 GitHub, 按照提示生成 SSH key 并添加.
+See also [[../2023-04-05-ConfigGit/notes.org][this note]] for details.
+
+安装 diff 程序的语法高亮版 [[https://github.com/dandavison/delta][delta]].
+
+将 =~/.gitconfig= 复制到对应位置.
+
++配置 [[https://github.com/magicmonty/bash-git-prompt][bash git prompt]]+ (~oh-my-posh~ 已针对 ~git~ 仓库做了 prompt segment, 这里无需再次配置)
+
+*** Install Emacs
+
+添加源并下载最新的 Emacs
+
+#+BEGIN_SRC bash
+sudo add-apt-repository ppa:ubuntu-elisp/ppa
+sudo apt update
+sudo apt install emacs-snapshot
+#+END_SRC
+
+下载后复制小破本 =~/.emacs.d= 到对应位置.
+
+*** Install Python
+
+Ubuntu 20.04 LTS 是自带 =Python3.8= 的,
+但一些第三方包还是需要自己装.
+
+#+begin_src bash
+sudo apt install python3-pip
+pip3 install --user numpy matplotlib pandas jupytext
+#+end_src
+
+然后安装 [[https://github.com/dunovank/jupyter-themes][jupyter-themes]] 并进行一定的配置.
+
+#+begin_src bash
+pip3 install --user jupyterthemes
+jt -t solarizedd -T -N -kl -f dejavu -fs 140
+pip3 install --user jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+#+end_src
+
+启动 jupyter 后即可手动选择开启各类扩展.
+
+*** Install TeXLive
+
+See official doc
+
+*** Customize Input Methods (Deprecated)
+
+*Ubuntu 22.04 LTS 自带的输入法已经足够使用，不必再进行后续配置*
+
+卸载 ~ibus~ 后安装 ~fcitx~, 重启后右下角点击小企鹅图标进一步配置.
+
+#+BEGIN_SRC bash
+sudo apt purge ibus
+sudo apt install fcitx
+sudo apt install fcitx-googlepinyin
+sudo apt install fcitx-config-gtk
+#+END_SRC
+
+** Future Customization
+
+- Customize titlebar
+- More funny animations
+
+** References                                                         :refs:
+
+- [[https://einverne.github.io/post/2021/03/linux-use-clash.html][在 Linux 上使用 Clash 作代理]]
+- [[http://www.webupd8.org/2011/04/solarized-must-have-color-paletter-for.html][SOLARIZED: A MUST HAVE COLOR SCHEME FOR GNOME TERMINAL, VIM, GEDIT AND LOTS MORE]]
+- [[https://stackoverflow.com/questions/36419342/how-to-wrap-code-text-in-jupyter-notebooks][How to wrap code/text in Jupyter notebooks]]
+

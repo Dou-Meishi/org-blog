@@ -1,0 +1,197 @@
+#+TITLE: Optimality Conditions in Convex Optimization
+#+AUTHOR: Dou Meishi
+#+DATE: [2023-04-30]
+#+FILETAGS: math
+
+Consider the following constrained optimization problem
+$$\begin{aligned}
+\min_{x\in\mathbb{R}^n}\quad & f(x) \\
+\mathrm{s.t.}\quad & c_i(x) = 0,\qquad i\in\mathcal{E},\\
+&c_i(x) \geq 0,\qquad i\in\mathcal{I}.
+\end{aligned}$$
+Here, $f$ is a convex function, and
+$\{c_i \mid i\in\mathcal{E}\cup\mathcal{I}\}$ are linear functions. This
+problem encompasses linear programming and quadratic programming, and
+represents a special case of general convex optimization problems.
+Therefore, it serves as an good starting point for learning about
+optimization methods.
+
+Let us start by some notations and terminologies.
+
+| Concept      | Notation | Meaning                                      |
+|--------------+----------+----------------------------------------------|
+| Feasible set | $\Omega$ | the set of $x$ satisfying all constraints    |
+| Minimizer    | $x^\ast$ | the smallest feasible point in its neighbors |
+| Mimimum      | $f^\ast$ | $f(x^\ast)$                                  |
+
+Below is a very basic property of minimizers.
+
+/Minimizer is stable./ If $x^\ast$ is a minimizer of the considered
+optimization problem, then
+$$ \langle \nabla f(x^\ast), x-x^\ast \rangle \geq 0, \qquad \forall x \in\Omega.$$
+
+In general, if $f$ is convex, then for any two points $x_1$ and $x_2$,
+there is
+$$ f(x_2) \geq f(x_1) + \langle \nabla f(x_1), x_2 - x_1\rangle. $$
+Therefore, for the considered problem any stable point is also a
+minimizer.
+
+** Lagrangian and KKT Points
+
+The /Lagrangian/ of the considered problem is defined by
+$$ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
+\qquad x\in\mathbb{R}^n, u\in\mathbb{R}_+^{|\mathcal{I}|}, v\in\mathbb{R}^{|\mathcal{E}|},$$
+where $\mathbf{g}(x)\geq 0$ is the collection of inequality constraints
+and $\mathbf{h}(x)=0$ is the collection of equality constraints. It is
+important to note that by writting $L(x,u,v)$ the multiplier $u$
+associated with inequality constraints is required to be nonnegative.
+
+A KKT point $(x^\ast, u^\ast, v^\ast)$ is a point in the domain of
+Lagrangian $L$ which satsifies the following set of conditions (known as
+KKT conditions) $$\begin{cases}
+\nabla_{x}L(x^\ast, u^\ast, v^\ast) = 0, \\
+\nabla_{u}L(x^\ast, u^\ast, v^\ast) \leq 0, \\
+\nabla_{v}L(x^\ast, u^\ast, v^\ast) = 0, \\
+\langle \nabla_{u}L(x^\ast, u^\ast, v^\ast), u^\ast\rangle = 0.
+\end{cases}$$ The last equality is known as the /Complementary
+slackness/ condition. In addition, $u^\ast\geq 0$ is included implicitly
+by writting $L(x^\ast,u^\ast,v^\ast)$.
+
+For the considered problem. KKT conditions are necessary.
+
+*KKT conditions are necessary.* /If $x^\ast$ is a minimizer of the
+considered problem, then there exists
+$u^\ast\in\mathbb{R}_+^{|\mathcal{I}|}$ and
+$v^\ast\in\mathbb{R}^{|\mathcal{E}|}$ such that
+$(x^\ast, u^\ast, v^\ast)$ is a KKT point./
+
+#+BEGIN_QUOTE
+  The proof, which utilizes Farkas' lemma, is omitted.
+#+END_QUOTE
+
+It turns out that KKT conditions are also sufficient to ensure
+optimality. To see this, we need to introduce a useful concept /saddle
+points of Lagrangian/.
+
+/A saddle point of Lagrangian/ is a point $(x^\ast, u^\ast, v^\ast)$
+which satisfying that
+$$ L(x^\ast, u, v) \leq L(x^\ast, u^\ast, v^\ast) \leq L(x, u^\ast, v^\ast),\qquad\forall x, u, v.$$
+It is implicit in this definition that $u^\ast\geq0$ and $u\geq0$, since
+this requirement follows from writing out $L(x^\ast, u^\ast, v^\ast)$
+and $L(x^\ast, u, v)$. This convention will be assumed throughout,
+unless otherwise specified.
+
+The saddle point condition is the most restrictive condition for a
+convex optimization problem.
+
+/Any saddle point is a KKT point, and moreover, any saddle point is a
+global minimizer./
+
+#+BEGIN_QUOTE
+  /Proof./ Suppose $(x^\ast,u^\ast,v^\ast)$ is a saddle point. Fix
+  $u^\ast,v^\ast$, $L(\cdot,u^\ast,v^\ast)$ has a minimizer $x^\ast$.
+  Therefore $$ \nabla_xL(x^\ast,u^\ast,v^\ast) = 0.$$ Fix
+  $x^\ast,u^\ast$, $L(x^\ast,u^\ast,\cdot)$ has a maximizer $v^\ast$.
+  Therefore $$ \nabla_vL(x^\ast,u^\ast,v^\ast) = 0.$$ Fix
+  $x^\ast,v^\ast$, $L(x^\ast, u, v^\ast)$ has a maxmizer $u^\ast$ on
+  $\mathbb{R}_+^{|\mathcal{I}|}$. Therefore
+  $$ \langle \nabla_uL(x^\ast,u^\ast,v^\ast), u-u^\ast\rangle \leq 0,\qquad\forall u\geq 0.$$
+  By choosing $u=u^\ast+\epsilon_i$, where $\epsilon_i$ is a unit vector
+  with only one nonzero component,
+  $$ \nabla_uL(x^\ast,u^\ast,v^\ast) \leq 0.$$ Moreover, by choosing
+  $u=0$ and $u=2u^\ast$, it is clear that
+  $$ \langle \nabla_uL(x^\ast,u^\ast,v^\ast), u^\ast\rangle = 0.$$ This
+  concludes that $(x^\ast,u^\ast,v^\ast)$ is a KKT point.
+
+  As $(x^\ast,u^\ast,v^\ast)$ satisfies the KKT conditions, it holds
+  that $$\mathbf{g}(x^\ast)\geq0,\qquad\mathbf{h}(x^\ast)=0.$$ This
+  implies that $x^\ast\in\Omega$. In addition, KKT conditions imply that
+  $$(u^\ast)^\intercal \mathbf{g}(x^\ast) = 0,\qquad (v^\ast)^\intercal \mathbf{h}(x^\ast) = 0.$$
+  For any $x\in\Omega$, there is
+  $$(u^\ast)^\intercal \mathbf{g}(x) \geq 0, \qquad (v^\ast)^\intercal \mathbf{h}(x) = 0.$$
+  Hence,
+  $$ f(x) \geq L(x, u^\ast, v^\ast) \geq L(x^\ast, u^\ast, v^\ast) = f(x^\ast),$$
+  where the second inequality uses the fact that
+  $(x^\ast,u^\ast,v^\ast)$ is a saddle point. This concludes that
+  $(x^\ast,u^\ast,v^\ast)$ is a global minimizer.
+
+  Q.E.D.
+#+END_QUOTE
+
+Finally, we can prove the sufficiency of KKT conditions by showing that
+for the considered problem any KKT point is a saddle point.
+
+*KKT conditions are sufficient.* /For the considered problem, if
+$(x^\ast, u^\ast, v^\ast)$ is a KKT point, then it is also a saddle
+point of Lagrangian. Consequently, it is a global minimizer./
+
+#+BEGIN_QUOTE
+  /Proof./ On one hand, $(u^\ast, v^\ast)$ is a maximizer of
+  $L(x^\ast, \cdot, \cdot)$ on
+  $\mathbb{R}^{|\mathcal{I}|}_+\times\mathbb{R}^{|\mathcal{E}|}$ because
+  $\mathbf{g}(x^\ast)\geq 0$ and $\mathbf{h}(x^\ast)=0$.
+
+  On the otherhand, $x^\ast$ is a minimizer of
+  $L(\cdot, u^\ast, v^\ast)$ on $\mathbb{R}^n$ because it is convex and
+  there is $\nabla_xL(x^\ast, u^\ast, v^\ast)=0$.
+
+  Q.E.D.
+#+END_QUOTE
+
+** Dual Problem
+
+Recall the definition of Lagrangian
+$$ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
+\qquad x\in\mathbb{R}^n, u\in\mathbb{R}_+^{|\mathcal{I}|}, v\in\mathbb{R}^{|\mathcal{E}|}.$$
+It is not hard to show that
+$$ \max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} L(x, u, v) =
+\begin{cases}
+\infty, \qquad \mathrm{if}\ x\not\in\Omega,\\
+f(x),\qquad\mathrm{if}\ x\in\Omega.
+\end{cases}$$ Hence, the original optimization problem (referred to as
+the /primal problem/ below) can be rewritten as
+$$ \min_{x\in\mathbb{R}^n}\max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} L(x, u, v).$$
+The /Dual problem/ is then defined by
+$$ \max_{\substack{u\in\mathbb{R}_+^{|\mathcal{I}|}\\ v\in\mathbb{R}^{|\mathcal{E}|}}} \min_{x\in\mathbb{R}^n} L(x, u, v).$$
+
+Dual problem has the following properties:
+
+- the objective function $\min_{x}L(x,u,v)$ is concave, regardless of
+  the convexity of $f, \mathbf{g}$ and $\mathbf{h}$.
+- the optimal objective value is not greater than the optimal value of
+  the primal problem.
+
+The first property is expected because $u$ and $v$ appear linear in $L$,
+and the $\min$ operator does not break the concavity. The second
+property, also known as the /weak duality/, is a direct consequence of
+the following general proposition.
+
+*Min Max is greater or equal to Max Min*. /For any function
+$f: X\times Y \to \mathbb{R}$, the following inequality holds trivially/
+$$ \min_{x\in X}\max_{y\in Y} f(x, y) \geq \max_{y\in Y}\min_{x\in X} f(x, y).$$
+
+The /duality gap/ is then defined as the difference between the optimal
+values between the primal and dual problems. We have seen that this gap
+is always nonnegative. If the duality gap is zero, then we say that
+/strong duality/ holds.
+
+*Strong duality holds if constraints are linear.* /For the considered
+problem, where $f$ is convex and constraints are linear, the strong
+duality holds if any minimizer of the primal problem exists./
+
+#+BEGIN_QUOTE
+  /Proof./ Assume $x^\ast$ is a minimizer of the primal problem. Due to
+  the necessity of KKT conditions, there exists $u^\ast$ and $v^\ast$
+  such that $(x^\ast, u^\ast, v^\ast)$ forms a KKT point. In addition,
+  we have proved that, for the considered problem, any KKT point is also
+  a saddle point of Lagrangian. Hence, $$ \begin{aligned}
+  f(x^\ast) &= \min_{x}\max_{u\geq0, v} L(x, u, v)& \qquad&  \\
+  &\geq \max_{u\geq 0, v}\min_{x}L(x, u, v) & \qquad&\textsf{(weaker duality)} \\
+  &\geq \min_{x}L(x, u^\ast, v^\ast)&\qquad& \\
+  &= L(x^\ast, u^\ast, v^\ast) &\qquad&\textsf{(saddle point)} \\
+  &= f(x^\ast)&\qquad &\textsf{(KKT point)}.
+  \end{aligned} $$
+
+  Q.E.D.
+#+END_QUOTE
+

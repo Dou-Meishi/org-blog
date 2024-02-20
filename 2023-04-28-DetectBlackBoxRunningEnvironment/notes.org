@@ -1,0 +1,265 @@
+#+TITLE: Detect Blackbox Running Environments in Algorithm Contests
+#+AUTHOR: Dou Meishi
+#+DATE: [2023-04-28]
+#+FILETAGS: think
+
+*Authors: Dou Meishi, ChatGPT*
+
+In some commercial algorithm contests, participants are required to
+upload their code to a secure platform to check their results. To
+protect the test case information, participants can only receive the
+results of their code execution. However, certain information, such as
+dependency details and package versions, is essential for developing
+specific projects. This post provides a systematic way to collect
+useful information about the blackbox running environment by analyzing
+the execution results of carefully crafted scripts.
+
+** Mathematical Analysis
+
+*** A simple case study
+
+Given a blackbox environment, we aim to detect the true value of a
+single target variable $X$, which can take values in a set $U$. The
+environment can answer queries about $X$, but the feedback is given in
+terms of another variable $Y$, taking values in a set $V$. The challenge
+is to design a procedure that translates query outputs of $X$ into
+observations of $Y$ to deduce the true value of $X$.
+
+To be specific, let us study the following simple case where $X$ takes
+discrete values in $U=\{0, 1, 2, \ldots, 99\}$, and $Y$ takes boolean
+values in $V=\{0, 1\}$.
+
+We may apply the following procedure to determine the true value $X^*$.
+The basic idea is representing $X^*$ via 7 bits of data and retrieve one
+bit at a time through the value of $Y$.
+
+- Repeat the following steps 7 times to generate 7 observations of $Y$,
+  denoted by $y_0, y_1, \ldots, y_6$:
+
+  - For each iteration $k = 0, 1, \ldots, 6$:
+
+    - Determine the $k$-th bit of $X^*$: set
+      $Y = ( \lfloor \frac{X}{2^k} \rfloor ) \bmod 2$.
+
+    - Emit $Y$ as an observation and collect the $k$-th observation as
+      $y_k$.
+
+- Analyze the observations and recover the true value of $X^*$:
+
+  - Set $X = \sum_{k=0}^{6} y_k 2^k$.
+
+  - Return $X$ as the determined value of $X^*$.
+
+In the provided example, we used the binary representation of $X^*$ to
+deduce its true value with a finite number of observations. Since any
+integer can be uniquely represented using its binary representation, we
+can generalize the procedure to any target variable $X$ with $n$
+possible values, which is nothing but a direct usage of the following
+formula
+
+$$ n = \sum_{k=0}^{N-1} y_k 2^k, \qquad\forall n = 0, 1, \ldots, 2^{N}-1.$$
+
+/Fact I./ Given a target variable $X$ that takes discrete values within
+a set containing $n$ elements, and a blackbox environment that can emit
+at least two distinct states as observations, the true value $X^*$ can
+be determined with $\lceil\log_2 n\rceil$ observations.
+
+This fact could be easily extended in terms of the number of distinct
+states.
+
+/Fact II./ Given a target variable $X$ that takes discrete values within
+a set containing $n$ elements, and a blackbox environment that can emit
+$m$ distinct states as observations, the true value $X^*$ can be
+determined with $\lceil \frac{\log_2 n}{\log_2 m} \rceil$ observations.
+
+*** The revised simple case
+    :PROPERTIES:
+    :CUSTOM_ID: the-revised-simple-case
+    :END:
+
+Let's consider the previous example again. But this time assume the
+target variable $X$ is continous. Without loss of generality, we assume
+$X$ takes value in $U=[0, 1]$. For continous variable, obtaining its
+exact value is not reasonable. However, it is possible to narrow down
+the range set $U$ to a much smaller set $U_0\subset U$ and ensure
+$X^*\in U_0$.
+
+- Repeat the following steps N times to generate N observations of $Y$,
+  denoted by $y_0, y_1, \ldots, y_{N-1}$:
+
+  - For each iteration $k = 0, 1, \ldots, N-1$:
+
+    - Determine the $k$-th bit of $X^*$: set
+      $Y = ( \lfloor X\times 2^{k+1} \rfloor ) \bmod 2$.
+
+    - Emit $Y$ as an observation and collect the $k$-th observation as
+      $y_k$.
+
+- Analyze the observations and recover the true value of $X^*$:
+
+  - Set $X = 2^{-(N+1)} + \sum_{k=0}^{N-1} y_k 2^{-(k+1)}$.
+
+  - Return $X$ as the determined value of $X^*$.
+
+In view of the following formula
+
+$$ x = \sum_{k = 0}^{N-1} y_k 2^{-(k+1)} + \sum_{k=N}^{\infty} y_k 2^{-(k+1)},\qquad\forall x\in[0,1],$$
+
+the following fact is clearly true.
+
+/Fact III./ Given a target variable $X$ that takes values within the
+continuous set $[0, 1]$, and a blackbox environment that can emit at
+least two distinct states as observations, an approximation $X$ of the
+true value $X^*$ can be obtained with $N$ observations to ensure the
+approximation error $|X-X^*| \leq 2^{-N-1}$.
+
+This fact could be extended to $m$ distinct states similarily.
+
+/Fact IV./ Given a target variable $X$ that takes values within the
+continuous set $[0, 1]$, and a blackbox environment that can emit at
+least $m$ distinct states as observations, an approximation $X$ of the
+true value $X^*$ can be obtained with $N$ observations to ensure the
+approximation error $|X-X^*| \leq m^{-N-1}$.
+
+** A Demo: determine the version of SciPy
+   :PROPERTIES:
+   :CUSTOM_ID: a-demo-determine-the-version-of-scipy
+   :END:
+
+Let us consider a scenario where we are participating in an algorithm
+contest. The contest organizer provides a secure platform to execute our
+code and return the result: (1) a score between 0 and 100, if our code
+executes successfully, and (2) a warning indicating the failure to
+execute our code. Our objective is to determine the version of SciPy in
+the Python environment being used to run our code.
+
+Currently, the version name =x.y.z= consists of
+
+- a major name =x=, which takes value in $\{0, 1\}$;
+- a minor name =y=, which takes value in $\{0, 1, \ldots, 19\}$;
+- a micro name =z=, which takes value in $\{0, 1, \ldots, 9\}$.
+
+See [[https://scipy.org/news/#releases][SciPy Release News]] for a
+complete release history.
+
+A binary search requires at most 1 observation to determine =x=, at most
+5 observations to determine =y= and at most 4 observations to determine
+=z=
+
+#+BEGIN_SRC python
+import time
+
+def get_kbit(n, k):
+    '''return the value of k-th bit of an integer n.
+        n == sum(get_kbit(n, k) * 2**k for k in range(n))
+    should hold trivially.'''
+    return (n // (2 ** k)) % 2
+
+def recover_from_bits(bits):
+    '''restore n from outputs of get_kbit'''
+    return sum(bk * 2**k for k, bk in enumerate(bits))
+
+
+# observation is simulated via exceptions
+ObservationException = type('ObservationException', (BaseException,), {})
+Observation0 = type('Observation0', (ObservationException,), {})
+Observation1 = type('Observation1', (ObservationException,), {})
+
+
+class VersionQuerier:
+
+    def __init__(self, version: str):
+        '''version should follow the pattern x.y.z'''
+        self.version = version
+
+        major, minor, micro = version.split('.')
+
+        self.major = int(major)
+        self.minor = int(minor)
+        self.micro = int(micro)
+
+    def set_observation(self, ob):
+        '''take an action to throw the corresponding observation.'''
+        if ob == 0:
+            raise Observation0
+        elif ob == 1:
+            raise Observation1
+        else:
+            raise ValueError
+
+def main():
+    import scipy
+
+    # inititliazation
+    querier = VersionQuerier(scipy.__version__)
+
+    # only the first constrol statement would be executed
+    # comment those lines run before
+
+    # check set_observation
+    # querier.set_observation(0)
+    # querier.set_observation(1)
+    # querier.set_observation(2)
+
+    # query major version name
+    # querier.set_observation(get_kbit(querier.major, 0))     # output: 1
+
+    # query minor version name
+    # querier.set_observation(get_kbit(querier.minor, 0))     # output: 0
+    # querier.set_observation(get_kbit(querier.minor, 1))     # output: 1
+    # querier.set_observation(get_kbit(querier.minor, 2))     # output: 0
+    # querier.set_observation(get_kbit(querier.minor, 3))     # output: 1
+    # querier.set_observation(get_kbit(querier.minor, 4))     # output: 0
+
+    # query micro version name
+    # querier.set_observation(get_kbit(querier.micro, 0))     # output: 1
+    # querier.set_observation(get_kbit(querier.micro, 1))     # output: 0
+    # querier.set_observation(get_kbit(querier.micro, 2))     # output: 0
+    # querier.set_observation(get_kbit(querier.micro, 3))     # output: 0
+
+if __name__ == '__main__':
+    try:
+        main()
+    except Observation0 as e:
+        # simulate a successful run with a particular score
+        pass
+    except Observation1 as e:
+        # simulate a failaure run due to some error of the code
+        raise e
+    except BaseException as e:
+        # in case of any other errors
+        # simulate a failaure run due to time limit exceeded
+        time.sleep(5)
+#+END_SRC
+
+The provided code defines a VersionQuerier class that simulates the
+process of querying the version of SciPy installed in the environment.
+It initializes the class with the actual version of SciPy and provides
+methods to set and retrieve observations based on the k-th bit of each
+part of the version number (major, minor, and micro).
+
+The main function demonstrates how to use the VersionQuerier class by
+querying the bits of the version number in sequence. This information
+can be used to narrow down the range of possible version numbers.
+
+** Discussion
+   :PROPERTIES:
+   :CUSTOM_ID: discussion
+   :END:
+
+If a contest organizer provides an upload limit of at least 20 times per
+day and offers at least two distinct forms of feedback, a participant
+can ascertain the true value of any integer variable once per day,
+provided that it is not greater than $10^6$. Furthermore, if the
+participant can maintain stable occurrence of four different feedback
+states (e.g., by observing their score instead of relying solely on
+failed code submissions), the number of integer variables they can
+determine will double. In general, this number grows linearly with
+respect to the logarithm of the number of distinct feedbacks.
+
+The procedure demonstrated in the previous section can be automated by
+generating a script to be uploaded via another script, which can also
+parse the result from the contest website in real time. Ultimately, this
+leads to another standard problem: /the communication between two
+systems/.
+

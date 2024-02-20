@@ -1,0 +1,281 @@
+#+TITLE: Beginner's Guide to Unison
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-01-06]
+#+FILETAGS: tool
+
+[[https://github.com/bcpierce00/unison][Unison]] is a file-synchronization tool for Unix and Windows. It allows two replicas of a collection of files and
+directories to be stored on different hosts (or different disks on the same host), modified separately, and then
+brought up to date by propagating the changes in each replica to the other.
+
+*Note:* This review is a short summary of [[https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf][the official manual]].
+Please use version 2.52 or newer to avoid version interoperability issues.
+
+* A Demo
+
+Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
+
+Let's consider a simple scenario and see how to synchronize two directories on a single machine.
+
+0. [@0] install Unison. Basically, we need only two executable binary files, =unison= and =unison-gui=,
+   downloaded from the proper release tarball in [[https://github.com/bcpierce00/unison][its github repository]].
+
+1. Set up a =work= directory and a =mirror= direcotry for our illustration
+
+  #+BEGIN_SRC bash
+    mkdir work
+    touch work/a work/b
+    mkdir work/d
+    touch work/d/f
+    cp -r work mirror
+  #+END_SRC
+
+2. Try synchronizing =work= and =mirror=. Since they are identical, synchronizing them won’t propagate
+   any changes, but Unison will remember the current state of both directories so that it will be able to tell
+   next time what has changed by typing =unison work mirror=.
+
+   - /textual interface:/ you should see a message notifying you that all the files are actually equal and then get returned to
+     the command line, and you may also get a warning message for creating /archives/ (the private data structure used by Unison)
+     as this is the first run of Unison.
+
+   - /graphical interface:/ You should get a big empty window with a message at the bottom notifying you /everything is up-to-date/.
+
+3. Make some changes in =work= and =mirror=
+
+  #+BEGIN_SRC bash
+    rm work/a
+    echo "Hello" > work/b
+    echo "Hello" > mirror/b
+    date > mirror/c
+    echo "Hi there" > work/d/h
+    echo "Hello there" > mirror/d/h
+  #+END_SRC
+
+4. Try synchronizing =work= and =mirror= again by typing =unison work mirror=.
+
+   Let us elaborate the behaviors of the textual interface in this case.
+
+   0. [@0] Unison will display /only/ the files that are different and ask for actions one by one.
+       If a file has been changed in the same way and remain identical in both directories,
+       Unison will simply note the file is up-to-date and nothing will be shown. So we expect three
+       changes to be decided: the absent file of =a= in =work=, the new file =c= in =mirror=
+       and the conflicting changes on =d/h=.
+
+   1. Unison will notify the creation of =c= in =mirror= and prompt a line like
+
+      #+BEGIN_EXAMPLE
+         <--- new file   c  [f]
+      #+END_EXAMPLE
+
+      We can follow Unison’s recommendation, press =f= or =[ENTER]= at the prompt.
+      Or we can simply ignore this file and leave both replicas alone by pressing =/=.
+      Pressing =?= for a list of possible responses and their meanings.
+      See also [[https://stackoverflow.com/questions/64587602/how-does-one-use-the-matching-condition-commands-for-the-unison-cli][this question]] for explanation on the key =L= and matching conditions.
+
+   2. Similarly, Unison will notify the delete of =a= in work and prompt a line like
+
+      #+BEGIN_EXAMPLE
+deleted  --->            a  [f]
+      #+END_EXAMPLE
+
+   3. For conflicting changes on =d/h=, Unison will prompt a line like
+
+      #+BEGIN_EXAMPLE
+new file <-?-> new file   d/h  []
+      #+END_EXAMPLE
+
+   4. Suppose we skip the file =d/h= and accept changes on file =a= and =c=, Unison
+       will briefly summarize the actions it is supposed to do and asks for
+       confirmation
+
+      #+BEGIN_EXAMPLE
+2 items will be synced, 1 skipped
+0 B to be synced from work to mirror
+32 B to be synced from mirror to work
+
+Proceed with propagating updates? []
+      #+END_EXAMPLE
+
+   5. Finally, if we confirm then Unison will apply changes and output logs of the process.
+
+   The usage of the graphical interface is similar. The main window shows all the files that have been modified.
+   To override a default action (or to select an action in the case when there is no default), first select the file
+   by clicking on its name, then press the desired action key metioned before.
+   When you are satisfied with the propagation of changes as shown in the main window,
+   click the /Go/ button to set them in motion.
+
+* Basic Concepts
+
+Below is a short summary of [[https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf][the official manual]].
+
+1. /Roots./ A replica’s root tells Unison where to find a set of files to be synchronized, either on the local machine or on
+   a remote host. The pattern of the root is =[protocol:]//[user@][host][:port][path]=.
+   When =path= is given without any protocol prefix, the protocol is assumed to be =file=.
+   Other possible protocol arguments include =ssh= and =socket=.
+   If =path= is a relative path, then it actually specifies a local root relative to the directory where Unison is started.
+
+2. /Paths./ A /path/ refers to a point within a set of files being synchronized; it is specified relative to the root of the
+   replica. Formally, a path is just a sequence of names, separated by =/=.
+   The empty path (i.e., the empty sequence of names) denotes the whole replica.
+   Unison displays the empty path as =[root]=.
+
+3. /Descendants./   If =p= is a path and =q= is a path beginning with =p=, then =q= is said to be a /descendant/ of =p=.
+   Thus, each path is also a descendant of itself.
+
+4. /Contents./ The /contents/ of a path =p= in a particular replica could be a file, a directory, a symbolic link, or absent (if p
+   does not refer to anything at all in that replica). More specifically:
+
+   1. If =p= refers to an ordinary file, then the contents of p are the actual contents of this file (a string of
+      bytes) plus the current permission bits of the file.
+
+   2. If =p= refers to a symbolic link, then the contents of =p= are just the string specifying where the link points.
+
+   3. If =p= refers to a directory, then the contents of p are just the token /DIRECTORY/ plus the current
+      permission bits of the directory.
+
+   4. If =p= does not refer to anything in this replica, then the contents of =p= are the token /ABSENT/.
+
+   Unison keeps a record (named /archives/) of the contents of each path after each successful synchronization
+   of that path (i.e., it remembers the contents at the last moment when they were the same in the two replicas).
+
+5. /Update./ A path is /updated/ (in some replica) if its current contents are different from its contents the
+   last time it was successfully synchronized.
+
+6. /Conflicts./ A path is said to be /conflicting/ if the following conditions /all/ hold:
+
+   1. it has been updated in one replica,
+
+   2. any of its descendants has been updated in the other replica,
+
+   3. its contents in the two replicas are not identical.
+
+7. /Reconciliation./ Unison operates in several distinct stages:
+
+   1. On each host, it compares its archive file (which records the state of each path in the replica when it
+      was last synchronized) with the current contents of the replica, to determine which paths have been updated.
+
+   2. It checks for /false conflicts/  — paths that have been updated on both replicas, but whose current
+      values are identical. These paths are silently marked as synchronized in the archive files in both replicas.
+
+   3. It displays all the updated paths to the user. For updates that do not conflict, it suggests a default
+      action (propagating the new contents from the updated replica to the other). Conflicting updates are
+      just displayed. The user is given an opportunity to examine the current state of affairs, change the
+      default actions for nonconflicting updates, and choose actions for conflicting updates.
+
+   4. It performs the selected actions, one at a time. Each action is performed by first transferring the new
+      contents to a temporary file on the receiving host, then atomically moving them into place.
+
+   5. It updates its archive files to reflect the new state of the replicas.
+
+8. /Invariants./ Unison is careful to protect both its internal state and the state of the replicas at every point in this
+   process. Specifically, the following guarantees are enforced:
+
+   1. At every moment, each path in each replica has either
+
+      1. its original contents (i.e., no change at all has been made to this path), or
+
+      2. its correct final contents (i.e., the value that the user expected to be propagated from the other replica).
+
+   2. At every moment, the information stored on disk about Unison’s private state can be either
+
+      1. unchanged, or
+      2. updated to reflect those paths that have been successfully synchronized.
+
+   If Unison gets interrupted during ensuring those guarantees, some manual cleanup may be required.
+   In this case, a file called DANGER.README will be left in the =.unison= directory,
+   containing information about the operation that was interrupted.
+   The next time you try to run Unison, it will notice this file and warn you about it.
+
+   If Unison is interrupted, it may sometimes leave temporary working files (with suffix =.tmp=) in the replicas.
+   It is safe to delete these files. Also, if the backups flag is set, Unison will leave around old versions of files
+   that it overwrites, with names like =file.0.unison.bak=. These can be deleted safely when they are no longer wanted.
+
+   If Unison finds that its archive files have been deleted (or that the archive format has changed and they
+   cannot be read, or that they don’t exist because this is the first run of Unison on these particular roots),
+   it takes a conservative approach: it behaves as though the replicas had both been completely empty at the
+   point of the last synchronization. Thus, It is also safe to delete those archive files on both replicas.
+   The next time Unison runs, it will assume that all the files it sees in the replicas are new.
+
+* Typical Usage
+
+Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
+regularly to synchronize your commonly used files. There are several possible ways of going about this:
+
+1. Synchronize your whole home directory, using the /Ignore facility/ to
+   avoid synchronizing particular directories and files.
+
+2. Synchronize your whole home directory, but tell Unison to synchronize only some of
+   the files and subdirectories within it. This can be accomplished by specifying the =-path=
+   arguments in your /profile/.
+
+3. Create another directory called =shared= (or =current=, or whatever) on each host,
+   and put all the files you want to synchronize into this directory. Tell Unison to synchronize =shared=
+   among different hosts.
+
+4. Create another directory called =shared= (or =current=, or whatever) on each host,
+   and put /links/ to all the files you want to synchronize into this directory. Use the =follow= preference
+   to make Unison treat these links as transparent.
+
+Unison is designed for synchronizing pairs of replicas. However, it is possible to use it to keep larger groups
+of machines in sync by performing multiple pairwise synchronizations.
+If you need to do this, the most reliable way to set things up is to organize the machines into a /star topology/
+with one machine designated as the /hub/ and the rest as /spokes/ and with each spoke machine
+synchronizing only with the hub.
+
+* Caveats and Shortcomings
+
+Here are some things to be careful of when using Unison.
+
+   1. Unison cannot understand rename, and sees it as a delete and a separate create.
+
+   2. You need to be very /CAREFUL/ when renaming directories containing =ignored= files.
+
+      For example, suppose Unison is synchronizing directory =A= between the two machines called the /local/
+      and the /remote/ machine; suppose directory =A= contains a subdirectory =D=; and suppose =D= on the
+      local machine contains a file or subdirectory =P= that matches an ignore directive in the profile used to
+      synchronize. Thus path =A/D/P= exists on the local machine but not on the remote machine.
+
+      If =D= is renamed to =Dnew= on the remote machine, and this change is propagated to the local machine, all
+      such files or subdirectories =P= will be deleted. This is because Unison sees the rename as a delete and
+      a separate create: it deletes the old directory (including the ignored files) and creates a new one (not
+      including the ignored files, since they are completely invisible to it).
+
+   3. It could be very /DANGEROUS/ to use Unison with removable media such as USB drives
+      unless you are careful.
+
+      If you synchronize a directory that is stored on removable media when the media is not present, it will look to Unison as though
+      the whole directory has been deleted, and it will proceed to delete the directory from the other replica!
+
+   4. Archives are created based on names of roots (and other informations), meaning that renaming roots
+      results Unison think it never sync these before. For example, assume you have run Unison to sync
+      =work= and =mirror= before, and you rename =mirror= to =backup= then change some files in
+      =backup=. Now, running =unison= work backup will create new archives and ask you to resolve conflicts.
+      In this case, you may find the option =-prefer backup= be useful, which effectively choose files
+      in =backup= to resolve possible conflicts.
+
+   5. If you want to run Unison continuously as a crontab task, then you have to ensure the same
+      script will not be called unless its previous call has finished. Otherwise there will be two
+      running Unison instance caring about same targets and interfere each other. For example,
+      it could be that a sync of big files takes more than 10 minutes, which would create problems
+      if you have set every 10 minutes a new sync would be started.
+
+   6. The graphical user interface is single-threaded. This means that if Unison is performing some long-
+      running operation, the display will not be repainted until it finishes. We recommend not trying to do
+      anything with the user interface while Unison is in the middle of detecting changes or propagating files.
+
+* Going Further
+
+The official manual is [[https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf][here]] and the FAQ is [[https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php][here]].
+
+Besides the basic concepts mentioned in this blog, you may also want to look at the
+following sections in the official manual:
+
+- Section 6.1 Running Unison
+- Section 6.2 The =.unison= Directory
+- Section 6.4 Preferences
+- Section 6.5 Profiles
+- Section 6.6 Sample Profiles
+- Section 6.7 Keeping Backups
+- Section 6.8 Merging Conflicting Versions
+- Section 6.12 Path Specification
+- Section 6.13 Ignoring Paths
+

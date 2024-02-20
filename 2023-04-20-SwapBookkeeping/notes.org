@@ -1,0 +1,324 @@
+#+TITLE: Simulating Swap Operations Without Modifying Data
+#+AUTHOR: Dou Meishi
+#+DATE: [2023-04-20]
+#+FILETAGS: think
+
+*Authors*: Dou Meishi, ChatGPT
+
+** Introduction
+
+In many applications, it is often required to simulate swap operations
+on a list of elements without actually modifying the underlying data.
+This can be useful in various scenarios, such as when you need to
+analyze the impact of different permutations on a given data structure
+or when you want to maintain multiple views of the data with different
+sorting orders.
+
+In this blog post, we will discuss the problem of simulating swap
+operations without modifying the data, explore the background and
+applications, and provide a Python code example that demonstrates how to
+implement this functionality using a simple class structure. Finally, we
+will explain the reasons behind our implementation and conclude.
+
+** Background and Applications
+
+Swapping elements in a list is a fundamental operation in many
+algorithms, such as sorting algorithms and combinatorial search
+algorithms. However, there are situations where we want to simulate
+these swaps without actually modifying the original data. Some possible
+applications include:
+
+1. *Data visualization*: When working with interactive visualizations,
+   it is often necessary to display different views of the same data,
+   based on user interactions. By simulating swaps without modifying the
+   data, we can easily switch between different views without affecting
+   the underlying data.
+
+2. *Algorithm analysis*: Analyzing the performance of algorithms that
+   involve swapping elements can be done more efficiently by simulating
+   swaps without modifying the data. This allows us to observe the
+   impact of different permutations on the algorithm's performance
+   without the overhead of actually modifying the data structure.
+
+3. *Undo/redo functionality*: In some applications, like text editors or
+   image editing software, users may want to undo or redo certain
+   actions. By simulating swaps without modifying the data, we can
+   maintain a history of actions and easily revert to previous states
+   without affecting the original data.
+
+** Problem Statement and Our Solution
+
+Suppose we have a list of elements and we want to simulate swap
+operations on this list without modifying the actual data. We also want
+to be able to retrieve the elements in their current order, reflecting
+the simulated swap operations.
+
+#+BEGIN_SRC python
+data = ['alpha', 'beta', 'gamma', 'eta']
+vec = Vector(data)
+
+# swap 1-th and 3-th value
+vec.swap(1, 3)
+view = vec.view
+expect_view = ['alpha', 'eta', 'gamma', 'beta']
+
+assert all(view[i]==expect_view[i] for i in range(len(data)))
+
+# swap 2-th and 3-th value
+vec.swap(2, 3)
+view = vec.view
+expect_view = ['alpha', 'eta', 'beta', 'gamma']
+
+assert all(view[i]==expect_view[i] for i in range(len(data)))
+
+# restore data from view
+restored_data = [view[i] for i in vec.addr2name]
+
+assert all(data[i]==restored_data[i] for i in range(len(data)))
+#+END_SRC
+
+To address this problem, we propose the implementation of a class called
+=Viewable_Mixin=. This class maintains two lists, =self.indices= and
+=self.inverse_indices=, that store the forward and inverse mappings
+between the view and the data, respectively. The =swap= method is used
+to simulate swap operations on the view, while the =view= property
+returns the current state of the view.
+
+Below is the complete Python code that demonstrates how to simulate swap
+operations without modifying the data using a simple class structure
+called =Viewable_Mixin=:
+
+#+BEGIN_SRC python
+class Viewable_Mixin(object):
+    '''Allow swap index without actually modifying the data.'''
+
+    def __init__(self, *args, **kws):
+        '''Assume data is a list'''
+        super().__init__(*args, **kws)
+
+        self.indices = list(range(len(self)))
+        self.inverse_indices = list(range(len(self)))
+
+    def swap(self, i, j):
+        # swap i-th and j-th value without actually modifying data
+        self.indices[i], self.indices[j] = self.indices[j], self.indices[i]
+
+        # update inverse_indices
+        self.inverse_indices[self.indices[i]] = i
+        self.inverse_indices[self.indices[j]] = j
+
+    def __getitem__(self, i):
+        # return the view
+        return super().__getitem__(self.indices[i])
+
+    @property
+    def view(self):
+        return [self[i] for i in range(len(self))]
+
+    @property
+    def addr2name(self):
+        return self.inverse_indices
+
+
+class Vector(Viewable_Mixin, list):
+
+    def __init__(self, *args, **kws):
+        super().__init__(*args, **kws)
+
+
+data = ['alpha', 'beta', 'gamma', 'eta']
+vec = Vector(data)
+
+# swap 1-th and 3-th value
+vec.swap(1, 3)
+view = vec.view
+expect_view = ['alpha', 'eta', 'gamma', 'beta']
+
+assert all(view[i] == expect_view[i] for i in range(len(data)))
+
+# swap 2-th and 3-th value
+vec.swap(2, 3)
+view = vec.view
+expect_view = ['alpha', 'eta', 'beta', 'gamma']
+
+assert all(view[i] == expect_view[i] for i in range(len(data)))
+
+# restore data from view
+restored_data = [view[i] for i in vec.addr2name]
+
+assert all(data[i]==restored_data[i] for i in range(len(data)))
+#+END_SRC
+
+** Explanation of the Implementation
+   :PROPERTIES:
+   :CUSTOM_ID: explanation-of-the-implementation
+   :END:
+
+Our solution is based on creating a class called =Viewable_Mixin= that
+maintains two lists: =self.indices= (name2addr) and
+=self.inverse_indices= (addr2name). These lists represent the forward
+and inverse mappings between the view and the data, respectively.
+
+=self.indices= is initialized with a range of indices from 0 to the
+length of the data minus 1. This list represents the mapping from the
+view's indices to the data's indices. When we swap elements in the view,
+we only swap their indices in this list, without actually modifying the
+data.
+
+=self.inverse_indices= is also initialized with a range of indices from
+0 to the length of the data minus 1. This list represents the inverse
+mapping from the data's indices to the view's indices. It is updated
+whenever elements are swapped in the view, ensuring that the inverse
+mapping remains consistent with the forward mapping.
+
+The =swap= method takes two indices, i and j, and swaps the i-th and
+j-th elements in the view without modifying the actual data. This is
+achieved by swapping the corresponding indices in =self.indices= and
+updating =self.inverse_indices=.
+
+The =__getitem__= method is used to return the element in the view at a
+given index. It does this by returning the data element at the index
+specified by =self.indices[i]=.
+
+Finally, the =view= and =addr2name= properties return the current state
+of the view and the inverse mapping (=self.inverse_indices=),
+respectively.
+
+** Conclusion
+   :PROPERTIES:
+   :CUSTOM_ID: conclusion
+   :END:
+
+In this blog post, we have explored the problem of simulating swap
+operations without modifying the underlying data. We provided a Python
+code example that demonstrates how to achieve this using a simple class
+structure called =Viewable_Mixin=. The solution maintains two lists,
+=self.indices= and =self.inverse_indices=, to store the forward and
+inverse mappings between the view and the data. By swapping elements in
+the view and updating the mappings accordingly, we can efficiently
+simulate swaps without modifying the actual data.
+
+This approach can be useful in various applications, such as data
+visualization, algorithm analysis, and undo/redo functionality, where it
+is necessary to maintain multiple views of the same data or analyze the
+impact of different permutations without affecting the underlying data.
+
+** Mathematical Justifications
+
+It is possible to interprete =indices= and =inverse_indices= as two permutation matrix. To see this, one may write =data= and =view= as two column vectors and note the following equations.
+
+#+BEGIN_export HTML
+$$ \begin{aligned}
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+\alpha \\ \beta \\ \gamma \\ \eta
+\end{bmatrix}
+&= \begin{bmatrix}
+\alpha \\ \eta \\ \beta \\ \gamma
+\end{bmatrix},
+\\
+\begin{bmatrix}
+\alpha \\ \beta \\ \gamma \\ \eta
+\end{bmatrix}
+&= \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 1 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+\alpha \\ \eta \\ \beta \\ \gamma
+\end{bmatrix}.
+\end{aligned} $$
+#+END_export
+
+Hence, =indices= represents the permutation matrix in the first equation, denoted by $A$ below, and =inversed_indices= represents the matrix in the second equation, denoted by $B$.
+
+Clearly, $AB=I$. Moreover, because $A$ and $B$ are othrogonal matrix, $A=B^\intercal$ holds too.
+
+In this point of view, =indices[i]= stores the unique column index =j= such that $A_{ij}=1$,
+
+$$ \sum_{j}A_{ij} \mathtt{data[j]} = \mathtt{view[i]} = \mathtt{data[indices[i]]}.$$
+
+Similarly, =inversed_indices[i]= stores the unique column index =j= such that $B_{ij}=1$,
+
+$$ \sum_{j}B_{ij} \mathtt{view[j]} = \mathtt{data[i]} = \mathtt{view[inversed\_indices[i]]}.$$
+
+For arbitary vector $v$, we have (introduce the notation that $\mathbb{I}[\mathtt{cond}]=1$ if and only if $\mathtt{cond}$ is true)
+
+#+BEGIN_export HTML
+$$ \begin{aligned}
+(BAv)_i &= \sum_{k} \sum_{j} A_{ik} B_{kj} v_j \\
+&= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \sum_{j} \mathbb{I}(j=\mathtt{inversed\_indices}[k]) \cdot v_j \\
+&= \sum_{k} \mathbb{I}(k=\mathtt{indices}[i]) \cdot v[\mathtt{inversed\_indices}[k]] \\
+&= v[\mathtt{inversed\_indices}[\mathtt{indices}[i]]].
+\end{aligned} $$
+#+END_export
+
+Thus, we have
+$$i  = \mathtt{inversed\_indices}[\mathtt{indices}[i]].$$
+This is the reflection of the matrix equation $BA=I$.
+
+Now look back to the equation transforming =data= to =view=
+
+#+BEGIN_export HTML
+$$ \begin{bmatrix}
+\mathbb{I}(j = \mathtt{indices}[0]) \\
+\mathbb{I}(j = \mathtt{indices}[1]) \\
+\mathbb{I}(j = \mathtt{indices}[2]) \\
+\mathbb{I}(j = \mathtt{indices}[3])
+\end{bmatrix}
+\begin{bmatrix}
+\mathtt{data}[0] \\
+\mathtt{data}[1] \\
+\mathtt{data}[2] \\
+\mathtt{data}[3]
+\end{bmatrix}
+= \begin{bmatrix}
+\mathtt{view}[0] \\
+\mathtt{view}[1] \\
+\mathtt{view}[2] \\
+\mathtt{view}[3]
+\end{bmatrix}, $$
+#+END_export
+
+where $\mathbb{I}(j = \mathtt{indices}[0])$ denotes a row vector with
+subscript $j$. To swap the =view= vector without modifying the =data=
+vector, we can swap rows of $A$ to satisfying the transforming
+equation. For example, if we want to swap the $i_1$-th and $i_2$-th
+entry of =view=, we can create another indices to represent the new
+permutation matrix:
+
+#+BEGIN_export HTML
+$$ \begin{cases}
+\mathtt{indices}'[i_1] &= \mathtt{indices}[i_2],\\
+\mathtt{indices}'[i_2] &= \mathtt{indices}[i_1],\\
+\mathtt{indices}'[i] &= \mathtt{indices}[i],\quad \forall i\not\in\{i_1,i_2\}.
+\end{cases}$$
+The inversed indices need to update accordingly:
+$$ \begin{cases}
+j_1 = \mathtt{indices}[i_1], \\
+j_2 = \mathtt{indices}[i_2], \\
+\mathtt{inversed\_indices}'[j_1] &= \mathtt{inversed\_indices}[j_2],\\
+\mathtt{inversed\_indices}'[j_2] &= \mathtt{inversed\_indices}[j_1],\\
+\mathtt{inversed\_indices}'[j] &= \mathtt{inversed\_indices}[j],\quad \forall j\not\in\{j_1,j_2\},
+\end{cases}$$
+#+END_export
+
+or in a more intuitive expression
+
+#+BEGIN_export HTML
+$$ \begin{cases}
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_1]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_2]] = i_1,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i_2]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i_1]] = i_2,\\
+\mathtt{inversed\_indices}'[\mathtt{indices}'[i]] &= \mathtt{inversed\_indices}[\mathtt{indices}'[i]] = i,\quad \forall i\not\in\{i_1, i_2\},
+\end{cases} $$
+#+END_export
+
+It's easy to verify that $\mathtt{inversed\_indices}'$ is indeed the inverse mapping of $\mathtt{indices}'$.
+

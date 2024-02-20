@@ -1,0 +1,305 @@
+#+TITLE: Compactness
+#+AUTHOR: Dou Meishi
+#+DATE: [2023-09-19]
+#+FILETAGS: math
+
+This note is a review of Chapter IV.8 of the book
+/An introduction to set theory and topology/
+by Freiwald.
+
+* Prerequisite Concepts
+
+- topological space and its subspace
+- T1 topological space and T2 topological space
+- Lindelöf topological space
+- sequence convergence in a topological space
+- continuity of functions between topological spaces
+- first countability of topological spaces
+- pseudometric space and metric space
+- separable metric space
+
+* Definitions
+
+Two equivalent definition of a *compact* topological space $(X,\mathcal{T})$:
+
+1. Any open cover of $X$ has a finite open subcover[fn:1].
+2. Any family of closed sets $\mathcal{F}$ with /Finite Intersection Property/
+   has $\bigcap\mathcal{F}\neq\emptyset$[fn:2].
+
+A subset $K$ in $(X,\mathcal{T})$ is called a *compact subset*
+if the subspace $(K, \mathcal{T}_K)$ is compact[fn:3].
+
+Three more different notions of /compactness/.
+
+- sequentially compact :: every sequence has a convergent subsequence
+- countably compact :: every countable open cover of $X$ has a finite subcover
+- pseudocompact :: every continuous function $f:X\to\mathbb{R}$ is bounded.
+
+In addition, if $X$ is a pseudometric space, there is another important property.
+
+- totally bounded :: for each $\epsilon > 0$, $X$ can be covered by
+  a finite number of \(\epsilon\)-balls.
+
+* Main Results
+
+Let $(X, \mathcal{T})$ be a topological space.
+
+*Theorem 8.5.* <<Theorem 8.5>> /Let $K \subset X$./
+
+/1. $K$ is closed $\Longrightarrow$ $K$ is compact, if $X$ is compact./
+
+/2. $K$ is compact $\Longrightarrow$ $K$ is closed, if $X$ is Hausdorff./
+
+*Theorem 8.11.* <<Theorem 8.11>> /The following implications hold generally./
+$$ X\text{ is (sequentially) compact }\Rightarrow X\text{ is countably compact }
+\Rightarrow X\text{ is pseudocompact}.$$
+
+*Lemma 8.12.* <<Lemma 8.12>> $X$ is countably compact $\Longrightarrow$ $X$ is sequentially compact,
+if $X$ is first countable.
+
+*Lemma 8.16.* <<Lemma 8.16>> A totally bounded pseudometric space is separable, and thus Lindelöf.
+
+*Theorem 8.17.* <<Theorem 8.17>> In a pseudometric space $(X,d)$,
+the property of compactness, sequentially compactness, countably compactness
+and pseudocompactness are all equivalent.
+
+* Detailed Proofs
+
+/Proof to [[Theorem 8.5][Theorem 8.5]]./
+Assume $K$ is closed and $X$ is compact, then any open cover
+of $K$ would form an open cover of $X$ if augmented by $K^\mathsf{c}$.
+This implies that a finite subcover of $K$ exists.
+
+Assume $K$ is compact and $X$ is Hausdorff. Pick any $p\in
+K^\mathsf{c}$.  For any $q \in K$, there exists a neighborhood $V_q$
+of $q$ and a neighborhood $W_q$ of $p$ such that $V_q \cap W_q =
+\emptyset$. By the compactness of $K$, there exists finite many $q_i$
+such that $\bigcup_{i=1}^n V_{q_i}\supset K$.  This implies that
+$\bigcap_{i=1}^n W_{q_i}\subset K^\mathsf{c}$ is a neighborhood of
+$p$. Hence, $p$ is an interior point of $K^\mathsf{c}$.
+
+Q.E.D.
+
+/Proof to [[Theorem 8.11][Theorem 8.11]]./
+
+Compact $\Rightarrow$ countably compact. Obviously.
+
+Sequentially compact $\Rightarrow$ countably compact.
+If not, there exists a countable open cover
+$(V_i)_{i=0}^\infty$
+of $X$ which has no finite subcover.
+Let $x_k\in\bigl(\bigcup_{i=0}^k V_i\bigr)^\mathsf{c}$.
+Clearly, the sequence $(x_k)$ has no convergent subsequence.
+This contradicts with the hypothesis.
+
+Countably compact $\Rightarrow$ pseudocompact.
+For any real-valued continuous function $f:X\to\mathbb{R}$,
+$(f^{-1}(-n,n))_{n=1}^{\infty}$ is a countable open cover of $X$,
+and thus has a finite subcover. WLOG, assume the finite subcover
+is $(f^{-1}(-n,n))_{n=1}^{M}$. Clearly, $f$ is bounded by $M$.
+
+Q.E.D.
+
+/Proof to [[Lemma 8.12][Lemma 8.12]]./
+First, we prove that $X$ _is countably compact if and only if every sequence
+has a cluster point_. The /if/ part has been proved in Theorem 8.11. To prove
+the /only if/ part, assume $X$ be countably compact and $(x_n)$ is a sequence
+with no cluster point. Let $T_n$ be the tail set of $(x_n)$:
+$$T_n:=\{x_k\mid k\geq n\}.$$
+Let $\overline{T}_n$ be the closure of $T_n$. Since $X$ is countably compact,
+the countable family of closed sets $\{\overline{T}_n \mid n\in\mathbb{N}\}$
+must have
+$$\bigcap_{n=0}^\infty\overline{T}_n\neq\emptyset.$$
+Pick $x\in \bigcap_{n=0}^\infty\overline{T}_n$.
+For any $n$, there is $x\in \overline{T}_n$.
+Hence, for any neighborhood $N_x$ of $x$, there is $N_x\cap T_n\neq\emptyset$.
+Recalling the definition of $T_n$, we conclude that $x$ is a cluster point
+of $(x_n)$. However, this contradicts with the hypothesis that $(x_n)$ has
+no cluster point. We finish the /only if/ part.
+
+Then we prove this lemma.
+Let $X$ be countably compact and first countable.
+For any sequence $(x_n)$, it has a cluster point $x$.
+There must exist a subsequence of $(x_n)$ which converges to $x$.
+
+- Let $(B_k)$ be a countable shrinking neighborhood base at $x$.
+  Since $(x_n)$ is frequently in $B_1$, we can pick $n_1$ so that $x_{n_1}\in B_1$.
+  Since $(x_n)$ is frequently in $B_2$, we can pick $n_2 > n_1$ so that $x_{n_2}\in B_2$.
+  Continue inductively: having chosen $n_1 < n_2 < \cdots < n_k$ so that
+  $x_{n_k}\in U_k \subset U_{k-1} \subset \cdots U_1$, we can then choose $n_{k+1} > n_k$
+  so that $x_{n_{k+1}}\in U_{k+1}\subset U_k$. Clearly, $(x_{n_k})_{k=1}^\infty$ converges
+  to $x$.
+
+In conclusion, if $X$ is countably compact, then every sequence has a cluster point.
+Since $X$ is first countable, we conclude that every sequence has a convergent
+subsequence.
+
+Q.E.D.
+
+/Proof to [[Lemma 8.16][Lemma 8.16]]./
+Let $(X,d)$ be a totally bounded pseudometric space.
+
+First, we prove that _a totally bounded pseudometric space is
+separable_. For each $n\in\mathbb{N}$, there exists finite many points
+$x^{(n)}_1,x^{(n)}_2,\ldots x^{(n)}_{k_n}$ such that $X$ can be
+covered by \(\frac{1}{n}\)-balls centered at these points.  We claim
+that $$ E:=\bigcup_{n=1}^\infty \{x^{(n)}_i\mid 1\leq i\leq k_n\} $$
+is a dense subset of $X$.
+
+- For any $x\in X$ and arbitrary small $\epsilon > 0$,
+  we can find $x^{(n)}_i\in E$ such that $d( x^{(n)}_i, x ) < \epsilon$.
+  This is done by choosing $n > \frac{1}{\epsilon}$ and $i=1$.
+
+Then, we prove that _a separable pseudometric space is second countable_.
+Let $D=\{x_k\mid x\in\mathbb{N}\}$ be a dense subset of $X$.
+We claim that
+$$
+\mathcal{O} := \bigcup_{k=1}^\infty \{B_{\frac{1}{n}}(x_k)\mid n\in\mathbb{N}\}
+$$
+is a countable topological base.
+
+- For any $x\in V\in\mathcal{T}_d$, there exists some $\epsilon > 0$
+  such that $B_\epsilon(x)\subset V$. As $D$ is dense in $X$, there is
+  $x_k\in D$ such that $d(x_k, x) < \frac{\epsilon}{2}$. Choose $n$
+  such that $\frac{1}{n} < \frac{\epsilon}{2}$, we have
+  $B_{\frac{1}{n}}(x_k)\subset B_\epsilon(x)\subset V$.
+
+Finally, we prove that _a second countable pseudometric space is Lindelöf_.
+Let $\mathcal{B}$ be a countable base of $\mathcal{T}$, and let $\mathcal{U}$
+be an arbitrary open cover of $X$. For any $x\in X$,
+there exists $U_x\in\mathcal{U}$ such that $x\in U_x$.
+Since $\mathcal{B}$ is a base, for each $x$, there exists a $B_x\in\mathcal{B}$
+such that $x\in B_x\subset U_x$. Therefore,
+$$
+\mathcal{V}:=\bigcup_{x\in X}B_x
+$$
+forms an open cover of $X$. However, $\mathcal{V}\subset\mathcal{B}$ must be
+countable. Hence, $\mathcal{V}$ can be represented as
+$$
+\mathcal{V}:=\bigcup_{i=1}^\infty B_{x_i}.
+$$
+We conclude that $\bigcup_{i=1}^\infty U_{x_i}$ is a countable subcover.
+
+Q.E.D.
+
+/Proof to [[Theorem 8.17][Theorem 8.17]]./
+Based on Theorem 8.11, we need only to prove the following implications.
+
+- Countably compactness implies sequentially compactness ::
+  As any pseudometric space is first countable,
+  then countably compactness implies sequentially compactness by
+  Lemma 8.12.
+- Countably compactness implies compactness ::
+  By Lemma 8.16, any totally bounded pseudometric space is Lindelöf.
+  Hence, it is sufficient to prove that a countably pseudometric space
+  is totally bounded.
+
+  If a countably compact pseudometric space is not totally bounded,
+  then there exists $\epsilon > 0$ such that $X$ cannot be covered
+  by finite many \(\epsilon\)-balls. Obviously, $X$ is nonempty.
+  Pick $x_1 \in X$. As $\{B_\epsilon(x_1)\}$ cannot cover $X$,
+  we can pick $x_2\in X$ such that $d(x_2,x_1) \geq \epsilon$.
+  Again, as $\{B_\epsilon(x_1), B_\epsilon(x_2)\}$ cannot cover $X$,
+  we can pick $x_3\in X$ such that $d(x_3,x_1) \geq \epsilon$
+  and $d(x_3,x_2)\geq \epsilon$. Continue inductively,
+  we may construct a sequence $(x_n)$ such that $d(x_i,x_j) \geq \epsilon$
+  for each $i\neq j$. Clearly, this sequence has no convergent subsequence.
+  However, since we have proved that
+  /countably compactness implies sequentially compactness/, $(x_n)$ must have a
+  convergent subsequence, leading to a contradiction.
+- Pseudocompactness implies countably compactness ::
+  Assume $X$ is pseudocompact but is not countably compact.
+  As $X$ is not countably compact, there exists a sequence $(x_n)$ with
+  no cluster point.
+
+  - STEP I. Ensure $d(x_n,x_m) > 0$ for all $n\neq m$. If not, we may
+    pick a subsequence $(x_{a_k})$ such that $d(x_{a_n},x_{a_m}) > 0$
+    for all $n\neq m$.
+
+    - The subsequence is constructed by observing
+      the following fact: /for any $n$, the set $$ E_n:= \{m > n \mid
+      d(x_m,x_n) =0\} $$ must be finite. Otherwise, there would be
+      convergent subsequence, and contradicts with the assumption that
+      $(x_n)$ has no cluster point.
+
+  - STEP II. Construct a sequence of open sets $(U_n)_{n=1}^\infty$
+    such that 1) $x_n\in U_n$; 2) $U_i\cap U_j=\emptyset$ if $i\neq
+    j$; 3) $\mathrm{diam}\,U_n\to 0$.
+
+    - For any $x_m$, there exists an open ball $B_{\delta_m}(x_m)$
+      containing only finte many $x_n$'s (since $x_m$ is not a cluster
+      point of $(x_n)$). Because $d(x_n,x_m) > 0$ for all $n\neq m$,
+      the $\delta_m$ may be shrunk such that $B_{\delta_m}(x_m)$
+      contains no other $x_n$'s except $x_m$. In other words,
+      $$
+      d(x_m, x_n) \geq \delta_m,\qquad\forall n\neq m.
+      $$
+      Let $\epsilon_m=\min(\delta_m/3, \frac{1}{m})$. Then we claim
+      that $U_n=B_{\epsilon_n}(x_n)$ forms the desired sequence of
+      open sets. Clearly, $x_n\in U_n$ and
+      $\operatorname{diam}U_n\to0$. To see that $U_n\cap
+      U_m=\emptyset$ if $n\neq m$, we need only to note that
+      $\epsilon_n + \epsilon_m \leq \delta_n/3 + \delta_m/3 <
+      d(x_n,x_m)$.
+
+  - STEP III. Show $f_n(x)=n\frac{d(x_n,U_n^\mathsf{c})}{d(x_n,U_n^\mathsf{c})}$
+    and $f=\sum_{n=1}^\infty f_n$ are well defined.
+
+    - As $x_n\not\in U_n^\mathsf{c}$ and $U_n^\mathsf{c}$ is closed,
+      the distance $d(x_n,U_n^\mathsf{c}$ cannot be 0. Moreover,
+      $d(x,U_n^\mathsf{c}\neq 0$ if and only $x\in U_n$. Hence,
+      for any $x$, there exists at most one $f_n$ such that
+      $f_n(x)\neq 0$. Therefore, $f=\sum_n f_n$ is finite at any
+      $x$.
+
+  - STEP IV. Prove that $f$ is an unbounded continuous function.
+
+    - Since $f(x_n)=f_n(x_n)=n$, we have $f$ is unbounded. To prove
+      $f$ is continuous, we first note that $f_n$ is continuous.
+
+      - If $d$ is a metric on $X$ and $E$ is a subset of $X$, then
+        for any $x,y\in X$, there is
+        $$
+        d(x,E) \leq d(y,E) + d(x,y).
+        $$
+        Therefore, $d(\cdot,E)$ must be continuous.
+        (If $d(x_n,x)\to0$, then $|d(x_n,E)-d(x,E)|\leq d(x_n,x)\to0$.)
+
+      Then we prove that for any $a\in X$, there exists a open set
+      $V_a$ such that $f|_{V_a}=\sum_{n=1}^Nf_n$ for some $N$.
+
+      - If $d(a,x_n)=0$ for some $n$, then $V_a$ can be set to $U_n$ and
+        $N=n$.
+
+      - Suppose $d(a,x_n)>0$ for all $n$. Since $a$ is not a cluster
+        point of $x_n$, there exists an open ball $B_\delta(a)$
+        containing no $x_n$. In other words,
+        $$
+        d(a,x_n) \geq \delta,\qquad\forall n.
+        $$
+        Let $V_a=B_{\delta/2}(a)$. Then for any $x\in V_a$,
+        $$
+        d(x,x_n) \geq d(a,x_n) - d(a,x) \geq \delta/2,\qquad\forall n.
+        $$
+        Recalling that $\operatorname{diam}U_n\to0$,
+        there must exist $N$ such that for all $n\geq N$,
+        $\operatorname{diam}U_n < \delta/2$.
+        Therefore, for any $x\in V_a$, we have $x\not\in U_n$ for all
+        $n\geq N$. In otherwords, $f_n(x)=0$ for all $n\geq N$ if
+        $x\in V_a$.
+
+      Therefore, $f$ is continous at any point $a$.
+
+* Footnotes
+
+[fn:1] An open cover of $X$ is a family of open sets $\mathcal{O}$
+such that $\bigcup\mathcal{O} \supset X$.
+
+[fn:2] A family $\mathcal{F}$ of sets with finite intersection property
+if every finite subfamily of $\mathcal{F}$ has nonempty intersection.
+
+[fn:3] Compactness is a property of topological spaces.
+It is different from the definition of closed sets.
+We can say a topological space is compact,
+but it make no sense to say a topological space is closed.
+

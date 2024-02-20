@@ -1,0 +1,260 @@
+#+TITLE: Insert Code Block in LaTeX
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-01-11]
+#+FILETAGS: latex
+#+OPTIONS: toc:nil
+
+The most simple way of inserting code blocks in LaTeX is the built-in
+command =\verb= and environment =verbatim=.
+
+The command =\verb= can produce inline code. It is better than
+=\texttt= for source code because characters in =\verb= will be treated
+literally. For example, =\verb+\textbf{a}+= produces =\textbf{a}=
+in monospace font, but =\texttt{\textbf{a}}= produces a single
+character *=a=*, in bold monospace font. Here, the =+= character after =\verb=
+acts as a delimiter. Any character except letters and =*= can be used as a delimiter
+in =\verb=. For example, =\verb|...|= is equivalent to =\verb+...+=.
+
+Similar to =\verb=, texts enclosed inside the environment =verbatim= are printed literally.
+
+#+BEGIN_SRC latex :tangle ./simple-code.tex
+\documentclass{article}
+\begin{document}
+
+The command \verb|\verb| can produce inline code.
+
+The \verb+\verb|\textbf{a}|+ produces \verb|\textbf{a}|,
+but \verb+\texttt{\textbf{a}}+ produces \texttt{\textbf{a}}.
+
+\begin{verbatim}
+Text enclosed inside verbatim environment
+is printed directly
+and all \LaTeX{} commands are ignored.
+
+Blank lines           and spaces are preserved.
+\end{verbatim}
+\end{document}
+#+END_SRC
+
+The LaTeX code above produces the following output.
+
+[[./simple-code.png]]
+
+Besides the built-in commands, there are various packages providing more features for redering code blocks.
+These packages generally are more powerful and can add syntax highlighting, line numbers, background color
+and etc. Usual choices include =listings= package,  =minted= package
+and =tcolorbox= package. While  =listings= and  =minted= are mainly focusing on redering source codes,
+=tcolorbox= is a general package for redering contents in a box.
+Actually, =tcolorbox= internally loads =listings= or =minted= packages.
+
+* Create Own Code Block Environment with tcolorbox
+
+When =tcolorbox= is loaded with the option =listings=, it provides various useful predefined commands
+for rendering source blocks by loading =listings= package automatically. Besides the =listings= option,
+we can also toggle the =breakable= option to allow a box to span across pages.
+
+In the following example, we create two code block envrionments with =tcolorbox= and =listings= in preamble.
+These two envrionments are basically identical, except that one can read code from external
+files and we do no need to copy the code from source files into our latex manuscript.
+
+#+BEGIN_SRC latex :tangle ./tcolorbox-listings.tex
+\documentclass{article}
+
+\usepackage{xcolor}
+% define colors
+  \definecolor{codebg}{RGB}{253, 246, 227}
+  \definecolor{codefg}{RGB}{101, 123, 131}
+  \definecolor{codegreen}{RGB}{133, 153, 0}
+  \definecolor{codegray}{RGB}{147, 161, 161}
+  \definecolor{codecyan}{RGB}{42, 161, 152}
+
+\usepackage[listings,breakable,skins]{tcolorbox}
+% declare our code block environment
+  \newtcblisting{tcbcodeblock}[1]{%
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={%
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=\color{codegray},
+      keywordstyle=\color{codegreen},
+      stringstyle=\color{codecyan},
+      basicstyle=\ttfamily\footnotesize
+    }
+  }
+
+% like tcbcodeblock, but read code from files
+  \newtcbinputlisting{\tcbinputcodeblock}[2]{%
+    listing file={#2},
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={%
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=\color{codegray},
+      keywordstyle=\color{codegreen},
+      stringstyle=\color{codecyan},
+      basicstyle=\ttfamily\footnotesize
+    }
+  }
+#+END_SRC
+
+In the main document, we can use =tcbcodeblock= as a normal environment
+with one mandatory argument, which specifies the language of source code,
+and use =tcbinputcodeblock= as a normal command with two mandatory arguments,
+which specify the language of source code and the name of the source file.
+See the table in [[https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf][the manual]] of =listings= for a complete list of supported languages.
+
+#+BEGIN_SRC latex :tangle ./tcolorbox-listings.tex
+\begin{document}
+After declaring our own environment \verb|tcbcodeblock|.
+we can enclose source codes in it and render them in \LaTeX.
+
+This is a code block of \TeX.
+\begin{tcbcodeblock}{TeX}
+Hello, \TeX!
+\end{tcbcodeblock}
+
+This is a code block of Python.
+\begin{tcbcodeblock}{Python}
+# python code
+print("Hello, world!")
+\end{tcbcodeblock}
+
+This is a code block of C.
+\begin{tcbcodeblock}{C}
+// C code
+#include <stdio.h>
+int main() {
+   printf("Hello, World!");
+   return 0;
+}
+\end{tcbcodeblock}
+
+The \verb|\tcbinputcodeblock| can read codes from a file
+and render them in a source block like \verb|\tcbcodeblock|.
+This is the \LaTeX\ source code of this manuscript.
+\tcbinputcodeblock{[LaTeX]TeX}{./tcolorbox-listings.tex}
+\end{document}
+#+END_SRC
+
+[[./tcolorbox-listings.png]]
+
+* Explanation of the Created Code Environment
+
+First, we load =tcolorbox= with appropriate options. In addition, we load the =xcolor= package for color support.
+
+#+BEGIN_SRC latex
+\usepackage{xcolor}
+\usepackage[listings,breakable,skins]{tcolorbox}
+#+END_SRC
+
+Then, we create our own code environment for furture uses.
+
+#+BEGIN_SRC latex
+% define colors
+  \definecolor{codebg}{RGB}{253, 246, 227}
+  \definecolor{codefg}{RGB}{101, 123, 131}
+  \definecolor{codegreen}{RGB}{133, 153, 0}
+  \definecolor{codegray}{RGB}{147, 161, 161}
+  \definecolor{codecyan}{RGB}{42, 161, 152}
+#+END_SRC
+
+After that, we create a new envrionment =tcbcodeblock= with one argument, which is used to specify the code language.
+This envrionment can render source code in a box with following features.
+
+1. Use the =enhanced= skin.
+2. Box corners are squared.
+3. Box borders are drawn with black lines.
+4. Text color is set to =codefg=, which is defined previously by RGB(101, 123, 131).
+5. Background color is set to =codebg=, which is defined previously by RGB(253, 246, 227).
+6. This box can span across multiple pages.
+7. Minimal margin layout with =\fbox= style.
+8. Show code only (if the source code is latex manuscript, you can remove the =listing only= option to show
+   the expected latex output of the latex code enclosed in this envrionment).
+9. Use the predefined style =tcblatex=. This overwirtes options of the =listings= package by
+   options of =tcolorbox= package. If this line is absent, some of your settings of =tcolorbox= will not take
+   effects in this environment.
+10. Set the language of the source code. This is used to identify strings, comments and keywords in the code.
+11. Does not render space as character =␣=.
+12. Does not render space in strings as character =␣=.
+13. Text color of comments, keywords and strings are set to  =codegray=, =codegreen= and =codecyan= respectively.
+14. Set text font to monospace and footnote size.
+
+#+BEGIN_SRC latex
+% declare our code block environment
+  \newtcblisting{tcbcodeblock}[1]{%
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={%
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=\color{codegray},
+      keywordstyle=\color{codegreen},
+      stringstyle=\color{codecyan},
+      basicstyle=\ttfamily\footnotesize
+    }
+  }
+#+END_SRC
+
+In addition, we provide a command =tcbinputcodeblock=, which functions like =tcbcodeblock= but
+read code from external files. It accepts two arguments, one is the language and the other one is the
+name of the source file.
+
+#+BEGIN_SRC latex
+% like tcbcodeblock, but read code from files
+  \newtcbinputlisting{\tcbinputcodeblock}[2]{%
+    listing file={#2},
+    enhanced,
+    sharp corners,
+    colframe=black,
+    coltext=codefg,
+    colback=codebg,
+    breakable,
+    size=fbox,
+    listing only,
+    listing options={%
+      style=tcblatex,
+      language={#1},
+      showspaces=false,
+      showstringspaces=false,
+      commentstyle=\color{codegray},
+      keywordstyle=\color{codegreen},
+      stringstyle=\color{codecyan},
+      basicstyle=\ttfamily\footnotesize
+    }
+  }
+#+END_SRC
+
+* External Links                                                       :refs:
+
+1. [[https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf][the official manual of tcolorbox - CTAN]]
+2. [[https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf][the official manual of listings - CTAN]]
+3. [[https://liam.page/2016/07/22/using-the-tcolorbox-package-to-create-a-new-theorem-environment/][LaTeX 黑魔法（一）：tcolorbox 宏包简明教程]]
+4. [[https://www.overleaf.com/learn/latex/Code_listing][Code listing - Overleaf]]
+5. [[https://www.overleaf.com/learn/latex/Code_Highlighting_with_minted][Code Highlighting with minted]]
+

@@ -1,0 +1,121 @@
+#+TITLE: Configure Git
+#+AUTHOR: Dou Meishi
+#+DATE: [2023-04-05]
+#+FILETAGS: tool
+
+See [[https://git-scm.com/book/en/v2][Pro Git]] if you are not familiar
+with Git.
+
+** 1. Basic Configuration
+
+*** 1.1. Transfer Existed Configuration
+
+1. Copy the global git configuration file to =~/.gitconfig=.
+
+2. Copy SSH keys to =~/.ssh/=.
+
+3. Add SSH key to =ssh-agent=.
+
+   #+BEGIN_SRC sh
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+   #+END_SRC
+
+*** 1.2. First-Time Set up
+
+See also [[https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup][Pro Git - Section 1.6]]
+
+1. Set up your identity
+
+   #+BEGIN_SRC sh
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+   #+END_SRC
+
+2. Set up default editor
+
+   #+BEGIN_SRC sh
+git config --global core.editor vim
+   #+END_SRC
+
+3. Set up default branch name
+
+   #+BEGIN_SRC sh
+git config --global init.defaultBranch master
+   #+END_SRC
+
+4. Set up git aliases
+
+   #+BEGIN_SRC sh
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+   #+END_SRC
+
+5. (Optional) Review your settings
+
+   #+BEGIN_SRC sh
+git config --list --show-origin
+   #+END_SRC
+
+6. Set up SSH.
+
+   1. See  [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent][Generating  a new SSH key and adding it to the ssh-agent]]
+   2. See  [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account][Adding  a new SSH key to your GitHub account]]
+
+** 2. Add-ons
+
+*** 2.1. Prompt
+
+[[https://github.com/magicmonty/bash-git-prompt][bash-git-prompt]]: A bash prompt that displays information about the
+current git repository.  In particular the branch name, difference
+with remote branch, number of files staged, changed, etc.
+
+#+CAPTION: Example of bash-git-prompt
+[[./gitprompt.png]]
+
+*** 2.2. Pager
+
+[[https://github.com/dandavison/delta][delta]]: A syntax-highlighting pager for git, diff, and grep output.
+
+#+CAPTION: Example of delta
+[[./delta.png]]
+
+** 3. An Example of .gitconfig
+
+#+BEGIN_EXAMPLE
+[user]
+    name = John Doe
+    email = johndoe@example.com
+[core]
+    editor = code --wait
+    pager = delta
+[init]
+    defaultBranch = master
+[alias]
+    a = add
+    b = branch
+    co = checkout
+    ci = commit
+    ca = commit -a
+    cm = commit -m
+    d = diff
+    l = log --oneline -15
+    la = log --oneline --all -15
+    rb = rebase
+    s = status
+
+    last = log -1
+    squash = rebase --autosquash -i
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    light = true      # set to true if you're in a terminal light background color
+    side-by-side = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+#+END_EXAMPLE
+

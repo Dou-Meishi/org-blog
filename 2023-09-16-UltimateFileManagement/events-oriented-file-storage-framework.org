@@ -1,0 +1,302 @@
+#+TITLE: Event-oriented File Storage Framework
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-01-31]
+#+SUBTITLE: of A Student in interested in Math, Physics and Computer Science
+#+FILETAGS: think
+
+Every day, as I create, receive or update a lot of files (like notes,
+blogs, papers, books, assets, slides, git repositories, experimental
+codes, and various other types), I find myself pondering the
+possibility of having a cohesive method to store, access, and back
+them up.
+
+After years of thinking and trying, I guess it is time to settle down
+my framework of /storing/ files. This framework aims to be simple and
+clean, and serve as a solid foundation for scripting access and backup
+functionalities that meet my specific requirements..
+
+** Organize files into events
+
+The central idea of this file storage framework is organizing files
+into different /events/. As I described in [[../2023-04-09-ManageFiles/notes.org][this post]], an event is simple
+a folder with name pattern =YYYY-mm-dd-BriefName/=.  Almost all my files
+are placed in =~/Documents/= folder, under which I put all my event
+folders.
+
+#+BEGIN_EXAMPLE
+drwxrwxr-x  2 dou dou   4096 Jan 29 10:53 2023-04-09-ManageFiles/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:10 2023-04-30-OptimalityandKKTCondition/
+drwxrwxr-x  2 dou dou   4096 Jan 31 00:07 2023-09-16-UltimateFileManagement/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2023-09-19-Compactness/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2023-10-23-BanachSpaceExample/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-07-ReviewUnison/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-11-CodeBlockinLaTeX/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-14-TryOrgPublish/
+drwxrwxr-x  2 dou dou   4096 Jan 28 13:02 2024-01-22-TryOrgStaticBlog/
+#+END_EXAMPLE
+
+When I review or share my works, event is the smallest unit.
+
+Before elaborating on reasons why I choose this /event/-oriented
+approach, let me first discuss two approaches that I tried but gave up
+eventually.
+
+*** Groupping files into categories is not I want
+
+The first approach I tried is /category/-oriented. It is not surprised,
+since we all have those pre-created folders named /Documents/, /Videos/,
+/Musics/ etc. To better classifying my files, I created new folders
+named /References/, /Slides/, /Codes/, /Subjects/, and later on more specific
+folders such as /Manuscripts/, /Notes/, /Templates/, /Plugins/.
+
+Some of those folders work well, like /Musics/, /Books/ and /Plugins/.  They
+are well defined and I am very confident on whether a new file or
+folder should be placed inside them and whether some file or folder I
+am looking for will be there. However, some folders quickly become too
+deep and their positions overlap with other folders. For example, the
+/Subjects/ folder is created with subfolders named /Math/, /Physics/ and /CS/,
+and each subfolder contains course subsubfolders like
+/RealAnalysis/, /Probability/ and /Mechanics/.
+
+#+BEGIN_EXAMPLE
+Subjects/
+├── CS/
+├── Math/
+│   ├── Probability/
+│   └── RealAnalysis/
+└── Physics/
+    └── Mechanics/
+#+END_EXAMPLE
+
+Looks like neatly organized, right? But when it comes to practice, it
+is a totally different story. Imagine that I attend one lecture of
+probability, downloaded professor's slide and the homework. After
+several days of self-studying, I probably finished the homework and
+wrote a small note on what I had learnt. Now, how do I deal with those
+files?
+
+If I insist on organizing files according to their categories, the
+slide and note should be placed in the top level /Slides/ folder and
+/Notes/ folder respectively. It seems that only the homework will be
+placed in the /Probability/ folder, which is clearly not a folder meant
+for homeworks however.  Moreover, when I move that slide into the
+/Slides/ folder, should I follow the original hierarchy like
+=Slides/Math/Probability/=? Should I also move that note into
+=Notes/Math/Probability/=?  What if I also wrote some experimental
+code?
+
+Manually enforcing that a file should be placed inside a certain
+category folder is boring. Doing so also breaks the connection between
+a group of files. In this scenario, these files are produced within a
+small period of time and have strong connections to each other. In
+addition, storing them in different folders is a bad idea for
+synchronization. Imagine that I have to switch between different
+machines during writing my note and that homework. Comparing with a
+single folder, storing in several folders with complex hierarchy
+structures is clearly more troublesome.
+
+There are also other problems with this category-oriented approach,
+like the inefficiency introduced by very deep folder structures, and
+unbalanced folder sizes.
+
+While I may continue to use folders like /Musics/, /Videos/ and /Books/, I
+will certainly not continue to create new top level folders and
+enforce that any file matching a category should be placed inside the
+corresponding top level folder.
+
+*** Tagging every file is not I want
+
+After the failure of category-based approach, I was still looking for
+a way to organize my files in a logical structure.  Soon or later, I
+realized that one of the crucial drawbacks of the previous approach is
+the exclusive nature of categories, i.e., a file must belong to one
+category (one top-level folder) or another one, but not both.
+
+Indeed, it is quite natural to think a file can only sit in one place
+on the disk. However, in terms of the various attributes of a
+particular file, we may want to find it in different locations. Take
+the example mentioned before of attending a lecture. It would be very
+natural to assume the note should appear in both
+=Notes/Math/Probability/= and =Subjects/Math/Probability/=.  When I am
+looking for a slide, I may consult the top-level folder /Slides/. When I
+am looking for all staffs related to a particular subject, I may
+consult the top-level folder /Subjects/.
+
+Following this line of thinking, I then realized that the (sub)folder
+name acts like tags. A file in =Notes/Math/Probability/= are expected to
+have tags /Notes/, /Math/ and /Probability/. In this point of view, the
+deep hierarchy structure is actually not important. It is meaningless
+to differentiate between folder =Notes/Math/Probability/= and folder
+=Math/Probability/Notes/=.
+
+Then I imagined a tag-based approach of organizing files. A file may
+have arbitrary tags, e.g., =tagA, tagB, tagC=.  For each tag, I create a
+top-level folder with the same name. The true location of a file does
+not matter. I can put it at anywhere. However, as long as I give a tag
+to the file, I will create a symbolic link of this file in the
+corresponding tag folder. Then it is not hard to write a small script
+which can list all files having a particular collection of tags.
+
+Of course, there are other ways of implementing a tag-based file
+system. Besides the way of symbolic links, one can also use
+
+1. hard links;
+2. database, keeping records of file paths and their tags;
+3. special name convention, similar to database, but tags are
+   embedded in the file name.
+
+Well, this approach sounds very nice theoretically too.  But I never
+seriously try it in practice.
+
+1. It is actually a framework of file access, not file storage.  It
+   does not answer how to organize files in the disk.  Indeed, all
+   current file systems are tree/folder based, not tag based.
+
+2. Too sophisticated to maintain. Links in tag folders, database and
+   special words in filenames are all too complicated to manipulate.
+
+3. Tagging every file is tedious, especially since the need to search
+   by tags doesn't arise frequently.
+
+I want a simple solution to /store/ my files. Assigning tags to files
+might be useful for viewing and searching, but does not solve my
+problem. For special type of files, like books and notes, I may try to
+manage them by tags, but I will not try to put every file in this
+framework.
+
+*** Event directory is all I need
+
+In practice, after I abandoned those category folders, I went to the
+event-oriented approach to organize files. Actually, I adopted this
+approach even before I notice the concept of event directory.  At the
+beginning, I simply put all files I need for a particular task in a
+separate folder. Then I had so many those folders and I decided to add
+a date prefix to sort them antichronologically. That's it. I found
+myself so comfortable with this file structure.
+
+1. /Self-contained./ An event folder contains all files I need to work
+   on this task. I can work on it without boring myself on other
+   folders most of the time.  When I switch machines, I need only to
+   ensure this event folder is synchronized, without wasting time on
+   syncing unnecessary files.
+
+2. /Flexible./ I can put anything inside an event folder and organize
+   them in the way I like. For example, I can put pictures required by
+   a latex manuscript, a git repo to track some experimental scripts,
+   some assets collected from the internet, etc. In fact, I just treat
+   an event folder as the workspace for it and put any necessary files
+   in it.
+
+3. /Flat strcture./ All even folders are placed in the same level.  No
+   intermediate folders like =2023/= or =2024/=. Flat structure is more
+   efficient to browse and work with. Moreover, by prepending date,
+   all folders are neatly sorted. Events in the same month come to
+   close by default, both in file explorer and terminal output of =ls=.
+   Adding intermediate folders is meaningless.
+
+4. /Archive automatically./ Thanks to the nature of self-containing,
+   moving old event folders to other place does not influence my
+   workflow.  In parctice, most event folders are rarely needed after
+   a short period of time. Though from time to time I may want to
+   review what I have done in the past month, I rarely visit an event
+   folder created years ago. Even when I want to visit, I typically do
+   not want to change the content. This fact make it very convenient
+   to archive event folders and backup them. At any time, the number
+   of event folders I need pay attention to is generally not larger
+   than 20.
+
+** Further discussion on the event-oriented approach
+
+Now I summarize some properties of an event folder should have.
+
+1. Its name starts with a date string in the format =YYYY-mm-dd-= and
+   ends with the event name.
+
+2. It should be self-contained and include necessary staffs for
+   working on.
+
+Below I want to add two more properties:
+
+3. [@3] It should occupied less than 500MB disk space.
+4. All files with base name =notes= are reserved for storing metadata of
+   the event. (This rule does not apply to subfolders in the event
+   directory.)
+
+*** Share assets between events
+
+The second property is crucial but sometimes can be troublesome.  For
+example, if an event involves working with a lot of large immutable
+assets, like a lot of data files or a lot of pictures, the event
+folder might grow too large, say larger than 4GB.  In addition, if
+there is another event involves working with the same assets, copying
+them to the new folder does not seem to be a good idea.
+
+My resolution is creating another top-level folder, say =~/Assets/=,
+which acts like a repo for large files. For example, if an event
+involves accessing to the famous MNIST dataset, I can move the dataset
+to folder =~/Assets/MNIST/= and leave a symbolic link in the event
+folder. The folder =~/Assets/= is also a good place to store data
+outputs, like model weights of neural networks.
+
+The folder =~/Assets/= is synced across machines.  In order to avoid
+name conflict, I often add the same date prefix when allocating new
+asset folders.
+
+*** Write a descriptive journal for each event
+
+I always create a =notes.org= in each event folder, which serves like a
+private README and journal for this event whose audience is future
+myself.
+
+Generally, I add meta data of the event in the front matter,including
+/TITLE/ and /DATE/. In [[../2024-01-14-TryOrgPublish/notes.org][this post]], I introduced how I use =org-publish= to
+generate a sitemap of all events based on those notes files. In the
+near future, I may add the /KEYWORDS/ field for searching. The body may
+contain journal of working on the event, links to useful resources and
+anything I want to write down. In general, this file can possibly
+contain descriptions to
+
+1. metadata of the event, like tags, title, date and so on;
+2. purpose and state of the event, like in what circumstance I create it and what is going on;
+3. git repos related to the event;
+4. notes/blogs related to the event;
+5. papers/books related to the event;
+6. assets related to the event, like resources, large files and so on;
+7. file/folder structure of the event; represented as org entries, possibly tagged;
+
+Different from the README file of a git repo, =notes.org= is always
+private and never gets public. If I want to publish some content of it
+to my blog, I just create a new post, cut and paste from it and leave
+a link in the notes which looks like /see my post here/.
+
+*** How to transform a folder to an event folder
+
+Given an existed folder =dirname/=, I go through these steps to transform
+it into an event folder.
+
+1. Normalize its name to ensure it matches the format =YYYY-mm-dd-EventName=.
+   Here the date may be inferred from the folder content.
+
+2. Normalize the journal file =notes.org=. Ensure there are two metadata
+   entry =#+TITLE= and =#+DATE=. The latter is recommended to be
+   consistent with the folder name, but not strictly required.
+
+   In addition, check the content of =notes.org=. Ensure it can remind
+   me of the purpose of this folder.
+
+3. Normalize the folder size to be smaller than 500MB.  If not,
+   reorganize files inside this folder and move large assets to
+   =~/Assets/=.
+
+*** Tips
+
+1. This approach may not be suitable to organize context-free assets.
+
+   However, for me, most assets have context. For example, books on probability theory
+   are most refered in writing notes of the subject. So these books are placed in the
+   same event directory as these notes.
+
+2. Create a new event and refer to the old event, instead of enlarge the old event folder.
+
+   Remember to briefly conclude what you obtained from the old event.
+

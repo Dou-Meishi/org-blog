@@ -1,0 +1,71 @@
+#+TITLE: How I create backups
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-02-03]
+#+FILETAGS: think
+
+In [[https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework][the previous post]], I discussed the how I organize the folder
+=~/Documents/=. In my home directory =~/=, there are another two folders
+with special purposes: =~/Assets/= and =~/AAA/=.
+
+Generally speaking, =AAA/= severs as a trash bin; =Assets/= severs as a
+repo for large files; =Documents/= severs as the main workspace,
+containing all event folders; see [[https://dou-meishi.github.io/org-blog/2023-09-16-UltimateFileManagement/events-oriented-file-storage-framework][this post]] for what is an event
+folder.  During backups, =AAA/= is ignored, and only =Assets/= and
+=Documents/= are considered.
+
+In general, if any folder or file outside these three folders is of
+interest, they should have a local backup in =Assets/= or =Documents/=,
+maintaining by a special script =dms-presync=. This script should be
+executed before the actual backup process begins.
+
+** Different focus of syncing and backing up
+
+First, I would like to give some difference between syncing and
+backing up based on personal experiences.
+
+In synchronization, it is generally advised to treat folder as the
+smallest unit and avoid excluding some files or subfolders within the
+folder. Doing so ensures a seamless experience in switching machines
+to work on the same folder. When a folder is integrated into the
+synchronization framework, one should expect to have an identical
+experience across different machines.
+
+On the other hand, backup procedures differ. In the context of backup,
+the primary goal is to prevent any data loss, rather than emphasizing
+a seamless experience when switching between machines. Consequently,
+certain unnecessary files could and should be ignored.
+
+** Presync
+
+The purpose of this stage is to ensure that it is sufficient to
+consider only the two folders =Assets/= and =Documents/= in creating
+backups.
+
+1. Normalize event folders in =Documents/=.
+
+2. Ensure all files of interest have an up-to-date version in =Assets/= or =Documents/=.
+
+   Some folders involved in this stage include, e.g., =~/.local/share/fonts/=,
+   =~/org/= and =~/.themes/=.
+
+** Backup
+
+The actual backup process can be generally split into two steps:
+backup =.git/= folders and backup other folders.
+
+For each git repos, I manually back them up to the special upstream
+=backup=, which could be a remote repo in some cloud server or a local
+repo in the backup drive.[fn:1]
+
+Suppose then I want to backup all necessary files in =/home/dou= to
+=/media/dou/BACKUP/dou/=, I go through the following steps (in this
+stage, all =.git/= folders are ignored).
+
+0. [@0] Ensure =/media/dou/BACKUP/dou/= is a git repo.
+
+1. Run =unison backup= to bakcup =~/Assets/= and =~/Documents/=.
+
+2. Commit in =/media/dou/BACKUP/dou/=.
+
+[fn:1] The command =find . -name ".git"= can list all git repos.
+

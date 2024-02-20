@@ -1,0 +1,136 @@
+#+TITLE: 斗地主中的概率
+#+AUTHOR: Dou Meishi
+#+DATE: [2022-07-17]
+#+FILETAGS: math
+
+* 小球模型
+
+*问.* 现有 $N$ 个小球, 其中有 $M$ 个作了标记. 今随机地挑出 $K$ 个, 写出其中标记球的个数的分布.
+
+*答*. 为了问题有意义，我们不妨要求 $N, M, K \geq 1$，且 $N\geq M$ 和 $N\geq K$.
+
+记挑出标记球的个数为 $X$, 那么必然有 $X \leq K$ 和 $X \leq M$，以及$X
+\geq 0$. 另外，如果绝大多数球都被标记，那么只要挑出的球不至于太少 $K >
+N-M$，那么一定有被标记的球. 换而言之，$X$ 的最小取值未必是零，也可能是
+$K - (N - M)$. 如此不难看出 $X$ 的可能取值为 $\max(0, K-N+M)$ 到
+$\min(K, M)$ 中间的任何值.
+
+$$ \mathbb{P}(X=i) = \frac{
+\binom{M}{i}\binom{N-M}{K-i}}{\binom{N}{K}},\qquad \max(0,K+M-N)\leq
+i\leq \min(K,M). $$
+
+*注.* 设 $N, M, K$ 是大于 1 的正整数, 且有 $N\geq M$ 和 $N\geq K$, 那么有恒等式
+$$ \sum_{i=\max(0,K+M-N)}^{\min(K,M)}\binom{M}{i}\binom{N-M}{K-i} = \binom{N}{K}.$$
+
+*例 1.* 取 $N=54,M=6,K=20$, 则 $X$ 分布如下
+
+| $X$ |     0 |    1 |    2 |    3 |    4 |    5 |      6 |
+| $p$ | 0.052 | 0.22 | 0.34 | 0.26 | 0.11 | 0.02 | 0.0015 |
+
+*例 2.* 取 $N=54,M=6,K=17$, 则 $X$ 分布如下
+
+| $X$ |    0 |    1 |    2 |   3 |     4 |      5 |       6 |
+| $p$ | 0.09 | 0.29 | 0.35 | 0.2 | 0.061 | 0.0089 | 0.00048 |
+
+*例 3.* 取 $N=54,M=6,K=3$, 则 $X$ 分布如下
+
+| $X$ |   0 |    1 |     2 |       3 |
+| $p$ | 0.7 | 0.27 | 0.029 | 0.00081 |
+
+计算上述概率的代码 [[./balls.py][在这]] 。
+
+* 事件模型
+
+*问.* 现有事件族 $\{A_i\}_{i=1}^n$, 写出至少有一个事件发生的概率.
+
+*答.* 记 $S_1=\sum_i\mathbb{P}(A_i)$ 为一个事件发生的概率之和；记
+$S_2=\sum_{i < j}\mathbb{P}(A_i\cap A_j)$ 为两个不同事件发生的概率之和；
+记 $$S_k=\sum_{i_1 < i_2 < \cdots < i_k}\mathbb{P}(A_{i_1} \cap
+A_{i_2} \cap \cdots \cap A_{i_k})$$ 为 $k$ 个不同事件发生概率之和；则
+有 $$\mathbb{P}\biggl(\bigcup_{i=1}^nA_i\biggr)=S_1 - S_2 + S_3 -
+\cdots + (-1)^{n+1}S_n.$$
+
+*证.* 对 $n$ 作数学归纳法。显然 $n=2$ 时命题成立。假设命题对 $n$ 成立，
+下面证命题对 $n+1$ 成立。
+
+为清晰起见，用 $S_k(\mathcal{E})$ 记事件族 $\mathcal{E}=\{E_i\}$ 中
+$k$ 个不同事件发生概率之和。令 $\mathcal{A}_n = \{A_i\}_{i=1}^n$ 及
+$\mathcal{A}_{n+1}=\{A_i\}_{i=1}^{n+1}$. 那么已知 $$
+\mathbb{P}\biggl(\bigcup_{i=1}^nA_i\biggr)=S_1(\mathcal{A}_n) -
+S_2(\mathcal{A}_n) + S_3(\mathcal{A}_n) - \cdots +
+(-1)^{n+1}S_n(\mathcal{A}_n). $$ 欲证 $$
+\mathbb{P}\biggl(\bigcup_{i=1}^{n+1}
+A_i\biggr)=S_1(\mathcal{A}_{n+1}) - S_2(\mathcal{A}_{n+1}) +
+S_3(\mathcal{A}_{n+1}) - \cdots + (-1)^{n+1}S_n(\mathcal{A}_{n+1}). $$
+
+不难看出 $$ \mathbb{P}\biggl(\bigcup_{i=1}^{n+1} A_i\biggr) =
+\mathbb{P}(A_{n+1}) + \mathbb{P}\biggl(\bigcup_{i=1}^{n} A_i\biggr) -
+\mathbb{P}\biggl(\bigcup_{i=1}^{n} (A_i\cap A_{n+1})\biggr). $$
+
+令 $\mathcal{B} = \{A_i\cap A_{n+1}\}_{i=1}^n$. 那么
+
+#+BEGIN_export HTML
+$$
+\begin{aligned}
+\mathbb{P}\biggl(\bigcup_{i=1}^{n+1} A_i\biggr)
+=& \mathbb{P}(A_{n+1}) + S_1(\mathcal{A}_n) \\
+& - S_1(\mathcal{B}) - S_2(\mathcal{A}_n) \\
+& + S_2(\mathcal{B}) + S_3(\mathcal{A}_n) \\
+& - S_3(\mathcal{B}) - S_4(\mathcal{A}_n) \\
+& \cdots \\
+& +(-1)^{n+1}S_{n-1}(\mathcal{B}) + (-1)^{n+1}S_n(\mathcal{A}_n) \\
+& +(-1)^{n+2}S_{n}(\mathcal{B}).
+\end{aligned}
+$$
+#+END_export
+
+注意到 $S_k(\mathcal{B}) + S_{k+1}(\mathcal{A}_n) = S_{k+1}(\mathcal{A}_{n+1})$
+即完成证明。
+
+* 模型应用
+
+以下考虑经典规则: 54 张牌, 地主分到 20 张, 两个农民各 17 张.
+
+1. 摸到王牌的概率
+
+   | 个数 |    0 |    1 |     2 |
+   | 地主 | 0.39 | 0.48 |  0.13 |
+   | 农民 | 0.47 | 0.44 | 0.095 |
+
+2. 摸到 2 的概率
+
+   | 个数 |    0 |    1 |    2 |    3 |      4 |
+   | 地主 | 0.15 | 0.38 | 0.34 | 0.12 |  0.015 |
+   | 农民 | 0.21 | 0.42 | 0.29 | 0.08 | 0.0075 |
+
+3. 摸到王牌或者 2 的概率
+
+   | 个数 |     0 |    1 |    2 |    3 |     4 |      5 |       6 |
+   | 地主 | 0.052 | 0.22 | 0.34 | 0.26 |  0.11 |   0.02 |  0.0015 |
+   | 农民 |  0.09 | 0.29 | 0.35 |  0.2 | 0.061 | 0.0089 | 0.00048 |
+
+* 进阶应用
+
+*问.* 写出经典规则下地主摸到至少一炸 (王炸或者四炸) 的概率. 农民呢?
+
+*答*. 记 $A_0$ 为事件 "地主摸到王炸", $A_i$ 为事件 "地主摸到炸 $i$" ($i=1,2,\ldots,13$). 记 $a_m$ 为从一组有 $m$ 个标记球共 54 个球的球堆中取出 20 个球时恰好有 $m$ 个标记球的概率. 那么 $$\mathbb{P}(A_0)=a_2,\qquad \mathbb{P}(A_i) = a_4,\quad i=1,2,\ldots,13.$$ 进一步地, 有
+
+#+BEGIN_export HTML
+$$
+\begin{aligned}
+S_1 &= \sum_{i=0}^{13}\mathbb{P}(A_i) = a_2 + 13 a_4,\\
+S_2 &= \sum_{0\leq i < j \leq 13}\mathbb{P}(A_i\cap A_j) = \biggl( \sum_{\substack{1\leq j \leq 13\\i=0}} + \sum_{1\leq i <  j \leq 13} \biggr)\mathbb{P}(A_i\cap A_j)= 13 a_6 + \binom{13}{2}a_8,\\
+S_3 &= \sum_{0\leq i < j < k \leq 13}\mathbb{P}(A_i\cap A_j\cap A_k) = \biggl( \sum_{\substack{1\leq j < k \leq 13\\i=0}} + \sum_{1\leq i <  j < k \leq 13} \biggr)\mathbb{P}(\cdots)= \binom{13}{2}a_{10} + \binom{13}{3}a_{12},\\
+S_4 &= \sum_{0\leq i < j < k < \ell \leq 13}\mathbb{P}(\cdots) = \biggl( \sum_{\substack{1\leq j < k < \ell \leq 13\\i=0}} + \sum_{1\leq i <  j < k < \ell \leq 13} \biggr)\mathbb{P}(\cdots)= \binom{13}{3}a_{14} + \binom{13}{4}a_{16},\\
+\cdots & \cdots,\\
+S_k &= \binom{13}{k-1}a_{4k-2} + \binom{13}{k}a_{4k}.
+\end{aligned}
+$$
+#+END_export
+
+显然, 当 $k \geq 6$ 时, $S_k=0$. 故 $$\mathbb{P}\biggl(\bigcup_{i=0}^{13}A_i\biggr) = S_1 - S_2 + S_3 - S_4 + S_5 \approx 30.4\%.$$
+对于农民, 这个数字变为
+$$\mathbb{P}\biggl(\bigcup_{i=0}^{13}A'_i\biggr) = S'_1 - S'_2 + S'_3 - S'_4\approx 18.5\%.$$
+
+模拟验证的代码 [[./bombs.py][在这]] 。
+

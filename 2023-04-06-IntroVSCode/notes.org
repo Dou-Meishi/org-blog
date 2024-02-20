@@ -1,0 +1,134 @@
+#+TITLE: Visual Studion Code - A Morden Source Code Editor
+#+AUTHOR: Dou Meishi
+#+DATE: [2023-04-06]
+#+FILETAGS: tool
+
+Visual Studio Code is a lightweight but powerful source code editor
+which runs on your desktop and is available for Windows, macOS and
+Linux. It comes with built-in support for JavaScript, TypeScript and
+Node.js and has a rich ecosystem of extensions for other languages and
+runtimes (such as C++, C#, Java, Python, PHP, Go, .NET).
+
+Here is the official documentation [[https://code.visualstudio.com/docs][VS Code - Get Started]]
+
+See also [[https://adamtheautomator.com/visual-studio-code-tutorial/][The Visual Studio Code Tutorial Worth Learning]] for a brief
+introduction to VS Code.
+
+TODO
+
+- [ ]  Add a section to discuss math in Markdown. Consider Extension
+  =Markdown+Math=.
+
+- [ ]  Add a section to discuss output to html. Consider Extension
+  =Markdown All in One=.
+
+** 1. Interface
+   :PROPERTIES:
+   :CUSTOM_ID: interface
+   :END:
+
+The UI is divided into five areas:
+
+- Editor - The main area to edit your files. You can open as many
+  editors as you like side by side vertically and horizontally.
+
+- Side Bar - Contains different views like the Explorer to assist you
+  while working on your project.
+
+- Status Bar - Information about the opened project and the files you
+  edit.
+
+- Activity Bar - Located on the far left-hand side, this lets you switch
+  between views and gives you additional context-specific indicators,
+  like the number of outgoing changes when Git is enabled.
+
+- Panels - You can display different panels below the editor region for
+  output or debug information, errors and warnings, or an integrated
+  terminal. Panel can also be moved to the right for more vertical
+  space.
+
+#+CAPTION: VS Code UI
+[[./vscode-UI.png]]
+
+** 2. Command Palette
+   :PROPERTIES:
+   :CUSTOM_ID: command-palette
+   :END:
+
+The Command Palette in VS Code is a menu that */provides access to all
+functionality within VS Code and any installed extensions/*. It can be
+accessed via the View menu or by using the =Ctrl-Shift-P= shortcut. The
+Command Palette is /a single location for managing tasks, settings,
+snippets, and more/, making it a useful tool for easy and efficient
+navigation within VS Code.
+
+** 3. Customization
+   :PROPERTIES:
+   :CUSTOM_ID: customization
+   :END:
+
+There are many things you can do to customize VS Code.
+
+- Change your theme =>Preferences: Color Theme=
+
+- Change your keyboard shortcuts =>Preferences: Open Keyboard Shortcuts=
+
+  #+BEGIN_QUOTE
+See also[[https://code.visualstudio.com/docs/getstarted/keybindings#_detecting-keybinding-conflicts][Detecting keybinding conflicts]] if necessary.
+  #+END_QUOTE
+
+- Tune your settings =>Preferences: Open Settings (UI)=
+
+  #+BEGIN_QUOTE
+You can scope the settings that you only want for specific languages
+by the language identifier, see [[https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_language-specific-settings][Language specific settings]].
+  #+END_QUOTE
+
+- Create snippets
+
+- Install extensions
+
+To manage settings, open the Command Palette with =Ctrl-Shift-P=. Type
+"settings" and choose =Preferences: Open Settings (JSON)= or
+=Preferences: Open Settings (UI)=
+
+Depending on your platform, the user settings file is located here:
+
+- Windows =%APPDATA%\Code\User\settings.json=
+- macOS =$HOME/Library/Application\ Support/Code/User/settings.json=
+- Linux =$HOME/.config/Code/User/settings.json=
+
+** 4. Extensions
+   :PROPERTIES:
+   :CUSTOM_ID: extensions
+   :END:
+
+One of the most important features of VS Code is its extensions. An
+extension is a small package you can load into VS Code that makes
+working with various resources easier.
+
+Extensions are installed in a per user extensions folder. Depending on
+your platform, the location is in the following folder:
+
+- Windows =%USERPROFILE%\.vscode\extensions=
+- macOS =~/.vscode/extensions=
+- Linux =~/.vscode/extensions=
+
+** 5. Snippets
+   :PROPERTIES:
+   :CUSTOM_ID: snippets
+   :END:
+
+Snippets allow you to type a few characters in a code editor tab that
+quickly expands to whatever you need. Each snippet is a single JSON
+element that matches a particular syntax.
+
+Snippets exist by language or extension and are stored in JSON files.
+For example, you can have a set of PowerShell, ARM template, Python, C#,
+and Javascript snippets installed simultaneously.
+
+You can find snippets by opening up the command palette with
+=Ctrl-Shift-P=, typing "snippets" and hitting Enter.
+
+See [[https://code.visualstudio.com/docs/editor/userdefinedsnippets][Snippets in Visual Studio Code]] for more details.
+

@@ -1,0 +1,218 @@
+#+TITLE: An Advanced Guide to Unison
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-01-07 21:00]
+#+FILETAGS: tool
+
+In the previous blog, we introduced basics of [[https://github.com/bcpierce00/unison][Unison]], the lightweight yet versatile file-synchronization tool for Unix and Windows.
+In this blog, we will cover more advanced topics, including /profiles/, /ignoring/, /backup,/ etc.
+You can also find the complete documentation in [[https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf][the official manual]].
+
+* Preferences
+
+Many details of Unison’s behavior are configurable by user-settable /preferences/ (or, arguments,
+options, in other words). If we type =unison -help=, then the outputs will look like
+
+#+BEGIN_EXAMPLE
+Usage: unison [options]
+    or unison root1 root2 [options]
+    or unison profilename [options]
+
+Basic options:
+
+  General:
+   -doc xxx            show documentation ('-doc topics' lists topics)
+   -version            print version and exit
+
+  What to sync:
+   ...
+
+  How to sync:
+   ...
+
+  ...
+#+END_EXAMPLE
+
+Here, we see that there are three ways to run Unison, and each way accepts =[options]=,
+standing for various options grouped and detailed below the /Usage/ section.
+
+The most general way of running Unison is the first one =unison [options]=.
+Indeed, you can set the two directories that you want to synchronize
+inside the options. For example,
+
+#+BEGIN_SRC bash
+unison work mirror
+#+END_SRC
+
+is equivalent to
+
+#+BEGIN_SRC bash
+unison -root work -root mirror
+#+END_SRC
+
+Here, the preference =root= appears twice, standing for the root directories we want to synchronize.
+
+The thrid way of running Unison, =unison profilename [options]=, is a convenient way
+to apply a collection of preferences predefined in profile. Of course, the preferences given
+after the =profilename= will override the values defined in the profile if necessary.
+
+Unison provides a lot of preferences for customizing its behaviors and it is recommended to
+go through these options once by typing =unison -help=.
+
+* Setting Preference
+
+There are two ways to set the values of preferences: temporarily, by providing command-line arguments
+to a particular run of Unison, or permanently, by adding commands to a profile in the =.unison= directory on
+the client host.
+
+In the command line, if we want to set a value of a preference, say =p=, then we should be careful about its type.
+
+- If =p= is a boolean flag, then adding an argument ~-p=false~ will set =p= to false and adding ~-p=true~ (or simply
+  ~-p~) will set =p= to true.
+
+- If =p= is a numeric or string preference, then adding an argument =-p value= is enough.
+
+In the profile, a line in the form ~p = value~ works for both boolean flags and non-boolean falgs.
+
+* Profiles
+
+A /profile/ is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
+Profiles should reside in the =.unison= directory on the /client/ machine.
+The =.unison= directory is by default set to =$HOME/.unison= in Unix; see [[https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf][the official manual]]
+for more details on its location in other systems and how to change it.
+
+If Unison is started  with just one argument =name= on the command line, it looks for a profile called
+=name= (or =name.prf=, if not found) in the =.unison= directory.
+ If Unison is started with no arguments, it will behave as =name= has been set to =default=,
+i.e., looking for a profile called =default= or =default.prf=.
+
+Inside a profile,
+
+- blank lines and lines beginning with =#= both are ignored;
+- a line of the form ~p = value~ sets the value of preference =p= to =value=;
+- Spaces and tabs before and after =p= and =value= are ignored;
+- Spaces, tabs, and non-printable characters within values are treated literally,
+  so that e.g. ~root = /foo bar~ refers to a directory containing a space;
+- a line of the form =include name= causes the file =name= (or =name .prf=,
+  if not found) to be read at the point, and included as if its contents;
+- a line of the form =source name= does the same as =include name= except that it does not
+  attempt to add a suffix to name;
+- Similar lines of the form =include? name= or =source? name= do the same
+  as their respective lines without the question mark except that it does not constitute an error to specify a
+  non-existing file name.
+
+A profile may include a special preference ~label~ to provide a description of the options selected in this
+profile. Its value is listed along with the profile name in the graphical user interface.
+
+* Path Specification
+
+Several Unison preferences (e.g., =ignore=, =backup=, =merge=, etc.) specify individual paths or sets of paths.
+These preferences can be set to any of the following patterns.
+
+1. =Name name= matches any path in which the last component matches =name=.
+   For example, =Name N= can match a pathlike =mirror/N=, even if it is a directory.
+
+2. =Path path= matches exactly the path =path=.
+
+3. =BelowPath path= matches the path =path= and any path below.
+
+In those forms, the =name= or =path= argument can be a glob pattern, which means
+=*=, =?=, =[]= and ={}= have their special meanings.
+
+* Ignoring
+
+We can instruct Unison to ignore paths by setting the preference =ignore=. For example, the below line
+in a profile tells Unison to ignore the path =a/b=:
+
+#+BEGIN_EXAMPLE
+ignore = Path a/b
+#+END_EXAMPLE
+
+Of course, you can set =ignore= multiple times to ignore as many files as you want.
+
+There is also an =ignorenot= preference, which specifies a set of patterns for paths that should not be
+ignored, even if they match an ignore pattern.
+
+Here are a few extra points regarding the ignore preference you probably want to know.
+
+1. If a directory is ignored, then /all its descendants/ will be too.
+
+2. Be careful about renaming directories containing ignored files. Because Unison understands the rename
+   as a delete plus a create, any ignored files in the directory will be lost.
+
+3. The interaction of these two sets of patterns can be a little tricky.
+   If a path matches an /ignore/ pattern and does not match an
+   /ignorenot/ pattern, then this whole path /including everything below it/ will be ignored.
+   For example, if the ignore pattern contains =Name data= and the ignorenot pattern contains =Name *.py=,
+   then Unison still ignores a path like =data/a.py=.
+
+* Backup
+
+When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
+it can keep the old version around as a backup. Similar to ignoring, you can set the preference =backup=
+to require what kind of files should be backed up. For example,
+
+#+BEGIN_EXAMPLE
+backup = Name *
+#+END_EXAMPLE
+
+causes Unison to create backups for /all/ files and directories. You can also set the preference
+=backupnot= for exceptions, just like =ignorenot= for =ignore=.
+
+The location of backup files are controlled by =backuploc=, whose value must be either
+
+- =local=, meaning that backup files are stored in the same directory as the original;
+- =central=, which is the default value, meaning that all backup files should be stored in
+  the directory specified by preference =backupdir=. The default value of =backupdir= is
+  =.unison/backup=.
+
+We can have finer controls on backup files by setting preferences like
+=maxbackups=, =backupprefix=, =backupsuffix= and etc.
+
+It is important to note that Unison will backup will only be checked against updated paths,
+not their descendants. For example, if you set =backup = Name *.txt= and then delete a whole directory named
+=foo= containing some text files, these files will not be backed up because Unison will just check that =foo=
+is updated and it does not match =*.txt=. Similarly, if the directory itself happened to be called =foo.txt=,
+then the whole directory and all the files in it will be backed up, regardless of their names.
+
+* Scenario: Synchronize with a USB Drive
+
+Assume We want to synchronize our home directory =/home/dou= with a USB drive,
+mounted at =/media/dou/KINGSTON=.
+It is very likely that Unison will raise errors time to time. But don't worry. Those errors are
+intended and we explain them below.
+
+** Possible Errors
+
+If our USB drive is empty, the first time we run Unison will simply copying files.
+Suppose we have done and reject the USB drive. What will happen if we accidentally
+run Unison again, e.g., triggered by a crontab task?
+
+The answer is that Unison will try to /remove our whole home directory/!
+As Unison keeps a records of the state of last synchronization,
+it sees that =/home/dou= hasn't changed and =/media/dou/KINGSTON= is now empty.
+So it will try the apply the changes made in the latter to the former,
+which results the deletion of a whoe replica.
+Fortunately, if =confirmbigdel= is set to true, which is the default case,
+Unison will ask for the confirmation of such deletion.
+If Unison is run in batch mode, it will simply abort and exit.
+
+If what we want to do is synchronizing =/home/dou/Documents= with =/media/dou/KINGSTON/Documents=,
+then Unison might throw the /No such file or directory/ error.
+This is the case when our USB drive is rejected, the default mount point =/media/dou/KINGSTON=
+is also deleted. As the second root directory
+ =/media/dou/KINGSTON/Documents=  does not exist, Unison will first try to
+cd to the parent directory =/media/dou/KINGSTON=, which does not exist too.
+So Unison exits with /Fatal Error: Cannot find canonical name of .../
+
+** Syncrhonize with FAT/NTFS Filesystems
+
+If Unison is running on a Unix-like machine but told to synchronize
+with FAT/NTFS filesystems, the =fat= preference should be set to true,
+which is equivalent to
+
+- do not synchronize permissions, ~perms = 0~;
+- never use chmod, ~dontchmod = true~;
+- treat filenames as case insensitive, ~ignorecase = true~;
+- do not attempt to synchronize symbolic links, ~links = false~;
+- ignore inode number changes when detecting updates, ~ignoreinodenumbers = true~.
+
