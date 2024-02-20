@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>MNIST: the Hello World Example in Image Recognition</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">19 Feb 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-19-MNISTwithPytorch/notes.html">MNIST: the Hello World Example in Image Recognition</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orge611c11">Prerequisite</a></li>
+<li><a href="#org042e361">About MNIST dataset</a></li>
+<li><a href="#org516874b">Build a CNN clasifier in PyTorch</a>
+<ul>
+<li><a href="#orgaaf3673">data model</a></li>
+<li><a href="#org3036b87">classifier model</a></li>
+<li><a href="#org0c34dda">loss function</a></li>
+<li><a href="#org24de160">optimizer</a></li>
+</ul>
+</li>
+<li><a href="#orgb05d69e">Train and test</a></li>
+<li><a href="#org07a1fc3">Discussion</a></li>
+<li><a href="#orge449d22">References</a></li>
+</ul>
+</div>
+</nav>
+<p>
+In this post we will train a simple CNN (<i>Convolutional Neural
+Network</i>) classifier in PyTorch to recognize handwritten digits in
+MNIST dataset.
+</p>
+
+<div id="outline-container-orge611c11" class="outline-2">
+<h2 id="orge611c11">Prerequisite</h2>
+<div class="outline-text-2" id="text-orge611c11">
+<p>
+As we use PyTorch in this post, please ensure it is properly
+installed. In addition, we use matploblit to plot figures.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #859900; font-weight: bold;">as</span> plt
+<span style="color: #859900; font-weight: bold;">import</span> torch
+<span style="color: #859900; font-weight: bold;">import</span> torchvision
+
+<span style="color: #859900; font-weight: bold;">import</span> torch.nn <span style="color: #859900; font-weight: bold;">as</span> nn
+
+<span style="color: #657b83; font-weight: bold;">print</span>(torch.__version__)
+</pre>
+</div>
+
+<p>
+We are referred to <a href="https://pytorch.org/">the PyTorch website</a> for the installation
+guide[<a href="#orgd887b8c">1</a>].  For this post, it is sufficient to use the CPU
+version of PyTorch. For Linux, the command looks like
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+</pre>
+</div>
+
+<p>
+Here we declare hyperparameters for future use[<a href="#orgcfce658">4</a>]. Their meanings
+will get clear in the following sections. Besides that, we manually
+set the random seed for reproducibility.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">cfg</span> = <span style="color: #657b83; font-weight: bold;">dict</span>(
+    n_epochs=3,
+    batch_size_train=64,
+    batch_size_test=1000,
+    learning_rate=0.01,
+    momentum=0.5,
+    log_interval=10,
+)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python">torch.manual_seed(0)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org042e361" class="outline-2">
+<h2 id="org042e361">About MNIST dataset</h2>
+<div class="outline-text-2" id="text-org042e361">
+<p>
+The MNIST database (<i>Modified National Institute of Standards and
+Technology database</i>) is a large database of handwritten digits that
+is commonly used for training various image processing systems[<a href="#org9c96aa5">2</a>].
+</p>
+
+<p>
+The <code>torchvision</code> package provides a convenient wrapper called
+<code>torchvision.datasets.MNIST</code> to access MNIST dataset; see <a href="https://pytorch.org/vision/main/generated/torchvision.datasets.MNIST.html">its
+documentation</a> for more details. For example, the following python
+snippet can download the MNIST dataset and load it directly.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">train_data</span> = torchvision.datasets.MNIST(
+    root=<span style="color: #2aa198;">"./data/"</span>,
+    train=<span style="color: #268bd2; font-weight: bold;">True</span>,
+    transform=torchvision.transforms.ToTensor(),
+    download=<span style="color: #268bd2; font-weight: bold;">True</span>,
+)
+
+<span style="color: #268bd2;">test_data</span> = torchvision.datasets.MNIST(
+    root=<span style="color: #2aa198;">"./data/"</span>,
+    train=<span style="color: #268bd2; font-weight: bold;">False</span>,
+    transform=torchvision.transforms.ToTensor(),
+    download=<span style="color: #268bd2; font-weight: bold;">True</span>,
+)
+</pre>
+</div>
+
+<p>
+This will download MNIST dataset in the <code>./data/</code> folder if it does not
+exist. In addition, the training set and test set will be loaded as
+PyTorch tensors.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #657b83; font-weight: bold;">print</span>(train_data)
+<span style="color: #657b83; font-weight: bold;">print</span>(f<span style="color: #2aa198;">"The training dataset has shape: </span>{train_data.data.size()}<span style="color: #2aa198;">"</span>)
+<span style="color: #657b83; font-weight: bold;">print</span>(test_data)
+<span style="color: #657b83; font-weight: bold;">print</span>(f<span style="color: #2aa198;">"The test dataset has shape: </span>{test_data.data.size()}<span style="color: #2aa198;">"</span>)
+</pre>
+</div>
+
+<p>
+From the output, we can see that there are 60,000 training images and
+10,000 test images. Each image has \(28 \times 28 = 784\) pixels.
+We can also look some images in the training dataset[<a href="#org9ac5ce1">5</a>].
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">fig</span> = plt.figure(figsize=(10, 8))
+<span style="color: #268bd2;">cols</span>, <span style="color: #268bd2;">rows</span> = 5, 5
+<span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(1, cols * rows + 1):
+    <span style="color: #268bd2;">sample_idx</span> = torch.randint(<span style="color: #657b83; font-weight: bold;">len</span>(train_data), size=(1,)).item()
+    <span style="color: #268bd2;">img</span>, <span style="color: #268bd2;">label</span> = train_data[sample_idx]
+    fig.add_subplot(rows, cols, i)
+    plt.title(label)
+    plt.axis(<span style="color: #2aa198;">"off"</span>)
+    plt.imshow(img.squeeze(), cmap=<span style="color: #2aa198;">"gray"</span>)
+fig.savefig(<span style="color: #2aa198;">"./sample-images.png"</span>)
+</pre>
+</div>
+
+
+<figure id="org60ffece">
+<img src="./sample-images.png" alt="sample-images.png">
+
+</figure>
+</div>
+</div>
+
+<div id="outline-container-org516874b" class="outline-2">
+<h2 id="org516874b">Build a CNN clasifier in PyTorch</h2>
+<div class="outline-text-2" id="text-org516874b">
+<p>
+Let \(f(x; \theta)\) be a classifier with parameters \(\theta\) which
+takes the data point \(x\) and predicts its label based on its function
+value.
+</p>
+
+<p>
+By training the classifier on a dataset \(\mathcal{D}\) we roughly mean
+solving the optimization problem \[ \min_{\theta}
+\operatorname{\mathbb{E}}_{(x_i,y_i)\in \mathcal{D}} [\ell(f(x_i;
+\theta), y_i)]. \] Here \(y_i\) is called the label of the data point
+\(x_i\). In other words, minimizing the loss function \(\ell(f(x;\theta),
+y)\) accross all samples.
+</p>
+
+<p>
+Solving this problem involves building the following parts:
+</p>
+
+<ol class="org-ol">
+<li>the data model \(\mathcal{D}\);</li>
+<li>the classifier \(f\);</li>
+<li>the loss function \(\ell\);</li>
+<li>the optimizer to find \(\min_\theta\).</li>
+</ol>
+</div>
+
+<div id="outline-container-orgaaf3673" class="outline-3">
+<h3 id="orgaaf3673">data model</h3>
+<div class="outline-text-3" id="text-orgaaf3673">
+<p>
+The crucial difference between learning and pure optimization is that
+the dataset of interest \(\mathcal{D}\) is unknown in a learning
+problem. Indeed, we cannot know the data encountered in applications
+and their <i>labels</i> before deploying our model. In most cases, we only
+have access to a training dataset \(\mathcal{D}_{\text{train}}\) and do
+our work with it. As \(\mathcal{D}_{\text{train}}\) may not fit the true
+data density, it is often necessary to preserve a part of it to avoid
+overfitting, which is called the validation dataset. Nevertheless, for
+the sake of simplicity we do not use this technique in this post. As
+the MNIST dataset provides the labels of both the training set and
+test set, we use the test accuracy to evaluate our model performance
+directly. However, it should be keep in mind that if there is no label
+data in the test dataset then one has to split the training dataset to
+construct a validation dataset manually.
+</p>
+
+<p>
+We usually do a simple preprocess when loading the data, e.g., a
+normalization to scale the data to have mean 0 and std 1. The original
+mean and std of MNIST training set can be calculated easily by the
+following python statement.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">x</span> = torch.cat([train_data[i][0] <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(<span style="color: #657b83; font-weight: bold;">len</span>(train_data))], dim=0)
+<span style="color: #657b83; font-weight: bold;">print</span>(x.mean().item(), x.std().item())
+</pre>
+</div>
+
+<pre class="example" id="org0b93422">
+0.13066047430038452 0.30810782313346863
+</pre>
+
+<p>
+As we will use the idea of SGD to optimize the objective function, it
+is convenient to create a data loader to iteratively select a <i>batch</i> of
+data points.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">train_loader</span> = torch.utils.data.DataLoader(
+    torchvision.datasets.MNIST(
+        <span style="color: #2aa198;">"./data/"</span>,
+        train=<span style="color: #268bd2; font-weight: bold;">True</span>,
+        download=<span style="color: #268bd2; font-weight: bold;">True</span>,
+        transform=torchvision.transforms.Compose(
+            [
+                torchvision.transforms.ToTensor(),
+                torchvision.transforms.Normalize((0.1307,), (0.3081,)),
+            ]
+        ),
+    ),
+    batch_size=cfg[<span style="color: #2aa198;">"batch_size_train"</span>],
+    shuffle=<span style="color: #268bd2; font-weight: bold;">True</span>,
+)
+
+<span style="color: #268bd2;">test_loader</span> = torch.utils.data.DataLoader(
+    torchvision.datasets.MNIST(
+        <span style="color: #2aa198;">"./data/"</span>,
+        train=<span style="color: #268bd2; font-weight: bold;">False</span>,
+        download=<span style="color: #268bd2; font-weight: bold;">True</span>,
+        transform=torchvision.transforms.Compose(
+            [
+                torchvision.transforms.ToTensor(),
+                torchvision.transforms.Normalize((0.1307,), (0.3081,)),
+            ]
+        ),
+    ),
+    batch_size=cfg[<span style="color: #2aa198;">"batch_size_test"</span>],
+    shuffle=<span style="color: #268bd2; font-weight: bold;">True</span>,
+)
+</pre>
+</div>
+
+<p>
+Doing so allows us to use for loop to iterate the training dataset
+conveniently by writing
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">for</span> batch_x, batch_y <span style="color: #859900; font-weight: bold;">in</span> train_loader:
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">do SGD with this batch of data</span>
+    <span style="color: #859900; font-weight: bold;">pass</span>
+</pre>
+</div>
+
+<p>
+What happens behind this is:
+</p>
+
+<ol class="org-ol">
+<li>the order of samples in the dataset is shuffled before the iteration;</li>
+<li>each sample get preprocessed by normalizing with mean 0.1307 and std 0.3081;</li>
+<li>in each step, a fixed number of samples are drown from the dataset
+and are stacked into <code>batch_x</code> and <code>batch_y</code>.</li>
+</ol>
+
+<p>
+An epoch means a whole for loop while a batch means a step in the for
+loop.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3036b87" class="outline-3">
+<h3 id="org3036b87">classifier model</h3>
+<div class="outline-text-3" id="text-org3036b87">
+<p>
+From the computational view, a neural network \(f(x;\theta)\) is a
+nested function \[ f(\cdot; \theta) = f_{N-1} \circ f_{N-2} \circ
+\cdots f_0,\] where each layer \(f_t\) is a parameterized function with
+parameter \(\theta_t\). Then the parameter \(\theta\) of the neural
+network \(f(x;\theta)\) is actually the collection
+\(\{\theta_t,\ t=0,1,\ldots, N-1\}\).
+</p>
+
+<p>
+In PyTorch, a convolutional layer accepts a 4D tensor
+\(x[\alpha,i,j,k]\) and outputs another 4D tensor \(y[\alpha, i', j',
+k']\). The parameter of th layer consists of a bias tensor \(b[i', j', k']\)
+and a weight tensor \(w[i', i, j'', k'']\). In particular, \[ y[\alpha,
+i'] = b[i'] + \sum_{i} w[i', i] \star x[\alpha, i],\] where \(\star\) is
+the correlation operator; see also <a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d">the documention</a> of <code>torch.nn.Conv2d</code>
+for more details.
+</p>
+
+<p>
+Compared to convolutional layers, fully connected layers, i.e., linear
+layers in PyTorch is rather simple. They are just affine
+transformations. In the most simple case, a linear layer in PyTorch
+accpets a 2D tensor \(x[\alpha, i]\) and outputs another 2D tensor
+\(y[\alpha, i']\). The parameter of the layer consists of a bias tensor
+\(b[i']\) and a weight tensor \(w[i', i]\). In particular, \[ y[\alpha] =
+b + w \circ x[\alpha], \] where \(\circ\) is the matrix-vector product.
+In practice, the index \(\alpha\) might be multiple indices and the
+input \(x\) and \(y\) become high order tensors; see also <a href="https://pytorch.org/docs/stable/generated/torch.nn.Linear.html">the
+documentation</a> of <code>torch.nn.Linear</code>.
+</p>
+
+<p>
+We use CNN as the basic model of our classifier[<a href="#orgc30f22d">3</a>]. In particular, the
+model consists of two 2D convolutional layers followed by two
+fully-connected layers. After each convolutional layer, there is a
+maximum pooling operation. In addition, the activation function is
+called between any two layers. We choose ReLU as our activation
+function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Net</span>(nn.Module):
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>):
+        <span style="color: #657b83; font-weight: bold;">super</span>().__init__()
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">conv1</span> = nn.Conv2d(1, 10, kernel_size=5)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">conv2</span> = nn.Conv2d(10, 20, kernel_size=5)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">fc1</span> = nn.Linear(320, 50)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">fc2</span> = nn.Linear(50, 10)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">maxpool</span> = nn.MaxPool2d(kernel_size=2)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">relu</span> = nn.ReLU()
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">forward</span>(<span style="color: #859900; font-weight: bold;">self</span>, x):
+        <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.relu(<span style="color: #859900; font-weight: bold;">self</span>.maxpool(<span style="color: #859900; font-weight: bold;">self</span>.conv1(x)))
+        <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.relu(<span style="color: #859900; font-weight: bold;">self</span>.maxpool(<span style="color: #859900; font-weight: bold;">self</span>.conv2(x)))
+        <span style="color: #268bd2;">x</span> = x.view(-1, 320)
+        <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.relu(<span style="color: #859900; font-weight: bold;">self</span>.fc1(x))
+        <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.fc2(x)
+        <span style="color: #859900; font-weight: bold;">return</span> x
+
+
+<span style="color: #268bd2;">clf</span> = Net()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c34dda" class="outline-3">
+<h3 id="org0c34dda">loss function</h3>
+<div class="outline-text-3" id="text-org0c34dda">
+<p>
+As we can see, the output of our model \(f(x; \theta)\) is a vector with
+10 components. But how to predict the label of \(x\) and evaluate its
+performance? The de facto standard way is interpreting the components
+as the logit of the class. For example, in MNIST there are 10 classes,
+i.e., 10 labels in total. If the model returns \((t_0, t_1, \ldots,
+t_{9})\) for an image, then we say the model predicts that the
+probability distribution of the label \(y\) \[ \mathbb{P}(y = i) =
+\frac{e^{t_i}}{\sum_i e^{t_i}},\quad i=0,1,\ldots,9. \] Let \(p_i =
+\mathbb{P}(y=i)\) be the predicted distribution. We evaluate its
+performance by <i>the relative entropy of \(p\) with respect to the true
+distribution \(q\)</i>, i.e., \[\ell(f(x;\theta), y) = -\sum_{i}q_i\log
+p_i,\] where the true distribution \(q_i\) is, of course, a
+deterministic distribution
+</p>
+
+$$ q_i = \begin{cases}
+1,&\quad \text{$i$ is the true label},\\
+0,&\quad \text{otherwise}.
+\end{cases}
+$$
+
+<p>
+Fortunately, PyTorch provides a convenient class <code>CrossEntropyLoss</code> to
+carry out above calculations given the predicted logits \(f(x;\theta)\)
+and the true label \(y\).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">loss_func</span> = nn.CrossEntropyLoss()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org24de160" class="outline-3">
+<h3 id="org24de160">optimizer</h3>
+<div class="outline-text-3" id="text-org24de160">
+<p>
+Given a pair of data \((x^{(i)}, y^{(i)})\), assume the loss of this
+pair is \(\phi(\tilde{y}^{(i)}, y^{(i)})\) where
+\(\tilde{y}^{(i)}=f(x^{(i)}; \theta)\), we want to compute the gradient
+of it w.r.t.  \(\theta\) in order to perform gradient descent. For
+example, the mean-square error corresponds to
+\(\phi(\tilde{y}, y)=\|\tilde{y} - y\|^2\).
+</p>
+
+<p>
+Let us slightly overload the notation to denote by \(f_t(\cdot) = f(t,
+\cdot, \theta_t)\). Introduce the Hamiltonian \[ H(t, x, u, p) =
+p^\intercal f(t, x, u).\] In the calculation of the gradient, the
+<i>forward phase</i> is first executed to obtain the <i>state variables</i>
+</p>
+
+$$ \begin{aligned}
+x_0 &= x^{(i)} \\
+x_{t+1} &= \nabla_p H(t, x_k, \theta_k, p)\big\vert_{p=p_{t+1}},\qquad
+t = 0, 1, \ldots, N-1.
+\end{aligned} $$
+
+<p>
+Clearly, this is identical to \(x_{k+1} = f_k\circ f_{k-1}\circ \cdots
+f_0(x^{(i)})\). Hence, \(x_{N} = f(x^{(i)}; \theta) = \tilde{y}\) and the
+loss is \(\phi(x_N, y)\).  The <i>backward phase</i> is then executed to obtain
+the <i>costate variables</i>
+</p>
+
+$$ \begin{aligned}
+p_N &= \partial_x \phi(x_N, y) \\
+p_t &= \nabla_x H(t, x, \theta_t, p_{t+1})\big\vert_{x=x_t},\qquad
+t = N-1, \ldots, 1, 0.
+\end{aligned} $$
+
+<p>
+Clearly, this is identical to \(p_{t+1} = (\nabla_x f_t(x_t;
+\theta_t))^\intercal p_t\). Here \(\nabla_x f_t\) is a Jacobian matrix
+and \((\nabla_x f_t)^\intercal p_t\) is often computed efficiently via
+Jacobian-vector product.
+</p>
+
+<p>
+Finally, it is not hard to show by induction that the gradient of loss
+is \[ \frac{\partial}{\partial \theta_t}\phi(f(x^{(i)}; \theta),
+y^{(i)}) = \nabla_u H(t, x_t, u, p_{k+1})\big\vert_{u=\theta_t},\quad t=0, 1, \ldots,
+N-1. \]
+</p>
+
+<p>
+We use the stochastic gradient descent algorithm to find the best net
+parameters \(\theta\). PyTorch implemented the BP algorithm internally
+and provides various optimizers in <code>torch.optim</code> package. We choose the
+simple SGD here.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">optimizer</span> = torch.optim.SGD(
+    clf.parameters(), lr=cfg[<span style="color: #2aa198;">"learning_rate"</span>], momentum=cfg[<span style="color: #2aa198;">"momentum"</span>]
+)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb05d69e" class="outline-2">
+<h2 id="orgb05d69e">Train and test</h2>
+<div class="outline-text-2" id="text-orgb05d69e">
+<p>
+Finally, we train the model on MNIST dataset. We iterate the training
+set and test set several times (called epochs). In each epoch, we
+first train the model by going through the whole training set then
+test the model performance on the test set. During training process,
+we record the training loss after a fixed number of gradient
+descents. This progress is then outputed and plotted in a figure.  In
+addition, the predicted labels of several examples are visualized.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">train_losses</span> = []
+<span style="color: #268bd2;">train_counter</span> = []
+<span style="color: #268bd2;">test_losses</span> = []
+<span style="color: #268bd2;">test_counter</span> = [i * <span style="color: #657b83; font-weight: bold;">len</span>(train_loader.dataset) <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(cfg[<span style="color: #2aa198;">"n_epochs"</span>] + 1)]
+
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">train</span>(epoch):
+    clf.train()
+    <span style="color: #859900; font-weight: bold;">for</span> batch_idx, (batch_x, batch_y) <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span>(train_loader):
+        optimizer.zero_grad()
+        <span style="color: #268bd2;">logits</span> = clf(batch_x)
+        <span style="color: #268bd2;">loss</span> = loss_func(logits, batch_y)
+        loss.backward()
+        optimizer.step()
+        <span style="color: #859900; font-weight: bold;">if</span> batch_idx % cfg[<span style="color: #2aa198;">"log_interval"</span>] == 0:
+            <span style="color: #657b83; font-weight: bold;">print</span>(
+                <span style="color: #2aa198;">"Train Epoch: {} [{}/{} ({:.0f}%)]</span><span style="color: #268bd2; font-weight: bold;">\t</span><span style="color: #2aa198;">Loss: {:.6f}"</span>.<span style="color: #657b83; font-weight: bold;">format</span>(
+                    epoch,
+                    batch_idx * <span style="color: #657b83; font-weight: bold;">len</span>(batch_x),
+                    <span style="color: #657b83; font-weight: bold;">len</span>(train_loader.dataset),
+                    100.0 * batch_idx / <span style="color: #657b83; font-weight: bold;">len</span>(train_loader),
+                    loss.item(),
+                )
+            )
+            train_losses.append(loss.item())
+            train_counter.append(
+                (batch_idx * cfg[<span style="color: #2aa198;">"batch_size_train"</span>])
+                + ((epoch - 1) * <span style="color: #657b83; font-weight: bold;">len</span>(train_loader.dataset))
+            )
+
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test</span>():
+    clf.<span style="color: #657b83; font-weight: bold;">eval</span>()
+    <span style="color: #268bd2;">test_loss</span> = 0
+    <span style="color: #268bd2;">correct</span> = 0
+    <span style="color: #859900; font-weight: bold;">with</span> torch.no_grad():
+        <span style="color: #859900; font-weight: bold;">for</span> batch_x, batch_y <span style="color: #859900; font-weight: bold;">in</span> test_loader:
+            <span style="color: #268bd2;">logits</span> = clf(batch_x)
+            <span style="color: #268bd2;">test_loss</span> += loss_func(logits, batch_y).item()
+            <span style="color: #268bd2;">pred</span> = logits.data.<span style="color: #657b83; font-weight: bold;">max</span>(1, keepdim=<span style="color: #268bd2; font-weight: bold;">True</span>)[1]
+            <span style="color: #268bd2;">correct</span> += pred.eq(batch_y.data.view_as(pred)).<span style="color: #657b83; font-weight: bold;">sum</span>()
+        <span style="color: #268bd2;">test_loss</span> /= <span style="color: #657b83; font-weight: bold;">len</span>(test_loader)
+        test_losses.append(test_loss)
+        <span style="color: #657b83; font-weight: bold;">print</span>(
+            <span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">Test set: Avg. loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)</span><span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>.<span style="color: #657b83; font-weight: bold;">format</span>(
+                test_loss,
+                correct,
+                <span style="color: #657b83; font-weight: bold;">len</span>(test_loader.dataset),
+                100.0 * correct / <span style="color: #657b83; font-weight: bold;">len</span>(test_loader.dataset),
+            )
+        )
+
+
+test()
+<span style="color: #859900; font-weight: bold;">for</span> epoch <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(1, cfg[<span style="color: #2aa198;">"n_epochs"</span>] + 1):
+    train(epoch)
+    test()
+</pre>
+</div>
+
+<pre class="example" id="org2e6b798">
+Test set: Avg. loss: 2.3011, Accuracy: 891/10000 (9%)
+
+Train Epoch: 1 [0/60000 (0%)]	Loss: 2.292757
+Train Epoch: 1 [640/60000 (1%)]	Loss: 2.287967
+Train Epoch: 1 [1280/60000 (2%)]	Loss: 2.262003
+Train Epoch: 1 [1920/60000 (3%)]	Loss: 2.230475
+Train Epoch: 1 [2560/60000 (4%)]	Loss: 2.196937
+Train Epoch: 1 [3200/60000 (5%)]	Loss: 2.159008
+Train Epoch: 1 [3840/60000 (6%)]	Loss: 2.067780
+Train Epoch: 1 [4480/60000 (7%)]	Loss: 1.874470
+Train Epoch: 1 [5120/60000 (9%)]	Loss: 1.686359
+Train Epoch: 1 [5760/60000 (10%)]	Loss: 1.412859
+Train Epoch: 1 [6400/60000 (11%)]	Loss: 0.974901
+Train Epoch: 1 [7040/60000 (12%)]	Loss: 0.792158
+Train Epoch: 1 [7680/60000 (13%)]	Loss: 0.704490
+Train Epoch: 1 [8320/60000 (14%)]	Loss: 0.592078
+Train Epoch: 1 [8960/60000 (15%)]	Loss: 0.606974
+Train Epoch: 1 [9600/60000 (16%)]	Loss: 0.503421
+Train Epoch: 1 [10240/60000 (17%)]	Loss: 0.414349
+Train Epoch: 1 [10880/60000 (18%)]	Loss: 0.615047
+Train Epoch: 1 [11520/60000 (19%)]	Loss: 0.641742
+Train Epoch: 1 [12160/60000 (20%)]	Loss: 0.359560
+Train Epoch: 1 [12800/60000 (21%)]	Loss: 0.417052
+Train Epoch: 1 [13440/60000 (22%)]	Loss: 0.384169
+...
+Train Epoch: 3 [59520/60000 (99%)]	Loss: 0.129468
+
+Test set: Avg. loss: 0.0577, Accuracy: 9824/10000 (98%)
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">fig</span> = plt.figure()
+plt.plot(train_counter, train_losses, color=<span style="color: #2aa198;">"blue"</span>)
+plt.scatter(test_counter, test_losses, color=<span style="color: #2aa198;">"red"</span>)
+plt.legend([<span style="color: #2aa198;">"Train Loss"</span>, <span style="color: #2aa198;">"Test Loss"</span>], loc=<span style="color: #2aa198;">"upper right"</span>)
+plt.xlabel(<span style="color: #2aa198;">"number of training examples seen"</span>)
+plt.ylabel(<span style="color: #2aa198;">"negative log likelihood loss"</span>)
+fig.savefig(<span style="color: #2aa198;">"./training-curve.png"</span>)
+</pre>
+</div>
+
+
+<figure id="orgfcc0fc8">
+<img src="./training-curve.png" alt="training-curve.png">
+
+</figure>
+
+<div class="org-src-container">
+<pre class="src src-python">clf.<span style="color: #657b83; font-weight: bold;">eval</span>()
+
+<span style="color: #268bd2;">fig</span> = plt.figure(figsize=(10, 8))
+<span style="color: #268bd2;">cols</span>, <span style="color: #268bd2;">rows</span> = 5, 5
+<span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(1, cols * rows + 1):
+    <span style="color: #268bd2;">sample_idx</span> = torch.randint(<span style="color: #657b83; font-weight: bold;">len</span>(train_data), size=(1,)).item()
+    <span style="color: #268bd2;">img</span>, <span style="color: #268bd2;">label</span> = train_data[sample_idx]
+    <span style="color: #859900; font-weight: bold;">with</span> torch.no_grad():
+        <span style="color: #268bd2;">logits</span> = clf(img.unsqueeze(0))
+        <span style="color: #268bd2;">pred</span> = logits.data.<span style="color: #657b83; font-weight: bold;">max</span>(1, keepdim=<span style="color: #268bd2; font-weight: bold;">True</span>)[1].item()
+    fig.add_subplot(rows, cols, i)
+    plt.title(f<span style="color: #2aa198;">"</span>{label}<span style="color: #2aa198;"> (predict: </span>{pred}<span style="color: #2aa198;">)"</span>)
+    plt.axis(<span style="color: #2aa198;">"off"</span>)
+    plt.imshow(img.squeeze(), cmap=<span style="color: #2aa198;">"gray"</span>)
+
+fig.savefig(<span style="color: #2aa198;">"./pred-sample-images.png"</span>)
+</pre>
+</div>
+
+
+<figure id="orgcc0df97">
+<img src="./pred-sample-images.png" alt="pred-sample-images.png">
+
+</figure>
+</div>
+</div>
+
+<div id="outline-container-org07a1fc3" class="outline-2">
+<h2 id="org07a1fc3">Discussion</h2>
+<div class="outline-text-2" id="text-org07a1fc3">
+<p>
+In this post, we trained a CNN classifier to recognize handwritten
+digits in MNIST dataset.  The final test accuracy is approximately
+98%. There are many ways to improve this result. For example,
+</p>
+
+<ol class="org-ol">
+<li>adjust hyperparameters to select a better model, including learning
+rate, number of training epochs, batch size, etc;</li>
+<li>adjust the classifier model, including adding batch normalization layer,
+adding dropout layer, manually initializing network parameters, etc[<a href="#orgf57a20a">6</a>, <a href="#org6724818">7</a>, <a href="#org8d8167b">8</a>];</li>
+<li>adjust the optimizer, including using other optimizing algorithm like
+Adam and explore their hyperparameters[<a href="#orgf01d2d0">9</a>].</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge449d22" class="outline-2">
+<h2 id="orge449d22">References</h2>
+<div class="outline-text-2" id="text-orge449d22">
+<ol class="org-ol">
+<li><a id="orgd887b8c"></a> Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In Advances in Neural Information Processing Systems 32 (pp. 8024–8035)</li>
+<li><a id="org9c96aa5"></a> LeCun, Y. (1998). The MNIST database of handwritten digits. <a href="http://yann.lecun.com/exdb/mnist/">http://yann.lecun.com/exdb/mnist/</a></li>
+<li><a id="orgc30f22d"></a> Schmidhuber, J. (2015). Deep learning in neural networks: An overview. Neural networks, 61, 85-117.</li>
+<li><a id="orgcfce658"></a> Koehler, G. (2020). MNIST Handwritten Digit Recognition in PyTorch. <a href="https://nextjournal.com/gkoehler/pytorch-mnist">https://nextjournal.com/gkoehler/pytorch-mnist</a></li>
+<li><a id="org9ac5ce1"></a> Nutan (2021). PyTorch Convolutional Neural Network With MNIST Dataset. <a href="https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118">https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118</a></li>
+<li><a id="orgf57a20a"></a> Ioffe, S., &amp; Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International conference on machine learning (pp. 448-456). pmlr.</li>
+<li><a id="org6724818"></a> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., &amp; Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting. The journal of machine learning research, 15(1), 1929-1958.</li>
+<li><a id="org8d8167b"></a> He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In Proceedings of the IEEE international conference on computer vision (pp. 1026-1034).</li>
+<li><a id="orgf01d2d0"></a> Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980.</li>
+</ol>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>
