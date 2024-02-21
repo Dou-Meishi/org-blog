@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Wed, 21 Feb 2024 09:59:16 +0800</lastBuildDate>
+<lastBuildDate>Wed, 21 Feb 2024 10:27:38 +0800</lastBuildDate>
 <item>
   <title><![CDATA[MNIST: the Hello World Example in Image Recognition]]></title>
   <description><![CDATA[
@@ -2264,6 +2264,95 @@ Below are other users' configuration on org static blog.
   <link>https://dou-meishi.github.io/org-blog/2024-01-22-TryOrgStaticBlog/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2024-01-22-TryOrgStaticBlog/notes.html</guid>
   <pubDate>Mon, 22 Jan 2024 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Use YASnippet to Input Greek Characters]]></title>
+  <description><![CDATA[
+<p>
+Sometimes, single characters like <code>α</code> and <code>β</code> are more recognizable than words like <code>alpha</code> and <code>beta</code>.
+I think it is particularly useful when writing formulae in LaTeX or other text environments.
+There are many general ways to input unicode characters quickly. For instance,
+most intelligent input methods will suggest α as a candidate when you input alpha. In addition,
+Emacs includes a built-in function <code>insert-char</code>, which is bound to <code>C-x 8 RET</code> by default.
+<a href="https://github.com/joaotavora/yasnippet">YASnippet</a> is another way I think is more convenient for frequently used symbols.
+</p>
+
+<p>
+For example, put the following content in the file <code>~/.emacs.d/snippets/text-mode/char-alpha</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text"># -*- mode: snippet -*-
+# name: char-alpha
+# key: \alpha
+# --
+&#945;
+</pre>
+</div>
+
+<p>
+Then, when you type <code>\alpha&lt;TAB&gt;</code>, the string expands to <code>α</code>. Of course,
+this only works in text mode and its derived mode. But you can easily
+enable this feature in any mode, say <code>prog-mode</code>, by adding a line
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">text-mode
+</pre>
+</div>
+
+<p>
+to the file <code>~/.emacs.d/snippets/prog-mode/.yas-parents</code>.  Remember to
+remove the last newline character in the file <code>char-alpha</code>.  Otherwise,
+it will expand to <code>\alpha&lt;NewLine&gt;</code>.
+</p>
+
+<p>
+I create <a href="https://gist.github.com/Dou-Meishi/6db3e58138714198da7095a8f4ac82cd">a csv file</a> whose rows are greek letters and their name in latex, which looks like
+</p>
+
+<div class="org-src-container">
+<pre class="src src-csv">α, alpha
+β, beta
+γ, gamma
+δ, delta
+ϵ, epsilon
+ε, varepsilon
+...
+</pre>
+</div>
+
+<p>
+Based on this list, the following simple Python script can produce all the required snippets for greek letters.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">filename</span> = <span style="color: #2aa198;">'greek.csv'</span>
+<span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span>(filename, <span style="color: #2aa198;">'r'</span>) <span style="color: #859900; font-weight: bold;">as</span> fpr:
+    <span style="color: #268bd2;">greeklines</span> = fpr.readlines()
+
+<span style="color: #268bd2;">snippetTemplate</span> = r<span style="color: #2aa198;">"""# -*- mode: snippet -*-</span>
+<span style="color: #2aa198;"># name: char-{name}</span>
+<span style="color: #2aa198;"># key: \{name}</span>
+<span style="color: #2aa198;"># --</span>
+<span style="color: #2aa198;">{char}"""</span>
+
+<span style="color: #268bd2;">charNameTuples</span> = [line.strip().split(<span style="color: #2aa198;">", "</span>) <span style="color: #859900; font-weight: bold;">for</span> line <span style="color: #859900; font-weight: bold;">in</span> greeklines]
+<span style="color: #859900; font-weight: bold;">for</span> char, name <span style="color: #859900; font-weight: bold;">in</span> charNameTuples:
+    <span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span>(f<span style="color: #2aa198;">"char-</span>{name}<span style="color: #2aa198;">"</span>, <span style="color: #2aa198;">"w"</span>, encoding=<span style="color: #2aa198;">"utf8"</span>) <span style="color: #859900; font-weight: bold;">as</span> fpr:
+        fpr.write(snippetTemplate.<span style="color: #657b83; font-weight: bold;">format</span>(name=name, char=char))
+</pre>
+</div>
+
+<p>
+Of couse, this method can be used to input any unicode letters, not
+limited to greek letters.
+</p>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>]]></description>
+  <category><![CDATA[tool]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-01-18-YasforGreekLetters/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-01-18-YasforGreekLetters/notes.html</guid>
+  <pubDate>Thu, 18 Jan 2024 00:00:00 +0800</pubDate>
 </item>
 <item>
   <title><![CDATA[Review org-publish Utility]]></title>

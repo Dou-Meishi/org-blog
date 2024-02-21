@@ -1,0 +1,68 @@
+#+TITLE: Use YASnippet to Input Greek Characters
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-01-18]
+#+FILETAGS: tool
+
+Sometimes, single characters like =α= and =β= are more recognizable than words like =alpha= and =beta=.
+I think it is particularly useful when writing formulae in LaTeX or other text environments.
+There are many general ways to input unicode characters quickly. For instance,
+most intelligent input methods will suggest α as a candidate when you input alpha. In addition,
+Emacs includes a built-in function =insert-char=, which is bound to =C-x 8 RET= by default.
+[[https://github.com/joaotavora/yasnippet][YASnippet]] is another way I think is more convenient for frequently used symbols.
+
+For example, put the following content in the file =~/.emacs.d/snippets/text-mode/char-alpha=.
+
+#+BEGIN_SRC text
+# -*- mode: snippet -*-
+# name: char-alpha
+# key: \alpha
+# --
+α
+#+END_SRC
+
+Then, when you type =\alpha<TAB>=, the string expands to =α=. Of course,
+this only works in text mode and its derived mode. But you can easily
+enable this feature in any mode, say =prog-mode=, by adding a line
+
+#+BEGIN_SRC text
+text-mode
+#+END_SRC
+
+to the file =~/.emacs.d/snippets/prog-mode/.yas-parents=.  Remember to
+remove the last newline character in the file =char-alpha=.  Otherwise,
+it will expand to =\alpha<NewLine>=.
+
+I create [[https://gist.github.com/Dou-Meishi/6db3e58138714198da7095a8f4ac82cd][a csv file]] whose rows are greek letters and their name in latex, which looks like
+
+#+BEGIN_SRC csv
+α, alpha
+β, beta
+γ, gamma
+δ, delta
+ϵ, epsilon
+ε, varepsilon
+...
+#+END_SRC
+
+Based on this list, the following simple Python script can produce all the required snippets for greek letters.
+
+#+BEGIN_SRC python
+filename = 'greek.csv'
+with open(filename, 'r') as fpr:
+    greeklines = fpr.readlines()
+
+snippetTemplate = r"""# -*- mode: snippet -*-
+# name: char-{name}
+# key: \{name}
+# --
+{char}"""
+
+charNameTuples = [line.strip().split(", ") for line in greeklines]
+for char, name in charNameTuples:
+    with open(f"char-{name}", "w", encoding="utf8") as fpr:
+        fpr.write(snippetTemplate.format(name=name, char=char))
+#+END_SRC
+
+Of couse, this method can be used to input any unicode letters, not
+limited to greek letters.
+
