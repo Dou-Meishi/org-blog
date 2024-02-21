@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Wed, 21 Feb 2024 00:15:46 +0800</lastBuildDate>
+<lastBuildDate>Wed, 21 Feb 2024 09:43:00 +0800</lastBuildDate>
 <item>
   <title><![CDATA[MNIST: the Hello World Example in Image Recognition]]></title>
   <description><![CDATA[
@@ -12,19 +12,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge611c11">Prerequisite</a></li>
-<li><a href="#org042e361">About MNIST dataset</a></li>
-<li><a href="#org516874b">Build a CNN clasifier in PyTorch</a>
+<li><a href="#org5def629">Prerequisite</a></li>
+<li><a href="#org3ee51bf">About MNIST dataset</a></li>
+<li><a href="#org89a0751">Build a CNN clasifier in PyTorch</a>
 <ul>
-<li><a href="#orgaaf3673">data model</a></li>
-<li><a href="#org3036b87">classifier model</a></li>
-<li><a href="#org0c34dda">loss function</a></li>
-<li><a href="#org24de160">optimizer</a></li>
+<li><a href="#org620fd41">data model</a></li>
+<li><a href="#org5849bf3">classifier model</a></li>
+<li><a href="#orgc7e06b9">loss function</a></li>
+<li><a href="#orgc335aae">optimizer</a></li>
 </ul>
 </li>
-<li><a href="#orgb05d69e">Train and test</a></li>
-<li><a href="#org07a1fc3">Discussion</a></li>
-<li><a href="#orge449d22">References</a></li>
+<li><a href="#org775afe5">Train and test</a></li>
+<li><a href="#org932c006">Discussion</a></li>
+<li><a href="#org3a4ef0f">References</a></li>
 </ul>
 </div>
 </nav>
@@ -34,9 +34,9 @@ Network</i>) classifier in PyTorch to recognize handwritten digits in
 MNIST dataset.
 </p>
 
-<div id="outline-container-orge611c11" class="outline-2">
-<h2 id="orge611c11">Prerequisite</h2>
-<div class="outline-text-2" id="text-orge611c11">
+<div id="outline-container-org5def629" class="outline-2">
+<h2 id="org5def629">Prerequisite</h2>
+<div class="outline-text-2" id="text-org5def629">
 <p>
 As we use PyTorch in this post, please ensure it is properly
 installed. In addition, we use matploblit to plot figures.
@@ -55,7 +55,7 @@ installed. In addition, we use matploblit to plot figures.
 
 <p>
 We are referred to <a href="https://pytorch.org/">the PyTorch website</a> for the installation
-guide[<a href="#orgd887b8c">1</a>].  For this post, it is sufficient to use the CPU
+guide[<a href="#org699fc68">1</a>].  For this post, it is sufficient to use the CPU
 version of PyTorch. For Linux, the command looks like
 </p>
 
@@ -65,7 +65,7 @@ version of PyTorch. For Linux, the command looks like
 </div>
 
 <p>
-Here we declare hyperparameters for future use[<a href="#orgcfce658">4</a>]. Their meanings
+Here we declare hyperparameters for future use[<a href="#orgb2bb996">4</a>]. Their meanings
 will get clear in the following sections. Besides that, we manually
 set the random seed for reproducibility.
 </p>
@@ -89,13 +89,13 @@ set the random seed for reproducibility.
 </div>
 </div>
 
-<div id="outline-container-org042e361" class="outline-2">
-<h2 id="org042e361">About MNIST dataset</h2>
-<div class="outline-text-2" id="text-org042e361">
+<div id="outline-container-org3ee51bf" class="outline-2">
+<h2 id="org3ee51bf">About MNIST dataset</h2>
+<div class="outline-text-2" id="text-org3ee51bf">
 <p>
 The MNIST database (<i>Modified National Institute of Standards and
 Technology database</i>) is a large database of handwritten digits that
-is commonly used for training various image processing systems[<a href="#org9c96aa5">2</a>].
+is commonly used for training various image processing systems[<a href="#org20b0e26">2</a>].
 </p>
 
 <p>
@@ -139,7 +139,7 @@ PyTorch tensors.
 <p>
 From the output, we can see that there are 60,000 training images and
 10,000 test images. Each image has \(28 \times 28 = 784\) pixels.
-We can also look some images in the training dataset[<a href="#org9ac5ce1">5</a>].
+We can also look some images in the training dataset[<a href="#org58df1e9">5</a>].
 </p>
 
 <div class="org-src-container">
@@ -157,16 +157,16 @@ fig.savefig(<span style="color: #2aa198;">"./sample-images.png"</span>)
 </div>
 
 
-<figure id="org60ffece">
+<figure id="orgee57655">
 <img src="./sample-images.png" alt="sample-images.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org516874b" class="outline-2">
-<h2 id="org516874b">Build a CNN clasifier in PyTorch</h2>
-<div class="outline-text-2" id="text-org516874b">
+<div id="outline-container-org89a0751" class="outline-2">
+<h2 id="org89a0751">Build a CNN clasifier in PyTorch</h2>
+<div class="outline-text-2" id="text-org89a0751">
 <p>
 Let \(f(x; \theta)\) be a classifier with parameters \(\theta\) which
 takes the data point \(x\) and predicts its label based on its function
@@ -194,9 +194,9 @@ Solving this problem involves building the following parts:
 </ol>
 </div>
 
-<div id="outline-container-orgaaf3673" class="outline-3">
-<h3 id="orgaaf3673">data model</h3>
-<div class="outline-text-3" id="text-orgaaf3673">
+<div id="outline-container-org620fd41" class="outline-3">
+<h3 id="org620fd41">data model</h3>
+<div class="outline-text-3" id="text-org620fd41">
 <p>
 The crucial difference between learning and pure optimization is that
 the dataset of interest \(\mathcal{D}\) is unknown in a learning
@@ -227,7 +227,7 @@ following python statement.
 </pre>
 </div>
 
-<pre class="example" id="org0b93422">
+<pre class="example" id="org76bbb14">
 0.13066047430038452 0.30810782313346863
 </pre>
 
@@ -296,15 +296,15 @@ and are stacked into <code>batch_x</code> and <code>batch_y</code>.</li>
 </ol>
 
 <p>
-An epoch means a whole for loop while a batch means a step in the for
+An epoch means a whole <i>for loop</i> and a batch means a step in the for
 loop.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org3036b87" class="outline-3">
-<h3 id="org3036b87">classifier model</h3>
-<div class="outline-text-3" id="text-org3036b87">
+<div id="outline-container-org5849bf3" class="outline-3">
+<h3 id="org5849bf3">classifier model</h3>
+<div class="outline-text-3" id="text-org5849bf3">
 <p>
 From the computational view, a neural network \(f(x;\theta)\) is a
 nested function \[ f(\cdot; \theta) = f_{N-1} \circ f_{N-2} \circ
@@ -315,13 +315,13 @@ network \(f(x;\theta)\) is actually the collection
 </p>
 
 <p>
-In PyTorch, a convolutional layer accepts a 4D tensor
-\(x[\alpha,i,j,k]\) and outputs another 4D tensor \(y[\alpha, i', j',
-k']\). The parameter of th layer consists of a bias tensor \(b[i', j', k']\)
-and a weight tensor \(w[i', i, j'', k'']\). In particular, \[ y[\alpha,
-i'] = b[i'] + \sum_{i} w[i', i] \star x[\alpha, i],\] where \(\star\) is
-the correlation operator; see also <a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d">the documention</a> of <code>torch.nn.Conv2d</code>
-for more details.
+In PyTorch, a convolutional layer is a function which accepts a 4D
+tensor \(x[\alpha,i,j,k]\) and outputs another 4D tensor \(y[\alpha, i',
+j', k']\). The parameter of th layer consists of a bias tensor \(b[i',
+j', k']\) and a weight tensor \(w[i', i, j'', k'']\). In particular, \[
+y[\alpha, i'] = b[i'] + \sum_{i} w[i', i] \star x[\alpha, i],\] where
+\(\star\) is the correlation operator between matrices; see also <a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d">the
+documention</a> of <code>torch.nn.Conv2d</code> for more details.
 </p>
 
 <p>
@@ -332,13 +332,13 @@ accpets a 2D tensor \(x[\alpha, i]\) and outputs another 2D tensor
 \(y[\alpha, i']\). The parameter of the layer consists of a bias tensor
 \(b[i']\) and a weight tensor \(w[i', i]\). In particular, \[ y[\alpha] =
 b + w \circ x[\alpha], \] where \(\circ\) is the matrix-vector product.
-In practice, the index \(\alpha\) might be multiple indices and the
-input \(x\) and \(y\) become high order tensors; see also <a href="https://pytorch.org/docs/stable/generated/torch.nn.Linear.html">the
+In the general case, the index \(\alpha\) might be multiple indices and
+the input \(x\) and \(y\) become high order tensors; see also <a href="https://pytorch.org/docs/stable/generated/torch.nn.Linear.html">the
 documentation</a> of <code>torch.nn.Linear</code>.
 </p>
 
 <p>
-We use CNN as the basic model of our classifier[<a href="#orgc30f22d">3</a>]. In particular, the
+We use CNN as the basic model of our classifier[<a href="#org91938dd">3</a>]. In particular, the
 model consists of two 2D convolutional layers followed by two
 fully-connected layers. After each convolutional layer, there is a
 maximum pooling operation. In addition, the activation function is
@@ -372,9 +372,9 @@ function.
 </div>
 </div>
 
-<div id="outline-container-org0c34dda" class="outline-3">
-<h3 id="org0c34dda">loss function</h3>
-<div class="outline-text-3" id="text-org0c34dda">
+<div id="outline-container-orgc7e06b9" class="outline-3">
+<h3 id="orgc7e06b9">loss function</h3>
+<div class="outline-text-3" id="text-orgc7e06b9">
 <p>
 As we can see, the output of our model \(f(x; \theta)\) is a vector with
 10 components. But how to predict the label of \(x\) and evaluate its
@@ -410,9 +410,9 @@ and the true label \(y\).
 </div>
 </div>
 
-<div id="outline-container-org24de160" class="outline-3">
-<h3 id="org24de160">optimizer</h3>
-<div class="outline-text-3" id="text-org24de160">
+<div id="outline-container-orgc335aae" class="outline-3">
+<h3 id="orgc335aae">optimizer</h3>
+<div class="outline-text-3" id="text-orgc335aae">
 <p>
 Given a pair of data \((x^{(i)}, y^{(i)})\), assume the loss of this
 pair is \(\phi(\tilde{y}^{(i)}, y^{(i)})\) where
@@ -449,10 +449,10 @@ t = N-1, \ldots, 1, 0.
 \end{aligned} $$
 
 <p>
-Clearly, this is identical to \(p_{t+1} = (\nabla_x f_t(x_t;
-\theta_t))^\intercal p_t\). Here \(\nabla_x f_t\) is a Jacobian matrix
-and \((\nabla_x f_t)^\intercal p_t\) is often computed efficiently via
-Jacobian-vector product.
+Clearly, this is identical to \(p_{t} = (\nabla_x f_t(x_t;
+\theta_t))^\intercal p_{t+1}\). Here \(\nabla_x f_t\) is a Jacobian
+matrix and \((\nabla_x f_t)^\intercal p_{t+1}\) is often computed
+efficiently via Jacobian-vector product.
 </p>
 
 <p>
@@ -464,9 +464,10 @@ N-1. \]
 
 <p>
 We use the stochastic gradient descent algorithm to find the best net
-parameters \(\theta\). PyTorch implemented the BP algorithm internally
-and provides various optimizers in <code>torch.optim</code> package. We choose the
-simple SGD here.
+parameters \(\theta\). There is no need to compute the gradient by
+ourselves as PyTorch has implemented the back propagation algorithm
+internally and provides various optimizers in <code>torch.optim</code> package. We
+choose the simple SGD here.
 </p>
 
 <div class="org-src-container">
@@ -479,9 +480,9 @@ simple SGD here.
 </div>
 </div>
 
-<div id="outline-container-orgb05d69e" class="outline-2">
-<h2 id="orgb05d69e">Train and test</h2>
-<div class="outline-text-2" id="text-orgb05d69e">
+<div id="outline-container-org775afe5" class="outline-2">
+<h2 id="org775afe5">Train and test</h2>
+<div class="outline-text-2" id="text-org775afe5">
 <p>
 Finally, we train the model on MNIST dataset. We iterate the training
 set and test set several times (called epochs). In each epoch, we
@@ -553,7 +554,7 @@ test()
 </pre>
 </div>
 
-<pre class="example" id="org2e6b798">
+<pre class="example" id="org69f14c4">
 Test set: Avg. loss: 2.3011, Accuracy: 891/10000 (9%)
 
 Train Epoch: 1 [0/60000 (0%)]	Loss: 2.292757
@@ -596,7 +597,7 @@ fig.savefig(<span style="color: #2aa198;">"./training-curve.png"</span>)
 </div>
 
 
-<figure id="orgfcc0fc8">
+<figure id="orgdaa517b">
 <img src="./training-curve.png" alt="training-curve.png">
 
 </figure>
@@ -622,16 +623,16 @@ fig.savefig(<span style="color: #2aa198;">"./pred-sample-images.png"</span>)
 </div>
 
 
-<figure id="orgcc0df97">
+<figure id="org51e47cd">
 <img src="./pred-sample-images.png" alt="pred-sample-images.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org07a1fc3" class="outline-2">
-<h2 id="org07a1fc3">Discussion</h2>
-<div class="outline-text-2" id="text-org07a1fc3">
+<div id="outline-container-org932c006" class="outline-2">
+<h2 id="org932c006">Discussion</h2>
+<div class="outline-text-2" id="text-org932c006">
 <p>
 In this post, we trained a CNN classifier to recognize handwritten
 digits in MNIST dataset.  The final test accuracy is approximately
@@ -642,26 +643,26 @@ digits in MNIST dataset.  The final test accuracy is approximately
 <li>adjust hyperparameters to select a better model, including learning
 rate, number of training epochs, batch size, etc;</li>
 <li>adjust the classifier model, including adding batch normalization layer,
-adding dropout layer, manually initializing network parameters, etc[<a href="#orgf57a20a">6</a>, <a href="#org6724818">7</a>, <a href="#org8d8167b">8</a>];</li>
+adding dropout layer, manually initializing network parameters, etc[<a href="#orga9a97d1">6</a>, <a href="#org923be57">7</a>, <a href="#orgf01eb78">8</a>];</li>
 <li>adjust the optimizer, including using other optimizing algorithm like
-Adam and explore their hyperparameters[<a href="#orgf01d2d0">9</a>].</li>
+Adam and explore their hyperparameters[<a href="#org824a00b">9</a>].</li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-orge449d22" class="outline-2">
-<h2 id="orge449d22">References</h2>
-<div class="outline-text-2" id="text-orge449d22">
+<div id="outline-container-org3a4ef0f" class="outline-2">
+<h2 id="org3a4ef0f">References</h2>
+<div class="outline-text-2" id="text-org3a4ef0f">
 <ol class="org-ol">
-<li><a id="orgd887b8c"></a> Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In Advances in Neural Information Processing Systems 32 (pp. 8024–8035)</li>
-<li><a id="org9c96aa5"></a> LeCun, Y. (1998). The MNIST database of handwritten digits. <a href="http://yann.lecun.com/exdb/mnist/">http://yann.lecun.com/exdb/mnist/</a></li>
-<li><a id="orgc30f22d"></a> Schmidhuber, J. (2015). Deep learning in neural networks: An overview. Neural networks, 61, 85-117.</li>
-<li><a id="orgcfce658"></a> Koehler, G. (2020). MNIST Handwritten Digit Recognition in PyTorch. <a href="https://nextjournal.com/gkoehler/pytorch-mnist">https://nextjournal.com/gkoehler/pytorch-mnist</a></li>
-<li><a id="org9ac5ce1"></a> Nutan (2021). PyTorch Convolutional Neural Network With MNIST Dataset. <a href="https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118">https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118</a></li>
-<li><a id="orgf57a20a"></a> Ioffe, S., &amp; Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International conference on machine learning (pp. 448-456). pmlr.</li>
-<li><a id="org6724818"></a> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., &amp; Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting. The journal of machine learning research, 15(1), 1929-1958.</li>
-<li><a id="org8d8167b"></a> He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In Proceedings of the IEEE international conference on computer vision (pp. 1026-1034).</li>
-<li><a id="orgf01d2d0"></a> Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980.</li>
+<li><a id="org699fc68"></a> Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In Advances in Neural Information Processing Systems 32 (pp. 8024–8035)</li>
+<li><a id="org20b0e26"></a> LeCun, Y. (1998). The MNIST database of handwritten digits. <a href="http://yann.lecun.com/exdb/mnist/">http://yann.lecun.com/exdb/mnist/</a></li>
+<li><a id="org91938dd"></a> Schmidhuber, J. (2015). Deep learning in neural networks: An overview. Neural networks, 61, 85-117.</li>
+<li><a id="orgb2bb996"></a> Koehler, G. (2020). MNIST Handwritten Digit Recognition in PyTorch. <a href="https://nextjournal.com/gkoehler/pytorch-mnist">https://nextjournal.com/gkoehler/pytorch-mnist</a></li>
+<li><a id="org58df1e9"></a> Nutan (2021). PyTorch Convolutional Neural Network With MNIST Dataset. <a href="https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118">https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118</a></li>
+<li><a id="orga9a97d1"></a> Ioffe, S., &amp; Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International conference on machine learning (pp. 448-456). pmlr.</li>
+<li><a id="org923be57"></a> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., &amp; Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting. The journal of machine learning research, 15(1), 1929-1958.</li>
+<li><a id="orgf01eb78"></a> He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In Proceedings of the IEEE international conference on computer vision (pp. 1026-1034).</li>
+<li><a id="org824a00b"></a> Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980.</li>
 </ol>
 </div>
 </div>
@@ -6953,6 +6954,258 @@ sudo apt install fcitx-config-gtk
   <link>https://dou-meishi.github.io/org-blog/2021-10-25-CustomizeUbuntu/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2021-10-25-CustomizeUbuntu/notes.html</guid>
   <pubDate>Mon, 25 Oct 2021 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Convolution in CNN]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5b43f23">Input/Output</a></li>
+<li><a href="#org0f7b5a9">Parameters</a>
+<ul>
+<li><a href="#orgc113a4a">stride</a></li>
+<li><a href="#orgf80084d">padding</a></li>
+<li><a href="#org8cf82d6">dilation</a></li>
+</ul>
+</li>
+<li><a href="#org0b0d1fe">Correlation and Convolution</a></li>
+<li><a href="#orgfaaa924">References</a></li>
+</ul>
+</div>
+</nav>
+<p>
+这篇笔记是对 <code>torch.nn.Conv2d</code> [ <a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d">官方文档</a> ] 的解释，
+主要目标是弄清楚在这层 layer 中发生了什么：
+输入输出是什么？是怎么从输入到输出的？
+最后补充了一个困扰我很久的问题：
+为什么要叫 convolution?
+</p>
+
+<div id="outline-container-org5b43f23" class="outline-2">
+<h2 id="org5b43f23">Input/Output</h2>
+<div class="outline-text-2" id="text-org5b43f23">
+<p>
+文档中明确给出了输入输出的类型：有四个维度 (N, C, H, W) 的 tensor,
+用 NumPy 的术语来说就是 4d array.
+其中
+</p>
+
+<ul class="org-ul">
+<li>N: Batch size, 即样本的个数，或者说一次计算操作的图片张数。
+注意，N 的大小完全不影响网络结构，
+所以它也没有出现在构造网络所需的参数表里。
+个人认为这个维度的存在完全是为了计算上的方便。
+因为对数据库中不同的图片进行的操作是完全一样的，
+所以在训练或者预测时不妨直接多张同时计算。
+显然，这个维度的大小始终不变。
+输入有多少张图片，
+输出就是多少张图片对应的计算结果。
+实际使用时让这个维度始终为 1 也可。
+当然，如果要进行 BatchNorm 操作，
+那输入样本数必须大于 1.</li>
+
+<li>C: Channel size, 即图片的通道数。
+若输入是 RGB 图像，C<sub>in</sub> 就是 3，若是灰度图像则为 1。
+注意，输出的 Channel size 是不一样的，C<sub>out</sub> 应当理解为特征的通道。
+后面会提到，在计算每一个输出通道的结果时，所有输入通道的图像数据都被用到了。
+也就是说， <b>并不是</b> 对 R G B 三个通道的图像分别进行同样的处理。
+这样即使输出只有 1 个通道，计算结果也会考虑颜色带来的影响。
+在构造 Conv2d layer 时的两个必要参数就是 C<sub>in</sub> 和 C<sub>out</sub>。
+实际使用时一般也仅需指定这两个参数 (外加一个 kernel size).</li>
+
+<li>H &amp; W: 图片高度和宽度。注意， height 代表的维度是在 width 之前的。
+所以像素坐标 (h, w) 代表的是图像从左上角开始数，向右数第 w 格，
+往下数 h 格的像素点。和数学中常见的第一个维度代表横轴，第二个维度代表纵轴
+非常不同。这两个维度的大小在输入输出中不必相同。
+H<sub>out</sub>, W<sub>out</sub> 是依据 H<sub>in</sub>, W<sub>in</sub> 和一些其它参数自动确定的。
+这种依赖关系是 convolution 操作本身决定的，所以不能直接指定输出的大小，
+需要通过调整其他参数来间接实现。</li>
+</ul>
+
+<p>
+总的来说，除去第一个维度 N, 输入和输出的 shape 是非常不同的.
+C<sub>in</sub>, C<sub>out</sub> 需要在设计网络时就确定好，
+H<sub>out</sub>, W<sub>out</sub> 则依赖于 H<sub>in</sub> 和 W<sub>out</sub>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0f7b5a9" class="outline-2">
+<h2 id="org0f7b5a9">Parameters</h2>
+<div class="outline-text-2" id="text-org0f7b5a9">
+<p>
+在介绍 Conv2d 的各种参数之前，先简单地介绍输出是怎样从输入算得的。官方
+文档中给出的公式是 \[ output(N_i, C_{outj}) = bias(C_{outj}) +
+\sum_{k}^{C_{in}-1} weight(C_{outj},k) \star input(N_i, k) \] 其中
+\(\star\) 是 <b>correlation</b> 算符。
+</p>
+
+<p>
+因为 input, output 都是 4d array, 所以指定 N, C 两个维度后得到的其实是矩阵。
+上式其实是矩阵等式。
+然后我们观察到 weight 和 N 无关，
+这在前面已经解释了，因为 N 这个维度相当于数据库中样本的编号，
+当然不可能每个样本都对应一套网络参数。
+但这不代表 weight 就少了一个维度，它仍然是 4d array,
+只不过 shape 和输入输入稍有不同，是 C<sub>out</sub>, C<sub>in</sub>, K, K.
+而 K 是 kernel size.
+如果我们让 N 和 C<sub>out</sub> 均为 1,
+那么 output.shape 就是 1, 1, H<sub>out</sub>, W<sub>out</sub>,
+等价于二维矩阵。
+此时的计算过程等价于用 C<sub>in</sub> 个 K x K 大小的 kernel 分别对
+每个输入 channel 的图像矩阵作滤波然后 <b>加权求和</b> 。
+</p>
+
+<p>
+在最简单的情形，
+N, C<sub>out</sub>, C<sub>in</sub> 都是 1 时，
+只有一个 kernel，并且输入输出都可视为 2d array,
+用 k 代表 kernel size.
+那么输出可以写成
+</p>
+
+<pre class="example" id="orgd7cc1a0">
+output[i,j] = dot(kernel, input[i:i+k, j:j+k])
+</pre>
+
+<p>
+这里 dot 表示将两个矩阵展开为一维向量后作内积。
+这个公式可以用下图形象地表述。
+</p>
+
+
+<figure id="orgd8869d6">
+<img src="./convolve-demo.gif" alt="convolve-demo.gif">
+
+</figure>
+
+<p>
+上图中绿色的 image 表示输入矩阵，黄色的 3 x 3 矩阵代表 kernel,右边的红
+色矩阵是输出结果。用这个公式可以计算出输出矩阵的形状。为了保证下标不越
+界，需要 i + k ≤ H<sub>in</sub>, 同时 j + k ≤ W<sub>out</sub>, 所以 \[ H_{out}
+= 1 + \max i = H_{in} - k + 1,\qquad W_{out} = 1 + \max j = W_{in} -
+k + 1. \]
+</p>
+</div>
+
+
+<div id="outline-container-orgc113a4a" class="outline-3">
+<h3 id="orgc113a4a">stride</h3>
+<div class="outline-text-3" id="text-orgc113a4a">
+<p>
+参数 stride 控制每次 kernel 滑动的步长，用公式表述就是
+</p>
+
+<pre class="example" id="orga622bfc">
+output[i,j] = dot(kernel, input[stride*i:stride*i + k,
+                                stride*j:stride*j + k])
+</pre>
+
+
+<figure id="orge085fd1">
+<img src="./convolve-stride.png" alt="convolve-stride.png">
+
+</figure>
+</div>
+</div>
+
+<div id="outline-container-orgf80084d" class="outline-3">
+<h3 id="orgf80084d">padding</h3>
+<div class="outline-text-3" id="text-orgf80084d">
+<p>
+从之前的公式看出，一般输出矩阵的大小是小于输入矩阵的。
+要扩展输出矩阵大小也很简单，只要处理 input array 下标越界的问题就好了。
+之前的处理方式成为 valid padding, 即不允许下标越界。
+另一种处理方式是 zero padding, 即越界元素均视为 0.
+zero padding 也有好几种方式，根据对下标越界的容身程度而定。
+在 Conv2d 中用 padding 来控制 padding 方式。
+</p>
+
+<ul class="org-ul">
+<li>padding=0 表示使用 valid padding, 不允许下标越界。</li>
+<li>padding=1 表示使用 zero padding, 允许第一个指标为 -1 或 H<sub>in</sub>，  同时允许第二个指标为 -1 和 W<sub>in</sub> 并令此类访问的结果为 0.    其他类型的越界不被允许。</li>
+<li>padding=2 同理，允许在横向和纵向越界两个元素。</li>
+</ul>
+
+<p>
+对于 3 x 3 大小的 kernel, 如果 stride=1,
+那么只要设置 padding=1 就能让输出输出有相同的大小。
+</p>
+
+
+<figure id="org65bc8ae">
+<img src="./convolve-padding.gif" alt="convolve-padding.gif">
+
+</figure>
+</div>
+</div>
+
+<div id="outline-container-org8cf82d6" class="outline-3">
+<h3 id="org8cf82d6">dilation</h3>
+<div class="outline-text-3" id="text-org8cf82d6">
+<p>
+控制 kernel 如何覆盖在输入矩阵上，用公式表述就是
+</p>
+
+<pre class="example" id="org489559f">
+output[i,j] = dot(kernel, input[i:i+k*dilation:dilation,
+                                j:j+k*dilation:dilation])
+</pre>
+
+
+<figure id="orgd8043b1">
+<img src="./convolve-dilation.gif" alt="convolve-dilation.gif">
+
+</figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0b0d1fe" class="outline-2">
+<h2 id="org0b0d1fe">Correlation and Convolution</h2>
+<div class="outline-text-2" id="text-org0b0d1fe">
+<p>
+我最早接触的 correlation, convolution 是在光学课上，
+那里是对两个连续信号 f, g 定义的
+</p>
+
+$$
+\begin{aligned}
+f \ast g (t) &:= \int_{-\infty}^{\infty} f(\tau) g(t-\tau) d\tau,
+\qquad ({\rm convolution})\\
+f \star g(t) &:= \int_{-\infty}^{\infty} f(\tau) g(t+\tau) d\tau,
+\qquad ({\rm correlation}).
+\end{aligned}
+$$
+
+<p>
+所以数学上说，我们之前计算的并不是 convolution, 而是 correlation.
+我个人认为 convolution 是沿用了之前 filter 的称呼，
+在那里 kernel 一般是中心对称的，
+correlation, convolution 计算结果相同。
+但最早没有接触图像处理中 filter 概念前这个称呼让我迷惑了很久，
+一直没想明白为啥明明做的是
+correlation 却叫 convolution.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfaaa924" class="outline-2">
+<h2 id="orgfaaa924">References</h2>
+<div class="outline-text-2" id="text-orgfaaa924">
+<ul class="org-ul">
+<li><a href="https://medium.com/@RaghavPrabhu/understanding-of-convolutional-neural-network-cnn-deep-learning-99760835f148">Understanding of Convolutional Neural Network (CNN) — Deep Learning</a></li>
+<li><a href="https://cs231n.github.io/convolutional-networks/#norm">Convolutional Neural Networks (CNNs / ConvNets)</a></li>
+</ul>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div>]]></description>
+  <category><![CDATA[ai]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2020-12-04-Conv2dNote/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2020-12-04-Conv2dNote/notes.html</guid>
+  <pubDate>Fri, 04 Dec 2020 00:00:00 +0800</pubDate>
 </item>
 </channel>
 </rss>
