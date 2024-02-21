@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Wed, 21 Feb 2024 09:43:00 +0800</lastBuildDate>
+<lastBuildDate>Wed, 21 Feb 2024 09:54:11 +0800</lastBuildDate>
 <item>
   <title><![CDATA[MNIST: the Hello World Example in Image Recognition]]></title>
   <description><![CDATA[
@@ -6547,6 +6547,116 @@ Indeed, by the diagonal argument, any uniformly bounded sequence in
   <link>https://dou-meishi.github.io/org-blog/2022-06-25-HellySelectionTheorem/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2022-06-25-HellySelectionTheorem/notes.html</guid>
   <pubDate>Sat, 25 Jun 2022 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Backpropagation Formula: An Optimal Control View]]></title>
+  <description><![CDATA[
+<p>
+Consider the following optimal control problem (or equivalently, a constrained optimization problem),
+</p>
+
+$$
+\begin{aligned}
+\min_{u_0,u_1,\ldots,u_{N-1}}\ &\phi(x_N) + \sum_{k=0}^{N-1}g(k,x_k,u_k)\\
+\operatorname{s.t.}\quad&x_{k+1} = f(k,x_k,u_k),\qquad k\in ⟦0, N-1⟧.
+\end{aligned}
+$$
+
+<p>
+With appropriate choices of \(f,g,\phi\) and initial state \(x_0\),
+this optimal control problem can be seen as a training step a neural network for a singe sample point \((x^{(i)},y^{(i)})\).
+</p>
+
+<ul class="org-ul">
+<li>Set \(x_0\) as the input of the neural network, i.e. \(x^{(i)}\);</li>
+<li>Set \(u_k\) as the paramters of the \(k\)-th layer;</li>
+<li>Set \(f(k,\cdot,u_k)\) as the operation of the \(k\)-th layer.</li>
+</ul>
+
+<p>
+Thus, \(x_k\) becomes the output of \(k\)-th layer.
+Then we need to specify the cost function.
+</p>
+
+<ul class="org-ul">
+<li>Set \(\phi\) as the loss between \(x_N\) and the target \(y^{(i)}\).</li>
+<li>Set \(g(k,x_k,\cdot)\) as the regularization loss of the \(k\)-th layer.</li>
+</ul>
+
+<p>
+For example, for the widely used MSE loss with \(L_2\) regularization, the loss function is
+\[ L(x^{(i)},y^{(i)}) = \|x_N-y^{(i)}\|^2 + \sum_{k=0}^{N-1}\|u_k\|^2, \]
+where \(\phi(x_N)=\|x_N-y^{(i)}\|^2\) and \(g(k,x_k,u_k)=\|u_k\|^2\).
+</p>
+
+<p>
+Back to the genral form. We need to calculate the derivatives of the cost functional (or objective function in optimization, loss function in machine learning) w.r.t \(u_0,u_1,\ldots,u_{N-1}\). Introduce the \(k\)-th tail cost as
+\[ J_k := \phi(x_N) + \sum_{i=k}^{N-1}g(i,x_i,u_i),\qquad\forall k\in ⟦0,N⟧, \]
+which can be seen as the function of the input \(x_k\) and hyperparameters \(u_k,u_{k+1},\ldots,u_{N-1}\) and \(J_0\) is the original cost. By induction, it is not hard to show that \(\partial J_k/\partial x_k\) satisfies the following <i>adjoint equation</i>
+</p>
+
+$$
+\begin{aligned}
+\frac{\partial}{\partial x_N}J_N &= \phi'(x_N)\\
+\frac{\partial}{\partial x_k}J_k &= \frac{\partial g}{\partial x}(k,x_k,u_k) + \langle\frac{\partial f}{\partial x}(k,x_k,u_k), \frac{\partial}{\partial x_{k+1}}J_{k+1}\rangle,\qquad k\in⟦0,N-1⟧.
+\end{aligned}
+$$
+
+<p>
+This means the costate \(\partial J_k/\partial x_k\) can be calculated backwardly, i.e., form the last layer \(\phi'(x_N)\) to the very first layer \(\partial J_0/\partial x_0\). With the help of the costate, the rest part is straightforward
+</p>
+
+$$
+\begin{aligned}
+\frac{\partial}{\partial u_k}J_0 &= \frac{\partial}{\partial u_k}J_k\\
+&= \frac{\partial}{\partial u_k}\bigl(g(k,x_k,u_k) + J_{k+1}\bigr)\\
+&= \frac{\partial g}{\partial u}(k,x_k,u_k) + \frac{\partial x_{k+1}}{\partial u_k}\cdot \frac{\partial}{\partial x_{k+1}}J_{k+1}\\
+&= \frac{\partial g}{\partial u}(k,x_k,u_k) + \frac{\partial f}{\partial u}(k,x_k,u_k)\cdot \frac{\partial}{\partial x_{k+1}}J_{k+1},\qquad k\in ⟦0,N-1⟧.
+\end{aligned}
+$$
+
+<p>
+To conclude, we introduce the Hamiltonian
+\[ H(t,x,u,p) = g(t,x,u) + \langle p, f(t,x,u)\rangle. \]
+In the calculation of the gradient of the loss function at point \((x^{(i)},y^{(i)})\), the <i>forward</i> phase is firstly executed to obtain the <i>state series</i>
+</p>
+
+$$
+\begin{aligned}
+x_0 &= x^{(i)}\\
+x_{k+1} &= \nabla_pH(k,x_k,u_k,p_{k+1}),\qquad k\in ⟦0,N-1⟧.
+\end{aligned}
+$$
+
+<p>
+Then the <i>costate series</i> is obtained via the <i>backward phase</i>
+</p>
+
+$$
+\begin{aligned}
+p_{N} &= \phi'(x_N)\\
+p_{k} &= \nabla_xH(k,x_k,u_k,p_{k+1}),\qquad k\in ⟦0,N-1⟧.
+\end{aligned}
+$$
+
+<p>
+At last, the gradient is
+\[ \frac{\partial}{\partial u_k}J_0 = \nabla_uH(k,x_k,u_k,p_{k+1}),\qquad k\in ⟦0,N-1⟧.\]
+</p>
+
+<p>
+<b>Further Readings</b>
+</p>
+
+<ul class="org-ul">
+<li><a href="https://jmlr.org/papers/volume18/17-653/17-653.pdf">Li, Qianxiao, Long Chen, and Cheng Tai. "Maximum Principle Based Algorithms for Deep Learning." Journal of Machine Learning Research 18 (2018): 1-29.</a></li>
+<li><a href="http://proceedings.mlr.press/v80/li18b.html">Li, Qianxiao, and Shuji Hao. "An optimal control approach to deep learning and applications to discrete-weight neural networks". International Conference on Machine Learning. PMLR, 2018.</a></li>
+</ul>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div>]]></description>
+  <category><![CDATA[ai]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2021-11-07-BackpropagationFormula/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2021-11-07-BackpropagationFormula/notes.html</guid>
+  <pubDate>Sun, 07 Nov 2021 00:00:00 +0800</pubDate>
 </item>
 <item>
   <title><![CDATA[配置 Ubuntu 系统]]></title>
