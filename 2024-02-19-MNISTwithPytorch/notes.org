@@ -211,7 +211,7 @@ What happens behind this is:
 3. in each step, a fixed number of samples are drown from the dataset
    and are stacked into =batch_x= and =batch_y=.
 
-An epoch means a whole for loop while a batch means a step in the for
+An epoch means a whole /for loop/ and a batch means a step in the for
 loop.
 
 *** classifier model
@@ -223,13 +223,14 @@ parameter $\theta_t$. Then the parameter $\theta$ of the neural
 network $f(x;\theta)$ is actually the collection
 $\{\theta_t,\ t=0,1,\ldots, N-1\}$.
 
-In PyTorch, a convolutional layer accepts a 4D tensor
-$x[\alpha,i,j,k]$ and outputs another 4D tensor $y[\alpha, i', j',
-k']$. The parameter of th layer consists of a bias tensor $b[i', j', k']$
-and a weight tensor $w[i', i, j'', k'']$. In particular, $$ y[\alpha,
-i'] = b[i'] + \sum_{i} w[i', i] \star x[\alpha, i],$$ where $\star$ is
-the correlation operator; see also [[https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d][the documention]] of =torch.nn.Conv2d=
-for more details.
+In PyTorch, a convolutional layer is a function which accepts a 4D
+tensor $x[\alpha,i,j,k]$ and outputs another 4D tensor $y[\alpha, i',
+j', k']$. The parameter of th layer consists of a bias tensor $b[i',
+j', k']$ and a weight tensor $w[i', i, j'', k'']$. In particular, $$
+y[\alpha, i'] = b[i'] + \sum_{i} w[i', i] \star x[\alpha, i],$$ where
+$\star$ is the correlation operator between matrices; see also [[https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d][the
+documention]] of =torch.nn.Conv2d= for more details.  [[../2020-12-04-Conv2dNote/notes.org][This post]] also
+gives a review on how =torch.nn.Conv2d= works.
 
 Compared to convolutional layers, fully connected layers, i.e., linear
 layers in PyTorch is rather simple. They are just affine
@@ -238,8 +239,8 @@ accpets a 2D tensor $x[\alpha, i]$ and outputs another 2D tensor
 $y[\alpha, i']$. The parameter of the layer consists of a bias tensor
 $b[i']$ and a weight tensor $w[i', i]$. In particular, $$ y[\alpha] =
 b + w \circ x[\alpha], $$ where $\circ$ is the matrix-vector product.
-In practice, the index $\alpha$ might be multiple indices and the
-input $x$ and $y$ become high order tensors; see also [[https://pytorch.org/docs/stable/generated/torch.nn.Linear.html][the
+In the general case, the index $\alpha$ might be multiple indices and
+the input $x$ and $y$ become high order tensors; see also [[https://pytorch.org/docs/stable/generated/torch.nn.Linear.html][the
 documentation]] of =torch.nn.Linear=.
 
 We use CNN as the basic model of our classifier[[[Schmidhuber]]]. In particular, the
@@ -310,8 +311,9 @@ Given a pair of data $(x^{(i)}, y^{(i)})$, assume the loss of this
 pair is $\phi(\tilde{y}^{(i)}, y^{(i)})$ where
 $\tilde{y}^{(i)}=f(x^{(i)}; \theta)$, we want to compute the gradient
 of it w.r.t.  $\theta$ in order to perform gradient descent. For
-example, the mean-square error corresponds to
-$\phi(\tilde{y}, y)=\|\tilde{y} - y\|^2$.
+example, the mean-square error corresponds to $\phi(\tilde{y},
+y)=\|\tilde{y} - y\|^2$.  Below is a brief summary of [[../2021-11-07-BackpropagationFormula/notes.org][this post]] on
+back propagation.
 
 Let us slightly overload the notation to denote by $f_t(\cdot) = f(t,
 \cdot, \theta_t)$. Introduce the Hamiltonian $$ H(t, x, u, p) =
@@ -339,10 +341,10 @@ t = N-1, \ldots, 1, 0.
 \end{aligned} $$
 #+END_export
 
-Clearly, this is identical to $p_{t+1} = (\nabla_x f_t(x_t;
-\theta_t))^\intercal p_t$. Here $\nabla_x f_t$ is a Jacobian matrix
-and $(\nabla_x f_t)^\intercal p_t$ is often computed efficiently via
-Jacobian-vector product.
+Clearly, this is identical to $p_{t} = (\nabla_x f_t(x_t;
+\theta_t))^\intercal p_{t+1}$. Here $\nabla_x f_t$ is a Jacobian
+matrix and $(\nabla_x f_t)^\intercal p_{t+1}$ is often computed
+efficiently via Jacobian-vector product.
 
 Finally, it is not hard to show by induction that the gradient of loss
 is $$ \frac{\partial}{\partial \theta_t}\phi(f(x^{(i)}; \theta),
@@ -350,9 +352,10 @@ y^{(i)}) = \nabla_u H(t, x_t, u, p_{k+1})\big\vert_{u=\theta_t},\quad t=0, 1, \l
 N-1. $$
 
 We use the stochastic gradient descent algorithm to find the best net
-parameters $\theta$. PyTorch implemented the BP algorithm internally
-and provides various optimizers in =torch.optim= package. We choose the
-simple SGD here.
+parameters $\theta$. There is no need to compute the gradient by
+ourselves as PyTorch has implemented the back propagation algorithm
+internally and provides various optimizers in =torch.optim= package. We
+choose the simple SGD here.
 
 #+BEGIN_SRC python
 optimizer = torch.optim.SGD(
