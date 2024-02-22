@@ -1,7 +1,7 @@
 #+TITLE: Use YASnippet to Input Greek Characters
 #+AUTHOR: Dou Meishi
 #+DATE: [2024-01-18]
-#+FILETAGS: tool
+#+FILETAGS: emacs
 
 Sometimes, single characters like =α= and =β= are more recognizable than words like =alpha= and =beta=.
 I think it is particularly useful when writing formulae in LaTeX or other text environments.
