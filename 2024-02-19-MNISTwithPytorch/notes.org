@@ -352,8 +352,8 @@ y^{(i)}) = \nabla_u H(t, x_t, u, p_{k+1})\big\vert_{u=\theta_t},\quad t=0, 1, \l
 N-1. $$
 
 We use the stochastic gradient descent algorithm to find the best net
-parameters $\theta$. There is no need to compute the gradient by
-ourselves as PyTorch has implemented the back propagation algorithm
+parameters $\theta$. There is /no need to compute the gradient by
+ourselves/ as PyTorch has implemented the back propagation algorithm
 internally and provides various optimizers in =torch.optim= package. We
 choose the simple SGD here.
 
