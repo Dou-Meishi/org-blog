@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Convergence in Probability</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">22 Feb 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-22-ConvinProb/notes.html">Convergence in Probability</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5018600">Limiting sets</a></li>
+<li><a href="#orgfaf7251">Almost surely convergence and convergence in probability</a></li>
+<li><a href="#orgbb5b16b">Convergence in probability and convergence in distribution</a></li>
+<li><a href="#org28dba2a">Uniqueness of the limit</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<i>Convergence in probability</i> is a type of convergence of random
+variables on the same probability space. It is weaker than <i>almost
+surely</i> convergence but stronger than <i>convergence in distribution</i>.
+</p>
+
+<p>
+In this post, we start by reviewing the concept of <i>infinitely often</i>
+set and use it to characterize the complement event of \(\{\lim
+X_n=X\}\). Then we give the definition of convergence in probability,
+which follows directly from \(ℙ(\lim X_n=X)=1\). After that a
+counterexample is given to show that the converse is not true.  The
+proof of convergence in probability implies convergence in
+distribution is also given. Finally, we give a necessary and
+sufficient condition of convergence in probability and use it to
+prove 1) the limit of convergence in probability is unique up to a
+zero probability set; 2) a continuous mapping preserve the convergence
+in probability.
+</p>
+
+<div id="outline-container-org5018600" class="outline-2">
+<h2 id="org5018600">Limiting sets</h2>
+<div class="outline-text-2" id="text-org5018600">
+<p>
+In order to intuitively introduce this concept, we first recall <i>the
+limiting sets</i> of a sequence of sets \(\{A_n\}\).
+</p>
+
+$$ \begin{aligned}
+\limsup A_n &:= \bigcap_{k=1}^\infty \bigcup_{n=k}^\infty A_n
+=: \{A_n\quad\text{i. o.}\}\\
+\liminf A_n &:= \bigcup_{k=1}^\infty \bigcap_{n=k}^\infty A_n
+=: \{A_n\quad\text{e. a.}\}
+\end{aligned} $$
+
+<p>
+Clearly, a point \(\omega \in \{A_n\quad\text{i. o.}\}\) if and only if
+\(\omega\in A_n\) happens <i>infinitely often</i> as \(n\to\infty\), i.e,
+\(\forall k, \exists n ≥ k, \omega\in A_n\).
+</p>
+
+<p>
+Similarly, a point \(\omega \in \{A_n\quad\text{e. a.}\}\) if and only if
+\(\omega \in A_n\) happens <i>eventually always</i> as \(n\to \infty\), i.e,
+\(\exists k, \forall n ≥ k, \omega \in A_n\).
+</p>
+
+<p>
+Suppose \(\{A_n\}\) is a sequence of events on a probability space.  It
+can be shown that<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+
+$$ \begin{aligned}
+ℙ(\liminf A_n) ≤& \liminf ℙ(A_n) \\
+&\limsup ℙ(A_n) ≤ ℙ(\limsup A_n).
+\end{aligned}$$
+
+<p>
+When \(\liminf A_n = \limsup A_n\), we say \(A_n \to A\) and denote by
+\(\lim A_n = A\). From above inequalities, it is clear that if \(A_n \to
+A\) then \(ℙ(A_n) \to ℙ(A)\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfaf7251" class="outline-2">
+<h2 id="orgfaf7251">Almost surely convergence and convergence in probability</h2>
+<div class="outline-text-2" id="text-orgfaf7251">
+<p>
+For random variables \(X\) and \((X_n)_{n=1}^\infty\) on the same
+probability space, it is natural to consider the event<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> \(\{\lim
+X_n = X\}\). If this set has probability 1, then we say \(X_n\) converges
+to \(X\) almost surely, denoted by \(X_n\to X\quad\text{a. s.}\). Sometimes
+it is also called \(X_n\) converges to \(X\) with probability 1. Consider
+its complement set \(N\). Clearly, by definition \(ω \in N\) if and only
+if there exists some \(ϵ > 0\) such that \(|X_n(ω) - X(ω)| > ϵ\) happens
+infinitely often as \(n\to \infty\), i.e., \[ N = \bigcup_{ϵ > 0}
+\{|X_n(ω) - X(ω)| > ϵ \quad\text{i. o.}\}. \] Clearly, the union can
+be taken over all rational \(ϵ\). Then we conclude that \(X_n\to
+X\quad\text{a. s.}\) if and only if \[ ℙ(|X_n(ω) - X(ω)| > ϵ
+\quad\text{i. o.}) = 0,\quad\forall ϵ > 0.\]
+</p>
+
+<p>
+<i>Definition.</i> For random variables \(X\) and \((X_n)_{n=1}^\infty\) on the
+same probability space, we say \(X_n\) converges to \(X\) in probability,
+denoted by \(X_n \to_P X\), if \[\lim_n ℙ(|X_n(ω) - X(ω)| > ϵ) =
+0,\quad\forall ϵ > 0.\]
+</p>
+
+<p>
+Clearly, if \(X_n\) converges to \(X\) almost surely, then \(\limsup
+ℙ(|X_n(ω) - X(ω)| > ϵ) = 0\).  Thus, almost surely convergence implies
+convergence in probability. However, the converse is not true.
+</p>
+
+<p>
+<i>Example.</i> Let \(X\equiv0\) and \(X_n=\mathbb{1}(A_n)\). Then \(\{|X_n - X| >
+ϵ\}=A_n\). Thus, \(X_n \to_P X\) is equivalent to \(ℙ(A_n) \to 0\) and \(X_n
+\to X\quad\text{a. s.}\) is equivalent to \(ℙ(A_n\quad\text{i. o.})=0\).
+If we can find \(A_n\) such that \(0= \lim ℙ(A_n) <
+ℙ(A_n\quad\text{i. o.})\) then we find an example where \(X_n\to_P X\)
+but \(X_n\) does not converge to \(X\) almost surely.
+</p>
+
+$$ \begin{aligned}
+&A_1 = (0, 1/2],\quad A_2 = (1/2, 1],\\
+&A_3 = (0, 1/4], \quad A_4 = (1/4, 2/4],
+\quad A_5 = (2/4, 3/4], \quad A_6 = (3/4, 1],\\
+&\cdots\\
+&A_{2^k+i} = ( \frac{i-1}{2^{k+1}}, \frac{i}{2^{k+1}}],\quad
+i = 1, 2, \ldots 2^{k+1},\\
+&\cdots
+\end{aligned}
+$$
+
+<p>
+Take \(ℙ\) be the Lebesgue measure confined on \([0, 1]\). Then \(ℙ(A_n)\to
+0\) but \(\{A_n\quad\text{i. o.}\}=(0,1]\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbb5b16b" class="outline-2">
+<h2 id="orgbb5b16b">Convergence in probability and convergence in distribution</h2>
+<div class="outline-text-2" id="text-orgbb5b16b">
+<p>
+Recall that \(X_n\) is said to converge to \(X\) <i>in distribution</i>, denoted
+by \(X_n ⇒ X\), if \(ℙ(X_n ≤ x) \to ℙ(X ≤ x)\) holds for all \(x\) such that
+\(ℙ(X = x) =0\). It is not hard to show that it is weaker than
+<i>convergence in probability</i><sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+</p>
+
+<p>
+<i>Proposition.</i> If \(X_n \to_P X\), then \(X_n ⇒ X\).
+</p>
+
+<p>
+The converse is clearly not true. Let \(X\) be a uniformly distributed
+random variable with range \([0,1]\). Then \(X_n\equiv 1-X\) is also a
+uniformly distributed random variable with range \([0,1]\). As \(X_n\) and
+\(X\) share the same distribution function \(ℙ(X_n ≤ x) = ℙ(X ≤ x) = x\),
+it is clear that \(X_n ⇒ X\). However,
+</p>
+
+$$ \begin{aligned}
+ℙ(|X_n - X| > 1/2) &= ℙ(|1 - 2X| > 1/2)\\
+& = ℙ(1 - 2X > 1/2) + ℙ(1 - 2X < -1/2) \\
+&= 1/2.
+\end{aligned} $$
+</div>
+</div>
+
+<div id="outline-container-org28dba2a" class="outline-2">
+<h2 id="org28dba2a">Uniqueness of the limit</h2>
+<div class="outline-text-2" id="text-org28dba2a">
+<p>
+Finally, we want to discuss the uniqueness of convergence in
+probability. This requires the following useful characterization of
+convergence in probability, in which a sufficient a necessary
+condition is stated as <i>any subsequence contains a further subsequence
+which converges almost surely</i>.
+</p>
+
+<p>
+<i>Theorem.</i> \(X_n \to_P X\) if and only if any subsequence \(\{X_{n_k}\}\)
+contains a further subsequence \(\{X_{n_{k(i)}}\}\) such that
+\(X_{n_{k(i)}} \to X\) almost surely.
+</p>
+
+<p>
+See <a href="./proof-to-uniqueness.png">here</a> for the complete proof. Note that in this proof <a href="./first-Borel-Cantelli-lemma.png">the first
+Borel-Cantelli lemma</a> is applied.
+</p>
+
+<p>
+By using this theorem, it is easy to see that if \(X_n ⇒ X\) and \(X_n ⇒
+Y\) then \(X = Y\) almost surely<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. Moreover, this characterization
+asserts that if \(X_n \to_P X\) and \(f\) is continuous then \(f(X_n) \to_P
+f(X)\). This is because for any subsequence \(\{f(X_{n_k})\}\) we can
+find a further subsequence \(\{f(X_{n_{k(i)}})\}\) such that
+\(X_{n_{k(i)}}\) converges to \(X\) almost surely, implying that
+\(f(X_{n_{k(i)}})\) converges to \(f(X)\) almost surely as \(f\) is
+continuous<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+For a general measure \(μ\), the inequality \(μ(\liminf A_n) ≤
+\liminf μ(A_n)\) always holds but \(\limsup μ(A_n) ≤ μ(\limsup A_n)\)
+only holds when \(μ(\bigcup_{n=k}^\infty A_n) ≤ \infty\) for some \(k\).
+A counterexample is that: taking \(μ\) to be the counting measure and
+taking \(A_n\) to be the set of integers greater than \(n\). Then \(\limsup
+A_n\) is the empty set but \(μ(A_n)=\infty\) for all \(n\). In fact, these
+inequalities follows directly from this lemma:
+</p>
+<ol class="org-ol">
+<li>if \(A_n ↑ A\) then \(μ(A_n) ↑ μ(A)\);</li>
+<li>if \(A_n ↓ A\) and \(μ(A_k) < \infty\) for some \(k\) then \(μ(A_n) ↓
+   μ(A)\).</li>
+</ol></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This is indeed a measurable set when \(X_n\) and \(X\) are
+measurable functions. This is because \(\{\lim X_n = X\}\) can be
+rewritten as the intersection of \(\{\liminf X_n ≥ X\}\) and \(\{\limsup
+X_n ≤ X\}\). Those two sets are measurable because \(\liminf X_n\) and
+\(\limsup X_n\) are measurable functions.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Assume \(X_n \to_P X\). Observe that for any \(ϵ > 0\) we have
+</p>
+<ol class="org-ol">
+<li>\(\{X_n > x\} \supset \{X > x + ϵ\} \cap \{|X_n - X| ≤ ϵ\}\). Hence,
+\(\{X_n ≤ x\} \subset \{X ≤ x + ϵ\} \cup \{|X_n - X| > ϵ\}\) and
+\(ℙ(X_n ≤ x) ≤ ℙ(X ≤ x + ϵ) + ℙ(|X_n - X| > ϵ)\). Sending
+\(n\to\infty\) yields \(\limsup ℙ(X_n ≤ x) ≤ ℙ(X ≤ x + ϵ)\) for all \(ϵ
+   > 0\), implying that \(\limsup ℙ(X_n ≤ x) ≤ ℙ(X ≤ x)\).</li>
+<li>\(\{X > x - ϵ\} \supset \{X_n > x\} \cap \{|X_n - X| ≤ ϵ\}\). Hence,
+\(\{X ≤ x - ϵ\} \subset \{X_n ≤ x\} \cup \{|X_n - X| > ϵ\}\) and \(ℙ(X
+   ≤ x - ϵ) ≤ ℙ(X_n ≤ x) + ℙ(|X_n - X| > ϵ)\). Sending \(n\to\infty\)
+yields \(ℙ(X ≤ x - ϵ) ≤ \liminf ℙ(X_n ≤ x)\) for all \(ϵ > 0\),
+implying that \(ℙ(X < x) ≤ \liminf ℙ(X_n ≤ x)\).</li>
+</ol>
+<p class="footpara">
+Therefore, if \(ℙ(X = x) =0\) then \(ℙ(X_n ≤ x) \to ℙ(X ≤ x)\).
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+As \(X_n ⇒ X\), there exists a subsequence \(\{X_{n_k}\}\) which
+converges to \(X\) on a probability 1 set \(\Omega_1\). Consider the
+subsequence \(\{X_{n_k}\}\).  As \(X_n ⇒ Y\), there exists a futher
+subsquence \(\{X_{n_k(i)}\}\) which converges to \(Y\) on a probability 1
+set \(\Omega_2\). Clearly, \(Ω_1 \cap Ω_2\) has probability 1 and \(X\) and
+\(Y\) agree on it.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+If \(X_n\to X\) at \(\omega\) and \(f\) is continuous at \(X(\omega)\)
+then \(f(X_n) \to f(X)\) at \(\omega\).
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>
