@@ -1,0 +1,132 @@
+#+TITLE: Display LaTeX Command with Unicode Characters in Emacs
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-02-24]
+#+FILETAGS: emacs
+
+If the minor mode =prettify-symbols-mode= is enabled, Emacs will display
+certain strings with more attractive versions according to
+=prettify-symbols-alist=. For example, =$\mathbb{P}(\Omega) \leq 1$= might be
+displayed as =$ℙ(Ω) ≤ 1$=. This happends without modifying the content
+and could be disabled by turning off the =prettify-symbols-mode= if
+necessary. This feature may be very useful in writing LaTeX formulae.
+
+This is the effect after incorporating the settings introduced in this
+post.
+
+Before prettify
+[[./before-prettify.png]]
+
+After prettify
+[[./after-prettify.png]]
+
+** Create the list of pretty symbols
+
+Each element =prettify-symbols-alist= looks like =(SYMBOL . CHARACTER)=,
+where the symbol matching =SYMBOL= (a string, not a regexp) will be
+shown as =CHARACTER= instead.
+
+I create [[https://gist.github.com/Dou-Meishi/7c90c9b24fc7d9f6a7cba27cf27b6992][a CSV file]] to store the symbols and associate pretty
+characters. Below is a lisp function which parse such a CSV file and
+return a list suitable for =prettify-symbols-alist=.
+
+#+BEGIN_SRC elisp :tangle ./dms-pretty-symbols.el
+(defun dms/load-prettify-symbols (file)
+  "Load a CSV file and return a suitable list for `prettify-symbols-alist`.
+
+The CSV file should be separated by `, `, where the space after
+comma is mandatory. In each line, the string before the comma
+will be displayed by the pretty symbol after the comma."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (setq contents (split-string (buffer-string) "\n" t))
+    (setq loaded-prettify-symbols-alist '())
+    (dolist (line contents loaded-prettify-symbols-alist)
+      (let* ((pair (split-string line ", " t))
+             (original-string (car pair))
+             (pretty-symbol (cadr pair))
+             ;; Convert string to a char as `prettify-symbols-alist` uses chars not strings
+             (pretty-char-symbol (string-to-char pretty-symbol)))
+        (push (cons original-string pretty-char-symbol) loaded-prettify-symbols-alist)))))
+#+END_SRC
+
+The CSV file looks like
+
+#+BEGIN_EXAMPLE
+\mathbb{P}, ℙ
+\leq, ≤
+\geq, ≥
+...
+#+END_EXAMPLE
+
+** Decide whether to compose
+
+The variable =prettify-symbols-compose-predicate= is a predicate for
+deciding if the currently matched symbol is to be composed.  By
+default, not all appearance will be prettified. For example, the
+string =\mathbb{P},= will not be prettified as the =\mathbb{P}= is followed by a comma.
+However, this situation happens frequently in writing formulae. So I
+overwrite the rule to
+
+1. if the matched symbol starts by =\= and the character before it is
+   not =\=, then prettify;
+2. otherwise, call the default predicate.
+
+#+BEGIN_SRC elisp :tangle ./dms-pretty-symbols.el
+(defun dms/prettify-symbols-compose-predicate (start end _match)
+  "Custom prettify symbols compose predicate.
+
+If the matched strings start with the backslash char `\\` and
+the char before the start char is not `\\`, then return non-nil
+to indicate composition. For any other case, call the default
+`prettify-symbols-default-compose-p`."
+  (if (and
+       ; ensures that there is a char before start
+       (> start (point-min))
+       ; checks if the matched string starts with \
+       (= (char-after start) ?\\)
+       ; checks if the char before is not
+       (/= (char-before start) ?\\))
+      t  ; return t to indicate composition
+    ; otherwise call the default function
+    (prettify-symbols-default-compose-p start end _match)))
+#+END_SRC
+
+** Tweak into the mode hook
+
+As both =prettify-symbols-alist= and =prettify-symbols-compose-predicate=
+are buffer-local variables, it is recommended to set them in a mode
+hook. Below I set them in the org-mode hook. It can also be set in
+latex-mode hook if necessary.
+
+#+BEGIN_SRC elisp :tangle ./dms-pretty-symbols.el
+(defun dms/tweak-prettify-symbols-mode ()
+  "Set values of prettify-symbols-alist and prettify-symbols-compose-predicate"
+  (setq prettify-symbols-alist
+        (dms/load-prettify-symbols "~/.emacs.d/pretty-symbols.csv"))
+  (setq prettify-symbols-compose-predicate
+        'dms/prettify-symbols-compose-predicate))
+
+(add-hook 'org-mode-hook 'dms/tweak-prettify-symbols-mode)
+#+END_SRC
+
+** Alternative implementation: hard replacing
+
+The advantage of =prettify-symbols-mode= is that it is only a way of
+rendering. The file content will not be changed when the minor mode is
+toggled. However, the disadvantage is that it works on the whole
+buffer and, to the best of my knowledge, cannot be restricted to a
+region.
+
+If necessary, one can choose another implementation to translate these
+LaTeX commands to their unicode counterparts, i.e., simply finding and
+replacing. One can implement a function named
+=toggle-unicode-representation=, which can replace commands with unicode
+characters in a region, or vice versa.
+
+** Useful links                                                       :refs:
+
+1. [[https://tony-zorman.com/posts/pretty-latex.html][Prettifying LaTeX Buffers]]
+2. [[https://occasionallycogent.com/emacs_prettify_comments/index.html][Emacs prettify-symbols-mode in Comments]]
+3. [[https://www.emacswiki.org/emacs/PrettySymbol][Pretty Symbol - Emacs Wiki]]
+4. [[https://stackoverflow.com/questions/22937393/emacs-lisp-prettify-symbols-mode-for-latex][Emacs-lisp: prettify-symbols-mode for LaTeX - Stack Overflow]]
+

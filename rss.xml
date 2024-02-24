@@ -4,7 +4,198 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sat, 24 Feb 2024 00:05:55 +0800</lastBuildDate>
+<lastBuildDate>Sun, 25 Feb 2024 00:28:13 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Display LaTeX Command with Unicode Characters in Emacs]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga74e2ce">Create the list of pretty symbols</a></li>
+<li><a href="#orgbe7d36b">Decide whether to compose</a></li>
+<li><a href="#org2c624ae">Tweak into the mode hook</a></li>
+<li><a href="#org36b71c0">Alternative implementation: hard replacing</a></li>
+<li><a href="#org045a5db">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+</ul>
+</div>
+</nav>
+<p>
+If the minor mode <code>prettify-symbols-mode</code> is enabled, Emacs will display
+certain strings with more attractive versions according to
+<code>prettify-symbols-alist</code>. For example, <code>$\mathbb{P}(\Omega) \leq 1$</code> might be
+displayed as <code>$ℙ(Ω) ≤ 1$</code>. This happends without modifying the content
+and could be disabled by turning off the <code>prettify-symbols-mode</code> if
+necessary. This feature may be very useful in writing LaTeX formulae.
+</p>
+
+<p>
+This is the effect after incorporating the settings introduced in this
+post.
+</p>
+
+<p>
+Before prettify
+<img src="./before-prettify.png" alt="before-prettify.png">
+</p>
+
+<p>
+After prettify
+<img src="./after-prettify.png" alt="after-prettify.png">
+</p>
+
+<div id="outline-container-orga74e2ce" class="outline-2">
+<h2 id="orga74e2ce">Create the list of pretty symbols</h2>
+<div class="outline-text-2" id="text-orga74e2ce">
+<p>
+Each element <code>prettify-symbols-alist</code> looks like <code>(SYMBOL . CHARACTER)</code>,
+where the symbol matching <code>SYMBOL</code> (a string, not a regexp) will be
+shown as <code>CHARACTER</code> instead.
+</p>
+
+<p>
+I create <a href="https://gist.github.com/Dou-Meishi/7c90c9b24fc7d9f6a7cba27cf27b6992">a CSV file</a> to store the symbols and associate pretty
+characters. Below is a lisp function which parse such a CSV file and
+return a list suitable for <code>prettify-symbols-alist</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/load-prettify-symbols</span> (file)
+  <span style="color: #2aa198;">"Load a CSV file and return a suitable list for `prettify-symbols-alist`.</span>
+
+<span style="color: #2aa198;">The CSV file should be separated by `, `, where the space after</span>
+<span style="color: #2aa198;">comma is mandatory. In each line, the string before the comma</span>
+<span style="color: #2aa198;">will be displayed by the pretty symbol after the comma."</span>
+  (<span style="color: #859900; font-weight: bold;">with-temp-buffer</span>
+    (insert-file-contents file)
+    (<span style="color: #859900; font-weight: bold;">setq</span> contents (split-string (buffer-string) <span style="color: #2aa198;">"\n"</span> t))
+    (<span style="color: #859900; font-weight: bold;">setq</span> loaded-prettify-symbols-alist '())
+    (<span style="color: #859900; font-weight: bold;">dolist</span> (line contents loaded-prettify-symbols-alist)
+      (<span style="color: #859900; font-weight: bold;">let*</span> ((pair (split-string line <span style="color: #2aa198;">", "</span> t))
+             (original-string (car pair))
+             (pretty-symbol (cadr pair))
+             <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Convert string to a char as `prettify-symbols-alist` uses chars not strings</span>
+             (pretty-char-symbol (string-to-char pretty-symbol)))
+        (<span style="color: #859900; font-weight: bold;">push</span> (cons original-string pretty-char-symbol) loaded-prettify-symbols-alist)))))
+</pre>
+</div>
+
+<p>
+The CSV file looks like
+</p>
+
+<pre class="example" id="org2446fcc">
+\mathbb{P}, ℙ
+\leq, ≤
+\geq, ≥
+...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgbe7d36b" class="outline-2">
+<h2 id="orgbe7d36b">Decide whether to compose</h2>
+<div class="outline-text-2" id="text-orgbe7d36b">
+<p>
+The variable <code>prettify-symbols-compose-predicate</code> is a predicate for
+deciding if the currently matched symbol is to be composed.  By
+default, not all appearance will be prettified. For example, the
+string <code>\mathbb{P},</code> will not be prettified as the <code>\mathbb{P}</code> is followed by a comma.
+However, this situation happens frequently in writing formulae. So I
+overwrite the rule to
+</p>
+
+<ol class="org-ol">
+<li>if the matched symbol starts by <code>\</code> and the character before it is
+not <code>\</code>, then prettify;</li>
+<li>otherwise, call the default predicate.</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/prettify-symbols-compose-predicate</span> (start end _match)
+  <span style="color: #2aa198;">"Custom prettify symbols compose predicate.</span>
+
+<span style="color: #2aa198;">If the matched strings start with the backslash char `\\` and</span>
+<span style="color: #2aa198;">the char before the start char is not `\\`, then return non-nil</span>
+<span style="color: #2aa198;">to indicate composition. For any other case, call the default</span>
+<span style="color: #2aa198;">`prettify-symbols-default-compose-p`."</span>
+  (<span style="color: #859900; font-weight: bold;">if</span> (<span style="color: #859900; font-weight: bold;">and</span>
+       <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">ensures that there is a char before start</span>
+       (&gt; start (point-min))
+       <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">checks if the matched string starts with \</span>
+       (= (char-after start) ?\\)
+       <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">checks if the char before is not</span>
+       (/= (char-before start) ?\\))
+      t  <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">return t to indicate composition</span>
+    <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">otherwise call the default function</span>
+    (prettify-symbols-default-compose-p start end _match)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2c624ae" class="outline-2">
+<h2 id="org2c624ae">Tweak into the mode hook</h2>
+<div class="outline-text-2" id="text-org2c624ae">
+<p>
+As both <code>prettify-symbols-alist</code> and <code>prettify-symbols-compose-predicate</code>
+are buffer-local variables, it is recommended to set them in a mode
+hook. Below I set them in the org-mode hook. It can also be set in
+latex-mode hook if necessary.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/tweak-prettify-symbols-mode</span> ()
+  <span style="color: #2aa198;">"Set values of prettify-symbols-alist and prettify-symbols-compose-predicate"</span>
+  (<span style="color: #859900; font-weight: bold;">setq</span> prettify-symbols-alist
+        (dms/load-prettify-symbols <span style="color: #2aa198;">"~/.emacs.d/pretty-symbols.csv"</span>))
+  (<span style="color: #859900; font-weight: bold;">setq</span> prettify-symbols-compose-predicate
+        'dms/prettify-symbols-compose-predicate))
+
+(add-hook 'org-mode-hook 'dms/tweak-prettify-symbols-mode)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org36b71c0" class="outline-2">
+<h2 id="org36b71c0">Alternative implementation: hard replacing</h2>
+<div class="outline-text-2" id="text-org36b71c0">
+<p>
+The advantage of <code>prettify-symbols-mode</code> is that it is only a way of
+rendering. The file content will not be changed when the minor mode is
+toggled. However, the disadvantage is that it works on the whole
+buffer and, to the best of my knowledge, cannot be restricted to a
+region.
+</p>
+
+<p>
+If necessary, one can choose another implementation to translate these
+LaTeX commands to their unicode counterparts, i.e., simply finding and
+replacing. One can implement a function named
+<code>toggle-unicode-representation</code>, which can replace commands with unicode
+characters in a region, or vice versa.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org045a5db" class="outline-2">
+<h2 id="org045a5db">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org045a5db">
+<ol class="org-ol">
+<li><a href="https://tony-zorman.com/posts/pretty-latex.html">Prettifying LaTeX Buffers</a></li>
+<li><a href="https://occasionallycogent.com/emacs_prettify_comments/index.html">Emacs prettify-symbols-mode in Comments</a></li>
+<li><a href="https://www.emacswiki.org/emacs/PrettySymbol">Pretty Symbol - Emacs Wiki</a></li>
+<li><a href="https://stackoverflow.com/questions/22937393/emacs-lisp-prettify-symbols-mode-for-latex">Emacs-lisp: prettify-symbols-mode for LaTeX - Stack Overflow</a></li>
+</ol>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div>]]></description>
+  <category><![CDATA[emacs]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-02-24-EmacsPrettifySymbols/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-02-24-EmacsPrettifySymbols/notes.html</guid>
+  <pubDate>Sat, 24 Feb 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Convergence in Probability]]></title>
   <description><![CDATA[
