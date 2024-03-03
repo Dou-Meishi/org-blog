@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sun, 25 Feb 2024 00:28:13 +0800</lastBuildDate>
+<lastBuildDate>Sun, 03 Mar 2024 16:51:52 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Display LaTeX Command with Unicode Characters in Emacs]]></title>
   <description><![CDATA[
@@ -12,11 +12,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga74e2ce">Create the list of pretty symbols</a></li>
-<li><a href="#orgbe7d36b">Decide whether to compose</a></li>
-<li><a href="#org2c624ae">Tweak into the mode hook</a></li>
-<li><a href="#org36b71c0">Alternative implementation: hard replacing</a></li>
-<li><a href="#org045a5db">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org53a29e9">Create the list of pretty symbols</a></li>
+<li><a href="#orgb314934">Decide whether to compose</a></li>
+<li><a href="#orgbc0c632">Tweak into the mode hook</a></li>
+<li><a href="#orgd75956a">Choose appropriate fonts</a></li>
+<li><a href="#org1912001">Add more symbols</a></li>
+<li><a href="#org1eecd5b">Alternative implementation: hard replacing</a></li>
+<li><a href="#org58aa477">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -44,9 +46,9 @@ After prettify
 <img src="./after-prettify.png" alt="after-prettify.png">
 </p>
 
-<div id="outline-container-orga74e2ce" class="outline-2">
-<h2 id="orga74e2ce">Create the list of pretty symbols</h2>
-<div class="outline-text-2" id="text-orga74e2ce">
+<div id="outline-container-org53a29e9" class="outline-2">
+<h2 id="org53a29e9">Create the list of pretty symbols</h2>
+<div class="outline-text-2" id="text-org53a29e9">
 <p>
 Each element <code>prettify-symbols-alist</code> looks like <code>(SYMBOL . CHARACTER)</code>,
 where the symbol matching <code>SYMBOL</code> (a string, not a regexp) will be
@@ -84,7 +86,7 @@ return a list suitable for <code>prettify-symbols-alist</code>.
 The CSV file looks like
 </p>
 
-<pre class="example" id="org2446fcc">
+<pre class="example" id="org04a66e9">
 \mathbb{P}, ℙ
 \leq, ≤
 \geq, ≥
@@ -93,50 +95,35 @@ The CSV file looks like
 </div>
 </div>
 
-<div id="outline-container-orgbe7d36b" class="outline-2">
-<h2 id="orgbe7d36b">Decide whether to compose</h2>
-<div class="outline-text-2" id="text-orgbe7d36b">
+<div id="outline-container-orgb314934" class="outline-2">
+<h2 id="orgb314934">Decide whether to compose</h2>
+<div class="outline-text-2" id="text-orgb314934">
 <p>
 The variable <code>prettify-symbols-compose-predicate</code> is a predicate for
 deciding if the currently matched symbol is to be composed.  By
 default, not all appearance will be prettified. For example, the
-string <code>\mathbb{P},</code> will not be prettified as the <code>\mathbb{P}</code> is followed by a comma.
-However, this situation happens frequently in writing formulae. So I
-overwrite the rule to
+string <code>\mathbb{P},</code> will not be prettified as the <code>\mathbb{P}</code> is
+followed by a comma.  However, this situation happens frequently in
+writing formulae. So I overwrite the rule to allow these cases.
 </p>
 
-<ol class="org-ol">
-<li>if the matched symbol starts by <code>\</code> and the character before it is
-not <code>\</code>, then prettify;</li>
-<li>otherwise, call the default predicate.</li>
-</ol>
-
 <div class="org-src-container">
-<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/prettify-symbols-compose-predicate</span> (start end _match)
-  <span style="color: #2aa198;">"Custom prettify symbols compose predicate.</span>
-
-<span style="color: #2aa198;">If the matched strings start with the backslash char `\\` and</span>
-<span style="color: #2aa198;">the char before the start char is not `\\`, then return non-nil</span>
-<span style="color: #2aa198;">to indicate composition. For any other case, call the default</span>
-<span style="color: #2aa198;">`prettify-symbols-default-compose-p`."</span>
-  (<span style="color: #859900; font-weight: bold;">if</span> (<span style="color: #859900; font-weight: bold;">and</span>
-       <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">ensures that there is a char before start</span>
-       (&gt; start (point-min))
-       <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">checks if the matched string starts with \</span>
-       (= (char-after start) ?\\)
-       <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">checks if the char before is not</span>
-       (/= (char-before start) ?\\))
-      t  <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">return t to indicate composition</span>
-    <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">otherwise call the default function</span>
-    (prettify-symbols-default-compose-p start end _match)))
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">dms/lax-prettify-symbols-compose-p</span> (start end _match)
+  <span style="color: #2aa198;">"A more lax compose predicate that allows compositing even when</span>
+<span style="color: #2aa198;"> the match is followed by digits, parentheses, punctuation,</span>
+<span style="color: #2aa198;"> or whitespace characters."</span>
+  (<span style="color: #859900; font-weight: bold;">let</span> ((next-char (char-after end)))
+    (<span style="color: #859900; font-weight: bold;">or</span>
+     (<span style="color: #859900; font-weight: bold;">and</span> next-char (string-match-p <span style="color: #2aa198;">"[[:digit:]()[:punct:][:space:]]"</span> (char-to-string next-char)))
+     (prettify-symbols-default-compose-p start end _match))))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2c624ae" class="outline-2">
-<h2 id="org2c624ae">Tweak into the mode hook</h2>
-<div class="outline-text-2" id="text-org2c624ae">
+<div id="outline-container-orgbc0c632" class="outline-2">
+<h2 id="orgbc0c632">Tweak into the mode hook</h2>
+<div class="outline-text-2" id="text-orgbc0c632">
 <p>
 As both <code>prettify-symbols-alist</code> and <code>prettify-symbols-compose-predicate</code>
 are buffer-local variables, it is recommended to set them in a mode
@@ -150,7 +137,7 @@ latex-mode hook if necessary.
   (<span style="color: #859900; font-weight: bold;">setq</span> prettify-symbols-alist
         (dms/load-prettify-symbols <span style="color: #2aa198;">"~/.emacs.d/pretty-symbols.csv"</span>))
   (<span style="color: #859900; font-weight: bold;">setq</span> prettify-symbols-compose-predicate
-        'dms/prettify-symbols-compose-predicate))
+        'dms/lax-prettify-symbols-compose-p))
 
 (add-hook 'org-mode-hook 'dms/tweak-prettify-symbols-mode)
 </pre>
@@ -158,9 +145,77 @@ latex-mode hook if necessary.
 </div>
 </div>
 
-<div id="outline-container-org36b71c0" class="outline-2">
-<h2 id="org36b71c0">Alternative implementation: hard replacing</h2>
-<div class="outline-text-2" id="text-org36b71c0">
+<div id="outline-container-orgd75956a" class="outline-2">
+<h2 id="orgd75956a">Choose appropriate fonts</h2>
+<div class="outline-text-2" id="text-orgd75956a">
+<p>
+In most cases, many mathematical symbols are not included in the main
+font. Fortunately, Emacs has the abilit to display selected characters
+with certain fonts, achieving an effect of combining fonts; see the
+fontset concept <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Fontsets.html">in the doc</a>.
+</p>
+
+<p>
+Below I patch the default fontset in order to
+</p>
+
+<ol class="org-ol">
+<li>display unicode characters within the range <code>U2100</code>  to <code>U214F</code> with font DejaVu Sans;</li>
+<li>display unicode characters within the range <code>U1D7D8</code> to <code>U1D7#1</code> with font DejaVu Sans;</li>
+<li>display unicode characters within the range <code>U1D538</code> to <code>U1D56B</code> with font DeJaVu Sans;</li>
+<li>display unicode characters within the range <code>U1D4D0</code> to <code>U1D4E9</code> with font Libertinus Math</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">refer to https://dejavu.sourceforge.net/samples/DejaVuSans.pdf</span>
+<span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Unicode Letterlike symbols</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> '(#x2100 . #x214F) <span style="color: #2aa198;">"DejaVu Sans"</span>)
+<span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Blackboard letters 0 to 9</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> '(#x1D7D8 . #x1D7E1) <span style="color: #2aa198;">"DejaVu Sans"</span>)
+<span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Blackboard letters A to Z and a to z</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> '(#x1D538 . #x1D56B) <span style="color: #2aa198;">"DejaVu Sans"</span>)
+
+<span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Bold script letters</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> '(#x1D4D0 . #x1D4E9) <span style="color: #2aa198;">"Libertinus Math"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1912001" class="outline-2">
+<h2 id="org1912001">Add more symbols</h2>
+<div class="outline-text-2" id="text-org1912001">
+<p>
+In general, the following things are needed to display unicode characters by composition:
+</p>
+
+<ol class="org-ol">
+<li>the string to be replaced, like <code>\mathscr{L}</code>;</li>
+<li>the symbol to be rendered, like <code>𝓛</code>;</li>
+<li>(<i>optional</i>) an appropriate font which can display the symbol.</li>
+</ol>
+
+<p>
+There is a convenient way to find the unicode symbol, i.e., the second
+thing. In Emacs, there is a builtin shortcut <code>C-x 8</code>, which can insert
+the unicode character from its codepoint or its name. For example, the
+command <code>C-x 8 RET MATHEMATICAL BOLD SCRIPT CAPITAL L</code> will insert the
+script letter 𝓛 (actually the bold version here as the normal version
+is too thin). In fact, if you type <code>C-x 8 RET MATHEMATICAL TAB</code> then
+Emacs will pops up a list of mathematical symbols for selection.
+</p>
+
+
+<figure id="orgb21dff2">
+<img src="./script-letters.png" alt="script-letters.png">
+
+</figure>
+</div>
+</div>
+
+<div id="outline-container-org1eecd5b" class="outline-2">
+<h2 id="org1eecd5b">Alternative implementation: hard replacing</h2>
+<div class="outline-text-2" id="text-org1eecd5b">
 <p>
 The advantage of <code>prettify-symbols-mode</code> is that it is only a way of
 rendering. The file content will not be changed when the minor mode is
@@ -179,9 +234,9 @@ characters in a region, or vice versa.
 </div>
 </div>
 
-<div id="outline-container-org045a5db" class="outline-2">
-<h2 id="org045a5db">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org045a5db">
+<div id="outline-container-org58aa477" class="outline-2">
+<h2 id="org58aa477">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org58aa477">
 <ol class="org-ol">
 <li><a href="https://tony-zorman.com/posts/pretty-latex.html">Prettifying LaTeX Buffers</a></li>
 <li><a href="https://occasionallycogent.com/emacs_prettify_comments/index.html">Emacs prettify-symbols-mode in Comments</a></li>

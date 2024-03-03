@@ -63,32 +63,19 @@ The CSV file looks like
 The variable =prettify-symbols-compose-predicate= is a predicate for
 deciding if the currently matched symbol is to be composed.  By
 default, not all appearance will be prettified. For example, the
-string =\mathbb{P},= will not be prettified as the =\mathbb{P}= is followed by a comma.
-However, this situation happens frequently in writing formulae. So I
-overwrite the rule to
-
-1. if the matched symbol starts by =\= and the character before it is
-   not =\=, then prettify;
-2. otherwise, call the default predicate.
+string =\mathbb{P},= will not be prettified as the =\mathbb{P}= is
+followed by a comma.  However, this situation happens frequently in
+writing formulae. So I overwrite the rule to allow these cases.
 
 #+BEGIN_SRC elisp :tangle ./dms-pretty-symbols.el
-(defun dms/prettify-symbols-compose-predicate (start end _match)
-  "Custom prettify symbols compose predicate.
-
-If the matched strings start with the backslash char `\\` and
-the char before the start char is not `\\`, then return non-nil
-to indicate composition. For any other case, call the default
-`prettify-symbols-default-compose-p`."
-  (if (and
-       ; ensures that there is a char before start
-       (> start (point-min))
-       ; checks if the matched string starts with \
-       (= (char-after start) ?\\)
-       ; checks if the char before is not
-       (/= (char-before start) ?\\))
-      t  ; return t to indicate composition
-    ; otherwise call the default function
-    (prettify-symbols-default-compose-p start end _match)))
+(defun dms/lax-prettify-symbols-compose-p (start end _match)
+  "A more lax compose predicate that allows compositing even when
+ the match is followed by digits, parentheses, punctuation,
+ or whitespace characters."
+  (let ((next-char (char-after end)))
+    (or
+     (and next-char (string-match-p "[[:digit:]()[:punct:][:space:]]" (char-to-string next-char)))
+     (prettify-symbols-default-compose-p start end _match))))
 #+END_SRC
 
 ** Tweak into the mode hook
@@ -104,10 +91,55 @@ latex-mode hook if necessary.
   (setq prettify-symbols-alist
         (dms/load-prettify-symbols "~/.emacs.d/pretty-symbols.csv"))
   (setq prettify-symbols-compose-predicate
-        'dms/prettify-symbols-compose-predicate))
+        'dms/lax-prettify-symbols-compose-p))
 
 (add-hook 'org-mode-hook 'dms/tweak-prettify-symbols-mode)
 #+END_SRC
+
+** Choose appropriate fonts
+
+In most cases, many mathematical symbols are not included in the main
+font. Fortunately, Emacs has the abilit to display selected characters
+with certain fonts, achieving an effect of combining fonts; see the
+fontset concept [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Fontsets.html][in the doc]].
+
+Below I patch the default fontset in order to
+
+1. display unicode characters within the range =U2100=  to =U214F= with font DejaVu Sans;
+2. display unicode characters within the range =U1D7D8= to =U1D7#1= with font DejaVu Sans;
+3. display unicode characters within the range =U1D538= to =U1D56B= with font DeJaVu Sans;
+4. display unicode characters within the range =U1D4D0= to =U1D4E9= with font Libertinus Math
+
+#+BEGIN_SRC elisp
+;; refer to https://dejavu.sourceforge.net/samples/DejaVuSans.pdf
+;; Unicode Letterlike symbols
+(set-fontset-font "fontset-default" '(#x2100 . #x214F) "DejaVu Sans")
+;; Blackboard letters 0 to 9
+(set-fontset-font "fontset-default" '(#x1D7D8 . #x1D7E1) "DejaVu Sans")
+;; Blackboard letters A to Z and a to z
+(set-fontset-font "fontset-default" '(#x1D538 . #x1D56B) "DejaVu Sans")
+
+;; Bold script letters
+(set-fontset-font "fontset-default" '(#x1D4D0 . #x1D4E9) "Libertinus Math")
+#+END_SRC
+
+** Add more symbols
+
+In general, the following things are needed to display unicode characters by composition:
+
+1. the string to be replaced, like =\mathscr{L}=;
+2. the symbol to be rendered, like =𝓛=;
+3. (/optional/) an appropriate font which can display the symbol.
+
+There is a convenient way to find the unicode symbol, i.e., the second
+thing. In Emacs, there is a builtin shortcut =C-x 8=, which can insert
+the unicode character from its codepoint or its name. For example, the
+command =C-x 8 RET MATHEMATICAL BOLD SCRIPT CAPITAL L= will insert the
+script letter 𝓛 (actually the bold version here as the normal version
+is too thin). In fact, if you type =C-x 8 RET MATHEMATICAL TAB= then
+Emacs will pops up a list of mathematical symbols for selection.
+
+[[./script-letters.png]]
 
 ** Alternative implementation: hard replacing
 
