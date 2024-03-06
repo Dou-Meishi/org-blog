@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Seamless Writing and Rendering with Emacs Org</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">06 Mar 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-03-06-SeamlessBlogWriting/notes.html">Seamless Writing and Rendering with Emacs Org</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org78a5239">A new minor mode</a></li>
+<li><a href="#orgc6736d0">A simple local server with autoreload</a></li>
+<li><a href="#org676092b">Replace MathJax with KaTeX</a></li>
+</ul>
+</div>
+</nav>
+<p>
+One nice feature of <code>.org</code> files is their easy export to HTML for
+viewing on any browser. Recently, I realized that it is even possible
+to seamlessly integrate writing and exporting processes by telling
+Emacs to export the <code>.org</code> file every time I save it. Then by launching
+a local server with autoreload, I can immediately preview the HTML
+version of the <code>.org</code> file. This is particular useful in writing LaTeX
+equations, where it is very hard to imagine what you are writign
+without renderin.
+</p>
+
+<p>
+The basic idea is creating a customized minor mode in which the
+exporting function is added to the <code>after-save-hook</code>. Combining with the
+<code>prettify-symbols-mode</code> (discussed in <a href="../2024-02-24-EmacsPrettifySymbols/notes.html">the previous post</a>), writing
+formulae in Emacs turns out to be enjoyable for me.
+</p>
+
+<div style="position: relative; padding-bottom: 62.5%; height: 0;"><iframe src="https://www.loom.com/embed/092c404ffda44c3b9f1855c394bf7a64?sid=a77e1bfb-eb29-4d7b-9389-4a83522b7c79" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+<p>
+Above is the final effect (the vedio was recorded and inserted via
+<a href="https://www.loom.com/">Loom</a>). It involves several simple components:
+</p>
+
+<ol class="org-ol">
+<li>A minor mode called <code>dms/blog-mode</code> in which the file gets exported
+to HTML after saving;</li>
+<li>A local server which can reload the html page when it changes;</li>
+<li><i>(Optional)</i> The KaTeX framework for math rendering to replace
+MathJax.</li>
+</ol>
+
+<div id="outline-container-org78a5239" class="outline-2">
+<h2 id="org78a5239">A new minor mode</h2>
+<div class="outline-text-2" id="text-org78a5239">
+<p>
+Create such a new minor mode is very simple.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">define-minor-mode</span> <span style="color: #268bd2;">dms/blog-mode</span>
+  <span style="color: #2aa198;">"Automatically export Org files to HTML after saving.</span>
+
+<span style="color: #2aa198;">This mode also enables the prettify-symbols-mode."</span>
+  <span style="color: #657b83; font-weight: bold;">:lighter</span> <span style="color: #2aa198;">" dms/blog"</span>
+  (<span style="color: #859900; font-weight: bold;">if</span> dms/blog-mode
+      (add-hook 'after-save-hook 'org-html-export-to-html 0 'make-it-local)
+    (remove-hook 'after-save-hook 'org-html-export-to-html
+                 'make-it-local))
+  (prettify-symbols-mode 1)
+)
+</pre>
+</div>
+
+<p>
+As any function in <code>after-save-hook</code> will be executed after saving, I
+add <code>org-html-export-to-html</code> to it when enering this new minor mode and
+remove it when exiting. In either case, the <code>prettify-symbols-mode</code> is
+enabled.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc6736d0" class="outline-2">
+<h2 id="orgc6736d0">A simple local server with autoreload</h2>
+<div class="outline-text-2" id="text-orgc6736d0">
+<p>
+As the exported file is only a static HTML page, it will not be
+updated when its content changes. So it is necessary to find a way to
+refresh the page after updates. Fortunately, there is a nice python
+project <a href="https://github.com/lepture/python-livereload">python-livereload</a> which can start a simple local http server,
+watch a file/directory and reload pages on changes.
+</p>
+
+<p>
+After installation, I can use a simple command to launch a server and
+host a static HTML page, e.g., <code>/tmp/temporary-drafts.html</code> on the URL
+<code>http://localhost:35729//tmp/temporary-drafts.html</code> (35729 is the
+default port used by <code>livereload</code>; see <a href="https://livereload.readthedocs.io/en/latest/cli.html">its doc</a> for more details).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">livereload -t /tmp/temporary-drafts.html
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org676092b" class="outline-2">
+<h2 id="org676092b">Replace MathJax with KaTeX</h2>
+<div class="outline-text-2" id="text-org676092b">
+<p>
+By default, Emacs uses MathJax in the exported HTML file to rende math
+equations. But personally I feel KaTeX is smoother and faster. So I
+use the following snippet to disable MathJax and insert KaTeX scripts
+in the head; see also <a href="https://katex.org/docs/browser">the doc</a> for how to included it in HTML.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">use-package</span> org
+  <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">replace MathJax with KaTeX</span>
+  <span style="color: #657b83; font-weight: bold;">:config</span>
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-html-mathjax-template <span style="color: #2aa198;">""</span>)
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-html-head (concat org-html-head
+          <span style="color: #2aa198;">"&lt;!-- Math Support by KaTeX --&gt;</span>
+<span style="color: #2aa198;">&lt;link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css\" integrity=\"sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV\" crossorigin=\"anonymous\"&gt;</span>
+<span style="color: #2aa198;">&lt;!-- The loading of KaTeX is deferred to speed up page rendering --&gt;</span>
+<span style="color: #2aa198;">&lt;script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js\" integrity=\"sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8\" crossorigin=\"anonymous\"&gt;&lt;/script&gt;</span>
+<span style="color: #2aa198;">&lt;!-- To automatically render math in text elements, include the auto-render extension: --&gt;</span>
+<span style="color: #2aa198;">&lt;script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js\" integrity=\"sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05\" crossorigin=\"anonymous\" onload=\"renderMathInElement(document.body);\"&gt;&lt;/script&gt;"</span>))
+)
+</pre>
+</div>
+
+<p>
+If you prefer MathJax, I recommend modifying the default value of
+<code>org-html-mathjax-template</code> to enable the lazy typesetting feature; see <a href="https://docs.mathjax.org/en/latest/output/lazy.html">the MathJax doc</a>.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

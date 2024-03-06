@@ -1,0 +1,97 @@
+#+TITLE: Seamless Writing and Rendering with Emacs Org
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-03-06]
+#+FILETAGS: emacs
+
+One nice feature of =.org= files is their easy export to HTML for
+viewing on any browser. Recently, I realized that it is even possible
+to seamlessly integrate writing and exporting processes by telling
+Emacs to export the =.org= file every time I save it. Then by launching
+a local server with autoreload, I can immediately preview the HTML
+version of the =.org= file. This is particular useful in writing LaTeX
+equations, where it is very hard to imagine what you are writign
+without renderin.
+
+The basic idea is creating a customized minor mode in which the
+exporting function is added to the =after-save-hook=. Combining with the
+=prettify-symbols-mode= (discussed in [[../2024-02-24-EmacsPrettifySymbols/notes.org][the previous post]]), writing
+formulae in Emacs turns out to be enjoyable for me.
+
+#+BEGIN_export HTML
+<div style="position: relative; padding-bottom: 62.5%; height: 0;"><iframe src="https://www.loom.com/embed/092c404ffda44c3b9f1855c394bf7a64?sid=a77e1bfb-eb29-4d7b-9389-4a83522b7c79" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+#+END_export
+
+Above is the final effect (the vedio was recorded and inserted via
+[[https://www.loom.com/][Loom]]). It involves several simple components:
+
+1. A minor mode called =dms/blog-mode= in which the file gets exported
+   to HTML after saving;
+2. A local server which can reload the html page when it changes;
+3. /(Optional)/ The KaTeX framework for math rendering to replace
+   MathJax.
+
+** A new minor mode
+
+Create such a new minor mode is very simple.
+
+#+BEGIN_SRC elisp
+(define-minor-mode dms/blog-mode
+  "Automatically export Org files to HTML after saving.
+
+This mode also enables the prettify-symbols-mode."
+  :lighter " dms/blog"
+  (if dms/blog-mode
+      (add-hook 'after-save-hook 'org-html-export-to-html 0 'make-it-local)
+    (remove-hook 'after-save-hook 'org-html-export-to-html
+                 'make-it-local))
+  (prettify-symbols-mode 1)
+)
+#+END_SRC
+
+As any function in =after-save-hook= will be executed after saving, I
+add =org-html-export-to-html= to it when enering this new minor mode and
+remove it when exiting. In either case, the =prettify-symbols-mode= is
+enabled.
+
+** A simple local server with autoreload
+
+As the exported file is only a static HTML page, it will not be
+updated when its content changes. So it is necessary to find a way to
+refresh the page after updates. Fortunately, there is a nice python
+project [[https://github.com/lepture/python-livereload][python-livereload]] which can start a simple local http server,
+watch a file/directory and reload pages on changes.
+
+After installation, I can use a simple command to launch a server and
+host a static HTML page, e.g., =/tmp/temporary-drafts.html= on the URL
+=http://localhost:35729//tmp/temporary-drafts.html= (35729 is the
+default port used by =livereload=; see [[https://livereload.readthedocs.io/en/latest/cli.html][its doc]] for more details).
+
+#+BEGIN_SRC sh
+livereload -t /tmp/temporary-drafts.html
+#+END_SRC
+
+** Replace MathJax with KaTeX
+
+By default, Emacs uses MathJax in the exported HTML file to rende math
+equations. But personally I feel KaTeX is smoother and faster. So I
+use the following snippet to disable MathJax and insert KaTeX scripts
+in the head; see also [[https://katex.org/docs/browser][the doc]] for how to included it in HTML.
+
+#+BEGIN_SRC elisp
+(use-package org
+  ;; replace MathJax with KaTeX
+  :config
+  (setq org-html-mathjax-template "")
+  (setq org-html-head (concat org-html-head
+          "<!-- Math Support by KaTeX -->
+<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css\" integrity=\"sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV\" crossorigin=\"anonymous\">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js\" integrity=\"sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8\" crossorigin=\"anonymous\"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src=\"https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js\" integrity=\"sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05\" crossorigin=\"anonymous\" onload=\"renderMathInElement(document.body);\"></script>"))
+)
+#+END_SRC
+
+If you prefer MathJax, I recommend modifying the default value of
+=org-html-mathjax-template= to enable the lazy typesetting feature; see [[https://docs.mathjax.org/en/latest/output/lazy.html][the MathJax doc]].
+
