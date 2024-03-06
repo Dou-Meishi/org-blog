@@ -9,6 +9,7 @@
 <title>Configure Git</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -33,19 +34,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org245d1d9">1. Basic Configuration</a>
+<li><a href="#org3f802b5">1. Basic Configuration</a>
 <ul>
-<li><a href="#org29b6188">1.1. Transfer Existed Configuration</a></li>
-<li><a href="#orge7ce122">1.2. First-Time Set up</a></li>
+<li><a href="#org9aa43f0">1.1. Transfer Existed Configuration</a></li>
+<li><a href="#orga5660f3">1.2. First-Time Set up</a></li>
 </ul>
 </li>
-<li><a href="#orgfb63118">2. Add-ons</a>
+<li><a href="#orgd3352ae">2. Add-ons</a>
 <ul>
-<li><a href="#org3aa08be">2.1. Prompt</a></li>
-<li><a href="#orgf2947ae">2.2. Pager</a></li>
+<li><a href="#org03f9a69">2.1. Prompt</a></li>
+<li><a href="#org3c06999">2.2. Pager</a></li>
 </ul>
 </li>
-<li><a href="#orgdc0a108">3. An Example of .gitconfig</a></li>
+<li><a href="#org5e03d99">3. An Example of .gitconfig</a></li>
 </ul>
 </div>
 </nav>
@@ -54,13 +55,13 @@ See <a href="https://git-scm.com/book/en/v2">Pro Git</a> if you are not familiar
 with Git.
 </p>
 
-<div id="outline-container-org245d1d9" class="outline-2">
-<h2 id="org245d1d9">1. Basic Configuration</h2>
-<div class="outline-text-2" id="text-org245d1d9">
+<div id="outline-container-org3f802b5" class="outline-2">
+<h2 id="org3f802b5">1. Basic Configuration</h2>
+<div class="outline-text-2" id="text-org3f802b5">
 </div>
-<div id="outline-container-org29b6188" class="outline-3">
-<h3 id="org29b6188">1.1. Transfer Existed Configuration</h3>
-<div class="outline-text-3" id="text-org29b6188">
+<div id="outline-container-org9aa43f0" class="outline-3">
+<h3 id="org9aa43f0">1.1. Transfer Existed Configuration</h3>
+<div class="outline-text-3" id="text-org9aa43f0">
 <ol class="org-ol">
 <li>Copy the global git configuration file to <code>~/.gitconfig</code>.</li>
 
@@ -79,9 +80,9 @@ ssh-add ~/.ssh/id_ed25519
 </div>
 </div>
 
-<div id="outline-container-orge7ce122" class="outline-3">
-<h3 id="orge7ce122">1.2. First-Time Set up</h3>
-<div class="outline-text-3" id="text-orge7ce122">
+<div id="outline-container-orga5660f3" class="outline-3">
+<h3 id="orga5660f3">1.2. First-Time Set up</h3>
+<div class="outline-text-3" id="text-orga5660f3">
 <p>
 See also <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">Pro Git - Section 1.6</a>
 </p>
@@ -147,13 +148,13 @@ git config --global alias.st status
 </div>
 </div>
 
-<div id="outline-container-orgfb63118" class="outline-2">
-<h2 id="orgfb63118">2. Add-ons</h2>
-<div class="outline-text-2" id="text-orgfb63118">
+<div id="outline-container-orgd3352ae" class="outline-2">
+<h2 id="orgd3352ae">2. Add-ons</h2>
+<div class="outline-text-2" id="text-orgd3352ae">
 </div>
-<div id="outline-container-org3aa08be" class="outline-3">
-<h3 id="org3aa08be">2.1. Prompt</h3>
-<div class="outline-text-3" id="text-org3aa08be">
+<div id="outline-container-org03f9a69" class="outline-3">
+<h3 id="org03f9a69">2.1. Prompt</h3>
+<div class="outline-text-3" id="text-org03f9a69">
 <p>
 <a href="https://github.com/magicmonty/bash-git-prompt">bash-git-prompt</a>: A bash prompt that displays information about the
 current git repository.  In particular the branch name, difference
@@ -161,7 +162,7 @@ with remote branch, number of files staged, changed, etc.
 </p>
 
 
-<figure id="org082717c">
+<figure id="orge9113c3">
 <img src="./gitprompt.png" alt="gitprompt.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>Example of bash-git-prompt</figcaption>
@@ -169,15 +170,15 @@ with remote branch, number of files staged, changed, etc.
 </div>
 </div>
 
-<div id="outline-container-orgf2947ae" class="outline-3">
-<h3 id="orgf2947ae">2.2. Pager</h3>
-<div class="outline-text-3" id="text-orgf2947ae">
+<div id="outline-container-org3c06999" class="outline-3">
+<h3 id="org3c06999">2.2. Pager</h3>
+<div class="outline-text-3" id="text-org3c06999">
 <p>
 <a href="https://github.com/dandavison/delta">delta</a>: A syntax-highlighting pager for git, diff, and grep output.
 </p>
 
 
-<figure id="org5431c03">
+<figure id="org122585c">
 <img src="./delta.png" alt="delta.png">
 
 <figcaption><span class="figure-number">Figure 2: </span>Example of delta</figcaption>
@@ -186,10 +187,10 @@ with remote branch, number of files staged, changed, etc.
 </div>
 </div>
 
-<div id="outline-container-orgdc0a108" class="outline-2">
-<h2 id="orgdc0a108">3. An Example of .gitconfig</h2>
-<div class="outline-text-2" id="text-orgdc0a108">
-<pre class="example" id="org7205e2d">
+<div id="outline-container-org5e03d99" class="outline-2">
+<h2 id="org5e03d99">3. An Example of .gitconfig</h2>
+<div class="outline-text-2" id="text-org5e03d99">
+<pre class="example" id="org83b82d1">
 [user]
     name = John Doe
     email = johndoe@example.com

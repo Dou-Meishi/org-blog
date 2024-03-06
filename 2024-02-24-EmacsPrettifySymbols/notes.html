@@ -9,6 +9,7 @@
 <title>Display LaTeX Command with Unicode Characters in Emacs</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -33,13 +34,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org53a29e9">Create the list of pretty symbols</a></li>
-<li><a href="#orgb314934">Decide whether to compose</a></li>
-<li><a href="#orgbc0c632">Tweak into the mode hook</a></li>
-<li><a href="#orgd75956a">Choose appropriate fonts</a></li>
-<li><a href="#org1912001">Add more symbols</a></li>
-<li><a href="#org1eecd5b">Alternative implementation: hard replacing</a></li>
-<li><a href="#org58aa477">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org0d3eccd">Create the list of pretty symbols</a></li>
+<li><a href="#org1f62e23">Decide whether to compose</a></li>
+<li><a href="#org12b9eac">Tweak into the mode hook</a></li>
+<li><a href="#org8bf114e">Choose appropriate fonts</a></li>
+<li><a href="#org734f6f5">Add more symbols</a></li>
+<li><a href="#orgf223107">Alternative implementation: hard replacing</a></li>
+<li><a href="#org81b4201">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -67,9 +68,9 @@ After prettify
 <img src="./after-prettify.png" alt="after-prettify.png">
 </p>
 
-<div id="outline-container-org53a29e9" class="outline-2">
-<h2 id="org53a29e9">Create the list of pretty symbols</h2>
-<div class="outline-text-2" id="text-org53a29e9">
+<div id="outline-container-org0d3eccd" class="outline-2">
+<h2 id="org0d3eccd">Create the list of pretty symbols</h2>
+<div class="outline-text-2" id="text-org0d3eccd">
 <p>
 Each element <code>prettify-symbols-alist</code> looks like <code>(SYMBOL . CHARACTER)</code>,
 where the symbol matching <code>SYMBOL</code> (a string, not a regexp) will be
@@ -107,7 +108,7 @@ return a list suitable for <code>prettify-symbols-alist</code>.
 The CSV file looks like
 </p>
 
-<pre class="example" id="org04a66e9">
+<pre class="example" id="org15259e2">
 \mathbb{P}, ℙ
 \leq, ≤
 \geq, ≥
@@ -116,9 +117,9 @@ The CSV file looks like
 </div>
 </div>
 
-<div id="outline-container-orgb314934" class="outline-2">
-<h2 id="orgb314934">Decide whether to compose</h2>
-<div class="outline-text-2" id="text-orgb314934">
+<div id="outline-container-org1f62e23" class="outline-2">
+<h2 id="org1f62e23">Decide whether to compose</h2>
+<div class="outline-text-2" id="text-org1f62e23">
 <p>
 The variable <code>prettify-symbols-compose-predicate</code> is a predicate for
 deciding if the currently matched symbol is to be composed.  By
@@ -142,9 +143,9 @@ writing formulae. So I overwrite the rule to allow these cases.
 </div>
 </div>
 
-<div id="outline-container-orgbc0c632" class="outline-2">
-<h2 id="orgbc0c632">Tweak into the mode hook</h2>
-<div class="outline-text-2" id="text-orgbc0c632">
+<div id="outline-container-org12b9eac" class="outline-2">
+<h2 id="org12b9eac">Tweak into the mode hook</h2>
+<div class="outline-text-2" id="text-org12b9eac">
 <p>
 As both <code>prettify-symbols-alist</code> and <code>prettify-symbols-compose-predicate</code>
 are buffer-local variables, it is recommended to set them in a mode
@@ -166,9 +167,9 @@ latex-mode hook if necessary.
 </div>
 </div>
 
-<div id="outline-container-orgd75956a" class="outline-2">
-<h2 id="orgd75956a">Choose appropriate fonts</h2>
-<div class="outline-text-2" id="text-orgd75956a">
+<div id="outline-container-org8bf114e" class="outline-2">
+<h2 id="org8bf114e">Choose appropriate fonts</h2>
+<div class="outline-text-2" id="text-org8bf114e">
 <p>
 In most cases, many mathematical symbols are not included in the main
 font. Fortunately, Emacs has the abilit to display selected characters
@@ -203,9 +204,9 @@ Below I patch the default fontset in order to
 </div>
 </div>
 
-<div id="outline-container-org1912001" class="outline-2">
-<h2 id="org1912001">Add more symbols</h2>
-<div class="outline-text-2" id="text-org1912001">
+<div id="outline-container-org734f6f5" class="outline-2">
+<h2 id="org734f6f5">Add more symbols</h2>
+<div class="outline-text-2" id="text-org734f6f5">
 <p>
 In general, the following things are needed to display unicode characters by composition:
 </p>
@@ -227,16 +228,16 @@ Emacs will pops up a list of mathematical symbols for selection.
 </p>
 
 
-<figure id="orgb21dff2">
+<figure id="orge744097">
 <img src="./script-letters.png" alt="script-letters.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org1eecd5b" class="outline-2">
-<h2 id="org1eecd5b">Alternative implementation: hard replacing</h2>
-<div class="outline-text-2" id="text-org1eecd5b">
+<div id="outline-container-orgf223107" class="outline-2">
+<h2 id="orgf223107">Alternative implementation: hard replacing</h2>
+<div class="outline-text-2" id="text-orgf223107">
 <p>
 The advantage of <code>prettify-symbols-mode</code> is that it is only a way of
 rendering. The file content will not be changed when the minor mode is
@@ -255,9 +256,9 @@ characters in a region, or vice versa.
 </div>
 </div>
 
-<div id="outline-container-org58aa477" class="outline-2">
-<h2 id="org58aa477">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org58aa477">
+<div id="outline-container-org81b4201" class="outline-2">
+<h2 id="org81b4201">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org81b4201">
 <ol class="org-ol">
 <li><a href="https://tony-zorman.com/posts/pretty-latex.html">Prettifying LaTeX Buffers</a></li>
 <li><a href="https://occasionallycogent.com/emacs_prettify_comments/index.html">Emacs prettify-symbols-mode in Comments</a></li>

@@ -9,6 +9,7 @@
 <title>Simulating Swap Operations Without Modifying Data</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -33,12 +34,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga0e523c">Introduction</a></li>
-<li><a href="#org79902ba">Background and Applications</a></li>
-<li><a href="#org552407b">Problem Statement and Our Solution</a></li>
+<li><a href="#org9b0aa15">Introduction</a></li>
+<li><a href="#orge6dd324">Background and Applications</a></li>
+<li><a href="#org92f94c7">Problem Statement and Our Solution</a></li>
 <li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#orgf1384e6">Mathematical Justifications</a></li>
+<li><a href="#orga57bc09">Mathematical Justifications</a></li>
 </ul>
 </div>
 </nav>
@@ -46,9 +47,9 @@
 <b>Authors</b>: Dou Meishi, ChatGPT
 </p>
 
-<div id="outline-container-orga0e523c" class="outline-2">
-<h2 id="orga0e523c">Introduction</h2>
-<div class="outline-text-2" id="text-orga0e523c">
+<div id="outline-container-org9b0aa15" class="outline-2">
+<h2 id="org9b0aa15">Introduction</h2>
+<div class="outline-text-2" id="text-org9b0aa15">
 <p>
 In many applications, it is often required to simulate swap operations
 on a list of elements without actually modifying the underlying data.
@@ -68,9 +69,9 @@ will explain the reasons behind our implementation and conclude.
 </div>
 </div>
 
-<div id="outline-container-org79902ba" class="outline-2">
-<h2 id="org79902ba">Background and Applications</h2>
-<div class="outline-text-2" id="text-org79902ba">
+<div id="outline-container-orge6dd324" class="outline-2">
+<h2 id="orge6dd324">Background and Applications</h2>
+<div class="outline-text-2" id="text-orge6dd324">
 <p>
 Swapping elements in a list is a fundamental operation in many
 algorithms, such as sorting algorithms and combinatorial search
@@ -101,9 +102,9 @@ without affecting the original data.</li>
 </div>
 </div>
 
-<div id="outline-container-org552407b" class="outline-2">
-<h2 id="org552407b">Problem Statement and Our Solution</h2>
-<div class="outline-text-2" id="text-org552407b">
+<div id="outline-container-org92f94c7" class="outline-2">
+<h2 id="org92f94c7">Problem Statement and Our Solution</h2>
+<div class="outline-text-2" id="text-org92f94c7">
 <p>
 Suppose we have a list of elements and we want to simulate swap
 operations on this list without modifying the actual data. We also want
@@ -285,9 +286,9 @@ impact of different permutations without affecting the underlying data.
 </div>
 </div>
 
-<div id="outline-container-orgf1384e6" class="outline-2">
-<h2 id="orgf1384e6">Mathematical Justifications</h2>
-<div class="outline-text-2" id="text-orgf1384e6">
+<div id="outline-container-orga57bc09" class="outline-2">
+<h2 id="orga57bc09">Mathematical Justifications</h2>
+<div class="outline-text-2" id="text-orga57bc09">
 <p>
 It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
 </p>

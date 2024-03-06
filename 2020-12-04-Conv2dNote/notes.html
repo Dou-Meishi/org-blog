@@ -9,6 +9,7 @@
 <title>Convolution in CNN</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -33,16 +34,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5b43f23">Input/Output</a></li>
-<li><a href="#org0f7b5a9">Parameters</a>
+<li><a href="#org9d87b62">Input/Output</a></li>
+<li><a href="#org8c381e7">Parameters</a>
 <ul>
-<li><a href="#orgc113a4a">stride</a></li>
-<li><a href="#orgf80084d">padding</a></li>
-<li><a href="#org8cf82d6">dilation</a></li>
+<li><a href="#org1b04e4f">stride</a></li>
+<li><a href="#orge0142cc">padding</a></li>
+<li><a href="#orgedfd494">dilation</a></li>
 </ul>
 </li>
-<li><a href="#org0b0d1fe">Correlation and Convolution</a></li>
-<li><a href="#orgfaaa924">References</a></li>
+<li><a href="#orgb7caa39">Correlation and Convolution</a></li>
+<li><a href="#orgdd5c09e">References</a></li>
 </ul>
 </div>
 </nav>
@@ -54,9 +55,9 @@
 为什么要叫 convolution?
 </p>
 
-<div id="outline-container-org5b43f23" class="outline-2">
-<h2 id="org5b43f23">Input/Output</h2>
-<div class="outline-text-2" id="text-org5b43f23">
+<div id="outline-container-org9d87b62" class="outline-2">
+<h2 id="org9d87b62">Input/Output</h2>
+<div class="outline-text-2" id="text-org9d87b62">
 <p>
 文档中明确给出了输入输出的类型：有四个维度 (N, C, H, W) 的 tensor,
 用 NumPy 的术语来说就是 4d array.
@@ -103,9 +104,9 @@ H<sub>out</sub>, W<sub>out</sub> 则依赖于 H<sub>in</sub> 和 W<sub>out</sub>
 </div>
 </div>
 
-<div id="outline-container-org0f7b5a9" class="outline-2">
-<h2 id="org0f7b5a9">Parameters</h2>
-<div class="outline-text-2" id="text-org0f7b5a9">
+<div id="outline-container-org8c381e7" class="outline-2">
+<h2 id="org8c381e7">Parameters</h2>
+<div class="outline-text-2" id="text-org8c381e7">
 <p>
 在介绍 Conv2d 的各种参数之前，先简单地介绍输出是怎样从输入算得的。官方
 文档中给出的公式是 \[ output(N_i, C_{outj}) = bias(C_{outj}) +
@@ -137,7 +138,7 @@ N, C<sub>out</sub>, C<sub>in</sub> 都是 1 时，
 那么输出可以写成
 </p>
 
-<pre class="example" id="orgd7cc1a0">
+<pre class="example" id="org162fcca">
 output[i,j] = dot(kernel, input[i:i+k, j:j+k])
 </pre>
 
@@ -147,7 +148,7 @@ output[i,j] = dot(kernel, input[i:i+k, j:j+k])
 </p>
 
 
-<figure id="orgd8869d6">
+<figure id="org467f812">
 <img src="./convolve-demo.gif" alt="convolve-demo.gif">
 
 </figure>
@@ -162,29 +163,29 @@ k + 1. \]
 </div>
 
 
-<div id="outline-container-orgc113a4a" class="outline-3">
-<h3 id="orgc113a4a">stride</h3>
-<div class="outline-text-3" id="text-orgc113a4a">
+<div id="outline-container-org1b04e4f" class="outline-3">
+<h3 id="org1b04e4f">stride</h3>
+<div class="outline-text-3" id="text-org1b04e4f">
 <p>
 参数 stride 控制每次 kernel 滑动的步长，用公式表述就是
 </p>
 
-<pre class="example" id="orga622bfc">
+<pre class="example" id="orgb186513">
 output[i,j] = dot(kernel, input[stride*i:stride*i + k,
                                 stride*j:stride*j + k])
 </pre>
 
 
-<figure id="orge085fd1">
+<figure id="org6f311bb">
 <img src="./convolve-stride.png" alt="convolve-stride.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-orgf80084d" class="outline-3">
-<h3 id="orgf80084d">padding</h3>
-<div class="outline-text-3" id="text-orgf80084d">
+<div id="outline-container-orge0142cc" class="outline-3">
+<h3 id="orge0142cc">padding</h3>
+<div class="outline-text-3" id="text-orge0142cc">
 <p>
 从之前的公式看出，一般输出矩阵的大小是小于输入矩阵的。
 要扩展输出矩阵大小也很简单，只要处理 input array 下标越界的问题就好了。
@@ -206,27 +207,27 @@ zero padding 也有好几种方式，根据对下标越界的容身程度而定�
 </p>
 
 
-<figure id="org65bc8ae">
+<figure id="orga625ee8">
 <img src="./convolve-padding.gif" alt="convolve-padding.gif">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org8cf82d6" class="outline-3">
-<h3 id="org8cf82d6">dilation</h3>
-<div class="outline-text-3" id="text-org8cf82d6">
+<div id="outline-container-orgedfd494" class="outline-3">
+<h3 id="orgedfd494">dilation</h3>
+<div class="outline-text-3" id="text-orgedfd494">
 <p>
 控制 kernel 如何覆盖在输入矩阵上，用公式表述就是
 </p>
 
-<pre class="example" id="org489559f">
+<pre class="example" id="org9e3b97c">
 output[i,j] = dot(kernel, input[i:i+k*dilation:dilation,
                                 j:j+k*dilation:dilation])
 </pre>
 
 
-<figure id="orgd8043b1">
+<figure id="org14b9a15">
 <img src="./convolve-dilation.gif" alt="convolve-dilation.gif">
 
 </figure>
@@ -234,9 +235,9 @@ output[i,j] = dot(kernel, input[i:i+k*dilation:dilation,
 </div>
 </div>
 
-<div id="outline-container-org0b0d1fe" class="outline-2">
-<h2 id="org0b0d1fe">Correlation and Convolution</h2>
-<div class="outline-text-2" id="text-org0b0d1fe">
+<div id="outline-container-orgb7caa39" class="outline-2">
+<h2 id="orgb7caa39">Correlation and Convolution</h2>
+<div class="outline-text-2" id="text-orgb7caa39">
 <p>
 我最早接触的 correlation, convolution 是在光学课上，
 那里是对两个连续信号 f, g 定义的
@@ -263,9 +264,9 @@ correlation 却叫 convolution.
 </div>
 </div>
 
-<div id="outline-container-orgfaaa924" class="outline-2">
-<h2 id="orgfaaa924">References</h2>
-<div class="outline-text-2" id="text-orgfaaa924">
+<div id="outline-container-orgdd5c09e" class="outline-2">
+<h2 id="orgdd5c09e">References</h2>
+<div class="outline-text-2" id="text-orgdd5c09e">
 <ul class="org-ul">
 <li><a href="https://medium.com/@RaghavPrabhu/understanding-of-convolutional-neural-network-cnn-deep-learning-99760835f148">Understanding of Convolutional Neural Network (CNN) — Deep Learning</a></li>
 <li><a href="https://cs231n.github.io/convolutional-networks/#norm">Convolutional Neural Networks (CNNs / ConvNets)</a></li>

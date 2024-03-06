@@ -9,10 +9,9 @@
 <title>Event-oriented File Storage Framework</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "../static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" /> -->
-<!-- <link href= "https://dou-meishi.github.io/orgcss/dou-org.css" rel="stylesheet" type="text/css" /> -->
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 <!-- The loading of KaTeX is deferred to speed up page rendering -->
@@ -35,19 +34,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org27e4ed2">Organize files into events</a>
+<li><a href="#orgdeb065e">Organize files into events</a>
 <ul>
-<li><a href="#org1329096">Groupping files into categories is not I want</a></li>
-<li><a href="#org09579f7">Tagging every file is not I want</a></li>
-<li><a href="#org3f8c44e">Event directory is all I need</a></li>
+<li><a href="#org2feee58">Groupping files into categories is not I want</a></li>
+<li><a href="#org048692a">Tagging every file is not I want</a></li>
+<li><a href="#orgcbd02c5">Event directory is all I need</a></li>
 </ul>
 </li>
-<li><a href="#orge3c4ce8">Further discussion on the event-oriented approach</a>
+<li><a href="#org7ca5721">Further discussion on the event-oriented approach</a>
 <ul>
-<li><a href="#org7f6d476">Share assets between events</a></li>
-<li><a href="#org2bd43df">Write a descriptive journal for each event</a></li>
-<li><a href="#orge6f3230">How to transform a folder to an event folder</a></li>
-<li><a href="#org828a94a">Tips</a></li>
+<li><a href="#orgf1a2c69">Share assets between events</a></li>
+<li><a href="#org4be46d2">Write a descriptive journal for each event</a></li>
+<li><a href="#org1da109f">How to transform a folder to an event folder</a></li>
+<li><a href="#orgbbac354">Tips</a></li>
 </ul>
 </li>
 </ul>
@@ -68,9 +67,9 @@ clean, and serve as a solid foundation for scripting access and backup
 functionalities that meet my specific requirements..
 </p>
 
-<div id="outline-container-org27e4ed2" class="outline-2">
-<h2 id="org27e4ed2">Organize files into events</h2>
-<div class="outline-text-2" id="text-org27e4ed2">
+<div id="outline-container-orgdeb065e" class="outline-2">
+<h2 id="orgdeb065e">Organize files into events</h2>
+<div class="outline-text-2" id="text-orgdeb065e">
 <p>
 The central idea of this file storage framework is organizing files
 into different <i>events</i>. As I described in <a href="../2023-04-09-ManageFiles/notes.html">this post</a>, an event is simple
@@ -79,7 +78,7 @@ are placed in <code>~/Documents/</code> folder, under which I put all my event
 folders.
 </p>
 
-<pre class="example" id="org3307b7a">
+<pre class="example" id="org9a685f4">
 drwxrwxr-x  2 dou dou   4096 Jan 29 10:53 2023-04-09-ManageFiles/
 drwxrwxr-x  2 dou dou   4096 Jan 28 13:10 2023-04-30-OptimalityandKKTCondition/
 drwxrwxr-x  2 dou dou   4096 Jan 31 00:07 2023-09-16-UltimateFileManagement/
@@ -102,9 +101,9 @@ eventually.
 </p>
 </div>
 
-<div id="outline-container-org1329096" class="outline-3">
-<h3 id="org1329096">Groupping files into categories is not I want</h3>
-<div class="outline-text-3" id="text-org1329096">
+<div id="outline-container-org2feee58" class="outline-3">
+<h3 id="org2feee58">Groupping files into categories is not I want</h3>
+<div class="outline-text-3" id="text-org2feee58">
 <p>
 The first approach I tried is <i>category</i>-oriented. It is not surprised,
 since we all have those pre-created folders named <i>Documents</i>, <i>Videos</i>,
@@ -124,7 +123,7 @@ and each subfolder contains course subsubfolders like
 <i>RealAnalysis</i>, <i>Probability</i> and <i>Mechanics</i>.
 </p>
 
-<pre class="example" id="org108b7bd">
+<pre class="example" id="org2e59a5a">
 Subjects/
 ├── CS/
 ├── Math/
@@ -182,9 +181,9 @@ corresponding top level folder.
 </div>
 </div>
 
-<div id="outline-container-org09579f7" class="outline-3">
-<h3 id="org09579f7">Tagging every file is not I want</h3>
-<div class="outline-text-3" id="text-org09579f7">
+<div id="outline-container-org048692a" class="outline-3">
+<h3 id="org048692a">Tagging every file is not I want</h3>
+<div class="outline-text-3" id="text-org048692a">
 <p>
 After the failure of category-based approach, I was still looking for
 a way to organize my files in a logical structure.  Soon or later, I
@@ -263,9 +262,9 @@ framework.
 </div>
 </div>
 
-<div id="outline-container-org3f8c44e" class="outline-3">
-<h3 id="org3f8c44e">Event directory is all I need</h3>
-<div class="outline-text-3" id="text-org3f8c44e">
+<div id="outline-container-orgcbd02c5" class="outline-3">
+<h3 id="orgcbd02c5">Event directory is all I need</h3>
+<div class="outline-text-3" id="text-orgcbd02c5">
 <p>
 In practice, after I abandoned those category folders, I went to the
 event-oriented approach to organize files. Actually, I adopted this
@@ -312,9 +311,9 @@ than 20.</li>
 </div>
 </div>
 
-<div id="outline-container-orge3c4ce8" class="outline-2">
-<h2 id="orge3c4ce8">Further discussion on the event-oriented approach</h2>
-<div class="outline-text-2" id="text-orge3c4ce8">
+<div id="outline-container-org7ca5721" class="outline-2">
+<h2 id="org7ca5721">Further discussion on the event-oriented approach</h2>
+<div class="outline-text-2" id="text-org7ca5721">
 <p>
 Now I summarize some properties of an event folder should have.
 </p>
@@ -339,9 +338,9 @@ directory.)</li>
 </ol>
 </div>
 
-<div id="outline-container-org7f6d476" class="outline-3">
-<h3 id="org7f6d476">Share assets between events</h3>
-<div class="outline-text-3" id="text-org7f6d476">
+<div id="outline-container-orgf1a2c69" class="outline-3">
+<h3 id="orgf1a2c69">Share assets between events</h3>
+<div class="outline-text-3" id="text-orgf1a2c69">
 <p>
 The second property is crucial but sometimes can be troublesome.  For
 example, if an event involves working with a lot of large immutable
@@ -368,9 +367,9 @@ asset folders.
 </div>
 </div>
 
-<div id="outline-container-org2bd43df" class="outline-3">
-<h3 id="org2bd43df">Write a descriptive journal for each event</h3>
-<div class="outline-text-3" id="text-org2bd43df">
+<div id="outline-container-org4be46d2" class="outline-3">
+<h3 id="org4be46d2">Write a descriptive journal for each event</h3>
+<div class="outline-text-3" id="text-org4be46d2">
 <p>
 I always create a <code>notes.org</code> in each event folder, which serves like a
 private README and journal for this event whose audience is future
@@ -406,9 +405,9 @@ a link in the notes which looks like <i>see my post here</i>.
 </div>
 </div>
 
-<div id="outline-container-orge6f3230" class="outline-3">
-<h3 id="orge6f3230">How to transform a folder to an event folder</h3>
-<div class="outline-text-3" id="text-orge6f3230">
+<div id="outline-container-org1da109f" class="outline-3">
+<h3 id="org1da109f">How to transform a folder to an event folder</h3>
+<div class="outline-text-3" id="text-org1da109f">
 <p>
 Given an existed folder <code>dirname/</code>, I go through these steps to transform
 it into an event folder.
@@ -436,9 +435,9 @@ reorganize files inside this folder and move large assets to
 </div>
 </div>
 
-<div id="outline-container-org828a94a" class="outline-3">
-<h3 id="org828a94a">Tips</h3>
-<div class="outline-text-3" id="text-org828a94a">
+<div id="outline-container-orgbbac354" class="outline-3">
+<h3 id="orgbbac354">Tips</h3>
+<div class="outline-text-3" id="text-orgbbac354">
 <ol class="org-ol">
 <li><p>
 This approach may not be suitable to organize context-free assets.

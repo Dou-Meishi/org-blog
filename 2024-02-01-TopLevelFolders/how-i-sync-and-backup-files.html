@@ -9,6 +9,7 @@
 <title>How I create backups</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -33,9 +34,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org478b2bc">Different focus of syncing and backing up</a></li>
-<li><a href="#org7191ebb">Presync</a></li>
-<li><a href="#org9045173">Backup</a></li>
+<li><a href="#orgf30f2b2">Different focus of syncing and backing up</a></li>
+<li><a href="#org30a7f49">Presync</a></li>
+<li><a href="#orgca1a90b">Backup</a></li>
 </ul>
 </div>
 </nav>
@@ -60,9 +61,9 @@ maintaining by a special script <code>dms-presync</code>. This script should be
 executed before the actual backup process begins.
 </p>
 
-<div id="outline-container-org478b2bc" class="outline-2">
-<h2 id="org478b2bc">Different focus of syncing and backing up</h2>
-<div class="outline-text-2" id="text-org478b2bc">
+<div id="outline-container-orgf30f2b2" class="outline-2">
+<h2 id="orgf30f2b2">Different focus of syncing and backing up</h2>
+<div class="outline-text-2" id="text-orgf30f2b2">
 <p>
 First, I would like to give some difference between syncing and
 backing up based on personal experiences.
@@ -86,9 +87,9 @@ certain unnecessary files could and should be ignored.
 </div>
 </div>
 
-<div id="outline-container-org7191ebb" class="outline-2">
-<h2 id="org7191ebb">Presync</h2>
-<div class="outline-text-2" id="text-org7191ebb">
+<div id="outline-container-org30a7f49" class="outline-2">
+<h2 id="org30a7f49">Presync</h2>
+<div class="outline-text-2" id="text-org30a7f49">
 <p>
 The purpose of this stage is to ensure that it is sufficient to
 consider only the two folders <code>Assets/</code> and <code>Documents/</code> in creating
@@ -110,9 +111,9 @@ Some folders involved in this stage include, e.g., <code>~/.local/share/fonts/</
 </div>
 </div>
 
-<div id="outline-container-org9045173" class="outline-2">
-<h2 id="org9045173">Backup</h2>
-<div class="outline-text-2" id="text-org9045173">
+<div id="outline-container-orgca1a90b" class="outline-2">
+<h2 id="orgca1a90b">Backup</h2>
+<div class="outline-text-2" id="text-orgca1a90b">
 <p>
 The actual backup process can be generally split into two steps:
 backup <code>.git/</code> folders and backup other folders.

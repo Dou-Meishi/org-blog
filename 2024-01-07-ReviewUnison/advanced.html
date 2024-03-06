@@ -9,6 +9,7 @@
 <title>An Advanced Guide to Unison</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -33,16 +34,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0b3c5f4">Preferences</a></li>
-<li><a href="#org0f0b2ed">Setting Preference</a></li>
-<li><a href="#org312df37">Profiles</a></li>
-<li><a href="#org57a2ef7">Path Specification</a></li>
-<li><a href="#org55ef2db">Ignoring</a></li>
-<li><a href="#org036ff8d">Backup</a></li>
-<li><a href="#org3c99753">Scenario: Synchronize with a USB Drive</a>
+<li><a href="#org5c8fc58">Preferences</a></li>
+<li><a href="#org7e97b16">Setting Preference</a></li>
+<li><a href="#org87d3aac">Profiles</a></li>
+<li><a href="#org083f409">Path Specification</a></li>
+<li><a href="#orge227284">Ignoring</a></li>
+<li><a href="#orgd091ede">Backup</a></li>
+<li><a href="#org5e53aa7">Scenario: Synchronize with a USB Drive</a>
 <ul>
-<li><a href="#org88731ce">Possible Errors</a></li>
-<li><a href="#org9edca16">Syncrhonize with FAT/NTFS Filesystems</a></li>
+<li><a href="#orgfd2b414">Possible Errors</a></li>
+<li><a href="#orgfa3af5d">Syncrhonize with FAT/NTFS Filesystems</a></li>
 </ul>
 </li>
 </ul>
@@ -54,15 +55,15 @@ In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>
 You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
 
-<div id="outline-container-org0b3c5f4" class="outline-2">
-<h2 id="org0b3c5f4">Preferences</h2>
-<div class="outline-text-2" id="text-org0b3c5f4">
+<div id="outline-container-org5c8fc58" class="outline-2">
+<h2 id="org5c8fc58">Preferences</h2>
+<div class="outline-text-2" id="text-org5c8fc58">
 <p>
 Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
 options, in other words). If we type <code>unison -help</code>, then the outputs will look like
 </p>
 
-<pre class="example" id="org1225f28">
+<pre class="example" id="org4b5a041">
 Usage: unison [options]
     or unison root1 root2 [options]
     or unison profilename [options]
@@ -124,9 +125,9 @@ go through these options once by typing <code>unison -help</code>.
 </div>
 </div>
 
-<div id="outline-container-org0f0b2ed" class="outline-2">
-<h2 id="org0f0b2ed">Setting Preference</h2>
-<div class="outline-text-2" id="text-org0f0b2ed">
+<div id="outline-container-org7e97b16" class="outline-2">
+<h2 id="org7e97b16">Setting Preference</h2>
+<div class="outline-text-2" id="text-org7e97b16">
 <p>
 There are two ways to set the values of preferences: temporarily, by providing command-line arguments
 to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
@@ -150,9 +151,9 @@ In the profile, a line in the form <code>p = value</code> works for both boolean
 </div>
 </div>
 
-<div id="outline-container-org312df37" class="outline-2">
-<h2 id="org312df37">Profiles</h2>
-<div class="outline-text-2" id="text-org312df37">
+<div id="outline-container-org87d3aac" class="outline-2">
+<h2 id="org87d3aac">Profiles</h2>
+<div class="outline-text-2" id="text-org87d3aac">
 <p>
 A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
 Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
@@ -193,9 +194,9 @@ profile. Its value is listed along with the profile name in the graphical user i
 </div>
 </div>
 
-<div id="outline-container-org57a2ef7" class="outline-2">
-<h2 id="org57a2ef7">Path Specification</h2>
-<div class="outline-text-2" id="text-org57a2ef7">
+<div id="outline-container-org083f409" class="outline-2">
+<h2 id="org083f409">Path Specification</h2>
+<div class="outline-text-2" id="text-org083f409">
 <p>
 Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
 These preferences can be set to any of the following patterns.
@@ -217,15 +218,15 @@ In those forms, the <code>name</code> or <code>path</code> argument can be a glo
 </div>
 </div>
 
-<div id="outline-container-org55ef2db" class="outline-2">
-<h2 id="org55ef2db">Ignoring</h2>
-<div class="outline-text-2" id="text-org55ef2db">
+<div id="outline-container-orge227284" class="outline-2">
+<h2 id="orge227284">Ignoring</h2>
+<div class="outline-text-2" id="text-orge227284">
 <p>
 We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
 in a profile tells Unison to ignore the path <code>a/b</code>:
 </p>
 
-<pre class="example" id="orgdd6d085">
+<pre class="example" id="orgd945cd3">
 ignore = Path a/b
 </pre>
 
@@ -257,16 +258,16 @@ then Unison still ignores a path like <code>data/a.py</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-org036ff8d" class="outline-2">
-<h2 id="org036ff8d">Backup</h2>
-<div class="outline-text-2" id="text-org036ff8d">
+<div id="outline-container-orgd091ede" class="outline-2">
+<h2 id="orgd091ede">Backup</h2>
+<div class="outline-text-2" id="text-orgd091ede">
 <p>
 When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
 it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
 to require what kind of files should be backed up. For example,
 </p>
 
-<pre class="example" id="orga95de67">
+<pre class="example" id="org2f77b05">
 backup = Name *
 </pre>
 
@@ -301,9 +302,9 @@ then the whole directory and all the files in it will be backed up, regardless o
 </div>
 </div>
 
-<div id="outline-container-org3c99753" class="outline-2">
-<h2 id="org3c99753">Scenario: Synchronize with a USB Drive</h2>
-<div class="outline-text-2" id="text-org3c99753">
+<div id="outline-container-org5e53aa7" class="outline-2">
+<h2 id="org5e53aa7">Scenario: Synchronize with a USB Drive</h2>
+<div class="outline-text-2" id="text-org5e53aa7">
 <p>
 Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
 mounted at <code>/media/dou/KINGSTON</code>.
@@ -312,9 +313,9 @@ intended and we explain them below.
 </p>
 </div>
 
-<div id="outline-container-org88731ce" class="outline-3">
-<h3 id="org88731ce">Possible Errors</h3>
-<div class="outline-text-3" id="text-org88731ce">
+<div id="outline-container-orgfd2b414" class="outline-3">
+<h3 id="orgfd2b414">Possible Errors</h3>
+<div class="outline-text-3" id="text-orgfd2b414">
 <p>
 If our USB drive is empty, the first time we run Unison will simply copying files.
 Suppose we have done and reject the USB drive. What will happen if we accidentally
@@ -344,9 +345,9 @@ So Unison exits with <i>Fatal Error: Cannot find canonical name of &#x2026;</i>
 </div>
 </div>
 
-<div id="outline-container-org9edca16" class="outline-3">
-<h3 id="org9edca16">Syncrhonize with FAT/NTFS Filesystems</h3>
-<div class="outline-text-3" id="text-org9edca16">
+<div id="outline-container-orgfa3af5d" class="outline-3">
+<h3 id="orgfa3af5d">Syncrhonize with FAT/NTFS Filesystems</h3>
+<div class="outline-text-3" id="text-orgfa3af5d">
 <p>
 If Unison is running on a Unix-like machine but told to synchronize
 with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,

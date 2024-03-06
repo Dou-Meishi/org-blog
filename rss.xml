@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Wed, 06 Mar 2024 14:34:08 +0800</lastBuildDate>
+<lastBuildDate>Wed, 06 Mar 2024 23:40:21 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Seamless Writing and Rendering with Emacs Org]]></title>
   <description><![CDATA[
@@ -12,9 +12,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org78a5239">A new minor mode</a></li>
-<li><a href="#orgc6736d0">A simple local server with autoreload</a></li>
-<li><a href="#org676092b">Replace MathJax with KaTeX</a></li>
+<li><a href="#org6ce8858">A new minor mode</a></li>
+<li><a href="#org8d9fbd3">A simple local server with autoreload</a></li>
+<li><a href="#orgbd62e99">Replace MathJax with KaTeX</a></li>
 </ul>
 </div>
 </nav>
@@ -51,9 +51,9 @@ to HTML after saving;</li>
 MathJax.</li>
 </ol>
 
-<div id="outline-container-org78a5239" class="outline-2">
-<h2 id="org78a5239">A new minor mode</h2>
-<div class="outline-text-2" id="text-org78a5239">
+<div id="outline-container-org6ce8858" class="outline-2">
+<h2 id="org6ce8858">A new minor mode</h2>
+<div class="outline-text-2" id="text-org6ce8858">
 <p>
 Create such a new minor mode is very simple.
 </p>
@@ -82,9 +82,9 @@ enabled.
 </div>
 </div>
 
-<div id="outline-container-orgc6736d0" class="outline-2">
-<h2 id="orgc6736d0">A simple local server with autoreload</h2>
-<div class="outline-text-2" id="text-orgc6736d0">
+<div id="outline-container-org8d9fbd3" class="outline-2">
+<h2 id="org8d9fbd3">A simple local server with autoreload</h2>
+<div class="outline-text-2" id="text-org8d9fbd3">
 <p>
 As the exported file is only a static HTML page, it will not be
 updated when its content changes. So it is necessary to find a way to
@@ -107,9 +107,9 @@ default port used by <code>livereload</code>; see <a href="https://livereload.re
 </div>
 </div>
 
-<div id="outline-container-org676092b" class="outline-2">
-<h2 id="org676092b">Replace MathJax with KaTeX</h2>
-<div class="outline-text-2" id="text-org676092b">
+<div id="outline-container-orgbd62e99" class="outline-2">
+<h2 id="orgbd62e99">Replace MathJax with KaTeX</h2>
+<div class="outline-text-2" id="text-orgbd62e99">
 <p>
 By default, Emacs uses MathJax in the exported HTML file to rende math
 equations. But personally I feel KaTeX is smoother and faster. So I
@@ -152,13 +152,13 @@ If you prefer MathJax, I recommend modifying the default value of
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org53a29e9">Create the list of pretty symbols</a></li>
-<li><a href="#orgb314934">Decide whether to compose</a></li>
-<li><a href="#orgbc0c632">Tweak into the mode hook</a></li>
-<li><a href="#orgd75956a">Choose appropriate fonts</a></li>
-<li><a href="#org1912001">Add more symbols</a></li>
-<li><a href="#org1eecd5b">Alternative implementation: hard replacing</a></li>
-<li><a href="#org58aa477">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org0d3eccd">Create the list of pretty symbols</a></li>
+<li><a href="#org1f62e23">Decide whether to compose</a></li>
+<li><a href="#org12b9eac">Tweak into the mode hook</a></li>
+<li><a href="#org8bf114e">Choose appropriate fonts</a></li>
+<li><a href="#org734f6f5">Add more symbols</a></li>
+<li><a href="#orgf223107">Alternative implementation: hard replacing</a></li>
+<li><a href="#org81b4201">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -186,9 +186,9 @@ After prettify
 <img src="./after-prettify.png" alt="after-prettify.png">
 </p>
 
-<div id="outline-container-org53a29e9" class="outline-2">
-<h2 id="org53a29e9">Create the list of pretty symbols</h2>
-<div class="outline-text-2" id="text-org53a29e9">
+<div id="outline-container-org0d3eccd" class="outline-2">
+<h2 id="org0d3eccd">Create the list of pretty symbols</h2>
+<div class="outline-text-2" id="text-org0d3eccd">
 <p>
 Each element <code>prettify-symbols-alist</code> looks like <code>(SYMBOL . CHARACTER)</code>,
 where the symbol matching <code>SYMBOL</code> (a string, not a regexp) will be
@@ -226,7 +226,7 @@ return a list suitable for <code>prettify-symbols-alist</code>.
 The CSV file looks like
 </p>
 
-<pre class="example" id="org04a66e9">
+<pre class="example" id="org15259e2">
 \mathbb{P}, ℙ
 \leq, ≤
 \geq, ≥
@@ -235,9 +235,9 @@ The CSV file looks like
 </div>
 </div>
 
-<div id="outline-container-orgb314934" class="outline-2">
-<h2 id="orgb314934">Decide whether to compose</h2>
-<div class="outline-text-2" id="text-orgb314934">
+<div id="outline-container-org1f62e23" class="outline-2">
+<h2 id="org1f62e23">Decide whether to compose</h2>
+<div class="outline-text-2" id="text-org1f62e23">
 <p>
 The variable <code>prettify-symbols-compose-predicate</code> is a predicate for
 deciding if the currently matched symbol is to be composed.  By
@@ -261,9 +261,9 @@ writing formulae. So I overwrite the rule to allow these cases.
 </div>
 </div>
 
-<div id="outline-container-orgbc0c632" class="outline-2">
-<h2 id="orgbc0c632">Tweak into the mode hook</h2>
-<div class="outline-text-2" id="text-orgbc0c632">
+<div id="outline-container-org12b9eac" class="outline-2">
+<h2 id="org12b9eac">Tweak into the mode hook</h2>
+<div class="outline-text-2" id="text-org12b9eac">
 <p>
 As both <code>prettify-symbols-alist</code> and <code>prettify-symbols-compose-predicate</code>
 are buffer-local variables, it is recommended to set them in a mode
@@ -285,9 +285,9 @@ latex-mode hook if necessary.
 </div>
 </div>
 
-<div id="outline-container-orgd75956a" class="outline-2">
-<h2 id="orgd75956a">Choose appropriate fonts</h2>
-<div class="outline-text-2" id="text-orgd75956a">
+<div id="outline-container-org8bf114e" class="outline-2">
+<h2 id="org8bf114e">Choose appropriate fonts</h2>
+<div class="outline-text-2" id="text-org8bf114e">
 <p>
 In most cases, many mathematical symbols are not included in the main
 font. Fortunately, Emacs has the abilit to display selected characters
@@ -322,9 +322,9 @@ Below I patch the default fontset in order to
 </div>
 </div>
 
-<div id="outline-container-org1912001" class="outline-2">
-<h2 id="org1912001">Add more symbols</h2>
-<div class="outline-text-2" id="text-org1912001">
+<div id="outline-container-org734f6f5" class="outline-2">
+<h2 id="org734f6f5">Add more symbols</h2>
+<div class="outline-text-2" id="text-org734f6f5">
 <p>
 In general, the following things are needed to display unicode characters by composition:
 </p>
@@ -346,16 +346,16 @@ Emacs will pops up a list of mathematical symbols for selection.
 </p>
 
 
-<figure id="orgb21dff2">
+<figure id="orge744097">
 <img src="./script-letters.png" alt="script-letters.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org1eecd5b" class="outline-2">
-<h2 id="org1eecd5b">Alternative implementation: hard replacing</h2>
-<div class="outline-text-2" id="text-org1eecd5b">
+<div id="outline-container-orgf223107" class="outline-2">
+<h2 id="orgf223107">Alternative implementation: hard replacing</h2>
+<div class="outline-text-2" id="text-orgf223107">
 <p>
 The advantage of <code>prettify-symbols-mode</code> is that it is only a way of
 rendering. The file content will not be changed when the minor mode is
@@ -374,9 +374,9 @@ characters in a region, or vice versa.
 </div>
 </div>
 
-<div id="outline-container-org58aa477" class="outline-2">
-<h2 id="org58aa477">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org58aa477">
+<div id="outline-container-org81b4201" class="outline-2">
+<h2 id="org81b4201">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org81b4201">
 <ol class="org-ol">
 <li><a href="https://tony-zorman.com/posts/pretty-latex.html">Prettifying LaTeX Buffers</a></li>
 <li><a href="https://occasionallycogent.com/emacs_prettify_comments/index.html">Emacs prettify-symbols-mode in Comments</a></li>
@@ -398,10 +398,10 @@ characters in a region, or vice versa.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5018600">Limiting sets</a></li>
-<li><a href="#orgfaf7251">Almost surely convergence and convergence in probability</a></li>
-<li><a href="#orgbb5b16b">Convergence in probability and convergence in distribution</a></li>
-<li><a href="#org28dba2a">Uniqueness of the limit</a></li>
+<li><a href="#org6cdfb4f">Limiting sets</a></li>
+<li><a href="#orge0d7b28">Almost surely convergence and convergence in probability</a></li>
+<li><a href="#orgcc92347">Convergence in probability and convergence in distribution</a></li>
+<li><a href="#orgdf631a2">Uniqueness of the limit</a></li>
 </ul>
 </div>
 </nav>
@@ -425,9 +425,9 @@ zero probability set; 2) a continuous mapping preserve the convergence
 in probability.
 </p>
 
-<div id="outline-container-org5018600" class="outline-2">
-<h2 id="org5018600">Limiting sets</h2>
-<div class="outline-text-2" id="text-org5018600">
+<div id="outline-container-org6cdfb4f" class="outline-2">
+<h2 id="org6cdfb4f">Limiting sets</h2>
+<div class="outline-text-2" id="text-org6cdfb4f">
 <p>
 In order to intuitively introduce this concept, we first recall <i>the
 limiting sets</i> of a sequence of sets \(\{A_n\}\).
@@ -470,9 +470,9 @@ A\) then \(ℙ(A_n) \to ℙ(A)\).
 </div>
 </div>
 
-<div id="outline-container-orgfaf7251" class="outline-2">
-<h2 id="orgfaf7251">Almost surely convergence and convergence in probability</h2>
-<div class="outline-text-2" id="text-orgfaf7251">
+<div id="outline-container-orge0d7b28" class="outline-2">
+<h2 id="orge0d7b28">Almost surely convergence and convergence in probability</h2>
+<div class="outline-text-2" id="text-orge0d7b28">
 <p>
 For random variables \(X\) and \((X_n)_{n=1}^\infty\) on the same
 probability space, it is natural to consider the event<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> \(\{\lim
@@ -528,9 +528,9 @@ Take \(ℙ\) be the Lebesgue measure confined on \([0, 1]\). Then \(ℙ(A_n)\to
 </div>
 </div>
 
-<div id="outline-container-orgbb5b16b" class="outline-2">
-<h2 id="orgbb5b16b">Convergence in probability and convergence in distribution</h2>
-<div class="outline-text-2" id="text-orgbb5b16b">
+<div id="outline-container-orgcc92347" class="outline-2">
+<h2 id="orgcc92347">Convergence in probability and convergence in distribution</h2>
+<div class="outline-text-2" id="text-orgcc92347">
 <p>
 Recall that \(X_n\) is said to converge to \(X\) <i>in distribution</i>, denoted
 by \(X_n ⇒ X\), if \(ℙ(X_n ≤ x) \to ℙ(X ≤ x)\) holds for all \(x\) such that
@@ -558,9 +558,9 @@ $$ \begin{aligned}
 </div>
 </div>
 
-<div id="outline-container-org28dba2a" class="outline-2">
-<h2 id="org28dba2a">Uniqueness of the limit</h2>
-<div class="outline-text-2" id="text-org28dba2a">
+<div id="outline-container-orgdf631a2" class="outline-2">
+<h2 id="orgdf631a2">Uniqueness of the limit</h2>
+<div class="outline-text-2" id="text-orgdf631a2">
 <p>
 Finally, we want to discuss the uniqueness of convergence in
 probability. This requires the following useful characterization of
@@ -667,19 +667,19 @@ then \(f(X_n) \to f(X)\) at \(\omega\).
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc5303be">Prerequisite</a></li>
-<li><a href="#org2c8a1d8">About MNIST dataset</a></li>
-<li><a href="#org4940ba8">Build a CNN clasifier in PyTorch</a>
+<li><a href="#orgb3ee47d">Prerequisite</a></li>
+<li><a href="#org0b724b4">About MNIST dataset</a></li>
+<li><a href="#orgbfcb913">Build a CNN clasifier in PyTorch</a>
 <ul>
-<li><a href="#org280ad0a">data model</a></li>
-<li><a href="#org89b5b8d">classifier model</a></li>
-<li><a href="#org27766ac">loss function</a></li>
-<li><a href="#orgc00c2dc">optimizer</a></li>
+<li><a href="#orgb619b8e">data model</a></li>
+<li><a href="#org550728f">classifier model</a></li>
+<li><a href="#org4c9cac4">loss function</a></li>
+<li><a href="#orgb5d4bdd">optimizer</a></li>
 </ul>
 </li>
-<li><a href="#org88deb20">Train and test</a></li>
-<li><a href="#org82258b3">Discussion</a></li>
-<li><a href="#org888ba45">References</a></li>
+<li><a href="#org4b2f4e2">Train and test</a></li>
+<li><a href="#org9e7e60a">Discussion</a></li>
+<li><a href="#org5064e9e">References</a></li>
 </ul>
 </div>
 </nav>
@@ -689,9 +689,9 @@ Network</i>) classifier in PyTorch to recognize handwritten digits in
 MNIST dataset.
 </p>
 
-<div id="outline-container-orgc5303be" class="outline-2">
-<h2 id="orgc5303be">Prerequisite</h2>
-<div class="outline-text-2" id="text-orgc5303be">
+<div id="outline-container-orgb3ee47d" class="outline-2">
+<h2 id="orgb3ee47d">Prerequisite</h2>
+<div class="outline-text-2" id="text-orgb3ee47d">
 <p>
 As we use PyTorch in this post, please ensure it is properly
 installed. In addition, we use matploblit to plot figures.
@@ -710,7 +710,7 @@ installed. In addition, we use matploblit to plot figures.
 
 <p>
 We are referred to <a href="https://pytorch.org/">the PyTorch website</a> for the installation
-guide[<a href="#org9e852fd">1</a>].  For this post, it is sufficient to use the CPU
+guide[<a href="#org1765273">1</a>].  For this post, it is sufficient to use the CPU
 version of PyTorch. For Linux, the command looks like
 </p>
 
@@ -720,7 +720,7 @@ version of PyTorch. For Linux, the command looks like
 </div>
 
 <p>
-Here we declare hyperparameters for future use[<a href="#org34c4b38">4</a>]. Their meanings
+Here we declare hyperparameters for future use[<a href="#org4e4f499">4</a>]. Their meanings
 will get clear in the following sections. Besides that, we manually
 set the random seed for reproducibility.
 </p>
@@ -744,13 +744,13 @@ set the random seed for reproducibility.
 </div>
 </div>
 
-<div id="outline-container-org2c8a1d8" class="outline-2">
-<h2 id="org2c8a1d8">About MNIST dataset</h2>
-<div class="outline-text-2" id="text-org2c8a1d8">
+<div id="outline-container-org0b724b4" class="outline-2">
+<h2 id="org0b724b4">About MNIST dataset</h2>
+<div class="outline-text-2" id="text-org0b724b4">
 <p>
 The MNIST database (<i>Modified National Institute of Standards and
 Technology database</i>) is a large database of handwritten digits that
-is commonly used for training various image processing systems[<a href="#org2873b2b">2</a>].
+is commonly used for training various image processing systems[<a href="#org0dec012">2</a>].
 </p>
 
 <p>
@@ -794,7 +794,7 @@ PyTorch tensors.
 <p>
 From the output, we can see that there are 60,000 training images and
 10,000 test images. Each image has \(28 \times 28 = 784\) pixels.
-We can also look some images in the training dataset[<a href="#orge8ab79a">5</a>].
+We can also look some images in the training dataset[<a href="#org802b9f5">5</a>].
 </p>
 
 <div class="org-src-container">
@@ -812,16 +812,16 @@ fig.savefig(<span style="color: #2aa198;">"./sample-images.png"</span>)
 </div>
 
 
-<figure id="org5cd4c3f">
+<figure id="org0765665">
 <img src="./sample-images.png" alt="sample-images.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org4940ba8" class="outline-2">
-<h2 id="org4940ba8">Build a CNN clasifier in PyTorch</h2>
-<div class="outline-text-2" id="text-org4940ba8">
+<div id="outline-container-orgbfcb913" class="outline-2">
+<h2 id="orgbfcb913">Build a CNN clasifier in PyTorch</h2>
+<div class="outline-text-2" id="text-orgbfcb913">
 <p>
 Let \(f(x; \theta)\) be a classifier with parameters \(\theta\) which
 takes the data point \(x\) and predicts its label based on its function
@@ -849,9 +849,9 @@ Solving this problem involves building the following parts:
 </ol>
 </div>
 
-<div id="outline-container-org280ad0a" class="outline-3">
-<h3 id="org280ad0a">data model</h3>
-<div class="outline-text-3" id="text-org280ad0a">
+<div id="outline-container-orgb619b8e" class="outline-3">
+<h3 id="orgb619b8e">data model</h3>
+<div class="outline-text-3" id="text-orgb619b8e">
 <p>
 The crucial difference between learning and pure optimization is that
 the dataset of interest \(\mathcal{D}\) is unknown in a learning
@@ -882,7 +882,7 @@ following python statement.
 </pre>
 </div>
 
-<pre class="example" id="org14f6345">
+<pre class="example" id="org26e69e2">
 0.13066047430038452 0.30810782313346863
 </pre>
 
@@ -957,9 +957,9 @@ loop.
 </div>
 </div>
 
-<div id="outline-container-org89b5b8d" class="outline-3">
-<h3 id="org89b5b8d">classifier model</h3>
-<div class="outline-text-3" id="text-org89b5b8d">
+<div id="outline-container-org550728f" class="outline-3">
+<h3 id="org550728f">classifier model</h3>
+<div class="outline-text-3" id="text-org550728f">
 <p>
 From the computational view, a neural network \(f(x;\theta)\) is a
 nested function \[ f(\cdot; \theta) = f_{N-1} \circ f_{N-2} \circ
@@ -994,7 +994,7 @@ documentation</a> of <code>torch.nn.Linear</code>.
 </p>
 
 <p>
-We use CNN as the basic model of our classifier[<a href="#orgb2f9d31">3</a>]. In particular, the
+We use CNN as the basic model of our classifier[<a href="#org9437ac6">3</a>]. In particular, the
 model consists of two 2D convolutional layers followed by two
 fully-connected layers. After each convolutional layer, there is a
 maximum pooling operation. In addition, the activation function is
@@ -1028,9 +1028,9 @@ function.
 </div>
 </div>
 
-<div id="outline-container-org27766ac" class="outline-3">
-<h3 id="org27766ac">loss function</h3>
-<div class="outline-text-3" id="text-org27766ac">
+<div id="outline-container-org4c9cac4" class="outline-3">
+<h3 id="org4c9cac4">loss function</h3>
+<div class="outline-text-3" id="text-org4c9cac4">
 <p>
 As we can see, the output of our model \(f(x; \theta)\) is a vector with
 10 components. But how to predict the label of \(x\) and evaluate its
@@ -1066,9 +1066,9 @@ and the true label \(y\).
 </div>
 </div>
 
-<div id="outline-container-orgc00c2dc" class="outline-3">
-<h3 id="orgc00c2dc">optimizer</h3>
-<div class="outline-text-3" id="text-orgc00c2dc">
+<div id="outline-container-orgb5d4bdd" class="outline-3">
+<h3 id="orgb5d4bdd">optimizer</h3>
+<div class="outline-text-3" id="text-orgb5d4bdd">
 <p>
 Given a pair of data \((x^{(i)}, y^{(i)})\), assume the loss of this
 pair is \(\phi(\tilde{y}^{(i)}, y^{(i)})\) where
@@ -1137,9 +1137,9 @@ choose the simple SGD here.
 </div>
 </div>
 
-<div id="outline-container-org88deb20" class="outline-2">
-<h2 id="org88deb20">Train and test</h2>
-<div class="outline-text-2" id="text-org88deb20">
+<div id="outline-container-org4b2f4e2" class="outline-2">
+<h2 id="org4b2f4e2">Train and test</h2>
+<div class="outline-text-2" id="text-org4b2f4e2">
 <p>
 Finally, we train the model on MNIST dataset. We iterate the training
 set and test set several times (called epochs). In each epoch, we
@@ -1211,7 +1211,7 @@ test()
 </pre>
 </div>
 
-<pre class="example" id="org8f9e569">
+<pre class="example" id="orgc516b53">
 Test set: Avg. loss: 2.3011, Accuracy: 891/10000 (9%)
 
 Train Epoch: 1 [0/60000 (0%)]	Loss: 2.292757
@@ -1254,7 +1254,7 @@ fig.savefig(<span style="color: #2aa198;">"./training-curve.png"</span>)
 </div>
 
 
-<figure id="org612d12b">
+<figure id="org9b10175">
 <img src="./training-curve.png" alt="training-curve.png">
 
 </figure>
@@ -1280,16 +1280,16 @@ fig.savefig(<span style="color: #2aa198;">"./pred-sample-images.png"</span>)
 </div>
 
 
-<figure id="org3a65ffd">
+<figure id="org4db8f5f">
 <img src="./pred-sample-images.png" alt="pred-sample-images.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org82258b3" class="outline-2">
-<h2 id="org82258b3">Discussion</h2>
-<div class="outline-text-2" id="text-org82258b3">
+<div id="outline-container-org9e7e60a" class="outline-2">
+<h2 id="org9e7e60a">Discussion</h2>
+<div class="outline-text-2" id="text-org9e7e60a">
 <p>
 In this post, we trained a CNN classifier to recognize handwritten
 digits in MNIST dataset.  The final test accuracy is approximately
@@ -1300,26 +1300,26 @@ digits in MNIST dataset.  The final test accuracy is approximately
 <li>adjust hyperparameters to select a better model, including learning
 rate, number of training epochs, batch size, etc;</li>
 <li>adjust the classifier model, including adding batch normalization layer,
-adding dropout layer, manually initializing network parameters, etc[<a href="#orgfa931a2">6</a>, <a href="#org4131bd5">7</a>, <a href="#org6882bc0">8</a>];</li>
+adding dropout layer, manually initializing network parameters, etc[<a href="#org73d6883">6</a>, <a href="#orgea25f23">7</a>, <a href="#orgb27cfc8">8</a>];</li>
 <li>adjust the optimizer, including using other optimizing algorithm like
-Adam and explore their hyperparameters[<a href="#org6df9101">9</a>].</li>
+Adam and explore their hyperparameters[<a href="#orgf7837b5">9</a>].</li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-org888ba45" class="outline-2">
-<h2 id="org888ba45">References</h2>
-<div class="outline-text-2" id="text-org888ba45">
+<div id="outline-container-org5064e9e" class="outline-2">
+<h2 id="org5064e9e">References</h2>
+<div class="outline-text-2" id="text-org5064e9e">
 <ol class="org-ol">
-<li><a id="org9e852fd"></a> Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In Advances in Neural Information Processing Systems 32 (pp. 8024–8035)</li>
-<li><a id="org2873b2b"></a> LeCun, Y. (1998). The MNIST database of handwritten digits. <a href="http://yann.lecun.com/exdb/mnist/">http://yann.lecun.com/exdb/mnist/</a></li>
-<li><a id="orgb2f9d31"></a> Schmidhuber, J. (2015). Deep learning in neural networks: An overview. Neural networks, 61, 85-117.</li>
-<li><a id="org34c4b38"></a> Koehler, G. (2020). MNIST Handwritten Digit Recognition in PyTorch. <a href="https://nextjournal.com/gkoehler/pytorch-mnist">https://nextjournal.com/gkoehler/pytorch-mnist</a></li>
-<li><a id="orge8ab79a"></a> Nutan (2021). PyTorch Convolutional Neural Network With MNIST Dataset. <a href="https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118">https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118</a></li>
-<li><a id="orgfa931a2"></a> Ioffe, S., &amp; Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International conference on machine learning (pp. 448-456). pmlr.</li>
-<li><a id="org4131bd5"></a> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., &amp; Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting. The journal of machine learning research, 15(1), 1929-1958.</li>
-<li><a id="org6882bc0"></a> He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In Proceedings of the IEEE international conference on computer vision (pp. 1026-1034).</li>
-<li><a id="org6df9101"></a> Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980.</li>
+<li><a id="org1765273"></a> Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In Advances in Neural Information Processing Systems 32 (pp. 8024–8035)</li>
+<li><a id="org0dec012"></a> LeCun, Y. (1998). The MNIST database of handwritten digits. <a href="http://yann.lecun.com/exdb/mnist/">http://yann.lecun.com/exdb/mnist/</a></li>
+<li><a id="org9437ac6"></a> Schmidhuber, J. (2015). Deep learning in neural networks: An overview. Neural networks, 61, 85-117.</li>
+<li><a id="org4e4f499"></a> Koehler, G. (2020). MNIST Handwritten Digit Recognition in PyTorch. <a href="https://nextjournal.com/gkoehler/pytorch-mnist">https://nextjournal.com/gkoehler/pytorch-mnist</a></li>
+<li><a id="org802b9f5"></a> Nutan (2021). PyTorch Convolutional Neural Network With MNIST Dataset. <a href="https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118">https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118</a></li>
+<li><a id="org73d6883"></a> Ioffe, S., &amp; Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International conference on machine learning (pp. 448-456). pmlr.</li>
+<li><a id="orgea25f23"></a> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., &amp; Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting. The journal of machine learning research, 15(1), 1929-1958.</li>
+<li><a id="orgb27cfc8"></a> He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In Proceedings of the IEEE international conference on computer vision (pp. 1026-1034).</li>
+<li><a id="orgf7837b5"></a> Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980.</li>
 </ol>
 </div>
 </div>
@@ -1336,8 +1336,8 @@ Adam and explore their hyperparameters[<a href="#org6df9101">9</a>].</li>
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org084d703">Examples</a></li>
-<li><a href="#org896fa18">Properties</a></li>
+<li><a href="#org718a608">Examples</a></li>
+<li><a href="#org24f0479">Properties</a></li>
 </ul>
 </div>
 </nav>
@@ -1347,7 +1347,7 @@ function \(q:(0,1)\to\mathbb{R}\) is defined by<sup><a id="fnr.1" class="footref
 q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
 is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
 \(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
-there is also (see the section <a href="#org896fa18">Properties</a>) \[ F(x) = \sup\{u: q(u)
+there is also (see the section <a href="#org24f0479">Properties</a>) \[ F(x) = \sup\{u: q(u)
 \leq x\}.\]
 </p>
 
@@ -1371,9 +1371,9 @@ vertical line. This reveals that, unlike distribution functions,
 quantile functions are left continuous.
 </p>
 
-<div id="outline-container-org084d703" class="outline-2">
-<h2 id="org084d703">Examples</h2>
-<div class="outline-text-2" id="text-org084d703">
+<div id="outline-container-org718a608" class="outline-2">
+<h2 id="org718a608">Examples</h2>
+<div class="outline-text-2" id="text-org718a608">
 <p>
 <i>Example 1.</i> The distribution function of a exponentially distributed random variable is
 </p>
@@ -1465,9 +1465,9 @@ Note that in this example, the quantile function is left continuous.
 </div>
 </div>
 
-<div id="outline-container-org896fa18" class="outline-2">
-<h2 id="org896fa18">Properties</h2>
-<div class="outline-text-2" id="text-org896fa18">
+<div id="outline-container-org24f0479" class="outline-2">
+<h2 id="org24f0479">Properties</h2>
+<div class="outline-text-2" id="text-org24f0479">
 <p>
 By definition, a quantile function is clearly nondecreasing due to the
 nondecreasing nature of distribution functions. However, a quantile
@@ -1554,9 +1554,9 @@ However, this is true by definition.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org763e890">Definitions</a></li>
-<li><a href="#orgf822296">Skorohod's theorem</a></li>
-<li><a href="#org3ef1717">Equivalent definition of weak convergence</a></li>
+<li><a href="#org43d7174">Definitions</a></li>
+<li><a href="#org4687d66">Skorohod's theorem</a></li>
+<li><a href="#org1110876">Equivalent definition of weak convergence</a></li>
 </ul>
 </div>
 </nav>
@@ -1600,9 +1600,9 @@ distribution function \(F\) of a random variable \(X\) is thereby \(F(x)=
 complicated and left untouched.
 </p>
 
-<div id="outline-container-org763e890" class="outline-2">
-<h2 id="org763e890">Definitions</h2>
-<div class="outline-text-2" id="text-org763e890">
+<div id="outline-container-org43d7174" class="outline-2">
+<h2 id="org43d7174">Definitions</h2>
+<div class="outline-text-2" id="text-org43d7174">
 <p>
 <i>Definition.</i> A sequence of real-valued random variables \(\{X_n\}\) (with
 distribution functions \(\{F_n\}\)) is said to <i>converge in distribution</i>
@@ -1682,9 +1682,9 @@ complete proof.
 </div>
 </div>
 
-<div id="outline-container-orgf822296" class="outline-2">
-<h2 id="orgf822296">Skorohod's theorem</h2>
-<div class="outline-text-2" id="text-orgf822296">
+<div id="outline-container-org4687d66" class="outline-2">
+<h2 id="org4687d66">Skorohod's theorem</h2>
+<div class="outline-text-2" id="text-org4687d66">
 <p>
 For any probability measure \(\mu_n\) on the real line, we can construct
 a probability space and a random variable \(Y_n\) on it such that \(Y_n\)
@@ -1759,9 +1759,9 @@ h(a)\).
 </div>
 </div>
 
-<div id="outline-container-org3ef1717" class="outline-2">
-<h2 id="org3ef1717">Equivalent definition of weak convergence</h2>
-<div class="outline-text-2" id="text-org3ef1717">
+<div id="outline-container-org1110876" class="outline-2">
+<h2 id="org1110876">Equivalent definition of weak convergence</h2>
+<div class="outline-text-2" id="text-org1110876">
 <p>
 <i>Definition.</i> A set \(A\) is a \(\mu\)-continuity set if it is a Borel set
 and \(\mu(\partial A)=0\).  Here, the boundary \(\partial A\) is the
@@ -1845,9 +1845,9 @@ discussion on quantile functions.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org478b2bc">Different focus of syncing and backing up</a></li>
-<li><a href="#org7191ebb">Presync</a></li>
-<li><a href="#org9045173">Backup</a></li>
+<li><a href="#orgf30f2b2">Different focus of syncing and backing up</a></li>
+<li><a href="#org30a7f49">Presync</a></li>
+<li><a href="#orgca1a90b">Backup</a></li>
 </ul>
 </div>
 </nav>
@@ -1872,9 +1872,9 @@ maintaining by a special script <code>dms-presync</code>. This script should be
 executed before the actual backup process begins.
 </p>
 
-<div id="outline-container-org478b2bc" class="outline-2">
-<h2 id="org478b2bc">Different focus of syncing and backing up</h2>
-<div class="outline-text-2" id="text-org478b2bc">
+<div id="outline-container-orgf30f2b2" class="outline-2">
+<h2 id="orgf30f2b2">Different focus of syncing and backing up</h2>
+<div class="outline-text-2" id="text-orgf30f2b2">
 <p>
 First, I would like to give some difference between syncing and
 backing up based on personal experiences.
@@ -1898,9 +1898,9 @@ certain unnecessary files could and should be ignored.
 </div>
 </div>
 
-<div id="outline-container-org7191ebb" class="outline-2">
-<h2 id="org7191ebb">Presync</h2>
-<div class="outline-text-2" id="text-org7191ebb">
+<div id="outline-container-org30a7f49" class="outline-2">
+<h2 id="org30a7f49">Presync</h2>
+<div class="outline-text-2" id="text-org30a7f49">
 <p>
 The purpose of this stage is to ensure that it is sufficient to
 consider only the two folders <code>Assets/</code> and <code>Documents/</code> in creating
@@ -1922,9 +1922,9 @@ Some folders involved in this stage include, e.g., <code>~/.local/share/fonts/</
 </div>
 </div>
 
-<div id="outline-container-org9045173" class="outline-2">
-<h2 id="org9045173">Backup</h2>
-<div class="outline-text-2" id="text-org9045173">
+<div id="outline-container-orgca1a90b" class="outline-2">
+<h2 id="orgca1a90b">Backup</h2>
+<div class="outline-text-2" id="text-orgca1a90b">
 <p>
 The actual backup process can be generally split into two steps:
 backup <code>.git/</code> folders and backup other folders.
@@ -1974,19 +1974,19 @@ The command <code>find . -name ".git"</code> can list all git repos.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org27e4ed2">Organize files into events</a>
+<li><a href="#orgdeb065e">Organize files into events</a>
 <ul>
-<li><a href="#org1329096">Groupping files into categories is not I want</a></li>
-<li><a href="#org09579f7">Tagging every file is not I want</a></li>
-<li><a href="#org3f8c44e">Event directory is all I need</a></li>
+<li><a href="#org2feee58">Groupping files into categories is not I want</a></li>
+<li><a href="#org048692a">Tagging every file is not I want</a></li>
+<li><a href="#orgcbd02c5">Event directory is all I need</a></li>
 </ul>
 </li>
-<li><a href="#orge3c4ce8">Further discussion on the event-oriented approach</a>
+<li><a href="#org7ca5721">Further discussion on the event-oriented approach</a>
 <ul>
-<li><a href="#org7f6d476">Share assets between events</a></li>
-<li><a href="#org2bd43df">Write a descriptive journal for each event</a></li>
-<li><a href="#orge6f3230">How to transform a folder to an event folder</a></li>
-<li><a href="#org828a94a">Tips</a></li>
+<li><a href="#orgf1a2c69">Share assets between events</a></li>
+<li><a href="#org4be46d2">Write a descriptive journal for each event</a></li>
+<li><a href="#org1da109f">How to transform a folder to an event folder</a></li>
+<li><a href="#orgbbac354">Tips</a></li>
 </ul>
 </li>
 </ul>
@@ -2007,9 +2007,9 @@ clean, and serve as a solid foundation for scripting access and backup
 functionalities that meet my specific requirements..
 </p>
 
-<div id="outline-container-org27e4ed2" class="outline-2">
-<h2 id="org27e4ed2">Organize files into events</h2>
-<div class="outline-text-2" id="text-org27e4ed2">
+<div id="outline-container-orgdeb065e" class="outline-2">
+<h2 id="orgdeb065e">Organize files into events</h2>
+<div class="outline-text-2" id="text-orgdeb065e">
 <p>
 The central idea of this file storage framework is organizing files
 into different <i>events</i>. As I described in <a href="../2023-04-09-ManageFiles/notes.html">this post</a>, an event is simple
@@ -2018,7 +2018,7 @@ are placed in <code>~/Documents/</code> folder, under which I put all my event
 folders.
 </p>
 
-<pre class="example" id="org3307b7a">
+<pre class="example" id="org9a685f4">
 drwxrwxr-x  2 dou dou   4096 Jan 29 10:53 2023-04-09-ManageFiles/
 drwxrwxr-x  2 dou dou   4096 Jan 28 13:10 2023-04-30-OptimalityandKKTCondition/
 drwxrwxr-x  2 dou dou   4096 Jan 31 00:07 2023-09-16-UltimateFileManagement/
@@ -2041,9 +2041,9 @@ eventually.
 </p>
 </div>
 
-<div id="outline-container-org1329096" class="outline-3">
-<h3 id="org1329096">Groupping files into categories is not I want</h3>
-<div class="outline-text-3" id="text-org1329096">
+<div id="outline-container-org2feee58" class="outline-3">
+<h3 id="org2feee58">Groupping files into categories is not I want</h3>
+<div class="outline-text-3" id="text-org2feee58">
 <p>
 The first approach I tried is <i>category</i>-oriented. It is not surprised,
 since we all have those pre-created folders named <i>Documents</i>, <i>Videos</i>,
@@ -2063,7 +2063,7 @@ and each subfolder contains course subsubfolders like
 <i>RealAnalysis</i>, <i>Probability</i> and <i>Mechanics</i>.
 </p>
 
-<pre class="example" id="org108b7bd">
+<pre class="example" id="org2e59a5a">
 Subjects/
 ├── CS/
 ├── Math/
@@ -2121,9 +2121,9 @@ corresponding top level folder.
 </div>
 </div>
 
-<div id="outline-container-org09579f7" class="outline-3">
-<h3 id="org09579f7">Tagging every file is not I want</h3>
-<div class="outline-text-3" id="text-org09579f7">
+<div id="outline-container-org048692a" class="outline-3">
+<h3 id="org048692a">Tagging every file is not I want</h3>
+<div class="outline-text-3" id="text-org048692a">
 <p>
 After the failure of category-based approach, I was still looking for
 a way to organize my files in a logical structure.  Soon or later, I
@@ -2202,9 +2202,9 @@ framework.
 </div>
 </div>
 
-<div id="outline-container-org3f8c44e" class="outline-3">
-<h3 id="org3f8c44e">Event directory is all I need</h3>
-<div class="outline-text-3" id="text-org3f8c44e">
+<div id="outline-container-orgcbd02c5" class="outline-3">
+<h3 id="orgcbd02c5">Event directory is all I need</h3>
+<div class="outline-text-3" id="text-orgcbd02c5">
 <p>
 In practice, after I abandoned those category folders, I went to the
 event-oriented approach to organize files. Actually, I adopted this
@@ -2251,9 +2251,9 @@ than 20.</li>
 </div>
 </div>
 
-<div id="outline-container-orge3c4ce8" class="outline-2">
-<h2 id="orge3c4ce8">Further discussion on the event-oriented approach</h2>
-<div class="outline-text-2" id="text-orge3c4ce8">
+<div id="outline-container-org7ca5721" class="outline-2">
+<h2 id="org7ca5721">Further discussion on the event-oriented approach</h2>
+<div class="outline-text-2" id="text-org7ca5721">
 <p>
 Now I summarize some properties of an event folder should have.
 </p>
@@ -2278,9 +2278,9 @@ directory.)</li>
 </ol>
 </div>
 
-<div id="outline-container-org7f6d476" class="outline-3">
-<h3 id="org7f6d476">Share assets between events</h3>
-<div class="outline-text-3" id="text-org7f6d476">
+<div id="outline-container-orgf1a2c69" class="outline-3">
+<h3 id="orgf1a2c69">Share assets between events</h3>
+<div class="outline-text-3" id="text-orgf1a2c69">
 <p>
 The second property is crucial but sometimes can be troublesome.  For
 example, if an event involves working with a lot of large immutable
@@ -2307,9 +2307,9 @@ asset folders.
 </div>
 </div>
 
-<div id="outline-container-org2bd43df" class="outline-3">
-<h3 id="org2bd43df">Write a descriptive journal for each event</h3>
-<div class="outline-text-3" id="text-org2bd43df">
+<div id="outline-container-org4be46d2" class="outline-3">
+<h3 id="org4be46d2">Write a descriptive journal for each event</h3>
+<div class="outline-text-3" id="text-org4be46d2">
 <p>
 I always create a <code>notes.org</code> in each event folder, which serves like a
 private README and journal for this event whose audience is future
@@ -2345,9 +2345,9 @@ a link in the notes which looks like <i>see my post here</i>.
 </div>
 </div>
 
-<div id="outline-container-orge6f3230" class="outline-3">
-<h3 id="orge6f3230">How to transform a folder to an event folder</h3>
-<div class="outline-text-3" id="text-orge6f3230">
+<div id="outline-container-org1da109f" class="outline-3">
+<h3 id="org1da109f">How to transform a folder to an event folder</h3>
+<div class="outline-text-3" id="text-org1da109f">
 <p>
 Given an existed folder <code>dirname/</code>, I go through these steps to transform
 it into an event folder.
@@ -2375,9 +2375,9 @@ reorganize files inside this folder and move large assets to
 </div>
 </div>
 
-<div id="outline-container-org828a94a" class="outline-3">
-<h3 id="org828a94a">Tips</h3>
-<div class="outline-text-3" id="text-org828a94a">
+<div id="outline-container-orgbbac354" class="outline-3">
+<h3 id="orgbbac354">Tips</h3>
+<div class="outline-text-3" id="text-orgbbac354">
 <ol class="org-ol">
 <li><p>
 This approach may not be suitable to organize context-free assets.
@@ -2413,11 +2413,11 @@ Remember to briefly conclude what you obtained from the old event.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgafbecae">Go through the manual</a></li>
-<li><a href="#org78688c1">Minimal Configuration</a></li>
-<li><a href="#org4e41046">Question</a></li>
-<li><a href="#org0ae630e">Build My Blog Site</a></li>
-<li><a href="#org5f867cc">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orgfe76441">Go through the manual</a></li>
+<li><a href="#orge196133">Minimal Configuration</a></li>
+<li><a href="#orgbc46757">Question</a></li>
+<li><a href="#org88c2ba6">Build My Blog Site</a></li>
+<li><a href="#orgcdef882">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -2454,9 +2454,9 @@ Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
 
-<div id="outline-container-orgafbecae" class="outline-2">
-<h2 id="orgafbecae">Go through the manual</h2>
-<div class="outline-text-2" id="text-orgafbecae">
+<div id="outline-container-orgfe76441" class="outline-2">
+<h2 id="orgfe76441">Go through the manual</h2>
+<div class="outline-text-2" id="text-orgfe76441">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -2567,9 +2567,9 @@ These key bindings are:
 </div>
 </div>
 
-<div id="outline-container-org78688c1" class="outline-2">
-<h2 id="org78688c1">Minimal Configuration</h2>
-<div class="outline-text-2" id="text-org78688c1">
+<div id="outline-container-orge196133" class="outline-2">
+<h2 id="orge196133">Minimal Configuration</h2>
+<div class="outline-text-2" id="text-orge196133">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -2655,7 +2655,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="orga3f5248">
+<pre class="example" id="org5510f44">
 org-blog/
 ├── drafts
 ├── org
@@ -2674,7 +2674,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org23be5b2">
+<pre class="example" id="orgc3c7b72">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -2696,9 +2696,9 @@ org-blog/
 </div>
 </div>
 
-<div id="outline-container-org4e41046" class="outline-2">
-<h2 id="org4e41046">Question</h2>
-<div class="outline-text-2" id="text-org4e41046">
+<div id="outline-container-orgbc46757" class="outline-2">
+<h2 id="orgbc46757">Question</h2>
+<div class="outline-text-2" id="text-orgbc46757">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -2719,7 +2719,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org6dbeaf9">
+<pre class="example" id="org1cc409a">
 org-blog/
 ├── drafts
 ├── org
@@ -2774,9 +2774,9 @@ the drafts directory will not be included in the index.
 </div>
 </div>
 
-<div id="outline-container-org0ae630e" class="outline-2">
-<h2 id="org0ae630e">Build My Blog Site</h2>
-<div class="outline-text-2" id="text-org0ae630e">
+<div id="outline-container-org88c2ba6" class="outline-2">
+<h2 id="org88c2ba6">Build My Blog Site</h2>
+<div class="outline-text-2" id="text-org88c2ba6">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -2900,9 +2900,9 @@ The lisp script and static assets are all included in <a href="https://github.co
 </div>
 </div>
 
-<div id="outline-container-org5f867cc" class="outline-2">
-<h2 id="org5f867cc">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org5f867cc">
+<div id="outline-container-orgcdef882" class="outline-2">
+<h2 id="orgcdef882">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-orgcdef882">
 <p>
 Below are other users' configuration on org static blog.
 </p>
@@ -3016,11 +3016,11 @@ limited to greek letters.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org98e45c0">Go through the manual</a></li>
-<li><a href="#org1a7a3e3">Practice</a></li>
-<li><a href="#org8f592d2">Questions</a></li>
-<li><a href="#orgf796ee0">Further consideration</a></li>
-<li><a href="#org7b524b2">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org7dc29ae">Go through the manual</a></li>
+<li><a href="#orgb8d7e04">Practice</a></li>
+<li><a href="#orgfa168e2">Questions</a></li>
+<li><a href="#orgcd12596">Further consideration</a></li>
+<li><a href="#org0627a4c">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -3034,9 +3034,9 @@ with it. It is also a good practice for me to understand the source code
 of <a href="https://github.com/bastibe/org-static-blog/tree/master">Org Static Blog</a>, which is the actual blogging tool I want to use.
 </p>
 
-<div id="outline-container-org98e45c0" class="outline-2">
-<h2 id="org98e45c0">Go through the manual</h2>
-<div class="outline-text-2" id="text-org98e45c0">
+<div id="outline-container-org7dc29ae" class="outline-2">
+<h2 id="org7dc29ae">Go through the manual</h2>
+<div class="outline-text-2" id="text-org7dc29ae">
 <p>
 According to <a href="https://orgmode.org/manual/Publishing.html">the manual</a>, publishing in org-mode is configured almost
 entirely through setting the value of one variable, called
@@ -3077,9 +3077,9 @@ see <a href="https://orgmode.org/manual/Site-map.html">Section 14.1.7</a> in the
 </div>
 </div>
 
-<div id="outline-container-org1a7a3e3" class="outline-2">
-<h2 id="org1a7a3e3">Practice</h2>
-<div class="outline-text-2" id="text-org1a7a3e3">
+<div id="outline-container-orgb8d7e04" class="outline-2">
+<h2 id="orgb8d7e04">Practice</h2>
+<div class="outline-text-2" id="text-orgb8d7e04">
 <p>
 <i>A simple setting:</i> given a folder <code>./content</code> with several org files in it, we want to publish them
 into a different folder <code>./public</code>. Assets should be copied too.
@@ -3161,9 +3161,9 @@ Finally, we publish all projects.
 </div>
 </div>
 
-<div id="outline-container-org8f592d2" class="outline-2">
-<h2 id="org8f592d2">Questions</h2>
-<div class="outline-text-2" id="text-org8f592d2">
+<div id="outline-container-orgfa168e2" class="outline-2">
+<h2 id="orgfa168e2">Questions</h2>
+<div class="outline-text-2" id="text-orgfa168e2">
 <ol class="org-ol">
 <li><p>
 Can I customize the way of Emacs searching for intended org files rather than
@@ -3206,14 +3206,14 @@ to the current time.
 </div>
 </div>
 
-<div id="outline-container-orgf796ee0" class="outline-2">
-<h2 id="orgf796ee0">Further consideration</h2>
-<div class="outline-text-2" id="text-orgf796ee0">
+<div id="outline-container-orgcd12596" class="outline-2">
+<h2 id="orgcd12596">Further consideration</h2>
+<div class="outline-text-2" id="text-orgcd12596">
 <p>
 <i>A slightly complicated setting:</i> my document folder consists of event directories and looks like
 </p>
 
-<pre class="example" id="orge336f51">
+<pre class="example" id="orgb8b8acc">
 .
 ├── 2023-09-03-CustomizePrompt/
 ├── 2023-11-18-ContentManagementSystem/
@@ -3342,9 +3342,9 @@ simply visit it and run <code>eval-buffer</code>.
 </div>
 </div>
 
-<div id="outline-container-org7b524b2" class="outline-2">
-<h2 id="org7b524b2">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org7b524b2">
+<div id="outline-container-org0627a4c" class="outline-2">
+<h2 id="org0627a4c">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org0627a4c">
 <ol class="org-ol">
 <li><a href="https://orgmode.org/manual/Publishing.html">Publishing - The Org Mode Manual</a></li>
 <li><a href="https://taingram.org/blog/org-mode-blog.html">Building a Emacs Org-Mode Blog</a></li>
@@ -3407,7 +3407,7 @@ The LaTeX code above produces the following output.
 </p>
 
 
-<figure id="orgcc70cd4">
+<figure id="org8dde2d2">
 <img src="./simple-code.png" alt="simple-code.png">
 
 </figure>
@@ -3421,9 +3421,9 @@ and <code>tcolorbox</code> package. While  <code>listings</code> and  <code>mint
 Actually, <code>tcolorbox</code> internally loads <code>listings</code> or <code>minted</code> packages.
 </p>
 
-<div id="outline-container-org44219d9" class="outline-2">
-<h2 id="org44219d9">Create Own Code Block Environment with tcolorbox</h2>
-<div class="outline-text-2" id="text-org44219d9">
+<div id="outline-container-org958bde6" class="outline-2">
+<h2 id="org958bde6">Create Own Code Block Environment with tcolorbox</h2>
+<div class="outline-text-2" id="text-org958bde6">
 <p>
 When <code>tcolorbox</code> is loaded with the option <code>listings</code>, it provides various useful predefined commands
 for rendering source blocks by loading <code>listings</code> package automatically. Besides the <code>listings</code> option,
@@ -3538,16 +3538,16 @@ This is the <span style="color: #859900; font-weight: bold;">\LaTeX</span>\ sour
 </div>
 
 
-<figure id="org643c108">
+<figure id="org78255eb">
 <img src="./tcolorbox-listings.png" alt="tcolorbox-listings.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org26fc407" class="outline-2">
-<h2 id="org26fc407">Explanation of the Created Code Environment</h2>
-<div class="outline-text-2" id="text-org26fc407">
+<div id="outline-container-org0a9678d" class="outline-2">
+<h2 id="org0a9678d">Explanation of the Created Code Environment</h2>
+<div class="outline-text-2" id="text-org0a9678d">
 <p>
 First, we load <code>tcolorbox</code> with appropriate options. In addition, we load the <code>xcolor</code> package for color support.
 </p>
@@ -3656,9 +3656,9 @@ name of the source file.
 </div>
 </div>
 
-<div id="outline-container-orgc4fc538" class="outline-2">
-<h2 id="orgc4fc538">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orgc4fc538">
+<div id="outline-container-org01ab046" class="outline-2">
+<h2 id="org01ab046">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org01ab046">
 <ol class="org-ol">
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf">the official manual of tcolorbox - CTAN</a></li>
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the official manual of listings - CTAN</a></li>
@@ -3681,16 +3681,16 @@ name of the source file.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0b3c5f4">Preferences</a></li>
-<li><a href="#org0f0b2ed">Setting Preference</a></li>
-<li><a href="#org312df37">Profiles</a></li>
-<li><a href="#org57a2ef7">Path Specification</a></li>
-<li><a href="#org55ef2db">Ignoring</a></li>
-<li><a href="#org036ff8d">Backup</a></li>
-<li><a href="#org3c99753">Scenario: Synchronize with a USB Drive</a>
+<li><a href="#org5c8fc58">Preferences</a></li>
+<li><a href="#org7e97b16">Setting Preference</a></li>
+<li><a href="#org87d3aac">Profiles</a></li>
+<li><a href="#org083f409">Path Specification</a></li>
+<li><a href="#orge227284">Ignoring</a></li>
+<li><a href="#orgd091ede">Backup</a></li>
+<li><a href="#org5e53aa7">Scenario: Synchronize with a USB Drive</a>
 <ul>
-<li><a href="#org88731ce">Possible Errors</a></li>
-<li><a href="#org9edca16">Syncrhonize with FAT/NTFS Filesystems</a></li>
+<li><a href="#orgfd2b414">Possible Errors</a></li>
+<li><a href="#orgfa3af5d">Syncrhonize with FAT/NTFS Filesystems</a></li>
 </ul>
 </li>
 </ul>
@@ -3702,15 +3702,15 @@ In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>
 You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
 
-<div id="outline-container-org0b3c5f4" class="outline-2">
-<h2 id="org0b3c5f4">Preferences</h2>
-<div class="outline-text-2" id="text-org0b3c5f4">
+<div id="outline-container-org5c8fc58" class="outline-2">
+<h2 id="org5c8fc58">Preferences</h2>
+<div class="outline-text-2" id="text-org5c8fc58">
 <p>
 Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
 options, in other words). If we type <code>unison -help</code>, then the outputs will look like
 </p>
 
-<pre class="example" id="org1225f28">
+<pre class="example" id="org4b5a041">
 Usage: unison [options]
     or unison root1 root2 [options]
     or unison profilename [options]
@@ -3772,9 +3772,9 @@ go through these options once by typing <code>unison -help</code>.
 </div>
 </div>
 
-<div id="outline-container-org0f0b2ed" class="outline-2">
-<h2 id="org0f0b2ed">Setting Preference</h2>
-<div class="outline-text-2" id="text-org0f0b2ed">
+<div id="outline-container-org7e97b16" class="outline-2">
+<h2 id="org7e97b16">Setting Preference</h2>
+<div class="outline-text-2" id="text-org7e97b16">
 <p>
 There are two ways to set the values of preferences: temporarily, by providing command-line arguments
 to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
@@ -3798,9 +3798,9 @@ In the profile, a line in the form <code>p = value</code> works for both boolean
 </div>
 </div>
 
-<div id="outline-container-org312df37" class="outline-2">
-<h2 id="org312df37">Profiles</h2>
-<div class="outline-text-2" id="text-org312df37">
+<div id="outline-container-org87d3aac" class="outline-2">
+<h2 id="org87d3aac">Profiles</h2>
+<div class="outline-text-2" id="text-org87d3aac">
 <p>
 A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
 Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
@@ -3841,9 +3841,9 @@ profile. Its value is listed along with the profile name in the graphical user i
 </div>
 </div>
 
-<div id="outline-container-org57a2ef7" class="outline-2">
-<h2 id="org57a2ef7">Path Specification</h2>
-<div class="outline-text-2" id="text-org57a2ef7">
+<div id="outline-container-org083f409" class="outline-2">
+<h2 id="org083f409">Path Specification</h2>
+<div class="outline-text-2" id="text-org083f409">
 <p>
 Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
 These preferences can be set to any of the following patterns.
@@ -3865,15 +3865,15 @@ In those forms, the <code>name</code> or <code>path</code> argument can be a glo
 </div>
 </div>
 
-<div id="outline-container-org55ef2db" class="outline-2">
-<h2 id="org55ef2db">Ignoring</h2>
-<div class="outline-text-2" id="text-org55ef2db">
+<div id="outline-container-orge227284" class="outline-2">
+<h2 id="orge227284">Ignoring</h2>
+<div class="outline-text-2" id="text-orge227284">
 <p>
 We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
 in a profile tells Unison to ignore the path <code>a/b</code>:
 </p>
 
-<pre class="example" id="orgdd6d085">
+<pre class="example" id="orgd945cd3">
 ignore = Path a/b
 </pre>
 
@@ -3905,16 +3905,16 @@ then Unison still ignores a path like <code>data/a.py</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-org036ff8d" class="outline-2">
-<h2 id="org036ff8d">Backup</h2>
-<div class="outline-text-2" id="text-org036ff8d">
+<div id="outline-container-orgd091ede" class="outline-2">
+<h2 id="orgd091ede">Backup</h2>
+<div class="outline-text-2" id="text-orgd091ede">
 <p>
 When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
 it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
 to require what kind of files should be backed up. For example,
 </p>
 
-<pre class="example" id="orga95de67">
+<pre class="example" id="org2f77b05">
 backup = Name *
 </pre>
 
@@ -3949,9 +3949,9 @@ then the whole directory and all the files in it will be backed up, regardless o
 </div>
 </div>
 
-<div id="outline-container-org3c99753" class="outline-2">
-<h2 id="org3c99753">Scenario: Synchronize with a USB Drive</h2>
-<div class="outline-text-2" id="text-org3c99753">
+<div id="outline-container-org5e53aa7" class="outline-2">
+<h2 id="org5e53aa7">Scenario: Synchronize with a USB Drive</h2>
+<div class="outline-text-2" id="text-org5e53aa7">
 <p>
 Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
 mounted at <code>/media/dou/KINGSTON</code>.
@@ -3960,9 +3960,9 @@ intended and we explain them below.
 </p>
 </div>
 
-<div id="outline-container-org88731ce" class="outline-3">
-<h3 id="org88731ce">Possible Errors</h3>
-<div class="outline-text-3" id="text-org88731ce">
+<div id="outline-container-orgfd2b414" class="outline-3">
+<h3 id="orgfd2b414">Possible Errors</h3>
+<div class="outline-text-3" id="text-orgfd2b414">
 <p>
 If our USB drive is empty, the first time we run Unison will simply copying files.
 Suppose we have done and reject the USB drive. What will happen if we accidentally
@@ -3992,9 +3992,9 @@ So Unison exits with <i>Fatal Error: Cannot find canonical name of &#x2026;</i>
 </div>
 </div>
 
-<div id="outline-container-org9edca16" class="outline-3">
-<h3 id="org9edca16">Syncrhonize with FAT/NTFS Filesystems</h3>
-<div class="outline-text-3" id="text-org9edca16">
+<div id="outline-container-orgfa3af5d" class="outline-3">
+<h3 id="orgfa3af5d">Syncrhonize with FAT/NTFS Filesystems</h3>
+<div class="outline-text-3" id="text-orgfa3af5d">
 <p>
 If Unison is running on a Unix-like machine but told to synchronize
 with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,
@@ -4024,11 +4024,11 @@ which is equivalent to
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4cc1eed">A Demo</a></li>
-<li><a href="#org18b194c">Basic Concepts</a></li>
-<li><a href="#org182b82d">Typical Usage</a></li>
-<li><a href="#org60c31f2">Caveats and Shortcomings</a></li>
-<li><a href="#org4bc05c3">Going Further</a></li>
+<li><a href="#org28849b3">A Demo</a></li>
+<li><a href="#org9a9d0a8">Basic Concepts</a></li>
+<li><a href="#orgaf2698a">Typical Usage</a></li>
+<li><a href="#orgbb8e357">Caveats and Shortcomings</a></li>
+<li><a href="#org9796034">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -4043,9 +4043,9 @@ brought up to date by propagating the changes in each replica to the other.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
 
-<div id="outline-container-org4cc1eed" class="outline-2">
-<h2 id="org4cc1eed">A Demo</h2>
-<div class="outline-text-2" id="text-org4cc1eed">
+<div id="outline-container-org28849b3" class="outline-2">
+<h2 id="org28849b3">A Demo</h2>
+<div class="outline-text-2" id="text-org28849b3">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -4116,7 +4116,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="org298f060">
+<pre class="example" id="org9e585ea">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -4131,7 +4131,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="org550d8b9">
+<pre class="example" id="org8bcbf2e">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -4139,7 +4139,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="orgfab7013">
+<pre class="example" id="org39f9cf1">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -4149,7 +4149,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org2ba5235">
+<pre class="example" id="org7a8b3a9">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -4171,9 +4171,9 @@ click the <i>Go</i> button to set them in motion.
 </div>
 </div>
 
-<div id="outline-container-org18b194c" class="outline-2">
-<h2 id="org18b194c">Basic Concepts</h2>
-<div class="outline-text-2" id="text-org18b194c">
+<div id="outline-container-org9a9d0a8" class="outline-2">
+<h2 id="org9a9d0a8">Basic Concepts</h2>
+<div class="outline-text-2" id="text-org9a9d0a8">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -4294,9 +4294,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </div>
 </div>
 
-<div id="outline-container-org182b82d" class="outline-2">
-<h2 id="org182b82d">Typical Usage</h2>
-<div class="outline-text-2" id="text-org182b82d">
+<div id="outline-container-orgaf2698a" class="outline-2">
+<h2 id="orgaf2698a">Typical Usage</h2>
+<div class="outline-text-2" id="text-orgaf2698a">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -4329,9 +4329,9 @@ synchronizing only with the hub.
 </div>
 </div>
 
-<div id="outline-container-org60c31f2" class="outline-2">
-<h2 id="org60c31f2">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-org60c31f2">
+<div id="outline-container-orgbb8e357" class="outline-2">
+<h2 id="orgbb8e357">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-orgbb8e357">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -4387,9 +4387,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </div>
 </div>
 
-<div id="outline-container-org4bc05c3" class="outline-2">
-<h2 id="org4bc05c3">Going Further</h2>
-<div class="outline-text-2" id="text-org4bc05c3">
+<div id="outline-container-org9796034" class="outline-2">
+<h2 id="org9796034">Going Further</h2>
+<div class="outline-text-2" id="text-org9796034">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>
@@ -4425,10 +4425,10 @@ following sections in the official manual:
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org79a12d3">Prerequisite Concepts</a></li>
-<li><a href="#orga15a0dd">Definition</a></li>
-<li><a href="#org00a12c1">Main Results</a></li>
-<li><a href="#orgb90be52">Examples</a></li>
+<li><a href="#orgaa6a928">Prerequisite Concepts</a></li>
+<li><a href="#org70eb3bb">Definition</a></li>
+<li><a href="#org705b3c9">Main Results</a></li>
+<li><a href="#org8345268">Examples</a></li>
 </ul>
 </div>
 </nav>
@@ -4443,9 +4443,9 @@ Space</i> in the book <i>Munkres, J. Topology Second Edition</i> for more
 details.
 </p>
 
-<div id="outline-container-org79a12d3" class="outline-2">
-<h2 id="org79a12d3">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-org79a12d3">
+<div id="outline-container-orgaa6a928" class="outline-2">
+<h2 id="orgaa6a928">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-orgaa6a928">
 <ul class="org-ul">
 <li>normed linear space</li>
 <li>complete metric space</li>
@@ -4455,9 +4455,9 @@ details.
 </div>
 </div>
 
-<div id="outline-container-orga15a0dd" class="outline-2">
-<h2 id="orga15a0dd">Definition</h2>
-<div class="outline-text-2" id="text-orga15a0dd">
+<div id="outline-container-org70eb3bb" class="outline-2">
+<h2 id="org70eb3bb">Definition</h2>
+<div class="outline-text-2" id="text-org70eb3bb">
 <p>
 A complete normed linear space is called a <b>Banach space</b>.
 </p>
@@ -4510,9 +4510,9 @@ corresponding to \(\|\cdot\|\) is defined by
 </div>
 </div>
 
-<div id="outline-container-org00a12c1" class="outline-2">
-<h2 id="org00a12c1">Main Results</h2>
-<div class="outline-text-2" id="text-org00a12c1">
+<div id="outline-container-org705b3c9" class="outline-2">
+<h2 id="org705b3c9">Main Results</h2>
+<div class="outline-text-2" id="text-org705b3c9">
 <p>
 <b>Lemma 1.</b> If \((Y,d)\) is complete, then \((Y^X,\bar{\rho})\) is also
 complete.
@@ -4532,9 +4532,9 @@ are both complete in the uniform metric.
 </div>
 </div>
 
-<div id="outline-container-orgb90be52" class="outline-2">
-<h2 id="orgb90be52">Examples</h2>
-<div class="outline-text-2" id="text-orgb90be52">
+<div id="outline-container-org8345268" class="outline-2">
+<h2 id="org8345268">Examples</h2>
+<div class="outline-text-2" id="text-org8345268">
 <p>
 <b>Example.</b> \((\mathcal{C}[a,b],\|\cdot\|_\infty)\) is a Banach
 space.
@@ -4574,10 +4574,10 @@ Consider \(f_n(x):=\sqrt{x^2+\frac{1}{n}}\). It is easy to check that
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb1327ff">Prerequisite Concepts</a></li>
-<li><a href="#orge937615">Definitions</a></li>
-<li><a href="#org963470b">Main Results</a></li>
-<li><a href="#orgd4394c2">Detailed Proofs</a></li>
+<li><a href="#org4c1865e">Prerequisite Concepts</a></li>
+<li><a href="#org181f457">Definitions</a></li>
+<li><a href="#orgc64fc7c">Main Results</a></li>
+<li><a href="#org5d5f0fc">Detailed Proofs</a></li>
 </ul>
 </div>
 </nav>
@@ -4587,9 +4587,9 @@ This note is a review of Chapter IV.8 of the book
 by Freiwald.
 </p>
 
-<div id="outline-container-orgb1327ff" class="outline-2">
-<h2 id="orgb1327ff">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-orgb1327ff">
+<div id="outline-container-org4c1865e" class="outline-2">
+<h2 id="org4c1865e">Prerequisite Concepts</h2>
+<div class="outline-text-2" id="text-org4c1865e">
 <ul class="org-ul">
 <li>topological space and its subspace</li>
 <li>T1 topological space and T2 topological space</li>
@@ -4603,9 +4603,9 @@ by Freiwald.
 </div>
 </div>
 
-<div id="outline-container-orge937615" class="outline-2">
-<h2 id="orge937615">Definitions</h2>
-<div class="outline-text-2" id="text-orge937615">
+<div id="outline-container-org181f457" class="outline-2">
+<h2 id="org181f457">Definitions</h2>
+<div class="outline-text-2" id="text-org181f457">
 <p>
 Two equivalent definition of a <b>compact</b> topological space \((X,\mathcal{T})\):
 </p>
@@ -4642,15 +4642,15 @@ a finite number of \(\epsilon\)-balls.</dd>
 </div>
 </div>
 
-<div id="outline-container-org963470b" class="outline-2">
-<h2 id="org963470b">Main Results</h2>
-<div class="outline-text-2" id="text-org963470b">
+<div id="outline-container-orgc64fc7c" class="outline-2">
+<h2 id="orgc64fc7c">Main Results</h2>
+<div class="outline-text-2" id="text-orgc64fc7c">
 <p>
 Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.5.</b> <a id="org9ff266f"></a> <i>Let \(K \subset X\).</i>
+<b>Theorem 8.5.</b> <a id="org5253c5a"></a> <i>Let \(K \subset X\).</i>
 </p>
 
 <p>
@@ -4662,33 +4662,33 @@ Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.11.</b> <a id="org83b3360"></a> <i>The following implications hold generally.</i>
+<b>Theorem 8.11.</b> <a id="orgea5c19c"></a> <i>The following implications hold generally.</i>
 \[ X\text{ is (sequentially) compact }\Rightarrow X\text{ is countably compact }
 \Rightarrow X\text{ is pseudocompact}.\]
 </p>
 
 <p>
-<b>Lemma 8.12.</b> <a id="orgbe75744"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
+<b>Lemma 8.12.</b> <a id="orgb29aa82"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
 if \(X\) is first countable.
 </p>
 
 <p>
-<b>Lemma 8.16.</b> <a id="org2eb4465"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
+<b>Lemma 8.16.</b> <a id="orge66d8c4"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
 </p>
 
 <p>
-<b>Theorem 8.17.</b> <a id="orgdb4504f"></a> In a pseudometric space \((X,d)\),
+<b>Theorem 8.17.</b> <a id="orgce1cefd"></a> In a pseudometric space \((X,d)\),
 the property of compactness, sequentially compactness, countably compactness
 and pseudocompactness are all equivalent.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd4394c2" class="outline-2">
-<h2 id="orgd4394c2">Detailed Proofs</h2>
-<div class="outline-text-2" id="text-orgd4394c2">
+<div id="outline-container-org5d5f0fc" class="outline-2">
+<h2 id="org5d5f0fc">Detailed Proofs</h2>
+<div class="outline-text-2" id="text-org5d5f0fc">
 <p>
-<i>Proof to <a href="#org9ff266f">Theorem 8.5</a>.</i>
+<i>Proof to <a href="#org5253c5a">Theorem 8.5</a>.</i>
 Assume \(K\) is closed and \(X\) is compact, then any open cover
 of \(K\) would form an open cover of \(X\) if augmented by \(K^\mathsf{c}\).
 This implies that a finite subcover of \(K\) exists.
@@ -4709,7 +4709,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org83b3360">Theorem 8.11</a>.</i>
+<i>Proof to <a href="#orgea5c19c">Theorem 8.11</a>.</i>
 </p>
 
 <p>
@@ -4739,7 +4739,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orgbe75744">Lemma 8.12</a>.</i>
+<i>Proof to <a href="#orgb29aa82">Lemma 8.12</a>.</i>
 First, we prove that \(X\) <span class="underline">is countably compact if and only if every sequence
 has a cluster point</span>. The <i>if</i> part has been proved in Theorem 8.11. To prove
 the <i>only if</i> part, assume \(X\) be countably compact and \((x_n)\) is a sequence
@@ -4785,7 +4785,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org2eb4465">Lemma 8.16</a>.</i>
+<i>Proof to <a href="#orge66d8c4">Lemma 8.16</a>.</i>
 Let \((X,d)\) be a totally bounded pseudometric space.
 </p>
 
@@ -4845,7 +4845,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orgdb4504f">Theorem 8.17</a>.</i>
+<i>Proof to <a href="#orgce1cefd">Theorem 8.17</a>.</i>
 Based on Theorem 8.11, we need only to prove the following implications.
 </p>
 
@@ -5014,8 +5014,8 @@ but it make no sense to say a topological space is closed.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0d2f20f">Lagrangian and KKT Points</a></li>
-<li><a href="#orga782b09">Dual Problem</a></li>
+<li><a href="#org8764a48">Lagrangian and KKT Points</a></li>
+<li><a href="#org1168bfc">Dual Problem</a></li>
 </ul>
 </div>
 </nav>
@@ -5094,9 +5094,9 @@ Therefore, for the considered problem any stable point is also a
 minimizer.
 </p>
 
-<div id="outline-container-org0d2f20f" class="outline-2">
-<h2 id="org0d2f20f">Lagrangian and KKT Points</h2>
-<div class="outline-text-2" id="text-org0d2f20f">
+<div id="outline-container-org8764a48" class="outline-2">
+<h2 id="org8764a48">Lagrangian and KKT Points</h2>
+<div class="outline-text-2" id="text-org8764a48">
 <p>
 The <i>Lagrangian</i> of the considered problem is defined by
 \[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
@@ -5233,9 +5233,9 @@ Q.E.D.
 </div>
 </div>
 
-<div id="outline-container-orga782b09" class="outline-2">
-<h2 id="orga782b09">Dual Problem</h2>
-<div class="outline-text-2" id="text-orga782b09">
+<div id="outline-container-org1168bfc" class="outline-2">
+<h2 id="org1168bfc">Dual Problem</h2>
+<div class="outline-text-2" id="text-org1168bfc">
 <p>
 Recall the definition of Lagrangian
 \[ L(x, u, v) := f(x) - u^\intercal \mathbf{g}(x) - v^\intercal \mathbf{h}(x),
@@ -5323,9 +5323,9 @@ Q.E.D.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org08733e3">Mathematical Analysis</a>
+<li><a href="#org772af46">Mathematical Analysis</a>
 <ul>
-<li><a href="#orgc2f7c79">A simple case study</a></li>
+<li><a href="#org54ba35e">A simple case study</a></li>
 <li><a href="#the-revised-simple-case">The revised simple case</a></li>
 </ul>
 </li>
@@ -5349,13 +5349,13 @@ useful information about the blackbox running environment by analyzing
 the execution results of carefully crafted scripts.
 </p>
 
-<div id="outline-container-org08733e3" class="outline-2">
-<h2 id="org08733e3">Mathematical Analysis</h2>
-<div class="outline-text-2" id="text-org08733e3">
+<div id="outline-container-org772af46" class="outline-2">
+<h2 id="org772af46">Mathematical Analysis</h2>
+<div class="outline-text-2" id="text-org772af46">
 </div>
-<div id="outline-container-orgc2f7c79" class="outline-3">
-<h3 id="orgc2f7c79">A simple case study</h3>
-<div class="outline-text-3" id="text-orgc2f7c79">
+<div id="outline-container-org54ba35e" class="outline-3">
+<h3 id="org54ba35e">A simple case study</h3>
+<div class="outline-text-3" id="text-org54ba35e">
 <p>
 Given a blackbox environment, we aim to detect the true value of a
 single target variable \(X\), which can take values in a set \(U\). The
@@ -5681,12 +5681,12 @@ systems</i>.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga0e523c">Introduction</a></li>
-<li><a href="#org79902ba">Background and Applications</a></li>
-<li><a href="#org552407b">Problem Statement and Our Solution</a></li>
+<li><a href="#org9b0aa15">Introduction</a></li>
+<li><a href="#orge6dd324">Background and Applications</a></li>
+<li><a href="#org92f94c7">Problem Statement and Our Solution</a></li>
 <li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#orgf1384e6">Mathematical Justifications</a></li>
+<li><a href="#orga57bc09">Mathematical Justifications</a></li>
 </ul>
 </div>
 </nav>
@@ -5694,9 +5694,9 @@ systems</i>.
 <b>Authors</b>: Dou Meishi, ChatGPT
 </p>
 
-<div id="outline-container-orga0e523c" class="outline-2">
-<h2 id="orga0e523c">Introduction</h2>
-<div class="outline-text-2" id="text-orga0e523c">
+<div id="outline-container-org9b0aa15" class="outline-2">
+<h2 id="org9b0aa15">Introduction</h2>
+<div class="outline-text-2" id="text-org9b0aa15">
 <p>
 In many applications, it is often required to simulate swap operations
 on a list of elements without actually modifying the underlying data.
@@ -5716,9 +5716,9 @@ will explain the reasons behind our implementation and conclude.
 </div>
 </div>
 
-<div id="outline-container-org79902ba" class="outline-2">
-<h2 id="org79902ba">Background and Applications</h2>
-<div class="outline-text-2" id="text-org79902ba">
+<div id="outline-container-orge6dd324" class="outline-2">
+<h2 id="orge6dd324">Background and Applications</h2>
+<div class="outline-text-2" id="text-orge6dd324">
 <p>
 Swapping elements in a list is a fundamental operation in many
 algorithms, such as sorting algorithms and combinatorial search
@@ -5749,9 +5749,9 @@ without affecting the original data.</li>
 </div>
 </div>
 
-<div id="outline-container-org552407b" class="outline-2">
-<h2 id="org552407b">Problem Statement and Our Solution</h2>
-<div class="outline-text-2" id="text-org552407b">
+<div id="outline-container-org92f94c7" class="outline-2">
+<h2 id="org92f94c7">Problem Statement and Our Solution</h2>
+<div class="outline-text-2" id="text-org92f94c7">
 <p>
 Suppose we have a list of elements and we want to simulate swap
 operations on this list without modifying the actual data. We also want
@@ -5933,9 +5933,9 @@ impact of different permutations without affecting the underlying data.
 </div>
 </div>
 
-<div id="outline-container-orgf1384e6" class="outline-2">
-<h2 id="orgf1384e6">Mathematical Justifications</h2>
-<div class="outline-text-2" id="text-orgf1384e6">
+<div id="outline-container-orga57bc09" class="outline-2">
+<h2 id="orga57bc09">Mathematical Justifications</h2>
+<div class="outline-text-2" id="text-orga57bc09">
 <p>
 It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
 </p>
@@ -6083,9 +6083,9 @@ It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse m
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc71307d">Motivation</a></li>
-<li><a href="#org94683e6">A combined solution</a></li>
-<li><a href="#orgcca7b10">Further Discussion</a></li>
+<li><a href="#orgc96c206">Motivation</a></li>
+<li><a href="#org208d1c0">A combined solution</a></li>
+<li><a href="#org5315b90">Further Discussion</a></li>
 </ul>
 </div>
 </nav>
@@ -6094,9 +6094,9 @@ It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse m
 或下载或创建各种文件。如何有条理的管理这些文件是一个非常值得讨论和思考的问题。
 </p>
 
-<div id="outline-container-orgc71307d" class="outline-2">
-<h2 id="orgc71307d">Motivation</h2>
-<div class="outline-text-2" id="text-orgc71307d">
+<div id="outline-container-orgc96c206" class="outline-2">
+<h2 id="orgc96c206">Motivation</h2>
+<div class="outline-text-2" id="text-orgc96c206">
 <p>
 在正式讨论之前，先让我们罗列几种日常情形。
 </p>
@@ -6165,9 +6165,9 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 </div>
 </div>
 
-<div id="outline-container-org94683e6" class="outline-2">
-<h2 id="org94683e6">A combined solution</h2>
-<div class="outline-text-2" id="text-org94683e6">
+<div id="outline-container-org208d1c0" class="outline-2">
+<h2 id="org208d1c0">A combined solution</h2>
+<div class="outline-text-2" id="text-org208d1c0">
 <p>
 目前的解决办法是：在基于类别管理的基础上,
 对某些类别的文件夹设计一套专门的文件组织方式。
@@ -6200,7 +6200,7 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 下的子文件夹的内容。
 </p>
 
-<pre class="example" id="org1e07249">
+<pre class="example" id="orgf9b91c6">
   ├── 2022-11-25-MidtermExam/
   │   ├── notes.md
   │   ├── report.pdf
@@ -6276,9 +6276,9 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 </div>
 </div>
 
-<div id="outline-container-orgcca7b10" class="outline-2">
-<h2 id="orgcca7b10">Further Discussion</h2>
-<div class="outline-text-2" id="text-orgcca7b10">
+<div id="outline-container-org5315b90" class="outline-2">
+<h2 id="org5315b90">Further Discussion</h2>
+<div class="outline-text-2" id="text-org5315b90">
 <p>
 我认为文件的 <b>存储</b> 和 <b>浏览/管理</b> 是可以区分开的。
 </p>
@@ -6389,7 +6389,7 @@ space.</li>
 </ul>
 
 
-<figure id="orgfc4b0ca">
+<figure id="org8f714fa">
 <img src="./vscode-UI.png" alt="vscode-UI.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>VS Code UI</figcaption>
@@ -6525,19 +6525,19 @@ See <a href="https://code.visualstudio.com/docs/editor/userdefinedsnippets">Snip
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org245d1d9">1. Basic Configuration</a>
+<li><a href="#org3f802b5">1. Basic Configuration</a>
 <ul>
-<li><a href="#org29b6188">1.1. Transfer Existed Configuration</a></li>
-<li><a href="#orge7ce122">1.2. First-Time Set up</a></li>
+<li><a href="#org9aa43f0">1.1. Transfer Existed Configuration</a></li>
+<li><a href="#orga5660f3">1.2. First-Time Set up</a></li>
 </ul>
 </li>
-<li><a href="#orgfb63118">2. Add-ons</a>
+<li><a href="#orgd3352ae">2. Add-ons</a>
 <ul>
-<li><a href="#org3aa08be">2.1. Prompt</a></li>
-<li><a href="#orgf2947ae">2.2. Pager</a></li>
+<li><a href="#org03f9a69">2.1. Prompt</a></li>
+<li><a href="#org3c06999">2.2. Pager</a></li>
 </ul>
 </li>
-<li><a href="#orgdc0a108">3. An Example of .gitconfig</a></li>
+<li><a href="#org5e03d99">3. An Example of .gitconfig</a></li>
 </ul>
 </div>
 </nav>
@@ -6546,13 +6546,13 @@ See <a href="https://git-scm.com/book/en/v2">Pro Git</a> if you are not familiar
 with Git.
 </p>
 
-<div id="outline-container-org245d1d9" class="outline-2">
-<h2 id="org245d1d9">1. Basic Configuration</h2>
-<div class="outline-text-2" id="text-org245d1d9">
+<div id="outline-container-org3f802b5" class="outline-2">
+<h2 id="org3f802b5">1. Basic Configuration</h2>
+<div class="outline-text-2" id="text-org3f802b5">
 </div>
-<div id="outline-container-org29b6188" class="outline-3">
-<h3 id="org29b6188">1.1. Transfer Existed Configuration</h3>
-<div class="outline-text-3" id="text-org29b6188">
+<div id="outline-container-org9aa43f0" class="outline-3">
+<h3 id="org9aa43f0">1.1. Transfer Existed Configuration</h3>
+<div class="outline-text-3" id="text-org9aa43f0">
 <ol class="org-ol">
 <li>Copy the global git configuration file to <code>~/.gitconfig</code>.</li>
 
@@ -6571,9 +6571,9 @@ ssh-add ~/.ssh/id_ed25519
 </div>
 </div>
 
-<div id="outline-container-orge7ce122" class="outline-3">
-<h3 id="orge7ce122">1.2. First-Time Set up</h3>
-<div class="outline-text-3" id="text-orge7ce122">
+<div id="outline-container-orga5660f3" class="outline-3">
+<h3 id="orga5660f3">1.2. First-Time Set up</h3>
+<div class="outline-text-3" id="text-orga5660f3">
 <p>
 See also <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">Pro Git - Section 1.6</a>
 </p>
@@ -6639,13 +6639,13 @@ git config --global alias.st status
 </div>
 </div>
 
-<div id="outline-container-orgfb63118" class="outline-2">
-<h2 id="orgfb63118">2. Add-ons</h2>
-<div class="outline-text-2" id="text-orgfb63118">
+<div id="outline-container-orgd3352ae" class="outline-2">
+<h2 id="orgd3352ae">2. Add-ons</h2>
+<div class="outline-text-2" id="text-orgd3352ae">
 </div>
-<div id="outline-container-org3aa08be" class="outline-3">
-<h3 id="org3aa08be">2.1. Prompt</h3>
-<div class="outline-text-3" id="text-org3aa08be">
+<div id="outline-container-org03f9a69" class="outline-3">
+<h3 id="org03f9a69">2.1. Prompt</h3>
+<div class="outline-text-3" id="text-org03f9a69">
 <p>
 <a href="https://github.com/magicmonty/bash-git-prompt">bash-git-prompt</a>: A bash prompt that displays information about the
 current git repository.  In particular the branch name, difference
@@ -6653,7 +6653,7 @@ with remote branch, number of files staged, changed, etc.
 </p>
 
 
-<figure id="org082717c">
+<figure id="orge9113c3">
 <img src="./gitprompt.png" alt="gitprompt.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>Example of bash-git-prompt</figcaption>
@@ -6661,15 +6661,15 @@ with remote branch, number of files staged, changed, etc.
 </div>
 </div>
 
-<div id="outline-container-orgf2947ae" class="outline-3">
-<h3 id="orgf2947ae">2.2. Pager</h3>
-<div class="outline-text-3" id="text-orgf2947ae">
+<div id="outline-container-org3c06999" class="outline-3">
+<h3 id="org3c06999">2.2. Pager</h3>
+<div class="outline-text-3" id="text-org3c06999">
 <p>
 <a href="https://github.com/dandavison/delta">delta</a>: A syntax-highlighting pager for git, diff, and grep output.
 </p>
 
 
-<figure id="org5431c03">
+<figure id="org122585c">
 <img src="./delta.png" alt="delta.png">
 
 <figcaption><span class="figure-number">Figure 2: </span>Example of delta</figcaption>
@@ -6678,10 +6678,10 @@ with remote branch, number of files staged, changed, etc.
 </div>
 </div>
 
-<div id="outline-container-orgdc0a108" class="outline-2">
-<h2 id="orgdc0a108">3. An Example of .gitconfig</h2>
-<div class="outline-text-2" id="text-orgdc0a108">
-<pre class="example" id="org7205e2d">
+<div id="outline-container-org5e03d99" class="outline-2">
+<h2 id="org5e03d99">3. An Example of .gitconfig</h2>
+<div class="outline-text-2" id="text-org5e03d99">
+<pre class="example" id="org83b82d1">
 [user]
     name = John Doe
     email = johndoe@example.com
@@ -6730,17 +6730,17 @@ with remote branch, number of files staged, changed, etc.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org68a940f">小球模型</a></li>
-<li><a href="#org56b102e">事件模型</a></li>
-<li><a href="#org2b524af">模型应用</a></li>
-<li><a href="#org710bd2b">进阶应用</a></li>
+<li><a href="#orgf8c6165">小球模型</a></li>
+<li><a href="#orgd24e6f5">事件模型</a></li>
+<li><a href="#org5fbe046">模型应用</a></li>
+<li><a href="#org4a19af8">进阶应用</a></li>
 </ul>
 </div>
 </nav>
 
-<div id="outline-container-org68a940f" class="outline-2">
-<h2 id="org68a940f">小球模型</h2>
-<div class="outline-text-2" id="text-org68a940f">
+<div id="outline-container-orgf8c6165" class="outline-2">
+<h2 id="orgf8c6165">小球模型</h2>
+<div class="outline-text-2" id="text-orgf8c6165">
 <p>
 <b>问.</b> 现有 \(N\) 个小球, 其中有 \(M\) 个作了标记. 今随机地挑出 \(K\) 个, 写出其中标记球的个数的分布.
 </p>
@@ -6909,9 +6909,9 @@ i\leq \min(K,M). \]
 </div>
 </div>
 
-<div id="outline-container-org56b102e" class="outline-2">
-<h2 id="org56b102e">事件模型</h2>
-<div class="outline-text-2" id="text-org56b102e">
+<div id="outline-container-orgd24e6f5" class="outline-2">
+<h2 id="orgd24e6f5">事件模型</h2>
+<div class="outline-text-2" id="text-orgd24e6f5">
 <p>
 <b>问.</b> 现有事件族 \(\{A_i\}_{i=1}^n\), 写出至少有一个事件发生的概率.
 </p>
@@ -6972,9 +6972,9 @@ $$
 </div>
 </div>
 
-<div id="outline-container-org2b524af" class="outline-2">
-<h2 id="org2b524af">模型应用</h2>
-<div class="outline-text-2" id="text-org2b524af">
+<div id="outline-container-org5fbe046" class="outline-2">
+<h2 id="org5fbe046">模型应用</h2>
+<div class="outline-text-2" id="text-org5fbe046">
 <p>
 以下考虑经典规则: 54 张牌, 地主分到 20 张, 两个农民各 17 张.
 </p>
@@ -7133,9 +7133,9 @@ $$
 </div>
 </div>
 
-<div id="outline-container-org710bd2b" class="outline-2">
-<h2 id="org710bd2b">进阶应用</h2>
-<div class="outline-text-2" id="text-org710bd2b">
+<div id="outline-container-org4a19af8" class="outline-2">
+<h2 id="org4a19af8">进阶应用</h2>
+<div class="outline-text-2" id="text-org4a19af8">
 <p>
 <b>问.</b> 写出经典规则下地主摸到至少一炸 (王炸或者四炸) 的概率. 农民呢?
 </p>
@@ -7179,10 +7179,10 @@ $$
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6b3cd0a">Statement</a></li>
-<li><a href="#org673ef1a">Problems</a></li>
-<li><a href="#org664b97e">Further discussion</a></li>
-<li><a href="#orgd19e674">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org781ae77">Statement</a></li>
+<li><a href="#orged4f03f">Problems</a></li>
+<li><a href="#orge3b9780">Further discussion</a></li>
+<li><a href="#orga434c1f">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -7201,9 +7201,9 @@ convergence and Helly's selection theorem deals with the pointwise
 convergence.
 </p>
 
-<div id="outline-container-org6b3cd0a" class="outline-2">
-<h2 id="org6b3cd0a">Statement</h2>
-<div class="outline-text-2" id="text-org6b3cd0a">
+<div id="outline-container-org781ae77" class="outline-2">
+<h2 id="org781ae77">Statement</h2>
+<div class="outline-text-2" id="text-org781ae77">
 <p>
 <i>Lemma (Helly).</i> Suppose that \(\{f_n\}_{n\in\mathbb{N}}\) is a <i>uniformly
 bounded</i> sequence of <i>increasing</i> functions on an interval. Then there is
@@ -7245,9 +7245,9 @@ discontinuity points of a monotone function is countable.
 </div>
 </div>
 
-<div id="outline-container-org673ef1a" class="outline-2">
-<h2 id="org673ef1a">Problems</h2>
-<div class="outline-text-2" id="text-org673ef1a">
+<div id="outline-container-orged4f03f" class="outline-2">
+<h2 id="orged4f03f">Problems</h2>
+<div class="outline-text-2" id="text-orged4f03f">
 <ol class="org-ol">
 <li>Is there a subsequence of \((\sin (x/k))_{k=1}^\infty\) converges pointwise?</li>
 <li>Is there a subsequence of \((\sin (x+k))_{k=1}^\infty\) converges pointwise?</li>
@@ -7264,9 +7264,9 @@ essential in Helly's selection theorem.
 </div>
 </div>
 
-<div id="outline-container-org664b97e" class="outline-2">
-<h2 id="org664b97e">Further discussion</h2>
-<div class="outline-text-2" id="text-org664b97e">
+<div id="outline-container-orge3b9780" class="outline-2">
+<h2 id="orge3b9780">Further discussion</h2>
+<div class="outline-text-2" id="text-orge3b9780">
 <p>
 <i>Pointwise convergence is weaker than uniformly convergence.</i> In
 \(\mathbb{R}^{\mathbb{N}}\), let \(e^n=(e^n_k)_{k=1}^\infty\) be the
@@ -7280,9 +7280,9 @@ Indeed, by the diagonal argument, any uniformly bounded sequence in
 </div>
 </div>
 
-<div id="outline-container-orgd19e674" class="outline-2">
-<h2 id="orgd19e674">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orgd19e674">
+<div id="outline-container-orga434c1f" class="outline-2">
+<h2 id="orga434c1f">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-orga434c1f">
 <ol class="org-ol">
 <li><a href="https://math.stackexchange.com/questions/397931/hellys-selection-theorem">Helly's selection theorem - Mathematics</a></li>
 </ol>
@@ -7411,29 +7411,29 @@ At last, the gradient is
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7258851">Get Ubuntu</a></li>
-<li><a href="#org78e26f3">Appearance</a>
+<li><a href="#orgcac61b5">Get Ubuntu</a></li>
+<li><a href="#org8dfc0d5">Appearance</a>
 <ul>
-<li><a href="#org2b91ef8">Customize Fonts</a></li>
-<li><a href="#org062d7ba">Customize Bash</a></li>
-<li><a href="#orgd501bf9">GNOME Tweaks</a></li>
-<li><a href="#orgc5c282d">Choose Cinnamon (Deprecated)</a></li>
+<li><a href="#org10d2f03">Customize Fonts</a></li>
+<li><a href="#org3ab6d42">Customize Bash</a></li>
+<li><a href="#org34ab7f5">GNOME Tweaks</a></li>
+<li><a href="#orgbd9a6a4">Choose Cinnamon (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#org450f770">Toolkits</a>
+<li><a href="#org3a80ebc">Toolkits</a>
 <ul>
-<li><a href="#orgb23a466">Install Edge</a></li>
-<li><a href="#org836d105">Install VS code</a></li>
-<li><a href="#org6fc5993">Install Clash</a></li>
-<li><a href="#orga52832e">Install Git</a></li>
-<li><a href="#orga54ec0f">Install Emacs</a></li>
-<li><a href="#orge4c582d">Install Python</a></li>
-<li><a href="#org81ccadf">Install TeXLive</a></li>
-<li><a href="#org313dc3d">Customize Input Methods (Deprecated)</a></li>
+<li><a href="#org3559136">Install Edge</a></li>
+<li><a href="#org47ce411">Install VS code</a></li>
+<li><a href="#org01561f3">Install Clash</a></li>
+<li><a href="#org7b9369d">Install Git</a></li>
+<li><a href="#orge0ed5fb">Install Emacs</a></li>
+<li><a href="#org781b3c2">Install Python</a></li>
+<li><a href="#org4b584d4">Install TeXLive</a></li>
+<li><a href="#org91868ff">Customize Input Methods (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#orgb27ac32">Future Customization</a></li>
-<li><a href="#org8782143">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org7add514">Future Customization</a></li>
+<li><a href="#org9fb1575">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -7455,9 +7455,9 @@ At last, the gradient is
 以后就让这位老战友退居二线吧.
 </p>
 
-<div id="outline-container-org7258851" class="outline-2">
-<h2 id="org7258851">Get Ubuntu</h2>
-<div class="outline-text-2" id="text-org7258851">
+<div id="outline-container-orgcac61b5" class="outline-2">
+<h2 id="orgcac61b5">Get Ubuntu</h2>
+<div class="outline-text-2" id="text-orgcac61b5">
 <p>
 在 Ubuntu 官网下载 20.04 LTS 版本,
 用 Universal USB Installer 将 <code>.iso</code> 文件烧录到 U 盘上.
@@ -7485,9 +7485,9 @@ At last, the gradient is
 </div>
 </div>
 
-<div id="outline-container-org78e26f3" class="outline-2">
-<h2 id="org78e26f3">Appearance</h2>
-<div class="outline-text-2" id="text-org78e26f3">
+<div id="outline-container-org8dfc0d5" class="outline-2">
+<h2 id="org8dfc0d5">Appearance</h2>
+<div class="outline-text-2" id="text-org8dfc0d5">
 <p>
 安装完成后首先更新
 </p>
@@ -7507,9 +7507,9 @@ sudo apt upgrade
 </p>
 </div>
 
-<div id="outline-container-org2b91ef8" class="outline-3">
-<h3 id="org2b91ef8">Customize Fonts</h3>
-<div class="outline-text-3" id="text-org2b91ef8">
+<div id="outline-container-org10d2f03" class="outline-3">
+<h3 id="org10d2f03">Customize Fonts</h3>
+<div class="outline-text-3" id="text-org10d2f03">
 <p>
 从小破本里将 <code>~/.local/share/fonts/</code> 复制到主目录.
 然后刷新缓存
@@ -7526,9 +7526,9 @@ sudo apt upgrade
 </div>
 </div>
 
-<div id="outline-container-org062d7ba" class="outline-3">
-<h3 id="org062d7ba">Customize Bash</h3>
-<div class="outline-text-3" id="text-org062d7ba">
+<div id="outline-container-org3ab6d42" class="outline-3">
+<h3 id="org3ab6d42">Customize Bash</h3>
+<div class="outline-text-3" id="text-org3ab6d42">
 <p>
 将 <code>.bashrc</code>, <code>.bash_env</code>, <code>.bash_aliases</code>, <code>.inputrc</code>, <code>bin/</code> 复制到主目录.
 </p>
@@ -7568,9 +7568,9 @@ git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git
 </div>
 </div>
 
-<div id="outline-container-orgd501bf9" class="outline-3">
-<h3 id="orgd501bf9">GNOME Tweaks</h3>
-<div class="outline-text-3" id="text-orgd501bf9">
+<div id="outline-container-org34ab7f5" class="outline-3">
+<h3 id="org34ab7f5">GNOME Tweaks</h3>
+<div class="outline-text-3" id="text-org34ab7f5">
 <p>
 Ubuntu 的很多系统外观设置需要使用 GNOME Tweaks，
 参考 <a href="https://linuxhint.com/gnome_tweak_installation_ubuntu/">How to Install the Gnome Tweak Tool on Ubuntu 22.04</a>.
@@ -7607,9 +7607,9 @@ sudo apt install gnome-tweaks
 </div>
 </div>
 
-<div id="outline-container-orgc5c282d" class="outline-3">
-<h3 id="orgc5c282d">Choose Cinnamon (Deprecated)</h3>
-<div class="outline-text-3" id="text-orgc5c282d">
+<div id="outline-container-orgbd9a6a4" class="outline-3">
+<h3 id="orgbd9a6a4">Choose Cinnamon (Deprecated)</h3>
+<div class="outline-text-3" id="text-orgbd9a6a4">
 <p>
 <del>个人更习惯 Win 风格的 UI
 于是偏爱 Cinnamon 桌面环境</del>
@@ -7633,31 +7633,31 @@ sudo apt install gnome-tweaks
 </div>
 </div>
 
-<div id="outline-container-org450f770" class="outline-2">
-<h2 id="org450f770">Toolkits</h2>
-<div class="outline-text-2" id="text-org450f770">
+<div id="outline-container-org3a80ebc" class="outline-2">
+<h2 id="org3a80ebc">Toolkits</h2>
+<div class="outline-text-2" id="text-org3a80ebc">
 </div>
-<div id="outline-container-orgb23a466" class="outline-3">
-<h3 id="orgb23a466">Install Edge</h3>
-<div class="outline-text-3" id="text-orgb23a466">
+<div id="outline-container-org3559136" class="outline-3">
+<h3 id="org3559136">Install Edge</h3>
+<div class="outline-text-3" id="text-org3559136">
 <p>
 下载 Edge, 设置字体 Fira Sans + Lora, 登陆帐号.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org836d105" class="outline-3">
-<h3 id="org836d105">Install VS code</h3>
-<div class="outline-text-3" id="text-org836d105">
+<div id="outline-container-org47ce411" class="outline-3">
+<h3 id="org47ce411">Install VS code</h3>
+<div class="outline-text-3" id="text-org47ce411">
 <p>
 下载 VS Code, 登录账号. See also <a href="../2023-04-06-IntroVSCode/notes.html">this note</a> for a brief intro to VS code.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org6fc5993" class="outline-3">
-<h3 id="org6fc5993">Install Clash</h3>
-<div class="outline-text-3" id="text-org6fc5993">
+<div id="outline-container-org01561f3" class="outline-3">
+<h3 id="org01561f3">Install Clash</h3>
+<div class="outline-text-3" id="text-org01561f3">
 <p>
 准备科学上网.
 从小破本上复制 <del>或者从 github 上下载</del> 到 <del>最新版本的</del> clash,
@@ -7680,9 +7680,9 @@ sudo chmod a+x ./clash
 </div>
 </div>
 
-<div id="outline-container-orga52832e" class="outline-3">
-<h3 id="orga52832e">Install Git</h3>
-<div class="outline-text-3" id="text-orga52832e">
+<div id="outline-container-org7b9369d" class="outline-3">
+<h3 id="org7b9369d">Install Git</h3>
+<div class="outline-text-3" id="text-org7b9369d">
 <p>
 安装 <code>git</code> 后登陆 GitHub, 按照提示生成 SSH key 并添加.
 See also <a href="../2023-04-05-ConfigGit/notes.html">this note</a> for details.
@@ -7702,9 +7702,9 @@ See also <a href="../2023-04-05-ConfigGit/notes.html">this note</a> for details.
 </div>
 </div>
 
-<div id="outline-container-orga54ec0f" class="outline-3">
-<h3 id="orga54ec0f">Install Emacs</h3>
-<div class="outline-text-3" id="text-orga54ec0f">
+<div id="outline-container-orge0ed5fb" class="outline-3">
+<h3 id="orge0ed5fb">Install Emacs</h3>
+<div class="outline-text-3" id="text-orge0ed5fb">
 <p>
 添加源并下载最新的 Emacs
 </p>
@@ -7722,9 +7722,9 @@ sudo apt install emacs-snapshot
 </div>
 </div>
 
-<div id="outline-container-orge4c582d" class="outline-3">
-<h3 id="orge4c582d">Install Python</h3>
-<div class="outline-text-3" id="text-orge4c582d">
+<div id="outline-container-org781b3c2" class="outline-3">
+<h3 id="org781b3c2">Install Python</h3>
+<div class="outline-text-3" id="text-org781b3c2">
 <p>
 Ubuntu 20.04 LTS 是自带 <code>Python3.8</code> 的,
 但一些第三方包还是需要自己装.
@@ -7754,18 +7754,18 @@ jupyter contrib nbextension install --user
 </div>
 </div>
 
-<div id="outline-container-org81ccadf" class="outline-3">
-<h3 id="org81ccadf">Install TeXLive</h3>
-<div class="outline-text-3" id="text-org81ccadf">
+<div id="outline-container-org4b584d4" class="outline-3">
+<h3 id="org4b584d4">Install TeXLive</h3>
+<div class="outline-text-3" id="text-org4b584d4">
 <p>
 See official doc
 </p>
 </div>
 </div>
 
-<div id="outline-container-org313dc3d" class="outline-3">
-<h3 id="org313dc3d">Customize Input Methods (Deprecated)</h3>
-<div class="outline-text-3" id="text-org313dc3d">
+<div id="outline-container-org91868ff" class="outline-3">
+<h3 id="org91868ff">Customize Input Methods (Deprecated)</h3>
+<div class="outline-text-3" id="text-org91868ff">
 <p>
 <b>Ubuntu 22.04 LTS 自带的输入法已经足够使用，不必再进行后续配置</b>
 </p>
@@ -7785,9 +7785,9 @@ sudo apt install fcitx-config-gtk
 </div>
 </div>
 
-<div id="outline-container-orgb27ac32" class="outline-2">
-<h2 id="orgb27ac32">Future Customization</h2>
-<div class="outline-text-2" id="text-orgb27ac32">
+<div id="outline-container-org7add514" class="outline-2">
+<h2 id="org7add514">Future Customization</h2>
+<div class="outline-text-2" id="text-org7add514">
 <ul class="org-ul">
 <li>Customize titlebar</li>
 <li>More funny animations</li>
@@ -7795,9 +7795,9 @@ sudo apt install fcitx-config-gtk
 </div>
 </div>
 
-<div id="outline-container-org8782143" class="outline-2">
-<h2 id="org8782143">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org8782143">
+<div id="outline-container-org9fb1575" class="outline-2">
+<h2 id="org9fb1575">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org9fb1575">
 <ul class="org-ul">
 <li><a href="https://einverne.github.io/post/2021/03/linux-use-clash.html">在 Linux 上使用 Clash 作代理</a></li>
 <li><a href="http://www.webupd8.org/2011/04/solarized-must-have-color-paletter-for.html">SOLARIZED: A MUST HAVE COLOR SCHEME FOR GNOME TERMINAL, VIM, GEDIT AND LOTS MORE</a></li>
@@ -7818,16 +7818,16 @@ sudo apt install fcitx-config-gtk
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5b43f23">Input/Output</a></li>
-<li><a href="#org0f7b5a9">Parameters</a>
+<li><a href="#org9d87b62">Input/Output</a></li>
+<li><a href="#org8c381e7">Parameters</a>
 <ul>
-<li><a href="#orgc113a4a">stride</a></li>
-<li><a href="#orgf80084d">padding</a></li>
-<li><a href="#org8cf82d6">dilation</a></li>
+<li><a href="#org1b04e4f">stride</a></li>
+<li><a href="#orge0142cc">padding</a></li>
+<li><a href="#orgedfd494">dilation</a></li>
 </ul>
 </li>
-<li><a href="#org0b0d1fe">Correlation and Convolution</a></li>
-<li><a href="#orgfaaa924">References</a></li>
+<li><a href="#orgb7caa39">Correlation and Convolution</a></li>
+<li><a href="#orgdd5c09e">References</a></li>
 </ul>
 </div>
 </nav>
@@ -7839,9 +7839,9 @@ sudo apt install fcitx-config-gtk
 为什么要叫 convolution?
 </p>
 
-<div id="outline-container-org5b43f23" class="outline-2">
-<h2 id="org5b43f23">Input/Output</h2>
-<div class="outline-text-2" id="text-org5b43f23">
+<div id="outline-container-org9d87b62" class="outline-2">
+<h2 id="org9d87b62">Input/Output</h2>
+<div class="outline-text-2" id="text-org9d87b62">
 <p>
 文档中明确给出了输入输出的类型：有四个维度 (N, C, H, W) 的 tensor,
 用 NumPy 的术语来说就是 4d array.
@@ -7888,9 +7888,9 @@ H<sub>out</sub>, W<sub>out</sub> 则依赖于 H<sub>in</sub> 和 W<sub>out</sub>
 </div>
 </div>
 
-<div id="outline-container-org0f7b5a9" class="outline-2">
-<h2 id="org0f7b5a9">Parameters</h2>
-<div class="outline-text-2" id="text-org0f7b5a9">
+<div id="outline-container-org8c381e7" class="outline-2">
+<h2 id="org8c381e7">Parameters</h2>
+<div class="outline-text-2" id="text-org8c381e7">
 <p>
 在介绍 Conv2d 的各种参数之前，先简单地介绍输出是怎样从输入算得的。官方
 文档中给出的公式是 \[ output(N_i, C_{outj}) = bias(C_{outj}) +
@@ -7922,7 +7922,7 @@ N, C<sub>out</sub>, C<sub>in</sub> 都是 1 时，
 那么输出可以写成
 </p>
 
-<pre class="example" id="orgd7cc1a0">
+<pre class="example" id="org162fcca">
 output[i,j] = dot(kernel, input[i:i+k, j:j+k])
 </pre>
 
@@ -7932,7 +7932,7 @@ output[i,j] = dot(kernel, input[i:i+k, j:j+k])
 </p>
 
 
-<figure id="orgd8869d6">
+<figure id="org467f812">
 <img src="./convolve-demo.gif" alt="convolve-demo.gif">
 
 </figure>
@@ -7947,29 +7947,29 @@ k + 1. \]
 </div>
 
 
-<div id="outline-container-orgc113a4a" class="outline-3">
-<h3 id="orgc113a4a">stride</h3>
-<div class="outline-text-3" id="text-orgc113a4a">
+<div id="outline-container-org1b04e4f" class="outline-3">
+<h3 id="org1b04e4f">stride</h3>
+<div class="outline-text-3" id="text-org1b04e4f">
 <p>
 参数 stride 控制每次 kernel 滑动的步长，用公式表述就是
 </p>
 
-<pre class="example" id="orga622bfc">
+<pre class="example" id="orgb186513">
 output[i,j] = dot(kernel, input[stride*i:stride*i + k,
                                 stride*j:stride*j + k])
 </pre>
 
 
-<figure id="orge085fd1">
+<figure id="org6f311bb">
 <img src="./convolve-stride.png" alt="convolve-stride.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-orgf80084d" class="outline-3">
-<h3 id="orgf80084d">padding</h3>
-<div class="outline-text-3" id="text-orgf80084d">
+<div id="outline-container-orge0142cc" class="outline-3">
+<h3 id="orge0142cc">padding</h3>
+<div class="outline-text-3" id="text-orge0142cc">
 <p>
 从之前的公式看出，一般输出矩阵的大小是小于输入矩阵的。
 要扩展输出矩阵大小也很简单，只要处理 input array 下标越界的问题就好了。
@@ -7991,27 +7991,27 @@ zero padding 也有好几种方式，根据对下标越界的容身程度而定�
 </p>
 
 
-<figure id="org65bc8ae">
+<figure id="orga625ee8">
 <img src="./convolve-padding.gif" alt="convolve-padding.gif">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org8cf82d6" class="outline-3">
-<h3 id="org8cf82d6">dilation</h3>
-<div class="outline-text-3" id="text-org8cf82d6">
+<div id="outline-container-orgedfd494" class="outline-3">
+<h3 id="orgedfd494">dilation</h3>
+<div class="outline-text-3" id="text-orgedfd494">
 <p>
 控制 kernel 如何覆盖在输入矩阵上，用公式表述就是
 </p>
 
-<pre class="example" id="org489559f">
+<pre class="example" id="org9e3b97c">
 output[i,j] = dot(kernel, input[i:i+k*dilation:dilation,
                                 j:j+k*dilation:dilation])
 </pre>
 
 
-<figure id="orgd8043b1">
+<figure id="org14b9a15">
 <img src="./convolve-dilation.gif" alt="convolve-dilation.gif">
 
 </figure>
@@ -8019,9 +8019,9 @@ output[i,j] = dot(kernel, input[i:i+k*dilation:dilation,
 </div>
 </div>
 
-<div id="outline-container-org0b0d1fe" class="outline-2">
-<h2 id="org0b0d1fe">Correlation and Convolution</h2>
-<div class="outline-text-2" id="text-org0b0d1fe">
+<div id="outline-container-orgb7caa39" class="outline-2">
+<h2 id="orgb7caa39">Correlation and Convolution</h2>
+<div class="outline-text-2" id="text-orgb7caa39">
 <p>
 我最早接触的 correlation, convolution 是在光学课上，
 那里是对两个连续信号 f, g 定义的
@@ -8048,9 +8048,9 @@ correlation 却叫 convolution.
 </div>
 </div>
 
-<div id="outline-container-orgfaaa924" class="outline-2">
-<h2 id="orgfaaa924">References</h2>
-<div class="outline-text-2" id="text-orgfaaa924">
+<div id="outline-container-orgdd5c09e" class="outline-2">
+<h2 id="orgdd5c09e">References</h2>
+<div class="outline-text-2" id="text-orgdd5c09e">
 <ul class="org-ul">
 <li><a href="https://medium.com/@RaghavPrabhu/understanding-of-convolutional-neural-network-cnn-deep-learning-99760835f148">Understanding of Convolutional Neural Network (CNN) — Deep Learning</a></li>
 <li><a href="https://cs231n.github.io/convolutional-networks/#norm">Convolutional Neural Networks (CNNs / ConvNets)</a></li>
