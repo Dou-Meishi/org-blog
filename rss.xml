@@ -4,7 +4,353 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Wed, 06 Mar 2024 23:40:21 +0800</lastBuildDate>
+<lastBuildDate>Tue, 12 Mar 2024 23:08:37 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Academic Citations and APA Style]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5513c55">In-text Citations and The Reference List</a></li>
+<li><a href="#orgf309c64">Formatting Rules for In-text Citations</a></li>
+<li><a href="#org6629aee">Formatting Rules for Reference List Entries</a>
+<ul>
+<li><a href="#org146dde4">The Author Element</a></li>
+<li><a href="#orgc8ddf24">The Date Element</a></li>
+<li><a href="#orgfabdeb6">The Title Element</a></li>
+<li><a href="#org08f00ca">The Source Element</a></li>
+<li><a href="#org15fa7f0">Examples</a></li>
+</ul>
+</li>
+<li><a href="#org108f972">The Official APA Website</a></li>
+<li><a href="#org4a0b680">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+</ul>
+</div>
+</nav>
+<p>
+Citations are important in academic writings, not only for
+acknowledging the original authors and avoiding plagiarism, but also
+for <i>effective communication</i>. Citations help readers track the
+evolution of thought and provide the source where they can retrieve
+the original material. Citations can also add strength and authority
+to your work. In this post, I will show how to properly cite sources
+in academic writings. In particular, I will follow the APA (American
+Psychological Association) citation style.
+</p>
+
+<p>
+You may ask why bother to understand these conceps? There are a plenty of
+reference manager software available to help generate nicely formatted
+citations in various styles, e.g., Zotero (I use it too), EndNote,
+Mendeley, and even google scholar. However, they are only tools and do
+not tell us what kind of citation is needed in different
+situations. Moreover, it is beneficial to have a brief understanding
+of how the citation is formatted so that we can format simple
+citations by ourself (it is achievable in APA style), and even
+implement a function that suits our need using a programming language.
+</p>
+
+<p>
+I will begin by discussing the concepts of in-text citation and the
+reference list, followed by demonstrations through
+examples. Naturally, it is impossible to cover all formatting rules in
+a brief post. Therefore, I will direct you to <a href="https://apastyle.apa.org/">the APA style official
+website</a> and illustrate how to locate resources there.
+</p>
+
+<div id="outline-container-org5513c55" class="outline-2">
+<h2 id="org5513c55">In-text Citations and The Reference List</h2>
+<div class="outline-text-2" id="text-org5513c55">
+<p>
+In APA style, the reference metadata are typically grouped into four
+elements:
+</p>
+
+<ul class="org-ul">
+<li><i>author</i>, i.e., their names;</li>
+<li><i>date</i>, in most cases., the publication year;</li>
+<li><i>title</i>, i.e., the title of the cited work;</li>
+<li>and <i>source</i>, which specifies where to retrieve the cited work.</li>
+</ul>
+
+<p>
+<i>In-text citation</i> appears within the body of the paper and contain
+only <i>author</i> and <i>date</i> of publication, directing readers to locate the
+corresponding entry in the <i>reference list</i> at the end of the paper,
+which contains additional information include <i>title</i> and <i>source</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf309c64" class="outline-2">
+<h2 id="orgf309c64">Formatting Rules for In-text Citations</h2>
+<div class="outline-text-2" id="text-orgf309c64">
+<p>
+There are two type of in-text citations:
+</p>
+
+<ul class="org-ul">
+<li><p>
+<i>parenthetical citations</i>, where the author's surname and year appear
+in parentheses.  This often appears at the end of a sentence, e.g.,
+</p>
+
+<pre class="example" id="orgecd2bea">
+Falsely balanced news coverage can distort the public’s perception
+of expert consensus on an issue (Koehler, 2016).
+
+It was found that ... (Anderson &amp; Bratos-Anderson, 1987).
+
+It was found that ... (Reynar et al., 2010).
+</pre></li>
+
+<li><p>
+<i>narrative citations</i>, where the author's surname appears as part of
+the sentence, followed by the year in parentheses. In this case, <code>&amp;</code>
+is replaced by the word <code>and</code>. For three or more authors, use <code>et. al</code>.,
+This often appears at the beginning of a sentence, e.g.,
+</p>
+
+<pre class="example" id="orgbdbf809">
+Koehler (2016) noted the dangers of falsely balanced news coverage.
+
+Anderson and Bratos-Anderson (1987) found that ...
+
+Reynar et al. (2010) found that ...
+</pre></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6629aee" class="outline-2">
+<h2 id="org6629aee">Formatting Rules for Reference List Entries</h2>
+<div class="outline-text-2" id="text-org6629aee">
+<p>
+While in-text citation doesn’t vary depending on source type,
+reference list citations are highly variable depending on the source.
+As mentioned before, a reference entry includes the four elements of
+the author, date, title, and source; see <a href="https://apastyle.apa.org/style-grammar-guidelines/references/elements-list-entry">Elements of Reference List
+Entries</a> for more details.
+</p>
+</div>
+
+<div id="outline-container-org146dde4" class="outline-3">
+<h3 id="org146dde4">The Author Element</h3>
+<div class="outline-text-3" id="text-org146dde4">
+<p>
+<i>Author</i> refers broadly to the person(s) or group(s) responsible for a
+work. An author may be an individual, multiple people, or a group
+(institution, government agency, organization, etc.). When formatting,
+provide the surname first, followed by a comma and the author’s
+initials. Use a comma to separate different authors. Use <code>&amp;</code> before the
+final author’s name. When there are too many, say 21 or more authors,
+include the first 19 authors’ names, insert an ellipsis (but no
+ampersand), and then add the final author’s name.
+</p>
+
+<pre class="example" id="orgaffaafa">
+Author, A. A.
+
+Author, A. A., &amp; Author, B. B.
+
+Author, A. A., Author, B. B., &amp; Author, C. C.
+
+Author, A. A., Author, B. B., Author, C. C., Author, D. D., Author, E. E.,
+        Author, F. F., Author, G. G., Author, H. H., Author, I. I.,
+        Author, J. J., Author, K. K., Author, L. L., Author, M. M.,
+        Author, N. N., Author, O. O., Author, P. P., Author, Q. Q.,
+        Author, R. R., Author, S. S., . . . Author, Z. Z.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc8ddf24" class="outline-3">
+<h3 id="orgc8ddf24">The Date Element</h3>
+<div class="outline-text-3" id="text-orgc8ddf24">
+<p>
+<i>Date</i> refers to the date of publication of the work. It can be year
+only or an exact date. When formatting, enclose the date in
+parentheses, followed by a period.
+</p>
+
+<pre class="example" id="orga1be518">
+(2020).
+
+(2018, July).
+
+(2020, August 26).
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgfabdeb6" class="outline-3">
+<h3 id="orgfabdeb6">The Title Element</h3>
+<div class="outline-text-3" id="text-orgfabdeb6">
+<p>
+<i>Title</i> refers to the title of the work being cited. When formatting,
+capitalize the title using sentence case and finish the title with a
+period<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>. Italicize the title for stand alone works (e.g., books
+and webpages). But do not italicize for works that a part of a great
+whole (e.g., journal articles and conference papers).
+</p>
+
+<pre class="example" id="orgb092197">
+Happy fish in little ponds: Testing a reference group model of achievement and emotion.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org08f00ca" class="outline-3">
+<h3 id="org08f00ca">The Source Element</h3>
+<div class="outline-text-3" id="text-org08f00ca">
+<p>
+<i>Source</i> indicates where readers can retrieve the cited work. As with
+titles, sources fall into two broad categories: works that are part of
+a greater whole and works that stand alone:
+</p>
+
+<ul class="org-ul">
+<li>for books, the source is the publisher;</li>
+<li>for webpages, the source is the website;</li>
+<li>for journal articles, the source is the journal;</li>
+<li>for conference papers, the source is the conference.</li>
+</ul>
+
+<p>
+The format of the source varies depending on the reference type.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Reference type</th>
+<th scope="col" class="org-left">Component of the source</th>
+<th scope="col" class="org-left">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Journal article</td>
+<td class="org-left">Italic journal title, volume(issue), pages.</td>
+<td class="org-left"><i>Couple and Family Psychology: Research and Practice</i>, 8(3), 137–151.</td>
+</tr>
+
+<tr>
+<td class="org-left">Book</td>
+<td class="org-left">Publisher name</td>
+<td class="org-left">Springer.</td>
+</tr>
+
+<tr>
+<td class="org-left">Webpage on a website</td>
+<td class="org-left">Website name</td>
+<td class="org-left">Mayo Clinic.</td>
+</tr>
+
+<tr>
+<td class="org-left">webpage on a website (when authors are the same as the site name)</td>
+<td class="org-left">URL</td>
+<td class="org-left"><a href="https://www.cdc.gov/cancer/kinds.htm">https://www.cdc.gov/cancer/kinds.htm</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org15fa7f0" class="outline-3">
+<h3 id="org15fa7f0">Examples</h3>
+<div class="outline-text-3" id="text-org15fa7f0">
+<p>
+A conference paper:
+</p>
+
+<p>
+Song, Y., Sohl-Dickstein, J., Kingma, D. P., Kumar, A., Ermon, S., &amp;
+Poole, B. (2021). Score-Based Generative Modeling through Stochastic
+Differential Equations. <i>International Conference on Learning
+Representations</i>.
+</p>
+
+<p>
+A book:
+</p>
+
+<p>
+Bertsekas, D., Nedic, A., &amp; Ozdaglar, A. (2003). <i>Convex Analysis and Optimization</i>. Athena Scientific.
+</p>
+
+<p>
+A webpage:
+</p>
+
+<p>
+Dohmatob, E. (2021). <i>Fenchel-Rockafellar duality theorem, one ring to rule’em all! - Part 1</i>. <a href="https://dohmatob.github.io/research/2019/10/31/duality.html">https://dohmatob.github.io/research/2019/10/31/duality.html</a>
+</p>
+
+<p>
+For more examples, see the <a href="https://apastyle.apa.org/style-grammar-guidelines/references/examples">Reference Examples</a> page of APA website.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org108f972" class="outline-2">
+<h2 id="org108f972">The Official APA Website</h2>
+<div class="outline-text-2" id="text-org108f972">
+<p>
+<a href="https://apastyle.apa.org/">The APA style official website</a> contains a comprehensive section of
+<a href="https://apastyle.apa.org/style-grammar-guidelines">Style and Grammar Guidelines</a>, an illustrative section of <a href="https://apastyle.apa.org/instructional-aids/handouts-guides">Handouts and
+Guides</a>, and a blog section of <a href="https://apastyle.apa.org/blog">Posts</a>. I recommend reading the post
+<a href="https://apastyle.apa.org/beginners">APA Style for beginners</a>, in particular, the 2 minutes demonstrating
+video introducing the APA style website. The <a href="https://extras.apa.org/apastyle/basics-7e/#/">Academic Writer Tutorial</a>
+is also highly recommended. The following cheat sheets are also
+useful:
+</p>
+
+<ol class="org-ol">
+<li><a href="https://apastyle.apa.org/instructional-aids/beginner-student-paper-checklist.pdf">Student Paper Checklist</a>,</li>
+<li><a href="https://apastyle.apa.org/instructional-aids/reference-examples.pdf">Common Reference Examples Guide</a>.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4a0b680" class="outline-2">
+<h2 id="org4a0b680">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org4a0b680">
+<ul class="org-ul">
+<li>APA Org (2020). <i>Academic Writer Tutorial: Basics of Seventh Edition APA Style</i>. <a href="https://extras.apa.org/apastyle/basics-7e/#/">https://extras.apa.org/apastyle/basics-7e/#/</a></li>
+<li>APA Org (2024). <i>Style and Grammar Guidelines</i>. <a href="https://apastyle.apa.org/style-grammar-guidelines">https://apastyle.apa.org/style-grammar-guidelines</a></li>
+<li>Mendeley (2024). <i>APA Format Citation Guide</i>. <a href="https://www.mendeley.com/guides/apa-citation-guide/">https://www.mendeley.com/guides/apa-citation-guide/</a></li>
+</ul>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+However, if the title ends with a question mark or exclamation
+point, that punctuation mark replaces the period.
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>]]></description>
+  <category><![CDATA[tool]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-03-12-AcademicCitationsandAPA/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-03-12-AcademicCitationsandAPA/notes.html</guid>
+  <pubDate>Tue, 12 Mar 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Seamless Writing and Rendering with Emacs Org]]></title>
   <description><![CDATA[

@@ -1,0 +1,194 @@
+#+TITLE: Academic Citations and APA Style
+#+AUTHOR: Dou Meishi
+#+DATE: [2024-03-12]
+#+FILETAGS: tool
+
+Citations are important in academic writings, not only for
+acknowledging the original authors and avoiding plagiarism, but also
+for /effective communication/. Citations help readers track the
+evolution of thought and provide the source where they can retrieve
+the original material. Citations can also add strength and authority
+to your work. In this post, I will show how to properly cite sources
+in academic writings. In particular, I will follow the APA (American
+Psychological Association) citation style.
+
+You may ask why bother to understand these conceps? There are a plenty of
+reference manager software available to help generate nicely formatted
+citations in various styles, e.g., Zotero (I use it too), EndNote,
+Mendeley, and even google scholar. However, they are only tools and do
+not tell us what kind of citation is needed in different
+situations. Moreover, it is beneficial to have a brief understanding
+of how the citation is formatted so that we can format simple
+citations by ourself (it is achievable in APA style), and even
+implement a function that suits our need using a programming language.
+
+I will begin by discussing the concepts of in-text citation and the
+reference list, followed by demonstrations through
+examples. Naturally, it is impossible to cover all formatting rules in
+a brief post. Therefore, I will direct you to [[https://apastyle.apa.org/][the APA style official
+website]] and illustrate how to locate resources there.
+
+** In-text Citations and The Reference List
+
+In APA style, the reference metadata are typically grouped into four
+elements:
+
+- /author/, i.e., their names;
+- /date/, in most cases., the publication year;
+- /title/, i.e., the title of the cited work;
+- and /source/, which specifies where to retrieve the cited work.
+
+/In-text citation/ appears within the body of the paper and contain
+only /author/ and /date/ of publication, directing readers to locate the
+corresponding entry in the /reference list/ at the end of the paper,
+which contains additional information include /title/ and /source/.
+
+** Formatting Rules for In-text Citations
+
+There are two type of in-text citations:
+
+- /parenthetical citations/, where the author's surname and year appear
+  in parentheses.  This often appears at the end of a sentence, e.g.,
+
+  #+BEGIN_EXAMPLE
+Falsely balanced news coverage can distort the public’s perception
+of expert consensus on an issue (Koehler, 2016).
+
+It was found that ... (Anderson & Bratos-Anderson, 1987).
+
+It was found that ... (Reynar et al., 2010).
+  #+END_EXAMPLE
+
+- /narrative citations/, where the author's surname appears as part of
+  the sentence, followed by the year in parentheses. In this case, =&=
+  is replaced by the word =and=. For three or more authors, use =et. al=.,
+  This often appears at the beginning of a sentence, e.g.,
+
+  #+BEGIN_EXAMPLE
+Koehler (2016) noted the dangers of falsely balanced news coverage.
+
+Anderson and Bratos-Anderson (1987) found that ...
+
+Reynar et al. (2010) found that ...
+  #+END_EXAMPLE
+
+** Formatting Rules for Reference List Entries
+
+While in-text citation doesn’t vary depending on source type,
+reference list citations are highly variable depending on the source.
+As mentioned before, a reference entry includes the four elements of
+the author, date, title, and source; see [[https://apastyle.apa.org/style-grammar-guidelines/references/elements-list-entry][Elements of Reference List
+Entries]] for more details.
+
+*** The Author Element
+
+/Author/ refers broadly to the person(s) or group(s) responsible for a
+work. An author may be an individual, multiple people, or a group
+(institution, government agency, organization, etc.). When formatting,
+provide the surname first, followed by a comma and the author’s
+initials. Use a comma to separate different authors. Use =&= before the
+final author’s name. When there are too many, say 21 or more authors,
+include the first 19 authors’ names, insert an ellipsis (but no
+ampersand), and then add the final author’s name.
+
+#+BEGIN_EXAMPLE
+Author, A. A.
+
+Author, A. A., & Author, B. B.
+
+Author, A. A., Author, B. B., & Author, C. C.
+
+Author, A. A., Author, B. B., Author, C. C., Author, D. D., Author, E. E.,
+        Author, F. F., Author, G. G., Author, H. H., Author, I. I.,
+        Author, J. J., Author, K. K., Author, L. L., Author, M. M.,
+        Author, N. N., Author, O. O., Author, P. P., Author, Q. Q.,
+        Author, R. R., Author, S. S., . . . Author, Z. Z.
+#+END_EXAMPLE
+
+*** The Date Element
+
+/Date/ refers to the date of publication of the work. It can be year
+only or an exact date. When formatting, enclose the date in
+parentheses, followed by a period.
+
+#+BEGIN_EXAMPLE
+(2020).
+
+(2018, July).
+
+(2020, August 26).
+#+END_EXAMPLE
+
+*** The Title Element
+
+/Title/ refers to the title of the work being cited. When formatting,
+capitalize the title using sentence case and finish the title with a
+period[fn:1]. Italicize the title for stand alone works (e.g., books
+and webpages). But do not italicize for works that a part of a great
+whole (e.g., journal articles and conference papers).
+
+#+BEGIN_EXAMPLE
+Happy fish in little ponds: Testing a reference group model of achievement and emotion.
+#+END_EXAMPLE
+
+*** The Source Element
+
+/Source/ indicates where readers can retrieve the cited work. As with
+titles, sources fall into two broad categories: works that are part of
+a greater whole and works that stand alone:
+
+- for books, the source is the publisher;
+- for webpages, the source is the website;
+- for journal articles, the source is the journal;
+- for conference papers, the source is the conference.
+
+The format of the source varies depending on the reference type.
+
+| Reference type                                                    | Component of the source                     | Example                                                             |
+|-------------------------------------------------------------------+---------------------------------------------+---------------------------------------------------------------------|
+| Journal article                                                   | Italic journal title, volume(issue), pages. | /Couple and Family Psychology: Research and Practice/, 8(3), 137–151. |
+| Book                                                              | Publisher name                              | Springer.                                                           |
+| Webpage on a website                                              | Website name                                | Mayo Clinic.                                                        |
+| webpage on a website (when authors are the same as the site name) | URL                                         | https://www.cdc.gov/cancer/kinds.htm                                |
+
+*** Examples
+
+A conference paper:
+
+Song, Y., Sohl-Dickstein, J., Kingma, D. P., Kumar, A., Ermon, S., &
+Poole, B. (2021). Score-Based Generative Modeling through Stochastic
+Differential Equations. /International Conference on Learning
+Representations/.
+
+A book:
+
+Bertsekas, D., Nedic, A., & Ozdaglar, A. (2003). /Convex Analysis and Optimization/. Athena Scientific.
+
+A webpage:
+
+Dohmatob, E. (2021). /Fenchel-Rockafellar duality theorem, one ring to rule’em all! - Part 1/. https://dohmatob.github.io/research/2019/10/31/duality.html
+
+For more examples, see the [[https://apastyle.apa.org/style-grammar-guidelines/references/examples][Reference Examples]] page of APA website.
+
+** The Official APA Website
+
+[[https://apastyle.apa.org/][The APA style official website]] contains a comprehensive section of
+[[https://apastyle.apa.org/style-grammar-guidelines][Style and Grammar Guidelines]], an illustrative section of [[https://apastyle.apa.org/instructional-aids/handouts-guides][Handouts and
+Guides]], and a blog section of [[https://apastyle.apa.org/blog][Posts]]. I recommend reading the post
+[[https://apastyle.apa.org/beginners][APA Style for beginners]], in particular, the 2 minutes demonstrating
+video introducing the APA style website. The [[https://extras.apa.org/apastyle/basics-7e/#/][Academic Writer Tutorial]]
+is also highly recommended. The following cheat sheets are also
+useful:
+
+1.  [[https://apastyle.apa.org/instructional-aids/beginner-student-paper-checklist.pdf][Student Paper Checklist]],
+2. [[https://apastyle.apa.org/instructional-aids/reference-examples.pdf][Common Reference Examples Guide]].
+
+** References                                                         :refs:
+
+- APA Org (2020). /Academic Writer Tutorial: Basics of Seventh Edition APA Style/. https://extras.apa.org/apastyle/basics-7e/#/
+- APA Org (2024). /Style and Grammar Guidelines/. https://apastyle.apa.org/style-grammar-guidelines
+- Mendeley (2024). /APA Format Citation Guide/. https://www.mendeley.com/guides/apa-citation-guide/
+
+[fn:1] However, if the title ends with a question mark or exclamation
+point, that punctuation mark replaces the period.
+
