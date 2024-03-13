@@ -26,7 +26,9 @@ I will begin by discussing the concepts of in-text citation and the
 reference list, followed by demonstrations through
 examples. Naturally, it is impossible to cover all formatting rules in
 a brief post. Therefore, I will direct you to [[https://apastyle.apa.org/][the APA style official
-website]] and illustrate how to locate resources there.
+website]] and illustrate how to locate resources there. Finally, I
+will introduce my file naming convention for references by following
+APA style.
 
 ** In-text Citations and The Reference List
 
@@ -182,6 +184,32 @@ useful:
 
 1.  [[https://apastyle.apa.org/instructional-aids/beginner-student-paper-checklist.pdf][Student Paper Checklist]],
 2. [[https://apastyle.apa.org/instructional-aids/reference-examples.pdf][Common Reference Examples Guide]].
+
+** A File Naming Convention for References
+
+I always try to follow some file naming convention for electronic
+documents. After knowing APA style, I realize that it offers a perfect
+structure for naming references. In particular, I create two folders,
+=~/Books/= and =~/Papers/=, to store my references. Each local copy is
+named according to a simple version of the format used in the
+reference list:
+
+- it does not contain the /source/ element;
+- a maximum of three authors are represented;
+- the date element is confined to the year only;
+- the title element may be shortened.
+
+Here are some examples:
+
+#+BEGIN_EXAMPLE
+Anderson, B. D. O. (1982). Reverse-time diffusion equation models.pdf
+
+Polyanskiy, Y., & Wu, Y. (2022). Information theory.pdf
+
+Ho, J., Jain, A., & Abbeel, P. (2020). DDPM.pdf
+
+Goodfellow, I., Pouget-Abadie, J., ... Bengio, Y. (2014). GAN.pdf
+#+END_EXAMPLE
 
 ** References                                                         :refs:
 
