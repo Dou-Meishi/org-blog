@@ -10,14 +10,14 @@ surely/ convergence but stronger than /convergence in distribution/.
 In this post, we start by reviewing the concept of /infinitely often/
 set and use it to characterize the complement event of $\{\lim
 X_n=X\}$. Then we give the definition of convergence in probability,
-which follows directly from $ℙ(\lim X_n=X)=1$. After that a
-counterexample is given to show that the converse is not true.  The
-proof of convergence in probability implies convergence in
-distribution is also given. Finally, we give a necessary and
-sufficient condition of convergence in probability and use it to
-prove 1) the limit of convergence in probability is unique up to a
-zero probability set; 2) a continuous mapping preserve the convergence
-in probability.
+which is by definition weaker than $ℙ(\lim X_n=X)=1$, i.e., the almost
+surely convergence. After that a counterexample is given to show that
+the converse is not true.  The proof of convergence in probability
+implies convergence in distribution is also given. Finally, we give a
+necessary and sufficient condition of convergence in probability and
+use it to prove 1) the limit of convergence in probability is unique
+up to a zero probability set; 2) a continuous mapping preserve the
+convergence in probability.
 
 ** Limiting sets
 
