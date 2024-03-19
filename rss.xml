@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Tue, 19 Mar 2024 17:56:54 +0800</lastBuildDate>
+<lastBuildDate>Tue, 19 Mar 2024 18:52:58 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Strong Law of Large Numbers]]></title>
   <description><![CDATA[
@@ -12,11 +12,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0493234">Tossing a Coin: Probability as Frequency</a></li>
-<li><a href="#orgc11a1ca">Application: Monte Carlo Integration</a></li>
-<li><a href="#org10402c7">Application: Bernstein's Theorem</a></li>
-<li><a href="#orgd917af8">Other Types of SLLN</a></li>
-<li><a href="#orgad0125b">Proof Sketch of SLLN (i.i.d. case)</a></li>
+<li><a href="#orge4c8405">Tossing a Coin: Probability as Frequency</a></li>
+<li><a href="#orgcce7e81">Application: Monte Carlo Integration</a></li>
+<li><a href="#org9bc6919">Application: Bernstein's Theorem</a></li>
+<li><a href="#orgfe24fb2">Other Types of SLLN</a></li>
+<li><a href="#org6b5a6b0">Proof Sketch of SLLN (i.i.d. case)</a></li>
 </ul>
 </div>
 </nav>
@@ -25,18 +25,22 @@ We all know that probability can be interpreted as <i>frequency</i>, but
 behind it there is an important theorem in probability and statistic
 theory, called Strong Law of Large Numbers (SLLN). It states that the
 emprical mean, i.e., the mean of samples, will converge to the
-expectation of the distribution <i>almost surely</i>. In this post, we review
-the tossing coin example and prove this convergence in a probability
-manner rigorously. Then we review the SLLN theorem (i.i.d. case) and
-two applications, Monte Carlo integration and Bernstein's theorem,
-where the former is an important numerical method for estimating
-integrals and the latter specifies explicitly an approximating
-sequence to uniformly approximate any continuous function on a bounded
-interval with polynomials. Finally, we mention other theoretical
-results related to SLLN and a sketch proof of SLLN theorem
-(i.i.d. case). Finally, we discuss additional theoretical results
-relevant to the SLLN, along with a brief outline of the proof for the
-SLLN theorem (i.i.d. case).
+expectation of the distribution <i>almost surely</i>. Monte Carlo integration
+is actually a direct application of SLLN.
+</p>
+
+<p>
+In this post, we first review the tossing coin example and prove this
+convergence in a probability manner rigorously. Then we review the
+SLLN theorem (i.i.d. case) and two applications, Monte Carlo
+integration and Bernstein's theorem. The former is an important
+numerical method for estimating integrals, and the latter specifies
+explicitly an approximating sequence to uniformly approximate any
+continuous function on a bounded interval with polynomials. We also
+mention other theoretical results related to SLLN and a sketch proof
+of SLLN theorem (i.i.d. case). Finally, we discuss additional
+theoretical results relevant to the SLLN, along with a brief outline
+of the proof for the SLLN theorem (i.i.d. case).
 </p>
 
 <p>
@@ -44,9 +48,9 @@ Throughout this post, for a given sequence \((a_n)\) we denote the
 cumulative average by \(\bar{a}_n := \frac{1}{n} \sum_{k=1}^n a_k\).
 </p>
 
-<div id="outline-container-org0493234" class="outline-2">
-<h2 id="org0493234">Tossing a Coin: Probability as Frequency</h2>
-<div class="outline-text-2" id="text-org0493234">
+<div id="outline-container-orge4c8405" class="outline-2">
+<h2 id="orge4c8405">Tossing a Coin: Probability as Frequency</h2>
+<div class="outline-text-2" id="text-orge4c8405">
 <p>
 Perhaps all of us start learning about probability by this example: if
 we toss a fair coin repeatly then the frequency of heads will tend to
@@ -83,9 +87,9 @@ surely.
 like how a real number is represented in base 2. The probability
 corresponds to the Lebesgue measure confined on the unit interval.  In
 this point of view, the exception set \(N\) is uncountable<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> but has
-measure 0. A number in \(N^c\) is called normal number and the
-SLLN in this case is equivalent to \(\mathbb{P}(N) = 0\), which is exactly the
-Borel's normal number theorem..
+measure 0. A number in \(N^c\) is called normal number and the SLLN in
+this case is equivalent to \(\mathbb{P}(N) = 0\), which is exactly the Borel's
+normal number theorem.
 </p>
 
 <p>
@@ -104,9 +108,9 @@ The essential condition in this simple proof is the finiteness of the
 </div>
 </div>
 
-<div id="outline-container-orgc11a1ca" class="outline-2">
-<h2 id="orgc11a1ca">Application: Monte Carlo Integration</h2>
-<div class="outline-text-2" id="text-orgc11a1ca">
+<div id="outline-container-orgcce7e81" class="outline-2">
+<h2 id="orgcce7e81">Application: Monte Carlo Integration</h2>
+<div class="outline-text-2" id="text-orgcce7e81">
 <p>
 Perhaps Monte Carlo Integration is one of the most promising
 application of SLLN. Assume we want to estimate the integral \(\int_A f(x)
@@ -140,16 +144,16 @@ mean. The horizontal line is the true value of the integral, i.e.,
 </p>
 
 
-<figure id="orgc99680e">
+<figure id="org130b358">
 <img src="./sinc-square-integral.png" alt="sinc-square-integral.png">
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-org10402c7" class="outline-2">
-<h2 id="org10402c7">Application: Bernstein's Theorem</h2>
-<div class="outline-text-2" id="text-org10402c7">
+<div id="outline-container-org9bc6919" class="outline-2">
+<h2 id="org9bc6919">Application: Bernstein's Theorem</h2>
+<div class="outline-text-2" id="text-org9bc6919">
 <p>
 According to the famous Weierstrass approximation theorem, any
 continuous function \(f\) on the compact set \([0, 1]\) can be uniformly
@@ -189,9 +193,9 @@ to \(f\) uniformly on \([0, 1]\).
 </div>
 </div>
 
-<div id="outline-container-orgd917af8" class="outline-2">
-<h2 id="orgd917af8">Other Types of SLLN</h2>
-<div class="outline-text-2" id="text-orgd917af8">
+<div id="outline-container-orgfe24fb2" class="outline-2">
+<h2 id="orgfe24fb2">Other Types of SLLN</h2>
+<div class="outline-text-2" id="text-orgfe24fb2">
 <p>
 SLLN states that the existence of the expectation ensures the
 convergence of the empirical mean. Interestingly, the converse is also
@@ -239,9 +243,9 @@ independent and identically distributed and \(\mathbb{E}[|X_1|] = \infty\), then
 </div>
 </div>
 
-<div id="outline-container-orgad0125b" class="outline-2">
-<h2 id="orgad0125b">Proof Sketch of SLLN (i.i.d. case)</h2>
-<div class="outline-text-2" id="text-orgad0125b">
+<div id="outline-container-org6b5a6b0" class="outline-2">
+<h2 id="org6b5a6b0">Proof Sketch of SLLN (i.i.d. case)</h2>
+<div class="outline-text-2" id="text-org6b5a6b0">
 <p>
 The following arguments are a rephrased version from Billingsley's
 book (2008, pp. 282&#x2013;284).
@@ -327,10 +331,10 @@ that this result is also true for \(n \leq 3\).
 <div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Indeed, for any \(x \in (0, 1]\), let \(\omega_x = (d_1, d_2, \ldots)\) be
 the dyadic expansion of \(x\), i.e., \(x = \sum \frac{d_k}{2^k}\). Let \(\omega' =
-(1, 1, d_1, 1, 1, d_2, \ldots)\) be defined by \(\omega_i = d_i\) if \(i \mod 3
-= 0\) and \(\omega_i = 1\) otherwise. Then clearly \(\bar{X}_n(\omega') \geq 2/3\) for
-all \(n\) and thus \(\omega' \in N\). This shows that there is an injection map
-from \((0, 1]\) to \(N\).
+(1, 1, d_1, 1, 1, d_2, \ldots)\) be defined by \(\omega'_i = d_i\) if \(i \mod
+3 = 0\) and \(\omega'_i = 1\) otherwise. Then clearly \(\bar{X}_n(\omega') \geq 2/3\)
+for all \(n\) and thus \(\omega' \in N\). This shows that there is an injection
+map from \((0, 1]\) to \(N\).
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">

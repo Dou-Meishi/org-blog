@@ -7,18 +7,20 @@ We all know that probability can be interpreted as /frequency/, but
 behind it there is an important theorem in probability and statistic
 theory, called Strong Law of Large Numbers (SLLN). It states that the
 emprical mean, i.e., the mean of samples, will converge to the
-expectation of the distribution /almost surely/. In this post, we review
-the tossing coin example and prove this convergence in a probability
-manner rigorously. Then we review the SLLN theorem (i.i.d. case) and
-two applications, Monte Carlo integration and Bernstein's theorem,
-where the former is an important numerical method for estimating
-integrals and the latter specifies explicitly an approximating
-sequence to uniformly approximate any continuous function on a bounded
-interval with polynomials. Finally, we mention other theoretical
-results related to SLLN and a sketch proof of SLLN theorem
-(i.i.d. case). Finally, we discuss additional theoretical results
-relevant to the SLLN, along with a brief outline of the proof for the
-SLLN theorem (i.i.d. case).
+expectation of the distribution /almost surely/. Monte Carlo integration
+is actually a direct application of SLLN.
+
+In this post, we first review the tossing coin example and prove this
+convergence in a probability manner rigorously. Then we review the
+SLLN theorem (i.i.d. case) and two applications, Monte Carlo
+integration and Bernstein's theorem. The former is an important
+numerical method for estimating integrals, and the latter specifies
+explicitly an approximating sequence to uniformly approximate any
+continuous function on a bounded interval with polynomials. We also
+mention other theoretical results related to SLLN and a sketch proof
+of SLLN theorem (i.i.d. case). Finally, we discuss additional
+theoretical results relevant to the SLLN, along with a brief outline
+of the proof for the SLLN theorem (i.i.d. case).
 
 Throughout this post, for a given sequence $(a_n)$ we denote the
 cumulative average by $\bar{a}_n := \frac{1}{n} \sum_{k=1}^n a_k$.
@@ -54,9 +56,9 @@ surely.
 like how a real number is represented in base 2. The probability
 corresponds to the Lebesgue measure confined on the unit interval.  In
 this point of view, the exception set $N$ is uncountable[fn:4] but has
-measure 0. A number in $N^c$ is called normal number and the
-SLLN in this case is equivalent to $\mathbb{P}(N) = 0$, which is exactly the
-Borel's normal number theorem..
+measure 0. A number in $N^c$ is called normal number and the SLLN in
+this case is equivalent to $\mathbb{P}(N) = 0$, which is exactly the Borel's
+normal number theorem.
 
 The essential condition in this simple proof is the finiteness of the
  4-th moment. However, with advanced techniques, the existence of the
@@ -233,8 +235,8 @@ that this result is also true for $n \leq 3$.
 
 [fn:4] Indeed, for any $x \in (0, 1]$, let $\omega_x = (d_1, d_2, \ldots)$ be
 the dyadic expansion of $x$, i.e., $x = \sum \frac{d_k}{2^k}$. Let $\omega' =
-(1, 1, d_1, 1, 1, d_2, \ldots)$ be defined by $\omega_i = d_i$ if $i \mod 3
-= 0$ and $\omega_i = 1$ otherwise. Then clearly $\bar{X}_n(\omega') \geq 2/3$ for
-all $n$ and thus $\omega' \in N$. This shows that there is an injection map
-from $(0, 1]$ to $N$.
+(1, 1, d_1, 1, 1, d_2, \ldots)$ be defined by $\omega'_i = d_i$ if $i \mod
+3 = 0$ and $\omega'_i = 1$ otherwise. Then clearly $\bar{X}_n(\omega') \geq 2/3$
+for all $n$ and thus $\omega' \in N$. This shows that there is an injection
+map from $(0, 1]$ to $N$.
 
