@@ -16,11 +16,9 @@ SLLN theorem (i.i.d. case) and two applications, Monte Carlo
 integration and Bernstein's theorem. The former is an important
 numerical method for estimating integrals, and the latter specifies
 explicitly an approximating sequence to uniformly approximate any
-continuous function on a bounded interval with polynomials. We also
-mention other theoretical results related to SLLN and a sketch proof
-of SLLN theorem (i.i.d. case). Finally, we discuss additional
-theoretical results relevant to the SLLN, along with a brief outline
-of the proof for the SLLN theorem (i.i.d. case).
+continuous function on a bounded interval with polynomials.  Finally,
+we discuss additional theoretical results relevant to the SLLN, along
+with a brief outline of the proof for the SLLN theorem (i.i.d. case).
 
 Throughout this post, for a given sequence $(a_n)$ we denote the
 cumulative average by $\bar{a}_n := \frac{1}{n} \sum_{k=1}^n a_k$.
