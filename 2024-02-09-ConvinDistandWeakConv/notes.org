@@ -6,7 +6,7 @@
 In statistics, we often want to study the asymptotic behavior of
 random variables, or in other words, the limit of their
 distributions. This concept appears in the central limit theorem which
-asserts that the imperial mean of random observations always converges
+asserts that the empirical mean of random observations always converges
 to a normal distribution, regardless the distribution of the observed
 random variable.
 
