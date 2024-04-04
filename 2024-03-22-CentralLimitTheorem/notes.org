@@ -277,7 +277,7 @@ $$ \begin{aligned}
 
 Denote by $c_k = i^k \mathbb{E}[X^k] / k!$. We can show that the remainder has
 order $o(t^n)$.  $$ \lim_{t\to0} \frac{\biggl| \varphi(t) - 1 - \sum_{k=1}^n c_k
-t^k \biggr|}{|t^n|} \leq \mathbb{E}\biggl[ \min\biggl( \frac{2|X|^n}{n!},
+t^k \biggr|}{|t^n|} \leq \lim_{t\to0} \mathbb{E}\biggl[ \min\biggl( \frac{2|X|^n}{n!},
 \frac{|t||X|^{n+1}}{(n+1)!} \biggr) \biggr]. $$ Indeed, the integrand
 is bounded by $2|X|^n/n!$, which is integrable. By dominated
 convergence theorem, we can interchange the order of limit and

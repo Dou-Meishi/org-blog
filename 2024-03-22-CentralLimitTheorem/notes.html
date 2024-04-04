@@ -34,14 +34,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org72bd4f7">Basics of Characteristic Functions</a>
+<li><a href="#org6181b06">Basics of Characteristic Functions</a>
 <ul>
-<li><a href="#org840e445">Related to Fourier Transform</a></li>
-<li><a href="#orgb72236e">Related to Moments</a></li>
-<li><a href="#org71ef2da">Related to Weak Convergence</a></li>
+<li><a href="#orga27a529">Related to Fourier Transform</a></li>
+<li><a href="#org3056bb4">Related to Moments</a></li>
+<li><a href="#org64a03a0">Related to Weak Convergence</a></li>
 </ul>
 </li>
-<li><a href="#org14ead02">Central Limit Theorem and Gaussian Distribution</a></li>
+<li><a href="#orge899d2f">Central Limit Theorem and Gaussian Distribution</a></li>
 </ul>
 </div>
 </nav>
@@ -95,9 +95,9 @@ normal distribution, which concludes the CLT.</li>
 pp. 342&#x2013;351), and Schilling (2017, pp. 214&#x2013;220).
 </p>
 
-<div id="outline-container-org72bd4f7" class="outline-2">
-<h2 id="org72bd4f7">Basics of Characteristic Functions</h2>
-<div class="outline-text-2" id="text-org72bd4f7">
+<div id="outline-container-org6181b06" class="outline-2">
+<h2 id="org6181b06">Basics of Characteristic Functions</h2>
+<div class="outline-text-2" id="text-org6181b06">
 <p>
 <i>Definition.</i> The <i>characterstic function (c.f.)</i> \(\varphi(t)\) of a random
 variable \(X\) is defined by \[ \varphi_X(t) = \mathbb{E}[e^{itX}] = \mathbb{E}[\cos tX] +
@@ -254,9 +254,9 @@ measure.
 </p>
 </div>
 
-<div id="outline-container-org840e445" class="outline-3">
-<h3 id="org840e445">Related to Fourier Transform</h3>
-<div class="outline-text-3" id="text-org840e445">
+<div id="outline-container-orga27a529" class="outline-3">
+<h3 id="orga27a529">Related to Fourier Transform</h3>
+<div class="outline-text-3" id="text-orga27a529">
 <p>
 Why we want to study characteristic functions? One reason is that the
 c.f. fully characterizes a finite measure. In fact, any finite measure
@@ -384,9 +384,9 @@ dt. \] Moreover, \(f\) is bounded and uniformly continuous (just like
 </div>
 </div>
 
-<div id="outline-container-orgb72236e" class="outline-3">
-<h3 id="orgb72236e">Related to Moments</h3>
-<div class="outline-text-3" id="text-orgb72236e">
+<div id="outline-container-org3056bb4" class="outline-3">
+<h3 id="org3056bb4">Related to Moments</h3>
+<div class="outline-text-3" id="text-org3056bb4">
 <p>
 Studying c.f.s can also help us determine the moments of a
 distribution. We have seen that if a random variable \(X\) is
@@ -431,7 +431,7 @@ $$ \begin{aligned}
 <p>
 Denote by \(c_k = i^k \mathbb{E}[X^k] / k!\). We can show that the remainder has
 order \(o(t^n)\).  \[ \lim_{t\to0} \frac{\biggl| \varphi(t) - 1 - \sum_{k=1}^n c_k
-t^k \biggr|}{|t^n|} \leq \mathbb{E}\biggl[ \min\biggl( \frac{2|X|^n}{n!},
+t^k \biggr|}{|t^n|} \leq \lim_{t\to0} \mathbb{E}\biggl[ \min\biggl( \frac{2|X|^n}{n!},
 \frac{|t||X|^{n+1}}{(n+1)!} \biggr) \biggr]. \] Indeed, the integrand
 is bounded by \(2|X|^n/n!\), which is integrable. By dominated
 convergence theorem, we can interchange the order of limit and
@@ -461,9 +461,9 @@ derivative is bounded, uniformly continuous, and has an explicit form
 </div>
 </div>
 
-<div id="outline-container-org71ef2da" class="outline-3">
-<h3 id="org71ef2da">Related to Weak Convergence</h3>
-<div class="outline-text-3" id="text-org71ef2da">
+<div id="outline-container-org64a03a0" class="outline-3">
+<h3 id="org64a03a0">Related to Weak Convergence</h3>
+<div class="outline-text-3" id="text-org64a03a0">
 <p>
 Finally, c.f.s are useful in studying limiting distributions. This is
 due to <i>the continuity theorem</i>. The proof utilizes the concept of
@@ -499,9 +499,9 @@ distributions.
 </div>
 </div>
 
-<div id="outline-container-org14ead02" class="outline-2">
-<h2 id="org14ead02">Central Limit Theorem and Gaussian Distribution</h2>
-<div class="outline-text-2" id="text-org14ead02">
+<div id="outline-container-orge899d2f" class="outline-2">
+<h2 id="orge899d2f">Central Limit Theorem and Gaussian Distribution</h2>
+<div class="outline-text-2" id="text-orge899d2f">
 <p>
 With the help of c.f.s, it is not hard to find out the sum of
 i.i.d. random variables follows a Gaussian distribution. Let \(X_n\) be
