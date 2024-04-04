@@ -339,7 +339,7 @@ Let $Y_n = (X_n - \mu) / \sigma$. Then $Y_n$ are i.i.d. random variables with
  theorem, it is sufficient to show the c.f. of $Z_n$ converges to
  $\exp(-t^2/2)$.  $$ \mathbb{E}[\exp(itZ_n)] = \mathbb{E}\biggl[ \exp\biggl( it
  \frac{\sum_{k=1}^n Y_k}{\sqrt{n}} \biggr) \biggr] =
- \mathbb{E}\biggl[\exp\biggl(it \frac{Y_k}{\sqrt{n}} \biggr) \biggr]^n =
+\prod_{k=1}^n \mathbb{E}\biggl[\exp\biggl(it \frac{Y_k}{\sqrt{n}} \biggr) \biggr] =
  \biggl[\varphi\biggl(\frac{t}{\sqrt{n}}\biggr)\biggr]^n. $$ As $Y_k$ has
  mean 0 and finite variance 1, it must be square integrable. Thus, its
  c.f. has Taylor expansion $$ \varphi(t) = 1 - \frac{1}{2}t^2 + o(t^2).$$

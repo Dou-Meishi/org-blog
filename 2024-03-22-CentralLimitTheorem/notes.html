@@ -34,14 +34,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6181b06">Basics of Characteristic Functions</a>
+<li><a href="#org6161118">Basics of Characteristic Functions</a>
 <ul>
-<li><a href="#orga27a529">Related to Fourier Transform</a></li>
-<li><a href="#org3056bb4">Related to Moments</a></li>
-<li><a href="#org64a03a0">Related to Weak Convergence</a></li>
+<li><a href="#orgc914292">Related to Fourier Transform</a></li>
+<li><a href="#org359326f">Related to Moments</a></li>
+<li><a href="#orge67afd5">Related to Weak Convergence</a></li>
 </ul>
 </li>
-<li><a href="#orge899d2f">Central Limit Theorem and Gaussian Distribution</a></li>
+<li><a href="#org432407b">Central Limit Theorem and Gaussian Distribution</a></li>
 </ul>
 </div>
 </nav>
@@ -95,9 +95,9 @@ normal distribution, which concludes the CLT.</li>
 pp. 342&#x2013;351), and Schilling (2017, pp. 214&#x2013;220).
 </p>
 
-<div id="outline-container-org6181b06" class="outline-2">
-<h2 id="org6181b06">Basics of Characteristic Functions</h2>
-<div class="outline-text-2" id="text-org6181b06">
+<div id="outline-container-org6161118" class="outline-2">
+<h2 id="org6161118">Basics of Characteristic Functions</h2>
+<div class="outline-text-2" id="text-org6161118">
 <p>
 <i>Definition.</i> The <i>characterstic function (c.f.)</i> \(\varphi(t)\) of a random
 variable \(X\) is defined by \[ \varphi_X(t) = \mathbb{E}[e^{itX}] = \mathbb{E}[\cos tX] +
@@ -254,9 +254,9 @@ measure.
 </p>
 </div>
 
-<div id="outline-container-orga27a529" class="outline-3">
-<h3 id="orga27a529">Related to Fourier Transform</h3>
-<div class="outline-text-3" id="text-orga27a529">
+<div id="outline-container-orgc914292" class="outline-3">
+<h3 id="orgc914292">Related to Fourier Transform</h3>
+<div class="outline-text-3" id="text-orgc914292">
 <p>
 Why we want to study characteristic functions? One reason is that the
 c.f. fully characterizes a finite measure. In fact, any finite measure
@@ -384,9 +384,9 @@ dt. \] Moreover, \(f\) is bounded and uniformly continuous (just like
 </div>
 </div>
 
-<div id="outline-container-org3056bb4" class="outline-3">
-<h3 id="org3056bb4">Related to Moments</h3>
-<div class="outline-text-3" id="text-org3056bb4">
+<div id="outline-container-org359326f" class="outline-3">
+<h3 id="org359326f">Related to Moments</h3>
+<div class="outline-text-3" id="text-org359326f">
 <p>
 Studying c.f.s can also help us determine the moments of a
 distribution. We have seen that if a random variable \(X\) is
@@ -461,9 +461,9 @@ derivative is bounded, uniformly continuous, and has an explicit form
 </div>
 </div>
 
-<div id="outline-container-org64a03a0" class="outline-3">
-<h3 id="org64a03a0">Related to Weak Convergence</h3>
-<div class="outline-text-3" id="text-org64a03a0">
+<div id="outline-container-orge67afd5" class="outline-3">
+<h3 id="orge67afd5">Related to Weak Convergence</h3>
+<div class="outline-text-3" id="text-orge67afd5">
 <p>
 Finally, c.f.s are useful in studying limiting distributions. This is
 due to <i>the continuity theorem</i>. The proof utilizes the concept of
@@ -499,9 +499,9 @@ distributions.
 </div>
 </div>
 
-<div id="outline-container-orge899d2f" class="outline-2">
-<h2 id="orge899d2f">Central Limit Theorem and Gaussian Distribution</h2>
-<div class="outline-text-2" id="text-orge899d2f">
+<div id="outline-container-org432407b" class="outline-2">
+<h2 id="org432407b">Central Limit Theorem and Gaussian Distribution</h2>
+<div class="outline-text-2" id="text-org432407b">
 <p>
 With the help of c.f.s, it is not hard to find out the sum of
 i.i.d. random variables follows a Gaussian distribution. Let \(X_n\) be
@@ -518,7 +518,7 @@ Let \(Y_n = (X_n - \mu) / \sigma\). Then \(Y_n\) are i.i.d. random variables wit
  theorem, it is sufficient to show the c.f. of \(Z_n\) converges to
  \(\exp(-t^2/2)\).  \[ \mathbb{E}[\exp(itZ_n)] = \mathbb{E}\biggl[ \exp\biggl( it
  \frac{\sum_{k=1}^n Y_k}{\sqrt{n}} \biggr) \biggr] =
- \mathbb{E}\biggl[\exp\biggl(it \frac{Y_k}{\sqrt{n}} \biggr) \biggr]^n =
+\prod_{k=1}^n \mathbb{E}\biggl[\exp\biggl(it \frac{Y_k}{\sqrt{n}} \biggr) \biggr] =
  \biggl[\varphi\biggl(\frac{t}{\sqrt{n}}\biggr)\biggr]^n. \] As \(Y_k\) has
  mean 0 and finite variance 1, it must be square integrable. Thus, its
  c.f. has Taylor expansion \[ \varphi(t) = 1 - \frac{1}{2}t^2 + o(t^2).\]
