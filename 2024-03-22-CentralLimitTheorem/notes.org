@@ -264,7 +264,7 @@ expansion of $e^{i\xi}$ can be bounded by $$ \biggl| e^{i\xi} - 1 -
 \frac{|\xi|^{n+1}}{(n+1)!} \biggr). $$
 
 We can use this lemma to obtain the Taylor expansion of c.f.s. Let $X$
-be a random variable such that $|X|^{n+1}$ is integrable. Then,
+be a random variable such that $X^{n}$ is integrable. Then,
 
 #+BEGIN_export HTML
 $$ \begin{aligned}
@@ -282,7 +282,7 @@ t^k \biggr|}{|t^n|} \leq \lim_{t\to0} \mathbb{E}\biggl[ \min\biggl( \frac{2|X|^n
 is bounded by $2|X|^n/n!$, which is integrable. By dominated
 convergence theorem, we can interchange the order of limit and
 expectation, concluding that the expectation converges to 0. Note that
-this argument only requires $X^n$ is integrable.
+this argument does not requires $X^{n+1}$ is integrable.
 
 /Theorem./ If $X^n$ is integrable, then in the neighborhood of $t=0$,
 the c.f. has Taylor expansion $$ \varphi(t) = 1 + \sum_{k=1}^n c_k t^k +

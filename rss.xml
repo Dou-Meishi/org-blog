@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Thu, 04 Apr 2024 21:12:22 +0800</lastBuildDate>
+<lastBuildDate>Sat, 06 Apr 2024 14:39:11 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Characteristic Functions and Central Limit Theorem]]></title>
   <description><![CDATA[
@@ -12,14 +12,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6161118">Basics of Characteristic Functions</a>
+<li><a href="#org7154fc4">Basics of Characteristic Functions</a>
 <ul>
-<li><a href="#orgc914292">Related to Fourier Transform</a></li>
-<li><a href="#org359326f">Related to Moments</a></li>
-<li><a href="#orge67afd5">Related to Weak Convergence</a></li>
+<li><a href="#orgb079554">Related to Fourier Transform</a></li>
+<li><a href="#org1defd54">Related to Moments</a></li>
+<li><a href="#orge47d454">Related to Weak Convergence</a></li>
 </ul>
 </li>
-<li><a href="#org432407b">Central Limit Theorem and Gaussian Distribution</a></li>
+<li><a href="#org288e0f2">Central Limit Theorem and Gaussian Distribution</a></li>
 </ul>
 </div>
 </nav>
@@ -73,9 +73,9 @@ normal distribution, which concludes the CLT.</li>
 pp. 342&#x2013;351), and Schilling (2017, pp. 214&#x2013;220).
 </p>
 
-<div id="outline-container-org6161118" class="outline-2">
-<h2 id="org6161118">Basics of Characteristic Functions</h2>
-<div class="outline-text-2" id="text-org6161118">
+<div id="outline-container-org7154fc4" class="outline-2">
+<h2 id="org7154fc4">Basics of Characteristic Functions</h2>
+<div class="outline-text-2" id="text-org7154fc4">
 <p>
 <i>Definition.</i> The <i>characterstic function (c.f.)</i> \(\varphi(t)\) of a random
 variable \(X\) is defined by \[ \varphi_X(t) = \mathbb{E}[e^{itX}] = \mathbb{E}[\cos tX] +
@@ -232,9 +232,9 @@ measure.
 </p>
 </div>
 
-<div id="outline-container-orgc914292" class="outline-3">
-<h3 id="orgc914292">Related to Fourier Transform</h3>
-<div class="outline-text-3" id="text-orgc914292">
+<div id="outline-container-orgb079554" class="outline-3">
+<h3 id="orgb079554">Related to Fourier Transform</h3>
+<div class="outline-text-3" id="text-orgb079554">
 <p>
 Why we want to study characteristic functions? One reason is that the
 c.f. fully characterizes a finite measure. In fact, any finite measure
@@ -362,9 +362,9 @@ dt. \] Moreover, \(f\) is bounded and uniformly continuous (just like
 </div>
 </div>
 
-<div id="outline-container-org359326f" class="outline-3">
-<h3 id="org359326f">Related to Moments</h3>
-<div class="outline-text-3" id="text-org359326f">
+<div id="outline-container-org1defd54" class="outline-3">
+<h3 id="org1defd54">Related to Moments</h3>
+<div class="outline-text-3" id="text-org1defd54">
 <p>
 Studying c.f.s can also help us determine the moments of a
 distribution. We have seen that if a random variable \(X\) is
@@ -396,7 +396,7 @@ expansion of \(e^{i\xi}\) can be bounded by \[ \biggl| e^{i\xi} - 1 -
 
 <p>
 We can use this lemma to obtain the Taylor expansion of c.f.s. Let \(X\)
-be a random variable such that \(|X|^{n+1}\) is integrable. Then,
+be a random variable such that \(X^{n}\) is integrable. Then,
 </p>
 
 $$ \begin{aligned}
@@ -414,7 +414,7 @@ t^k \biggr|}{|t^n|} \leq \lim_{t\to0} \mathbb{E}\biggl[ \min\biggl( \frac{2|X|^n
 is bounded by \(2|X|^n/n!\), which is integrable. By dominated
 convergence theorem, we can interchange the order of limit and
 expectation, concluding that the expectation converges to 0. Note that
-this argument only requires \(X^n\) is integrable.
+this argument does not requires \(X^{n+1}\) is integrable.
 </p>
 
 <p>
@@ -439,9 +439,9 @@ derivative is bounded, uniformly continuous, and has an explicit form
 </div>
 </div>
 
-<div id="outline-container-orge67afd5" class="outline-3">
-<h3 id="orge67afd5">Related to Weak Convergence</h3>
-<div class="outline-text-3" id="text-orge67afd5">
+<div id="outline-container-orge47d454" class="outline-3">
+<h3 id="orge47d454">Related to Weak Convergence</h3>
+<div class="outline-text-3" id="text-orge47d454">
 <p>
 Finally, c.f.s are useful in studying limiting distributions. This is
 due to <i>the continuity theorem</i>. The proof utilizes the concept of
@@ -477,9 +477,9 @@ distributions.
 </div>
 </div>
 
-<div id="outline-container-org432407b" class="outline-2">
-<h2 id="org432407b">Central Limit Theorem and Gaussian Distribution</h2>
-<div class="outline-text-2" id="text-org432407b">
+<div id="outline-container-org288e0f2" class="outline-2">
+<h2 id="org288e0f2">Central Limit Theorem and Gaussian Distribution</h2>
+<div class="outline-text-2" id="text-org288e0f2">
 <p>
 With the help of c.f.s, it is not hard to find out the sum of
 i.i.d. random variables follows a Gaussian distribution. Let \(X_n\) be
