@@ -4,7 +4,1171 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sat, 06 Apr 2024 14:39:11 +0800</lastBuildDate>
+<lastBuildDate>Thu, 24 Oct 2024 23:16:55 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[An In-Depth Introduction to Backpropagation and Automatic Differentiation]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5c42403">Four ways to calculate gradients</a></li>
+<li><a href="#orgd3ccbf3">Automatic differentiation</a>
+<ul>
+<li><a href="#org006fded">Forward-mode AD</a></li>
+<li><a href="#org1dadab5">Reverse-mode AD</a></li>
+</ul>
+</li>
+<li><a href="#org0c28253">Examples: reverse-mode AD for scalar functions</a></li>
+<li><a href="#orgca2aa79">Jacobian-vector product</a></li>
+<li><a href="#org85b835d">Implement forward-mode and reverse-mode AD</a></li>
+<li><a href="#org13dc3d2">Hessian-vector product</a></li>
+<li><a href="#org95a55ef">Conclusion</a></li>
+<li><a href="#org8867eb1">References</a></li>
+<li><a href="#orgd9a69c9">Appendix: An inductive proof of reverse-mode AD formula</a></li>
+<li><a href="#org748e71f">Appendix: JVP and VJP for linear maps</a></li>
+<li><a href="#org0f64703">Appendix: Overview of the Python Implementation</a></li>
+</ul>
+</div>
+</nav>
+<p>
+Backpropagation and automatic differentiation (AD) are fundamental
+components of modern deep learning frameworks. However, many
+practitioners pay little attention to their implementations and may
+regard them as some sort of "black magic". It indeed looks like magic
+that PyTorch can virtually calculate derivatives of an arbitrary
+function defined by the user, and even accommodate flow control
+elements like conditional execution, which is mathematically not
+differentiable. Although we understand that mathematically they
+primarily employ the chain rule, it remains unclear how they
+efficiently apply it to a function whose form is entirely unknown and
+will be determined by the user.
+</p>
+
+<p>
+In this post, I will introduce the underlying mechanisms of AD and
+give a simple implementatin for demonstration. Moreover, I want to
+clarify the following facts of AD.
+</p>
+
+<ol class="org-ol">
+<li>Backpropagation is a special case of AD that runs in reverse
+mode. Backpropagation is a specialized algorithm for calculating
+gradients of neural networks. On the other hand, AD refers to a
+general technique that generates numerical derivative evaluations
+rather than derivative expressions. Besides reverse-mode AD, there
+are forward-mode AD and even reverse-on-forward AD.</li>
+
+<li>AD is neither traditional numerical differentiation nor symbolic
+differentiation. However, AD does in fact provide numerical values
+of derivatives and it does so by using symbolic rules of
+differentiation, giving it a two-sided nature that is partly
+symbolic and partly numerical.  To some extent, AD should be
+regarded as an efficient way to <i>evaluate</i> the derivative expressions
+without the need to explicitly construct their mathematical expressions.</li>
+
+<li>AD is guaranteed to take no more than 6 times the computational
+cost of a single function evaluation. In practice, the overhead is
+typically closer to a factor of 2 or 3 (Bishop &amp; Bishop, 2024,
+p. 250; see also Baydin et al., 2018, p. 16).</li>
+
+<li>Although evaluating the Hessian matrix \(H\) of some scalar function
+\(f: \mathbb{R}^n \to \mathbb{R}\) by AD has \(\mathcal{O}(n^2)\) complexity, evaluating the
+Hessian-vector product \(H v\) by reverse-on-forward AD has only
+\(\mathcal{O}(n)\) complexity. The same difference exists between evaluating
+the Jacobian matrix \(J\) of some vector-valued function \(\mathbb{R}^n \to \mathbb{R}^m\)
+and evaluating the Jacobian-vector product \(Jv\).</li>
+</ol>
+
+<p>
+The original motivation of this post is <a href="https://github.com/datac182fa24/datac182_hw1_student">the first homework assignment</a>
+of <a href="https://datac182fa24.github.io/">Data C182</a>, which requires to implement the forward pass and
+backward pass of common neural network layers, including affine layer,
+dropout layer, batchnorm layer and so on. While scanning through the
+recommended textbook (Bishop &amp; Bishop, 2024), I notice that there are
+not only reverse-mode AD, which is a general version of
+backpropagation, and also forward-mode AD, which can be used in
+combine with reverse-mode AD to efficiently compute the
+Hessian-vector product. After reading the survey paper (Baydin et al.,
+2018), I finally open up the "balck-box" of automatic differentiation
+hidden in PyTorch and have a clearer understanding of AD.
+</p>
+<div id="outline-container-org5c42403" class="outline-2">
+<h2 id="org5c42403">Four ways to calculate gradients</h2>
+<div class="outline-text-2" id="text-org5c42403">
+<p>
+<i>Adapted from the textbook (Bishop &amp; Bishop, 2024) and the survey paper
+(Baydin et al., 2018).</i>
+</p>
+
+<p>
+Methods for the computation of derivatives in computer programs can be
+classified into four categories:
+</p>
+
+<ol class="org-ol">
+<li>manually working out derivatives and coding them;</li>
+
+<li>numerical differentiation using finite difference approximations;</li>
+
+<li>symbolic differentiation using expression manipulation in computer
+algebra systems such as Mathematica, Maxima, and Maple;</li>
+
+<li>automatic differentiation, also called algorithmic differentiation.</li>
+</ol>
+
+<p>
+Numerical approximations of derivatives are inherently ill-conditioned
+and unstable. It suffers truncation and round-off errors inflicted by
+the limited precision of computations and the chosen value of the step
+size \(h\). Truncation error tends to zero as \(h \to 0\). However, as \(h\)
+is decreased, round-off error increases and becomes
+dominant. Moreover, numerical differentiation requires \(\mathcal{O}(n)\)
+evaluations (for gradients in \(n\) dimensions) of the original
+function, which is the main obstacle to its usefulness in machine
+learning where \(n\) can be as large as millions or billions in
+state-of-the-art deep learning models.
+</p>
+
+<p>
+Symbolic differentiation, on the other hand, faces the problem called
+<i>expression well</i>, i.e., the resulting expressions for derivatives can
+become exponentially longer than the original function. A further
+major drawback with symbolic differentiation is that it requires that
+the expression to be differentiated is expressed in closed form. It
+therefore excludes important control flow operations such as loops,
+recursions, conditional execution, and procedure calls, which are
+valuable constructs that we might wish to use when defining the
+network function.
+</p>
+
+<p>
+The first approach, which formed the mainstay of neural networks for
+many years, is to derive the backpropagation equations by hand and
+then to implement them explicitly in software. If this is done
+carefully it results in efficient code that gives precise results that
+are accurate to numerical precision. However, the process of deriving
+the equations as well as the process of coding them both take time and
+are prone to errors. If the model is altered, both the forward and
+backward implementations need to be changed in unison. This effort can
+easily become a limitation on how quickly and effectively different
+architectures can be explored empirically.
+</p>
+
+<p>
+Modern deep learning frameworks use automatic differentiation to
+evaluate gradients of neural networks. Unlike symbolic
+differentiation, the goal of automatic differentiation is not to find
+a mathematical expression for the derivatives but to have the computer
+automatically generate the code that implements the gradient
+calculations given only the code for the forward propagation
+equations. It is accurate to machine precision, just as with symbolic
+differentiation, but is more efficient because it is able to exploit
+intermediate variables used in the definition of the forward
+propagation equations and thereby avoid redundant evaluations.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd3ccbf3" class="outline-2">
+<h2 id="orgd3ccbf3">Automatic differentiation</h2>
+<div class="outline-text-2" id="text-orgd3ccbf3">
+<p>
+Automatic differentiation (AD) can be thought of as performing a
+non-standard interpretation of a computer program where this
+interpretation involves augmenting the standard computation with the
+calculation of various derivatives. All numerical computations are
+ultimately compositions of a finite set of elementary operations for
+which derivatives are known, and combining the derivatives of the
+constituent operations through the chain rule gives the derivative of
+the overall composition. Usually these elementary operations include
+the binary arithmetic operations, the unary sign switch, and
+transcendental functions such as the exponential, the logarithm, and
+the trigonometric functions. Besides that, users can define their own
+operations, as long as they provide their derivative functions.
+</p>
+
+<p>
+For a given function \(y=f(x)\) for differentiation, assume it can be
+described by the following computational graph
+</p>
+$$ \begin{aligned}
+z_0 &= x, \\
+z_1 &= \phi_1(z_0), \\
+z_2 &= \phi_2(z_0, z_1), \\
+&\cdots \\
+z_k &= \phi_k(z_0, z_1, z_2, \ldots, z_{k-1}), \\
+&\cdots \\
+z_N &= \phi_N(z_0, z_1, z_2, \ldots, z_{k-1}, \ldots, z_{N-1}), \\
+y &= z_N,
+\end{aligned} $$
+<p>
+where \(\phi_1, \phi_2, \ldots, \phi_N\) are elementary operations whose
+derivatives \(\partial \phi_1, \partial \phi_2, \ldots, \partial \phi_N\) are known.  Obviously, any
+computational graph is a directed acyclic graph and always falls
+within the considered case. In practice, the initial variable \(z_0\)
+contains all leaf nodes of the computational graph, and \(\phi_k\) may only
+depends on one or two variables in \(\{z_\alpha\}_{\alpha=0}^{k-1}\).
+</p>
+
+<p>
+<i>Notations.</i> For a vector \(x\), we denote by \(x^{(i)}\) the \(i\)-th
+component of \(x\), i.e., \(x = (x^{(0)}, x^{(1)}, x^{(2)}
+\ldots)^\intercal\). For a vector \(y\) that depends on \(x\), the Jacobian matrix
+\(\partial y/\partial x\) is defined by \[ \biggl(\frac{\partial y}{\partial x}\biggr)_{ij} =
+\frac{\partial y^{(i)}}{\partial x^{(j)}}. \] For a function \(y=f(x)\), we also use \(\partial
+f\) to represent the Jacobian matrix \(\partial y / \partial x\). With this notation,
+the chain rule can be written as \(\partial (f \circ g ) = [\partial f] [\partial g]\). It
+should be noted that the Jacobian matrix \(\partial f\) of a scalar function is
+a row vector in this notation.
+</p>
+</div>
+<div id="outline-container-org006fded" class="outline-3">
+<h3 id="org006fded">Forward-mode AD</h3>
+<div class="outline-text-3" id="text-org006fded">
+<p>
+Forward-mode AD is the conceptually most simple type: <i>apply symbolic
+differentiation at the elementary operation level and keep
+intermediate numerical results, in lockstep with the evaluation of the
+main function</i>. Viewing \(z_k\) (\(k=1, 2, \ldots, N\)) as functions of
+\(x\), we differentiate the function \[ z_k(x) = \phi_k(z_0(x), z_1(x),
+z_2(x), \ldots, z_{k-1}(x)) \] w.r.t. \(x\) and obtain
+</p>
+\begin{equation}\tag{chain-rule: FAD}
+\frac{\partial z_k}{\partial x} =
+\sum_{\alpha=0}^{k-1} \frac{\partial \phi_k}{\partial z_\alpha} \frac{\partial z_\alpha}{\partial x}, \quad k=1,
+2, \ldots, N.
+\end{equation}
+<p>
+Starting from \(\partial z_0 / \partial x = I\), we evaluate \(\partial z_k / \partial x\) in
+accordance with the evaluation of \(z_k\). When finally we obtain
+\(y=z_N\), the derivative \(\partial y/\partial x=\partial z_N/ \partial x\) is also obtained.
+</p>
+$$ \begin{aligned}
+\frac{\partial z_1}{\partial x} &= \frac{\partial \phi_1}{\partial z_0} \frac{\partial z_0}{\partial x}, \\
+\frac{\partial z_2}{\partial x} &= \frac{\partial \phi_2}{\partial z_0} \frac{\partial z_0}{\partial x} + \frac{\partial \phi_2}{\partial z_1} \frac{\partial z_1}{\partial x}, \\
+&\cdots \\
+\frac{\partial z_N}{\partial x} &= \sum_{\alpha=0}^{N-1} \frac{\partial \phi_k}{\partial z_\alpha} \frac{\partial z_\alpha}{\partial x}.
+\end{aligned} $$
+<p>
+In other words, these equations are <b>evaluated from top to the bottom,
+row by row</b>.
+</p>
+</div>
+</div>
+<div id="outline-container-org1dadab5" class="outline-3">
+<h3 id="org1dadab5">Reverse-mode AD</h3>
+<div class="outline-text-3" id="text-org1dadab5">
+<p>
+Reverse-mode AD differes from forward-mode AD by using different
+auxiliary variables. In forward-mode AD, the auxiliary variables are
+\(\partial z_k / \partial x\) (called <i>tangent</i> variables), and are evaluated from \(k=1\)
+to \(k=N\). In reverse-mode AD, the auxiliary variables are \(\partial y / \partial
+z_k\) (called <i>adjoint</i> variables), and are evaluated from \(k=N-1\) to
+\(k=0\). For any \(0 \leq k \leq N-1\), we regard \(\mathcal{Z}_k := \{z_\alpha\}_{\alpha=0}^{k}\) as
+independent variables and view \(\{z_\beta\}_{\beta=k+1}^N\) as functions of
+\(\mathcal{Z}_k\). Thus, we can differentiate \[ y = y(z_0, z_1, \ldots, z_k) \]
+w.r.t. \(z_k\) and obtain (see <a href="#org0c9f702">the appendix</a> for an inductive proof)
+</p>
+\begin{equation}\tag{chain-rule: RAD}
+\frac{\partial y}{\partial z_{k}} = \sum_{\beta=k+1}^N \frac{\partial y}{\partial z_\beta} \frac{\partial \phi_\beta}{\partial
+z_k}, \quad k=N-1, N-2, \ldots, 0.
+\end{equation}
+<p>
+The partial derivative \(\partial y/ \partial
+z_k\) should be understood as the sensitivity of \(y\) w.r.t. \(z_k\). An
+intuitive explanation of this formula is: <i>when \(z_k\) changes, the
+change of the final output is determined by the cumulative effect of
+changes in downstream variables</i> \(\{z_\beta\}_{\beta=k+1}^N\).
+</p>
+
+<p>
+Starting from \(\partial y / \partial z_N = I\), we evaluate \(\partial y / \partial z_k\)
+reversely.
+</p>
+$$ \begin{aligned}
+\frac{\partial y}{\partial z_{N-1}} &= {\color{blue}\frac{\partial y}{\partial z_{N}} \frac{\partial \phi_N}{\partial z_{N-1}}}, \\
+\frac{\partial y}{\partial z_{N-2}} &= {\color{blue} \frac{\partial y}{\partial z_{N}} \frac{\partial \phi_N}{\partial z_{N-2}}} + {\color{green} \frac{\partial y}{\partial z_{N-1}} \frac{\partial \phi_{N-1}}{\partial z_{N-2}}}, \\
+\frac{\partial y}{\partial z_{N-3}} &= {\color{blue} \frac{\partial y}{\partial z_{N}} \frac{\partial \phi_N}{\partial z_{N-3}}} + {\color{green} \frac{\partial y}{\partial z_{N-1}} \frac{\partial \phi_{N-1}}{\partial z_{N-3}}} + \frac{\partial y}{\partial z_{N-2}} \frac{\partial \phi_{N-2}}{\partial z_{N-3}}, \\
+&\cdots \\
+\frac{\partial y}{\partial z_{0}} &= \sum_{\beta=1}^N \frac{\partial y}{\partial z_\beta} \frac{\partial \phi_\beta}{\partial z_k}.
+\end{aligned} $$
+<p>
+Initially, all adjoint variables are set to 0 except \(\partial y/\partial z_N\),
+which is set to \(I\).  First, we compute the blue terms \(\frac{\partial y}{\partial
+z_N}\frac{\partial \phi_N}{\partial z_k}\) and add them to the corresponding adjoint
+variable \(\partial y/\partial z_k\). In the next step, we compute the green terms
+\(\frac{\partial y}{\partial z_{N-1}}\frac{\partial \phi_{N-1}}{\partial z_k}\) and add them to the
+corresponding adjoint variable \(\partial y/\partial z_k\). Repeat this process until
+all terms listed above have been calculated. Then, the accumulated
+values in adjoint variables are theire true values.
+</p>
+
+<p>
+In other words, these equations are <b>evaluated from left to right,
+column by column</b>. After the evaluation of column \(\beta\), all adjoint
+variables \(\partial y/ \partial z_k\) for \(k \geq \beta-1\) has been obtained.
+</p>
+
+<p>
+It should be noted that the reverse calculations of \(\partial y/ \partial
+z_k\) actually happens in the second phase of a two-phase process,
+while intermediate variables \(z_k\) are calculated in the first
+phase. This is different from forward-mode AD, where \(\partial z_k / \partial x\)
+and \(z_k\) are calculated simultaneously and in a forward manner.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0c28253" class="outline-2">
+<h2 id="org0c28253">Examples: reverse-mode AD for scalar functions</h2>
+<div class="outline-text-2" id="text-org0c28253">
+<p>
+<a id="org62bb0bd"></a>
+</p>
+
+<p>
+Here we apply reverse-mode AD to scalar functions and demonstrate how
+it works. We will discuss the case of vector functions in the
+following sections.
+</p>
+
+<p>
+Reverse-mode AD is inherently suitable for scalar output
+\(y\). Examining the formula (chain-rule: RAD), the Jacobian \(\partial y / \partial
+z_\beta\) now simplifies to row vectors as \(y\) is one
+dimensional. Consequently, all matrix multiplications \([\partial y/\partial z_\beta][\partial
+\phi_\beta /\partial z_k]\) reduces to vector-matrix products.
+</p>
+
+<p>
+For a variable \(z\), we denote by a column vector \(\dot{z} = [\partial y / \partial
+z]^\intercal\). With this notation, the chain-rule of reverse-mode AD can be
+written as \[ \dot{z}_k = \sum_{\beta=k+1}^N \biggl[ \frac{\partial \phi_\beta}{\partial z_k}
+\biggr]^\intercal \dot{z}_\beta, \quad k=N-1, N-2, \ldots, 0.\] Note that the true
+gradient \(\dot{z}_k\) is a summation accumulated from \(\beta=N\) to
+\(\beta=k+1\). At each stage \(\beta\), we can only compute a single term \([\partial \phi_\beta /\partial
+z_k]^\intercal \dot{z}_\beta\) for \(\dot{z}_k\).
+</p>
+
+<p>
+In order to apply the chain rule, we record all the operations
+\(\{\phi_k\}\) along with their inputs and outputs on a <i>tape</i> (alternatively
+known as a <i>Wengert list</i> or an <i>evaluation trace</i>).
+</p>
+
+<p>
+<i>Example.</i> Consider the function \(f(a, b) = \langle a, a+ b\rangle\).  The
+computational graph is
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">\(k\)</th>
+<th scope="col" class="org-left">input</th>
+<th scope="col" class="org-left">\(\phi_k\)</th>
+<th scope="col" class="org-left">output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">\(a, b\)</td>
+<td class="org-left">\(z_1 = a+b\)</td>
+<td class="org-left">\(z_1\)</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">\(a, z_1\)</td>
+<td class="org-left">\(z_2 = a^\intercal z_1\)</td>
+<td class="org-left">\(z_2\)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Initially, set \(\dot{a}=0, \dot{b}=0\) and \(\dot{z}_k = 0\).  Starting
+at \(\dot{z}_2 = [\partial y / \partial z_2]^\intercal = 1\), we then apply the chain rule to
+propagate gradient reversely and accumulate the obtained value.
+</p>
+$$ \begin{aligned}
+(\text{Initialize}) &\qquad & \dot{z}_2 &\leftarrow 1 \\
+(k=2) & \qquad &  \dot{a} &\leftarrow \dot{a} + \biggl[\frac{\partial \phi_k}{\partial a}\biggr]^\intercal \dot{z}_2 \\
+& & \dot{z}_1 &\leftarrow \dot{z}_1 + \biggl[\frac{\partial \phi_k}{\partial z_1}\biggr]^\intercal  \dot{z}_2 \\
+(k=1) & \qquad & \dot{a} &\leftarrow \dot{a} + \biggl[ \frac{\partial \phi_k}{\partial a} \biggr]^\intercal \dot{z}_1 \\
+& & \dot{b} &\leftarrow \dot{b} +  \biggl[\frac{\partial \phi_k}{\partial b}\biggr]^\intercal \dot{z}_1\\
+\end{aligned} $$
+<p>
+We can explicitly write down these values and verify.
+</p>
+$$ \begin{aligned}
+\dot{z}_2 &= 1 ,\\
+\dot{z}_1 &= a ,\\
+\dot{a} &=  z_1 \dot{z}_2 + \dot{z}_1 = 2a + b ,\\
+\dot{b} &= \dot{z}_1 = a.
+\end{aligned} $$
+
+<p>
+<i>Example.</i> Consider the function \(f(a, b) = \|a\|^2 + a^\intercal b - \sin (a^\intercal
+b)\). The computational graph is
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">\(k\)</th>
+<th scope="col" class="org-left">input</th>
+<th scope="col" class="org-left">\(\phi_k\)</th>
+<th scope="col" class="org-left">output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">\(a, b\)</td>
+<td class="org-left">\(z_1 = a^\intercal b\)</td>
+<td class="org-left">\(z_1\)</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">\(a\)</td>
+<td class="org-left">\(z_2 = a^\intercal a\)</td>
+<td class="org-left">\(z_2\)</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">\(z_1,z_2\)</td>
+<td class="org-left">\(z_3 = z_1 + z_2\)</td>
+<td class="org-left">\(z_3\)</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">\(z_1\)</td>
+<td class="org-left">\(z_4 = \sin z_1\)</td>
+<td class="org-left">\(z_4\)</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">\(z_3,z_4\)</td>
+<td class="org-left">\(z_5=z_3-z_4\)</td>
+<td class="org-left">\(z_5\)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Initially, set \(\dot{a}=0, \dot{b}=0\) and \(\dot{z}_k = 0\).  Starting
+at \(\dot{z}_5 = [\partial y / \partial z_5]^\intercal = 1\), we then apply the chain rule to
+propagate gradient reversely and accumulate the obtained value.
+</p>
+$$ \begin{aligned}
+(\text{Initialize}) &\qquad & \dot{z}_5 &\leftarrow 1 \\
+(k=5) & \qquad &  \dot{z}_4 &\leftarrow \dot{z}_4 + \biggl[ \frac{\partial \phi_k}{\partial z_4}\biggr]^\intercal  \dot{z}_5 \\
+& & \dot{z}_3 &\leftarrow \dot{z}_3 + \biggl[ \frac{\partial \phi_k}{\partial z_3}\biggr]^\intercal \dot{z}_5 \\
+(k=4) & \qquad & \dot{z}_1 &\leftarrow \dot{z}_1 + \biggl[ \frac{\partial \phi_k}{\partial z_1}\biggr]^\intercal \dot{z}_4\\
+(k=3) & \qquad & \dot{z}_2 &\leftarrow \dot{z}_2 + \biggl[ \frac{\partial \phi_k}{\partial z_2}\biggr]^\intercal \dot{z}_3\\
+&  & \dot{z}_1 &\leftarrow \dot{z}_1 + \biggl[ \frac{\partial \phi_k}{\partial z_2}\biggr]^\intercal \dot{z}_3 \\
+(k=2) & \qquad & \dot{a} &\leftarrow \dot{a} + \biggl[ \frac{\partial \phi_k}{\partial a}\biggr]^\intercal \dot{z}_2\\
+(k=1) & \qquad & \dot{a} &\leftarrow \dot{a} + \biggl[ \frac{\partial \phi_k}{\partial a}\biggr]^\intercal \dot{z}_1\\
+ &  & \dot{b} &\leftarrow \dot{b} + \biggl[ \frac{\partial \phi_k}{\partial b}\biggr]^\intercal \dot{z}_1\\
+\end{aligned} $$
+<p>
+We can explicitly write down these values and verify.
+</p>
+$$ \begin{aligned}
+\dot{z}_5 &= 1 ,\\
+\dot{z}_4 &= -\dot{z}_5 = -1 ,\\
+\dot{z}_3 &= \dot{z}_5 = 1 ,\\
+\dot{z}_2 &= \dot{z}_3 = 1 ,\\
+\dot{z}_1 &= (\cos z_1) \dot{z}_4 + \dot{z}_3 = -\cos a^\intercal b + 1 ,\\
+\dot{a} &= 2a \dot{z}_2 + b\dot{z}_1 = 2a + b(1 - \cos a^\intercal b) ,\\
+\dot{b} &= a\dot{z}_1 = a(1 - \cos a^\intercal b).
+\end{aligned} $$
+</div>
+</div>
+<div id="outline-container-orgca2aa79" class="outline-2">
+<h2 id="orgca2aa79">Jacobian-vector product</h2>
+<div class="outline-text-2" id="text-orgca2aa79">
+<p>
+Examing the chain-rule formulae used in forward-mode and reverse-mode
+AD, we note that it suffices to calculate the Jacobian \(\partial \phi_k\). In
+practice, however, we don't calculate Jacobian directly. Instead, we
+calculate the so-called Jacobian-vector product (or vector-Jacobian
+product).
+</p>
+
+<p>
+Consider the function \(y=f(x)\) and assume \(x\in\mathbb{R}^n, y\in\mathbb{R}^m\).
+</p>
+
+<p>
+For a vector \(v\in\mathbb{R}^n\), forward-mode AD can efficiently calculate
+the Jacobian-vector product \([\partial f]v\) by
+</p>
+\begin{equation}\tag{chain-rule: JVP}
+\dot{z}_k = \sum_{\alpha=0}^{N-1} \biggl[\frac{\partial \phi_k}{\partial z_\alpha}\biggr] \dot{z}_\alpha, \quad
+\text{ where }\dot{z}_\alpha := \biggl[\frac{\partial z_\alpha}{\partial x}\biggr] v.
+\end{equation}
+
+<p>
+For a vector \(v\in\mathbb{R}^m\), reverse-mode AD can efficiently calculate
+the vector-Jacobian product \([\partial f]^\intercal v\) by
+</p>
+\begin{equation}\tag{chain-rule: VJP}
+\dot{z}_k = \sum_{\beta=k+1}^N \biggl[\frac{\partial \phi_\beta}{\partial z_k}\biggr]^\intercal \dot{z}_\beta, \quad
+\text{ where }\dot{z}_\beta := \biggl[ \frac{\partial y}{\partial z_\beta} \biggr]^\intercal v.
+\end{equation}
+
+<p>
+There are two reasons why using Jacobian-vector product is always
+better than using the Jacobian.
+</p>
+
+<ol class="org-ol">
+<li>It requires less memory. Indeed, all calculations in (chain-rule:
+VJP) are matrix-vector product, while all calculations in
+(chain-rule: RAD) are matrix multiplications.</li>
+
+<li>It remains efficient when parallized. If we want the full Jacobian
+matrix, we can run the algorithm with different \(v_j=e_j\)
+concurrently and then stack the result.</li>
+</ol>
+
+<p>
+In deep learning, we use reverse-mode AD because the loss function is
+a scalar function \[ \ell(\theta) = L(y, \hat{y}), \quad \text{ where }
+y:=f(x;\theta). \] The gradient is indeed a vector-Jacobian product \[ \frac{\partial
+\ell(\theta)}{\partial \theta} = \frac{\partial L}{\partial y} \frac{\partial y}{\partial \theta}. \]
+</p>
+
+<p>
+Finally, we should mention that in our formulation all vectors can
+generalized to tensors. Indeed, for a tensor \(x[\eta]\) of order \(n\),
+where \(\eta \in \mathcal{I}(x) \subset \mathbb{N}^{n}\) is a multi-index, we can treat it as a vector
+by iterating on \(\mathcal{I}(x)\). Moreover, for a function \(y=f(x)\) with \(y\) a
+tensor of order \(m\), we can define the Jacobian-vector product by \[
+\operatorname{JVP}_f(x, v)[\zeta] := \sum_{\eta \in \mathcal{I}(x)} \frac{\partial (f[\zeta])}{ \partial
+(x[\eta])} v[\eta], \quad \zeta\in\mathcal{I}(y)\subset\mathbb{N}^m. \] Similarly, the vector-Jacobian
+product is defined by \[ \operatorname{VJP}_f(x, v)[\eta] := \sum_{\zeta \in \mathcal{I}(y)}
+\frac{\partial (f[\zeta])}{ \partial (x[\eta])} v[\zeta], \quad \eta\in\mathcal{I}(x)\subset\mathbb{N}^n. \] See
+<a href="#org431e8a2">the appendix</a> for an example illustrating how we apply this definition
+to matrix multiplication \(f(A, B) = AB\).
+</p>
+</div>
+</div>
+<div id="outline-container-org85b835d" class="outline-2">
+<h2 id="org85b835d">Implement forward-mode and reverse-mode AD</h2>
+<div class="outline-text-2" id="text-org85b835d">
+<p>
+<a id="org4b3e46c"></a>
+</p>
+
+<p>
+In this section, we give the formal algorithm for differentiating a
+function \(y=f(x)\).
+</p>
+
+<p>
+Let's begin with forward-mode AD, which evaluates the
+Jacobian-vector product \([\partial f(x)]v\) at a given point \(x\). Assume we
+have access to the tape which records the sequence of elementary
+operations and their inputs/output during the computation of the
+target function \(y=f(x)\). The tables in section <a href="#org62bb0bd">Examples: reverse-mode
+AD for scalar functions</a> are examples of such tapes.
+</p>
+
+<p>
+Forward-mode AD relies on the mathematical formula (chain-rule:
+JVP). Starting with the gradient \(v\) of the initial input \(x\), we
+traverse the tape in a forward direction, propagating gradients from
+the inputs of \(\phi_k\) to its output via its JVP. The pseudocode of
+forward-mode AD can be summarized as follows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">forwardAD_along_tape</span>(inputs, call_tape, inputs_v, *, gradkey):
+    <span style="color: #2aa198;">"""Forward propagate gradient starting at inputs. Initially the grad of</span>
+<span style="color: #2aa198;">    inputs is set to inputs_v.  `gradkey` is a string used for the dict key. For</span>
+<span style="color: #2aa198;">    a given tensor `a`, the grad is stored in `a.buffer[gradkey]`"""</span>
+    <span style="color: #859900; font-weight: bold;">for</span> x, v <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">zip</span>(inputs, inputs_v):
+        x.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey] = v
+    <span style="color: #859900; font-weight: bold;">for</span> k_inputs, k_outputs, k_phi, k_kwargs <span style="color: #859900; font-weight: bold;">in</span> call_tape:
+        <span style="color: #268bd2;">grad_inputs</span> = [x.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey] <span style="color: #859900; font-weight: bold;">for</span> x <span style="color: #859900; font-weight: bold;">in</span> k_inputs]
+        k_outputs.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey] = k_phi.jvp(
+            k_inputs, k_outputs, grad_inputs, **k_kwargs
+        )
+</pre>
+</div>
+
+<p>
+Reverse-mode AD relies on the mathematical formula (chain-rule:
+VJP). Starting with the gradient \(v\) of the final output \(y\), we
+traverse the tape in a reverse direction, propagating gradients from
+the output of \(\phi_k\) to its inputs via its VJP. The pseudocode of
+reverse-mode AD can be summarized as follows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">reverseAD_along_tape</span>(y, call_tape, v, *, gradkey):
+    <span style="color: #2aa198;">"""Backpropagate gradient starting at y. Initially the grad of y is set to</span>
+<span style="color: #2aa198;">    v.  `gradkey` is a string used for the dict key. For a given tensor `a`, the</span>
+<span style="color: #2aa198;">    grad is stored in `a.buffer[gradkey]`"""</span>
+    y.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey] = v
+    <span style="color: #859900; font-weight: bold;">for</span> k_inputs, k_outputs, k_phi, k_kwargs <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">reversed</span>(call_tape):
+        <span style="color: #268bd2;">grad_inputs</span> = k_phi.vjp(
+            k_inputs, k_outputs, k_outputs.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey], **k_kwargs
+        )
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">accumulate grad</span>
+        <span style="color: #859900; font-weight: bold;">for</span> x, grad <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">zip</span>(k_inputs, grad_inputs):
+            x.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey] += grad
+</pre>
+</div>
+
+<p>
+Comparing forward-mode AD and reverse-mode AD, a subtle difference is
+the gradient accumulation process in the latter. In the formula
+(chain-rule: JVP), the gradient \(\dot{z}_k\) is obtained by a single
+call of the JVP of \(\phi_k\). Thus, in the algorithm, the value of
+\(\dot{z}_k\) is computed in a single step of the iteration.  In the
+formula (chain-rule: VJP), however, the gradient \(\dot{z}_k\) is
+obtained by successive calls of the VJP of
+\(\{\phi_\beta\}_{\beta=k+1}^N\). Consequently, in the algorithm, the value of
+\(\dot{z}_k\) accumulates in several steps of the iteration.
+</p>
+
+<p>
+See <a href="#org278e2cd">the appendix</a> for an overview of my implementation in Python.
+</p>
+</div>
+</div>
+<div id="outline-container-org13dc3d2" class="outline-2">
+<h2 id="org13dc3d2">Hessian-vector product</h2>
+<div class="outline-text-2" id="text-org13dc3d2">
+<p>
+The Hessian matrix of a <i>scalar</i> function \(f\) can be defined by the
+Jacobian matrix of \(\partial f\), \[ (\partial^2 f)_{i,j} := (\partial(\partial f))_{i,j} =
+\frac{\partial}{\partial x_j}(\partial f)_i = \frac{\partial}{\partial x_j} \frac{\partial}{\partial x_i} f. \] Let
+\(g(x)=\partial f(x)\). Calculating the Jacobian-vector product \([\partial g]v\) is
+essentially calculating the Hessian-vector product \([\partial^2 f]v\). This
+can be achieved by a combination of forward-mode AD and
+reverse-mode AD.
+</p>
+
+<p>
+Given the input \(x\), first calculate \(y=f(x)\) and record the
+ operations <i>during this procedure</i> in a tape \(T_1\). Then, <i>take a new
+ tape</i> \(T_2\). Use \(T_2\) to record the operations of applying
+ forward-mode AD on \(T_1\) to calculate the Jacobian-vector product
+ \(L=[\partial f]v\), which is a scalar in this case. Finally, apply
+ reverse-mode AD on \(T_1 \cup T_2\) to obtain gradient \(\partial L = \partial([\partial f]v) =
+ v^\intercal [\partial^2 f]\). This is exactly the Hessian-vector product \([\partial^2f]v\) if
+ the Hessian matrix is symmetric.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">hvp_by_reverse_forwardAD</span>(f, inputs, v_vars, *, inputs_vars):
+    <span style="color: #2aa198;">"""Calculate the Hessian-vector product of function `f` using</span>
+<span style="color: #2aa198;">    reverse-on-forward mode automatic differentiation.</span>
+
+<span style="color: #2aa198;">    `inputs_vars` is an subset of `inputs` specifying independent</span>
+<span style="color: #2aa198;">    variables in the Hessian matrix.  `inputs_vars` aligns with the</span>
+<span style="color: #2aa198;">    number of tensors in `v_vars`.</span>
+<span style="color: #2aa198;">    """</span>
+    <span style="color: #268bd2;">tape1</span> = []
+    <span style="color: #859900; font-weight: bold;">with</span> my_func_tracker.track_func(<span style="color: #268bd2; font-weight: bold;">True</span>, tape=tape1):
+        <span style="color: #268bd2;">y</span> = f(*inputs)  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">do computations and track in tape1</span>
+
+    <span style="color: #268bd2;">tape2</span> = []
+    <span style="color: #859900; font-weight: bold;">with</span> my_func_tracker.track_func(<span style="color: #268bd2; font-weight: bold;">True</span>, tape=tape2):
+        forwardAD_along_tape(inputs_vars, tape1, v_vars, gradkey=<span style="color: #2aa198;">"rfgrad1"</span>)
+        <span style="color: #268bd2;">yy</span> = y.<span style="color: #657b83; font-weight: bold;">buffer</span>[<span style="color: #2aa198;">"rfgrad1"</span>]
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">apply reverse-mode AD to yy</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ATTENTION: we have to use a different gradkey to avoid modifying inputs</span>
+    <span style="color: #93a1a1;">#            </span><span style="color: #93a1a1;">recorded in tape 2</span>
+    reverseAD_along_tape(yy, tape1 + tape2, MyTensor(1.0), gradkey=<span style="color: #2aa198;">"rfgrad2"</span>)
+    <span style="color: #859900; font-weight: bold;">return</span> [x.<span style="color: #657b83; font-weight: bold;">buffer</span>[<span style="color: #2aa198;">"rfgrad2"</span>] <span style="color: #859900; font-weight: bold;">for</span> x <span style="color: #859900; font-weight: bold;">in</span> inputs_vars]
+</pre>
+</div>
+
+<p>
+The above procedure is the reverse-on-forward mode AD for calculating the
+Hessian-vector product. There are, of course, other procedures to
+obtain the same result.
+</p>
+
+<ol class="org-ol">
+<li><i>Forward-on-reverse mode AD.</i> After recording the operations of
+\(y=f(x)\) in a tape \(T_1\), use a new tape \(T_2\) to record the
+operations of applying reverse-mode AD on \(T_1\) to calculate
+the gradient \(\partial f(x)\). Then, apply forward-mode AD on \(T_1 \cup
+   T_2\) to calculate the Jacobian-vector product \([\partial (\partial f)]v\), which
+is exactly the Hessian-vector product \([\partial^2f]v\).</li>
+
+<li><i>Reverse-on-reverse mode AD</i>. After recording the operations of
+\(y=f(x)\) in a tape \(T_1\), use a new tape \(T_2\) to record the
+operations of 1) applying reverse-mode AD on \(T_1\) to calculate
+the gradient \(\partial f(x)\) (which is a row vector in our notation); 2)
+computing the Jacobian-vector product of \(L=[\partial f(x)]v\). Then, apply
+reverse-mode AD on \(T_1 \cup T_2\) to calculate the gradient \(\partial L =
+   \partial([\partial f]v)=v^\intercal [\partial^2f]\). This is exactly the Hessian-vector product
+\([\partial^2f]v\) if the Hessian matrix is symmetric.</li>
+</ol>
+
+<p>
+See <a href="#org278e2cd">the appendix</a> for an overview of my implementation in Python.
+</p>
+</div>
+</div>
+<div id="outline-container-org95a55ef" class="outline-2">
+<h2 id="org95a55ef">Conclusion</h2>
+<div class="outline-text-2" id="text-org95a55ef">
+<p>
+AD refers to a general technique that generates numerical derivative
+evaluations rather than derivative expressions. Backpropagation is a
+special case of AD that runs in reverse mode. Besides reverse-mode AD,
+there are forward-mode AD and even reverse-on-forward AD.
+</p>
+
+<p>
+For a function \(y=f(x)\) with \(x\in\mathbb{R}^n\) and \(y\in\mathbb{R}^m\), forward-mode AD can
+efficiently compute the Jacobian-vector product \([\partial f]v\) for any given
+initial gradient \(v\in\mathbb{R}^n\), while reverse-mode AD can efficiently
+compute the vector-Jacobian product \(v^\intercal [\partial f]\) for any given terminal
+gradient \(v\in\mathbb{R}^m\). Deep learning uses reverse-mode AD because loss
+functions are scalar functions, which means \(m=1\) and setting \(v=1\)
+yields the gradient \(\partial f\) directly.
+</p>
+
+<p>
+For a scalar function \(y=f(x)\), combining forward-mode AD and
+reverse-mode AD can efficiently evaluate the Hessian-vector product
+\([\partial^2 f]v\) for any vector \(v\).
+</p>
+</div>
+</div>
+<div id="outline-container-org8867eb1" class="outline-2">
+<h2 id="org8867eb1">References</h2>
+<div class="outline-text-2" id="text-org8867eb1">
+<p>
+Books and Papers
+</p>
+
+<ul class="org-ul">
+<li>Bishop, C. M., &amp; Bishop, H. (2024). Deep learning: Foundations and concepts. Springer.</li>
+<li>Zhang, A., Lipton, Z. C., Li, M., &amp; Smola, A. J. (2023). Dive into Deep Learning. Cambridge University Press. <a href="https://d2l.ai">https://d2l.ai</a></li>
+<li>Baydin, A. G., Pearlmutter, B. A., Radul, A. A., &amp; Siskind, J. M. (2018). Automatic differentiation in machine learning: A survey. Journal of Machine Learning Research, 18(153), 1–43.</li>
+<li>Paszke, A., Gross, S., Chintala, S., Chanan, G., Yang, E., DeVito, Z., Lin, Z., Desmaison, A., Antiga, L., &amp; Lerer, A. (2017). Automatic differentiation in PyTorch. Neural Information Processing Systems. <a href="https://openreview.net/forum?id=BJJsrmfCZ">https://openreview.net/forum?id=BJJsrmfCZ</a></li>
+</ul>
+
+<p>
+Online resources
+</p>
+
+<ul class="org-ul">
+<li>Holmes, A. (2024). What's Automatic Differentiation? Hugging Face. <a href="https://huggingface.co/blog/andmholm/what-is-automatic-differentiation">https://huggingface.co/blog/andmholm/what-is-automatic-differentiation</a></li>
+<li>Lashoun (2020). Crash Course on PyTorch and Autograd. <a href="https://lashoun.com/science/crash-course-on-pytorch-and-autograd/">https://lashoun.com/science/crash-course-on-pytorch-and-autograd/</a></li>
+<li>Wang, J. (2021). Understanding pytorch’s autograd with <code>grad_fn</code> and <code>next_functions</code> <a href="https://amsword.medium.com/understanding-pytorchs-autograd-with-grad-fn-and-next-functions-b2c4836daa00">https://amsword.medium.com/understanding-pytorchs-autograd-with-grad-fn-and-next-functions-b2c4836daa00</a></li>
+<li>Simple Grad. [Example implementation of reverse-mode autodiff].  <a href="https://colab.research.google.com/drive/1VpeE6UvEPRz9HmsHh1KS0XxXjYu533EC">https://colab.research.google.com/drive/1VpeE6UvEPRz9HmsHh1KS0XxXjYu533EC</a></li>
+<li>PyTorch. Automatic Differentiation with torch.autograd. <a href="https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html">https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html</a></li>
+<li>PyTorch. Jacobians, Hessians, hvp, vhp, and more: composing function
+transforms. <a href="https://pytorch.org/tutorials/intermediate/jacobians_hessians.html">https://pytorch.org/tutorials/intermediate/jacobians_hessians.html</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd9a69c9" class="outline-2">
+<h2 id="orgd9a69c9">Appendix: An inductive proof of reverse-mode AD formula</h2>
+<div class="outline-text-2" id="text-orgd9a69c9">
+<p>
+<a id="org0c9f702"></a>
+</p>
+
+<p>
+Consider the following computational graph
+</p>
+$$ \begin{aligned}
+z_0 &= x, \\
+z_k &= \phi_k(z_0, z_1, \ldots, z_{k-1}), \quad k=1, 2, \ldots, N, \\
+y &= z_N.
+\end{aligned} $$
+
+<p>
+Define functions \(\{f_k\}\) inductively from \(k=N\) to \(k=1\).
+</p>
+
+<ol class="org-ol">
+<li>For \(k=N\), \(f_N:= \phi_N\).</li>
+
+<li>Assume \(f_{k+1}\) has been defined. Then, \(f_k\) is defined by the
+map \[ (z_0, z_1, \ldots, z_{k-1}) \mapsto f_{k+1}(z_0, z_1, \ldots,
+   z_{k-1}, \phi_k(z_0, z_1, \ldots, z_{k-1})). \]</li>
+</ol>
+
+<p>
+We prove by induction that for any \(1 \leq k \leq N-1\), \[ \frac{\partial
+f_{k+1}}{\partial z_s} = \frac{\partial \phi_N}{\partial z_s} + \sum_{\beta=k+1}^{N-1} \frac{\partial
+f_{\beta+1}}{\partial z_\beta}\frac{\partial \phi_\beta}{\partial z_s}, \quad 0 \leq s \leq k-1. \]
+</p>
+
+<ol class="org-ol">
+<li>For \(k=N-1\), \(f_{k+1} = f_N = \phi_N\). The statement holds.</li>
+
+<li>Assume the statement holds for function \(f_{k+1}\). We want to prove
+that it holds for \(f_k\) too. According to the definition, \[
+   f_k(z_0, z_1, \ldots, z_{k-1}) = f_{k+1}(z_0, z_1, \ldots, z_{k-1},
+   \phi_k(z_0, z_1, \ldots, z_{k-1})). \] For any \(0 \leq s \leq k-1\), we
+differentiate both sides of the equation w.r.t. \(z_s\) and obtain \[
+   \frac{\partial f_k}{\partial z_s} = \frac{\partial f_{k+1}}{\partial z_s} + \frac{\partial f_{k+1}}{\partial
+   z_k} \frac{\partial \phi_k}{z_s}. \] Substituting the hypothesis yields \[
+   \frac{\partial f_k}{\partial z_s} = \frac{\partial \phi_N}{\partial z_s} + \sum_{\beta=k+1}^{N-1} \frac{\partial
+   f_{\beta+1}}{\partial z_\beta}\frac{\partial \phi_\beta}{\partial z_s} + \frac{\partial f_{k+1}}{\partial z_k}
+   \frac{\partial \phi_k}{z_s}. \] This shows that the statement holds for
+\(f_k\).</li>
+
+<li>By induction, the statement holds for any \(1 \leq k \leq N-1\).</li>
+</ol>
+
+<p>
+The adjoint variables \(\partial y / \partial z_k\) is then formally defined by \(\partial
+f_{k+1} / \partial z_k\). Moreover, \(\partial y / \partial z_N\) is defined by the identity
+matrix.  Setting \(s=k-1\) in the statement yields \[ \frac{\partial y}{\partial z_k}
+= \frac{\partial \phi_N}{\partial z_k} + \sum_{\beta=k+1}^{N-1} \frac{\partial y}{\partial z_\beta}\frac{\partial
+\phi_\beta}{\partial z_k}.  \] This is exactly the formula uesd in reverse-mode AD.
+</p>
+</div>
+</div>
+<div id="outline-container-org748e71f" class="outline-2">
+<h2 id="org748e71f">Appendix: JVP and VJP for linear maps</h2>
+<div class="outline-text-2" id="text-org748e71f">
+<p>
+<a id="org431e8a2"></a>
+</p>
+
+<p>
+Let \(y=f(A, B) = AB\) where \(A\) and \(B\) are two matrices. The output
+\(y\) is also a matrix and \(y[i,k] = \sum_j A[i,j]B[j,k]\).
+</p>
+
+<p>
+For a matrix \(v\) with the same shape as \(A\), \[
+\operatorname{JVP}_f(A, v)[i,k] = \sum_{i',j} \frac{\partial y[i,k]}{\partial
+A[i',j]}v[i',j] = \sum_j B[j, k]v[i, j] = vB. \]
+</p>
+
+<p>
+For a matrix \(v\) with the same shape as \(B\), \[
+\operatorname{JVP}_f(B, v)[i,k] = \sum_{j, k'} \frac{\partial y[i,k]}{\partial
+B[j, k']}v[j, k'] = \sum_j A[i, j]v[j, k] = Av. \]
+</p>
+
+<p>
+For a matrix \(v\) with the same shape as \(y\),  \[
+\operatorname{VJP}_f(A, v)[i,j] = \sum_{i', k} \frac{\partial y[i',k]}{\partial
+A[i, j]}v[i', k] = \sum_k B[j, k]v[i, k] = vB^\intercal. \]
+</p>
+
+<p>
+For a matrix \(v\) with the same shape as \(y\),  \[
+\operatorname{VJP}_f(B, v)[j, k] = \sum_{i, k'} \frac{\partial y[i,k']}{\partial
+B[j, k]}v[i, k'] = \sum_i A[i, j]v[i, k] = A^\intercal v. \]
+</p>
+</div>
+</div>
+<div id="outline-container-org0f64703" class="outline-2">
+<h2 id="org0f64703">Appendix: Overview of the Python Implementation</h2>
+<div class="outline-text-2" id="text-org0f64703">
+<p>
+<a id="org278e2cd"></a>
+</p>
+
+<p>
+The complete code is available at <a href="https://github.com/Dou-Meishi/audi">this github repo</a>.  The overall
+framework follows <a href="https://colab.research.google.com/drive/1VpeE6UvEPRz9HmsHh1KS0XxXjYu533EC">this colab notebook</a>.  Basically, I implement the
+following data structures.
+</p>
+
+<ol class="org-ol">
+<li><p>
+<code>MyFunction</code>. This models the elementary operations, such as addition,
+multiplication, division, subtraction, matrix multiplication and so
+on.  Instances of this class have attributes <code>vjp</code> and <code>jvp</code>, which are
+responsible for computing vector-Jacobian products and
+Jacobian-vector products.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyFunction</span>(<span style="color: #657b83; font-weight: bold;">object</span>):
+    <span style="color: #2aa198;">"""Functions with vjp and jvp as attributes."""</span>
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, name, func, func_vjp=<span style="color: #268bd2; font-weight: bold;">None</span>, func_jvp=<span style="color: #268bd2; font-weight: bold;">None</span>):
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">name</span> = name
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">func</span> = func
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">vjp</span> = func_vjp
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">jvp</span> = func_jvp
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__call__</span>(<span style="color: #859900; font-weight: bold;">self</span>, *args, **kws):
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">self</span>.func(*args, **kws)
+</pre>
+</div></li>
+
+<li><p>
+<code>MyFunctionTracker</code>. This is a decorator class to track inputs and
+outputs of elementary operations, designed for the class
+<code>MyFunction</code>.  The global instance <code>my_func_tracker</code> decorates the
+<code>MyFunction.__call__</code> method. By doing so, each call of the
+elementary operations will be recorded in
+<code>my_func_tracker.call_tape</code>. Moreover, the method <code>track_func</code> returns
+a context manager for conveniently toggling traking functionality.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyFuncTracker</span>(<span style="color: #657b83; font-weight: bold;">object</span>):
+    <span style="color: #2aa198;">"""A decorator class to track function inputs and outputs.</span>
+<span style="color: #2aa198;">    Designed for MyFunction class.</span>
+
+<span style="color: #2aa198;">    Store recorded calls in attribute `call_tape`, a list of tuples</span>
+<span style="color: #2aa198;">    representing (inputs_k, outputs_k, func_k).</span>
+
+<span style="color: #2aa198;">    Args:</span>
+<span style="color: #2aa198;">        do_track (bool): A boolean flag to determine whether tracking is enabled.</span>
+<span style="color: #2aa198;">    """</span>
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, do_track: <span style="color: #657b83; font-weight: bold;">bool</span>):
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">do_track</span> = do_track
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">call_tape</span> = []
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__call__</span>(<span style="color: #859900; font-weight: bold;">self</span>, func):
+        <span style="color: #2aa198;">"""Wrap the function to track inputs and outputs in `self.call_tape`.</span>
+<span style="color: #2aa198;">        Expect func receive self as its first argument."""</span>
+        <span style="color: #859900; font-weight: bold;">pass</span>
+
+    <span style="color: #b58900;">@contextmanager</span>
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">track_func</span>(<span style="color: #859900; font-weight: bold;">self</span>, do_track: <span style="color: #657b83; font-weight: bold;">bool</span>, tape: Union[<span style="color: #268bd2; font-weight: bold;">None</span>, <span style="color: #657b83; font-weight: bold;">list</span>] = <span style="color: #268bd2; font-weight: bold;">None</span>):
+        <span style="color: #2aa198;">"""Context manager to enable or disable tracking within a block.  If</span>
+<span style="color: #2aa198;">        tape is not None, store records in it. Otherwise, store records in</span>
+<span style="color: #2aa198;">        `self.call_tape`."""</span>
+        <span style="color: #859900; font-weight: bold;">pass</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">initialize a global function tracker</span>
+<span style="color: #268bd2;">my_func_tracker</span> = MyFuncTracker(do_track=<span style="color: #268bd2; font-weight: bold;">True</span>)
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">apply it to MyFunction class</span>
+MyFunction.<span style="color: #268bd2;">__call__</span> = my_func_tracker(MyFunction.__call__)
+</pre>
+</div></li>
+
+<li><p>
+<code>MyTensor</code>. This models the variables for inputs and outputs of
+elementary operations. Instances of this class comprise, <code>value</code> for
+a NumPy array and <code>buffer</code> for a dictionary. Arithmetic operators of
+this class are overloaded by <code>MyFunction</code> instances following the
+instructions mentioned in the Python documentation <a href="https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types">Emulating
+numeric types</a>.  By doing so, calculations involving <code>MyTensor</code>
+instances will be recorded by <code>my_func_tracker</code> automatically.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyTensor</span>(<span style="color: #657b83; font-weight: bold;">object</span>):
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, value=0):
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #268bd2;">value</span> = np.asarray(value)
+        <span style="color: #859900; font-weight: bold;">self</span>.<span style="color: #657b83; font-weight: bold;">buffer</span> = defaultdict(<span style="color: #859900; font-weight: bold;">self</span>.default_grad)
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">default_grad</span>(<span style="color: #859900; font-weight: bold;">self</span>):
+        <span style="color: #859900; font-weight: bold;">return</span> MyTensor(np.zeros_like(<span style="color: #859900; font-weight: bold;">self</span>.value))
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__add__</span>(<span style="color: #859900; font-weight: bold;">self</span>, other):
+        <span style="color: #859900; font-weight: bold;">pass</span>
+</pre>
+</div></li>
+</ol>
+
+<p>
+There are two notable things when implementing these classes.
+</p>
+
+<ol class="org-ol">
+<li><p>
+The attributes <code>vjp</code> and <code>jvp</code> of <code>MyFunction</code> instances are
+functions. These functions accepts <code>MyTensor</code> inputs and return
+<code>MyTensor</code> outputs, utilizing operations exclusively modelded by
+<code>MyFunction</code> for tensor manipulation. Therefore, calculations
+performed by <code>vjp</code> and <code>jvp</code> can be tracked by <code>my_func_tracker</code>, a
+crucial aspect for computing high-order derivatives. Below is the
+definition of addition along with its respective JVP/VJP
+functionalities. Notably, the JVP propagates gradients of inputs to
+gradient of outputs, while the VJP propagates gradient of outputs
+to gradient of inputs.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">_add</span>(a: MyTensor, b: MyTensor) -&gt; MyTensor:
+    <span style="color: #859900; font-weight: bold;">return</span> MyTensor(a.value + b.value)
+
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">_add_vjp</span>(
+    inputs: <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor], outputs: MyTensor, grad_outputs: MyTensor
+) -&gt; <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor]:
+    <span style="color: #859900; font-weight: bold;">return</span> (grad_outputs <span style="color: #859900; font-weight: bold;">for</span> _ <span style="color: #859900; font-weight: bold;">in</span> inputs)
+
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">_add_jvp</span>(
+    inputs: <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor], outputs: MyTensor, grad_inputs: <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor]
+) -&gt; MyTensor:
+    <span style="color: #859900; font-weight: bold;">return</span> grad_inputs[0] + grad_inputs[1]
+
+
+<span style="color: #268bd2;">add</span> = MyFunction(<span style="color: #2aa198;">"Add"</span>, _add, func_vjp=_add_vjp, func_jvp=_add_jvp)
+</pre>
+</div></li>
+
+<li><p>
+Broadcast operations should be tracked too. As NumPy arrays can
+broadcast their shape automatically, the function <code>_add</code> mentioned
+earlier may receive a vector \(x\in\mathbb{R}^3\) and a scalar \(k\in\mathbb{R}\) and return
+a new vector \(y=x+k\mathbb{1}\). Indeed, there is a broadcast operation \(k \mapsto
+   k\mathbb{1}\in\mathbb{R}^3\) besides addition. Failing to record these broadcast
+operations the gradient can lead to incorrect gradient
+calculations. Below are the definitions of broadcast and addition
+operations in <code>MyTensor</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyTensor</span>(<span style="color: #657b83; font-weight: bold;">object</span>):
+
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__add__</span>(<span style="color: #859900; font-weight: bold;">self</span>, other):
+        <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #859900; font-weight: bold;">not</span> <span style="color: #657b83; font-weight: bold;">isinstance</span>(other, MyTensor):
+            <span style="color: #268bd2;">other</span> = MyTensor(other)
+        <span style="color: #268bd2;">a</span>, <span style="color: #268bd2;">b</span> = MyTensor.broadcast(<span style="color: #859900; font-weight: bold;">self</span>, other)
+        <span style="color: #859900; font-weight: bold;">return</span> add(a, b)
+
+    @<span style="color: #657b83; font-weight: bold;">staticmethod</span>
+    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">broadcast</span>(*tensors):
+        <span style="color: #268bd2;">shape</span> = np.broadcast_shapes(*[t.shape <span style="color: #859900; font-weight: bold;">for</span> t <span style="color: #859900; font-weight: bold;">in</span> tensors])
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #657b83; font-weight: bold;">tuple</span>(t.expand(shape=shape) <span style="color: #859900; font-weight: bold;">for</span> t <span style="color: #859900; font-weight: bold;">in</span> tensors)
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">_expand</span>(a: MyTensor, *, shape: <span style="color: #657b83; font-weight: bold;">list</span>[<span style="color: #657b83; font-weight: bold;">int</span>]) -&gt; MyTensor:
+    <span style="color: #859900; font-weight: bold;">return</span> MyTensor(np.broadcast_to(a.value, shape))
+
+<span style="color: #268bd2;">expand</span> = MyFunction(<span style="color: #2aa198;">"Expand"</span>, _expand, func_vjp=_expand_vjp, func_jvp=_expand_jvp)
+</pre>
+</div></li>
+</ol>
+
+<p>
+Finally, forward-mode AD and reverse-mode AD can be implemented as
+follows.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">forwardAD</span>(
+    f: Callable[[<span style="color: #657b83; font-weight: bold;">list</span>[MyTensor]], MyTensor],
+    inputs: <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor],
+    inputs_v: <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor],
+    *,
+    gradkey: <span style="color: #657b83; font-weight: bold;">str</span> = <span style="color: #2aa198;">"grad"</span>,
+) -&gt; MyTensor:
+    <span style="color: #2aa198;">"""Use forward-mode AD to compute the Jacobian-vector product of f.</span>
+<span style="color: #2aa198;">    Return the gradient of f(dot(v, x)) evaluated at inputs.</span>
+
+<span style="color: #2aa198;">    Args</span>
+<span style="color: #2aa198;">    ----</span>
+<span style="color: #2aa198;">    - `f`: The function to be differentiated.</span>
+
+<span style="color: #2aa198;">    - `inputs`: Inputs of `f`.</span>
+
+<span style="color: #2aa198;">    - `inputs_v`: A list of tensor matches `inputs`.</span>
+
+<span style="color: #2aa198;">    - `gradkey`: A string used for the dict key. For a given tensor `a`,</span>
+<span style="color: #2aa198;">           the grad is stored in `a.buffer[gradkey]`.</span>
+<span style="color: #2aa198;">    """</span>
+    <span style="color: #268bd2;">tape</span> = []
+    <span style="color: #859900; font-weight: bold;">with</span> my_func_tracker.track_func(<span style="color: #268bd2; font-weight: bold;">True</span>, tape=tape):
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">do computations and track in tape</span>
+        <span style="color: #268bd2;">y</span> = f(*inputs)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">forward propagate gradient starting at inputs</span>
+    forwardAD_along_tape(inputs, tape, inputs_v, gradkey=gradkey)
+    <span style="color: #859900; font-weight: bold;">return</span> y.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey]
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">reverseAD</span>(
+    f: Callable[[<span style="color: #657b83; font-weight: bold;">list</span>[MyTensor]], MyTensor],
+    inputs: <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor],
+    v: MyTensor,
+    *,
+    gradkey: <span style="color: #657b83; font-weight: bold;">str</span> = <span style="color: #2aa198;">"grad"</span>,
+) -&gt; <span style="color: #657b83; font-weight: bold;">list</span>[MyTensor]:
+    <span style="color: #2aa198;">"""Use reverse-mode AD to compute the vector-Jacobian product of f.</span>
+<span style="color: #2aa198;">    Return the gradient of dot(f, v) evaluated at inputs.</span>
+
+<span style="color: #2aa198;">    Args</span>
+<span style="color: #2aa198;">    ----</span>
+<span style="color: #2aa198;">    - `f`: The function to be differentiated.</span>
+
+<span style="color: #2aa198;">    - `inputs`: Inputs of `f`.</span>
+
+<span style="color: #2aa198;">    - `v`: Any tensor matches the dim of `f`.</span>
+
+<span style="color: #2aa198;">    - `gradkey`: A string used for the dict key. For a given tensor `a`,</span>
+<span style="color: #2aa198;">           the grad is stored in `a.buffer[gradkey]`.</span>
+
+<span style="color: #2aa198;">    Note</span>
+<span style="color: #2aa198;">    ----</span>
+<span style="color: #2aa198;">    The gradient of tensor `a` is accumulated in `a.bffer[gradkey]`, which is</span>
+<span style="color: #2aa198;">    zero by default. However, this function does not check whether it is zero or</span>
+<span style="color: #2aa198;">    not. It simply accumulates all gradient in it.</span>
+<span style="color: #2aa198;">    """</span>
+    <span style="color: #268bd2;">tape</span> = []
+    <span style="color: #859900; font-weight: bold;">with</span> my_func_tracker.track_func(<span style="color: #268bd2; font-weight: bold;">True</span>, tape=tape):
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">do computations and track in tape</span>
+        <span style="color: #268bd2;">y</span> = f(*inputs)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">backpropagate gradient starting at y</span>
+    reverseAD_along_tape(y, tape, v, gradkey=gradkey)
+    <span style="color: #859900; font-weight: bold;">return</span> [x.<span style="color: #657b83; font-weight: bold;">buffer</span>[gradkey] <span style="color: #859900; font-weight: bold;">for</span> x <span style="color: #859900; font-weight: bold;">in</span> inputs]
+</pre>
+</div>
+
+<p>
+There is also a <code>Test</code> class, which contains various functions and their
+derivative functions derived by hand. For example, \[ f(w; X, y) =
+L(s(Xw), y), \] where \[s(x) = 1/(1 + e^{-x}), \quad L(p, y) = -\sum[ y_i
+\log p_i + (1-y_i)\log (1-p_i)]\] are sigmoid function and binary
+cross entropy loss. \(X\in\mathbb{R}^{n\times m}\) is the predictor matrix and \(y\in\mathbb{R}^n\)
+is the response. It is not hard to show that \[\partial_w f = (p-y)^\intercal X,
+\quad \partial^2_w f = X^\intercal \Omega X,\] where \(p=s(Xw)\) and \(\Omega =
+\operatorname{diag}(p(1-p))\).
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div>]]></description>
+  <category><![CDATA[ai]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-09-24-ImplementBP/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-09-24-ImplementBP/notes.html</guid>
+  <pubDate>Tue, 24 Sep 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Characteristic Functions and Central Limit Theorem]]></title>
   <description><![CDATA[

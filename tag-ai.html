@@ -29,7 +29,19 @@
 </div>
 </div>
 <div id="content">
-<h1 class="title">Posts tagged "ai":</h1><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-19-MNISTwithPytorch/notes.html">MNIST: the Hello World Example in Image Recognition</a></h2><div class="post-date">19 Feb 2024</div><p>
+<h1 class="title">Posts tagged "ai":</h1><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-09-24-ImplementBP/notes.html">An In-Depth Introduction to Backpropagation and Automatic Differentiation</a></h2><div class="post-date">24 Sep 2024</div><p>
+Backpropagation and automatic differentiation (AD) are fundamental
+components of modern deep learning frameworks. However, many
+practitioners pay little attention to their implementations and may
+regard them as some sort of "black magic". It indeed looks like magic
+that PyTorch can virtually calculate derivatives of an arbitrary
+function defined by the user, and even accommodate flow control
+elements like conditional execution, which is mathematically not
+differentiable. Although we understand that mathematically they
+primarily employ the chain rule, it remains unclear how they
+efficiently apply it to a function whose form is entirely unknown and
+will be determined by the user.
+</p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-02-19-MNISTwithPytorch/notes.html">MNIST: the Hello World Example in Image Recognition</a></h2><div class="post-date">19 Feb 2024</div><p>
 In this post we will train a simple CNN (<i>Convolutional Neural
 Network</i>) classifier in PyTorch to recognize handwritten digits in
 MNIST dataset.
