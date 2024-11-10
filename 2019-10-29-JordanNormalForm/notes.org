@@ -1,0 +1,16 @@
+#+TITLE: The Jordan Normal Form
+#+DATE: [2019-10-29]
+#+FILETAGS: math
+
+我们讨论复数域 $\mathbb{C}$ (或者任意代数闭域) 上的 $n$ 阶方阵 $A$ 的
+对角化问题，这等价于研究线性变换 $\mathscr{A}\colon x\mapsto Ax$ 在何
+組基下有最简单的矩阵表示。代数闭的条件是为了保证我们所考虑的多项式总可
+以分解为一次因式乘积。比如可以将矩阵 $A$ 的特征多项式
+$p_\textrm{char}(x)= \operatorname{det} \,(xI-A)$ 因式分解为
+$p_\textrm{char}(x) = \prod_{j=1}^s (x-\lambda_j)^{n_j}$，这里
+$\{\lambda_j,\; j=1, 2, \ldots, s\}$ 是 $A$ 的特征多项式组成的集合，称
+为谱，$n_j$ 是特征值 $\lambda_j$ 的代数重数，满足 $\sum_{j=1}^s n_j =
+n$。除了特征多项式，零化多项式也是刻画矩阵性质的有利工具。
+
+See full text [[./The-Jordan-Normal-Form.pdf][here]].
+

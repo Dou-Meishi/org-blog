@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>The Jordan Normal Form</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">29 Oct 2019</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2019-10-29-JordanNormalForm/notes.html">The Jordan Normal Form</a></h1>
+<p>
+我们讨论复数域 \(\mathbb{C}\) (或者任意代数闭域) 上的 \(n\) 阶方阵 \(A\) 的
+对角化问题，这等价于研究线性变换 \(\mathscr{A}\colon x\mapsto Ax\) 在何
+組基下有最简单的矩阵表示。代数闭的条件是为了保证我们所考虑的多项式总可
+以分解为一次因式乘积。比如可以将矩阵 \(A\) 的特征多项式
+\(p_\textrm{char}(x)= \operatorname{det} \,(xI-A)\) 因式分解为
+\(p_\textrm{char}(x) = \prod_{j=1}^s (x-\lambda_j)^{n_j}\)，这里
+\(\{\lambda_j,\; j=1, 2, \ldots, s\}\) 是 \(A\) 的特征多项式组成的集合，称
+为谱，\(n_j\) 是特征值 \(\lambda_j\) 的代数重数，满足 \(\sum_{j=1}^s n_j =
+n\)。除了特征多项式，零化多项式也是刻画矩阵性质的有利工具。
+</p>
+
+<p>
+See full text <a href="./The-Jordan-Normal-Form.pdf">here</a>.
+</p>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>
