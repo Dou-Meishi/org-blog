@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sun, 10 Nov 2024 11:27:44 +0800</lastBuildDate>
+<lastBuildDate>Sun, 10 Nov 2024 11:33:55 +0800</lastBuildDate>
 <item>
   <title><![CDATA[An In-Depth Introduction to Backpropagation and Automatic Differentiation]]></title>
   <description><![CDATA[
@@ -10630,6 +10630,26 @@ correlation 却叫 convolution.
   <link>https://dou-meishi.github.io/org-blog/2020-12-04-Conv2dNote/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2020-12-04-Conv2dNote/notes.html</guid>
   <pubDate>Fri, 04 Dec 2020 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Gaussian Quadrature and Borwein Integrals]]></title>
+  <description><![CDATA[
+<p>
+We discuss how to apply the Gaussian quadrature rule to evaluate the
+Borwein integral \[ \textrm{pr}_h(\Delta|\bar{c}) = \frac{1}{2\pi}
+\int_{-\infty}^{+\infty}\cos\Delta t\prod_{m=k+1}^{k+h} \frac{\sin
+\bar{c}Q^mt}{\bar{c}Q^mt}\,dt, \qquad k\in\mathbb{N}, \quad
+h\in\mathbb{N}_+,\quad \bar{c}, \Delta\in(0,\infty). \]
+</p>
+
+<p>
+See full text <a href="./fourier-transform-of-sinc.pdf">here</a>.
+</p>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>]]></description>
+  <category><![CDATA[math]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2020-01-14-GaussianQuadrature/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2020-01-14-GaussianQuadrature/notes.html</guid>
+  <pubDate>Tue, 14 Jan 2020 00:00:00 +0800</pubDate>
 </item>
 <item>
   <title><![CDATA[The Jordan Normal Form]]></title>

@@ -1,0 +1,12 @@
+#+TITLE: Gaussian Quadrature and Borwein Integrals
+#+DATE: [2020-01-14]
+#+FILETAGS: math
+
+We discuss how to apply the Gaussian quadrature rule to evaluate the
+Borwein integral $$ \textrm{pr}_h(\Delta|\bar{c}) = \frac{1}{2\pi}
+\int_{-\infty}^{+\infty}\cos\Delta t\prod_{m=k+1}^{k+h} \frac{\sin
+\bar{c}Q^mt}{\bar{c}Q^mt}\,dt, \qquad k\in\mathbb{N}, \quad
+h\in\mathbb{N}_+,\quad \bar{c}, \Delta\in(0,\infty). $$
+
+See full text [[./fourier-transform-of-sinc.pdf][here]].
+
