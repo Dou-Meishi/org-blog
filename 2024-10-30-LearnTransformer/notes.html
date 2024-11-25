@@ -34,17 +34,17 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0bdb2c5">Inputs and outputs</a></li>
-<li><a href="#org96285d8">Scaled dot-product attention</a></li>
-<li><a href="#org582ddc8">Self-attention and its multihead version</a></li>
-<li><a href="#org54a0b75">Masks in self-attention</a></li>
-<li><a href="#org39d11ec">Transformer Layers</a></li>
-<li><a href="#orgf6b4c4b">Conclusions</a></li>
-<li><a href="#org7010ed6">References</a></li>
-<li><a href="#org817eea1">Appendix: Layer normalization and batch normalization</a></li>
-<li><a href="#orga4bed78">Appendix: Positional encoding</a></li>
-<li><a href="#org85e8bb6">Appendix: Cross-attention</a></li>
-<li><a href="#orgdda7d52">Appendix: Encoder-decoder transformer</a></li>
+<li><a href="#orgf17f27c">Inputs and outputs</a></li>
+<li><a href="#orgad9a4ed">Scaled dot-product attention</a></li>
+<li><a href="#orgde43491">Self-attention and its multihead version</a></li>
+<li><a href="#org486e716">Masks in self-attention</a></li>
+<li><a href="#org27d5da1">Transformer Layers</a></li>
+<li><a href="#orgd3b1508">Conclusions</a></li>
+<li><a href="#orgce360b8">References</a></li>
+<li><a href="#orgd71d72b">Appendix: Layer normalization and batch normalization</a></li>
+<li><a href="#org372b320">Appendix: Positional encoding</a></li>
+<li><a href="#orga62e441">Appendix: Cross-attention</a></li>
+<li><a href="#org40079e7">Appendix: Encoder-decoder transformer</a></li>
 </ul>
 </div>
 </nav>
@@ -78,9 +78,9 @@ for reference. With this knowledge, it is even possible to train a GPT
 given sufficient data and computational resources. For an example,
 check out Karpathy's <a href="https://github.com/karpathy/nanoGPT">nanoGPT project</a> on GitHub.
 </p>
-<div id="outline-container-org0bdb2c5" class="outline-2">
-<h2 id="org0bdb2c5">Inputs and outputs</h2>
-<div class="outline-text-2" id="text-org0bdb2c5">
+<div id="outline-container-orgf17f27c" class="outline-2">
+<h2 id="orgf17f27c">Inputs and outputs</h2>
+<div class="outline-text-2" id="text-orgf17f27c">
 <p>
 Similar to its predecessors, RNN and LSTM, the transformer
 architecture is a sequence-to-sequence model. Mathematically, it
@@ -102,9 +102,9 @@ by a matrix \(X = (x_1, x_2, \ldots, x_N)^\intercal\), where \(x_n^\intercal\) i
 </p>
 </div>
 </div>
-<div id="outline-container-org96285d8" class="outline-2">
-<h2 id="org96285d8">Scaled dot-product attention</h2>
-<div class="outline-text-2" id="text-org96285d8">
+<div id="outline-container-orgad9a4ed" class="outline-2">
+<h2 id="orgad9a4ed">Scaled dot-product attention</h2>
+<div class="outline-text-2" id="text-orgad9a4ed">
 <p>
 The fundamental part of transformers is the attention function
 </p>
@@ -165,9 +165,9 @@ coefficients are proportional to the similarities.
 </p>
 </div>
 </div>
-<div id="outline-container-org582ddc8" class="outline-2">
-<h2 id="org582ddc8">Self-attention and its multihead version</h2>
-<div class="outline-text-2" id="text-org582ddc8">
+<div id="outline-container-orgde43491" class="outline-2">
+<h2 id="orgde43491">Self-attention and its multihead version</h2>
+<div class="outline-text-2" id="text-orgde43491">
 <p>
 Self-attention is an applications of the attention function in
 transformers mentioned in the attention paper. It takes a sequential
@@ -205,9 +205,9 @@ to \(H\) and obtain the output.
 </p>
 </div>
 </div>
-<div id="outline-container-org54a0b75" class="outline-2">
-<h2 id="org54a0b75">Masks in self-attention</h2>
-<div class="outline-text-2" id="text-org54a0b75">
+<div id="outline-container-org486e716" class="outline-2">
+<h2 id="org486e716">Masks in self-attention</h2>
+<div class="outline-text-2" id="text-org486e716">
 <p>
 As a sequence-to-sequence model, it is often the case that the output
 vector should depend on only a subset of the vectors within the input
@@ -262,9 +262,9 @@ Z_n = \sum_{m=1}^3 e^{a_{nm}}. \] As a result, the calculation of
 </p>
 </div>
 </div>
-<div id="outline-container-org39d11ec" class="outline-2">
-<h2 id="org39d11ec">Transformer Layers</h2>
-<div class="outline-text-2" id="text-org39d11ec">
+<div id="outline-container-org27d5da1" class="outline-2">
+<h2 id="org27d5da1">Transformer Layers</h2>
+<div class="outline-text-2" id="text-org27d5da1">
 <figure style="text-align: center;">
   <img src="./transformer-encoder-layer.png" alt="One layer of the transformer architecture" style="width: 30%;">
   <figcaption>Figure 1: One layer of the transformer architecture. Cropped from Figure 12.9 in Bishop & Bishop (2024).</figcaption>
@@ -274,7 +274,7 @@ Z_n = \sum_{m=1}^3 e^{a_{nm}}. \] As a result, the calculation of
 Figure 1 shows an overall architecture for a single transformer
 layer. It consists of two major trainable blocks, a self-attention
 block and a multilayer perceptron block. Each block is enclosed by a
-residual connection and a layer normalization; see <a href="#org3c9c1f6">the appendix</a> for a
+residual connection and a layer normalization; see <a href="#orgc77b384">the appendix</a> for a
 brief explanation of layer normalization. The pseudocode for the
 forward pass is provided below.
 </p>
@@ -322,9 +322,9 @@ transformer outputs.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf6b4c4b" class="outline-2">
-<h2 id="orgf6b4c4b">Conclusions</h2>
-<div class="outline-text-2" id="text-orgf6b4c4b">
+<div id="outline-container-orgd3b1508" class="outline-2">
+<h2 id="orgd3b1508">Conclusions</h2>
+<div class="outline-text-2" id="text-orgd3b1508">
 <p>
 The core of a transformer layer is the multi-head self-attention
 layer, whose inputs and outputs are both sequences. I have explained
@@ -338,9 +338,9 @@ references listed below.
 </p>
 </div>
 </div>
-<div id="outline-container-org7010ed6" class="outline-2">
-<h2 id="org7010ed6">References</h2>
-<div class="outline-text-2" id="text-org7010ed6">
+<div id="outline-container-orgce360b8" class="outline-2">
+<h2 id="orgce360b8">References</h2>
+<div class="outline-text-2" id="text-orgce360b8">
 <p>
 Books and Papers
 </p>
@@ -400,11 +400,11 @@ Online resources (codes)
 </ul>
 </div>
 </div>
-<div id="outline-container-org817eea1" class="outline-2">
-<h2 id="org817eea1">Appendix: Layer normalization and batch normalization</h2>
-<div class="outline-text-2" id="text-org817eea1">
+<div id="outline-container-orgd71d72b" class="outline-2">
+<h2 id="orgd71d72b">Appendix: Layer normalization and batch normalization</h2>
+<div class="outline-text-2" id="text-orgd71d72b">
 <p>
-<a id="org3c9c1f6"></a>
+<a id="orgc77b384"></a>
 </p>
 
 <p>
@@ -447,9 +447,9 @@ computes statistics over \((L, D)\); see its manual for more details.
 </p>
 </div>
 </div>
-<div id="outline-container-orga4bed78" class="outline-2">
-<h2 id="orga4bed78">Appendix: Positional encoding</h2>
-<div class="outline-text-2" id="text-orga4bed78">
+<div id="outline-container-org372b320" class="outline-2">
+<h2 id="org372b320">Appendix: Positional encoding</h2>
+<div class="outline-text-2" id="text-org372b320">
 <p>
 One limitation of the attention function is that Eq. (1) is
 <i>equivariant</i> w.r.t. row permutations. Specifically, it is not hard to
@@ -495,9 +495,9 @@ layer is no longer equivariant with respect to row permutations.
 </p>
 </div>
 </div>
-<div id="outline-container-org85e8bb6" class="outline-2">
-<h2 id="org85e8bb6">Appendix: Cross-attention</h2>
-<div class="outline-text-2" id="text-org85e8bb6">
+<div id="outline-container-orga62e441" class="outline-2">
+<h2 id="orga62e441">Appendix: Cross-attention</h2>
+<div class="outline-text-2" id="text-orga62e441">
 <p>
 Cross-attention is another application of the attention mechanism
 mentioned in the original attention paper. Different from
@@ -532,9 +532,9 @@ also help to the eliminate dependence between \(y_n\) and \(\{z_1, z_2,
 </p>
 </div>
 </div>
-<div id="outline-container-orgdda7d52" class="outline-2">
-<h2 id="orgdda7d52">Appendix: Encoder-decoder transformer</h2>
-<div class="outline-text-2" id="text-orgdda7d52">
+<div id="outline-container-org40079e7" class="outline-2">
+<h2 id="org40079e7">Appendix: Encoder-decoder transformer</h2>
+<div class="outline-text-2" id="text-org40079e7">
 <figure style="text-align: center;">
   <img src="./encoder-decoder-transformer.png" alt="Encoder-decoder transformer architecture" style="width: 60%;">
   <figcaption>Figure 2: Encoder-decoder transformer architecture. Cropped from Figure 1 in Vaswani et al. (2017).</figcaption>
@@ -560,7 +560,7 @@ holds that \[P^{-1} = P^\intercal, \quad \operatorname{Softmax}[PX] = P
 
 
 </div>
-</div><div class="taglist"></div></div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>

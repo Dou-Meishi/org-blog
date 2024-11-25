@@ -1,6 +1,6 @@
 #+TITLE: What Happens in A Transformer Layer
 #+DATE: [2024-10-30]
-#+TAGS: ai
+#+FILETAGS: ai
 
 Transformers serve as the backbone of large language models. Just as
  convolutional networks revolutionized image processing, transformers
