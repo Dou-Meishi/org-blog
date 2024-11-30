@@ -4,7 +4,239 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Mon, 25 Nov 2024 11:51:30 +0800</lastBuildDate>
+<lastBuildDate>Sat, 30 Nov 2024 10:08:30 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Use einops in Practice: An Alternative Way to Describe Tensor Operations Based on Indices]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgfe00ecc">A quick example for summations</a></li>
+<li><a href="#org8567788">Another example for permutations</a></li>
+<li><a href="#orgf79eca1">More features provided by einops</a></li>
+<li><a href="#org75a21b0">References</a></li>
+</ul>
+</div>
+</nav>
+<p>
+People are familiar with vectors and matrices operations but are less
+familiar with tensor operations. In machine learning, <i>tensors</i> often
+refer to batched vectors or batched matrices and are represented by an
+array-like object with multiple indices. Due to this reason, tensors
+operations in most Python packages, including NumPy, PyTorch and
+TensorFlow, are typically named after vectors and matrices operations.
+However, tensors themselves have a particular useful operation, called
+<i>contraction</i>, which uses index-based notations and can cover most
+vectors and matrices operations. This index-based notations
+intuitively and verbosely describe the relationship between the
+components of input and output tensors. Today's topic, the Python's
+<a href="https://github.com/arogozhnikov/einops">einops</a> package, extends these notations and provides an elegant API
+for flexible and powerful tensor operations.
+</p>
+
+<p>
+<i>Notations.</i> In this post, we use letters to denote tensors, for
+example, \(x, y\), and use brackets to denote their components, such as
+\(x[i,j,k], y[i,j]\). With a slight abuse of notation, we may also use
+\(x[i,j,k]\) directly to denote a tensor with three indices.
+</p>
+<div id="outline-container-orgfe00ecc" class="outline-2">
+<h2 id="orgfe00ecc">A quick example for summations</h2>
+<div class="outline-text-2" id="text-orgfe00ecc">
+<p>
+Consider the batched bilinear form \(x^\intercal Q y\) for batched vectors \(x\),
+\(y\) and batched matrices \(Q\). These calculations often arise when
+dealing with stochastic sequential data, e.g., \(x\), \(y\) and \(Q\) are
+elements of stochastic processes and \(x[i,j,k]\) stands for the value
+of the \(k\)-th component at time step \(i\) for the \(j\)-th sample
+path. With the index-based notations, the output tensor can be written
+as \[ \mathsf{BatchedBilinearForm}(x, Q, y)= \sum_{k,l} x[i,j,k]\,
+Q[i,j,k,l]\, y[i,j,l], \] which is a tensor with two indices \(i\) and \(j\)
+as the summation is performed over \(k\) and \(l\). The following code
+demonstrates how to do this with and without <code>einops</code> in for PyTorch
+tensors.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">without einops</span>
+<span style="color: #268bd2;">output</span> = (x * (Q @ y.unsqueeze(-1)).squeeze(-1)).<span style="color: #657b83; font-weight: bold;">sum</span>(dim=-1)
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">with einops</span>
+<span style="color: #268bd2;">output</span> = einops.einsum(x, Q, y, <span style="color: #2aa198;">"i j k, i j k l, i j l -&gt; i j"</span>)
+</pre>
+</div>
+
+<p>
+From this example, we can perceive some benefits and drawbacks of
+<code>einops</code> already.
+</p>
+
+<ol class="org-ol">
+<li>It gives the input and output shapes explicitly. The indices where
+the summations occur are deduced from these shapes. Therefore,
+while using and reading operations described by <code>einops</code> we can have
+a crystal-clear understanding of the involved tensors shapes.</li>
+<li>It offers a unified way to perform summation operations, including
+but not limited to <code>torch.dot</code>, <code>torch.bmm</code>, <code>torch.sum</code>, and so on.</li>
+<li>It describes the operations by indices directly, which is not so
+transparent if we want to translate it back to vector and matrix
+operations.</li>
+<li>It describes the operations by a string following specific
+patterns, which might be very confusing for people who are
+unfamiliar with it.</li>
+<li>It might be inefficient and slow since it needs to parse a
+string. The decreased performance might not be significant if the
+same pattern is used multiple times with caching techniques</li>
+</ol>
+
+<p>
+Despite the last performance issue, <code>einops</code> provides an <i>alternative</i> way
+to describe tensor operations based on indices. The pattern string
+gives the input and output shapes but requires additional effort to
+learn its usage.
+</p>
+</div>
+</div>
+<div id="outline-container-org8567788" class="outline-2">
+<h2 id="org8567788">Another example for permutations</h2>
+<div class="outline-text-2" id="text-org8567788">
+<p>
+The index-based notation is also intuitive for axis
+permutations. Consider a tensor \(x[t,b,c,i]\) with the shape of <code>(time,
+batch, channel, feature)</code>. If we want to permute the axes and expect
+the output tensor \(y\) to have a shape of <code>(channel, feature, batch,
+time)</code>, then we effectively mean \[ x[t,b,c,i] = y[c,i,b,t]. \] The
+following code demonstrates how to do this with and without <code>einops</code> in
+for PyTorch tensors.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">without einops</span>
+<span style="color: #268bd2;">y</span> = x.permute(2, 3, 1, 0)
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">with einops</span>
+<span style="color: #268bd2;">y</span> = einops.rearrange(x, <span style="color: #2aa198;">"t b c i -&gt; c i b t"</span>)
+</pre>
+</div>
+
+<p>
+Once again, <code>einops</code> is more intuitive as it expilcitly specifies the
+input and output shapes.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf79eca1" class="outline-2">
+<h2 id="orgf79eca1">More features provided by einops</h2>
+<div class="outline-text-2" id="text-orgf79eca1">
+<p>
+In fact, both NumPy and PyTorch provide a routine function <code>einsum</code>,
+which is actually the motivation behind <code>einops.einsum</code>. The two
+examples given above can also be achieved by <code>torch.einsum</code>
+directly. However, the einops package extends the idea further, and
+provide more advanced features. Below are some usage scenarios that I
+believe might be useful. There are also official tutorials and
+examples on <a href="https://github.com/arogozhnikov/einops">github</a>.
+</p>
+
+<ul class="org-ul">
+<li><p>
+<i>Use ellipsis</i>. For the first example on the batched bilinear form,
+the demonstrated code with <code>einops</code> is slightly restrictive than the
+pure PyTorch approach. Indeed, the pattern given there explicitly
+specifies that the input tensor \(x\) has three indices. This level of
+specification may be desired based on requirements. But if we want
+to remove this restriction, then the code can be modified to
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">output</span> = einops.einsum(x, Q, y, <span style="color: #2aa198;">"... k, ... k l, ... l -&gt; ..."</span>)
+</pre>
+</div></li>
+
+<li><p>
+<i>Reshape and check axis sizes.</i> For the second example on axis
+permutations, we can also explicitly specify axis sizes and let
+<code>einops</code> to check, say,
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">y</span> = einops.rearrange(x, <span style="color: #2aa198;">"t b c i -&gt; c i b t"</span>, t=10, c=30)
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">this is equivalent to</span>
+<span style="color: #268bd2;">t</span>, <span style="color: #268bd2;">b</span>, <span style="color: #268bd2;">c</span>, <span style="color: #268bd2;">i</span> = x.size()
+<span style="color: #859900; font-weight: bold;">assert</span> t == 10 <span style="color: #859900; font-weight: bold;">and</span> c == 30
+<span style="color: #268bd2;">y</span> = einops.rearrange(x, <span style="color: #2aa198;">"t b c i -&gt; c i b t"</span>)
+</pre>
+</div></li>
+
+<li><p>
+<i>Split axes</i>. Sometimes, we may want to split each image into 4
+pieces. For example, the following code demonstrates how to take an
+input tensor with the shape of <code>(b, c, h, w)</code> and return a tensor with
+the shape of <code>(b, c, 2, 2, h2, w2)</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">split_patches_without_einops</span>(x: torch.Tensor) -&gt; torch.Tensor:
+    <span style="color: #268bd2;">b</span>, <span style="color: #268bd2;">c</span>, <span style="color: #268bd2;">h</span>, <span style="color: #268bd2;">w</span> = x.size()
+    <span style="color: #268bd2;">y</span> = x.view(b, c, h // 2, 2, w // 2, 2)
+    <span style="color: #859900; font-weight: bold;">return</span> y.permute(0, 1, 3, 5, 2, 4)
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">split_patches_with_einops</span>(x: torch.Tensor) -&gt; torch.Tensor:
+    <span style="color: #859900; font-weight: bold;">return</span> einops.rearrange(x, <span style="color: #2aa198;">"b c (h s1) (w s2) -&gt; b c s1 s2 h w"</span>, s1=2, s2=2)
+</pre>
+</div></li>
+
+<li><p>
+<i>Join axes</i>. Sometimes, we may want to flatten a tensor by joining
+multiple axes. For example, the following code demonstrates how to
+take an input tensor with the shape of <code>(b, c, h, w)</code> and return a
+tensor with the shape of <code>(b, c*h*w)</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">join_axes_without_einops</span>(x: torch.Tensor) -&gt; torch.Tensor:
+    <span style="color: #268bd2;">b</span>, <span style="color: #268bd2;">c</span>, <span style="color: #268bd2;">h</span>, <span style="color: #268bd2;">w</span> = x.size()
+    <span style="color: #859900; font-weight: bold;">return</span> x.view(b, c * h * w)
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">join_axes_with_einops</span>(x: torch.Tensor) -&gt; torch.Tensor:
+    <span style="color: #859900; font-weight: bold;">return</span> einops.rearrange(x, <span style="color: #2aa198;">"b c h w -&gt; b (c h w)"</span>)
+</pre>
+</div></li>
+
+<li><p>
+<i>Layer</i>. It is possible to create an <code>torch.nn.Module</code> instance for an
+<code>einops.rearrange</code> operation and put it into the <code>torch.nn.Sequential</code>
+container. For example, the following code demonstrates how to build
+a simple image classifier. Note that the first layer is included to
+check axis sizes and can be skipped.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> einops.layers.torch <span style="color: #859900; font-weight: bold;">import</span> Rearrange
+
+<span style="color: #268bd2;">model</span> = torch.nn.Sequential(
+    Rearrange(<span style="color: #2aa198;">"b c h w -&gt; b c h w"</span>, c=3, h=8, w=8),
+    torch.nn.Conv2d(3, 16, 3, stride=2, padding=1),
+    Rearrange(<span style="color: #2aa198;">"b c h w -&gt; b (c h w)"</span>, c=16, h=4, w=4),
+    torch.nn.Linear(16 * 4 * 4, 120),
+    torch.nn.ReLU(),
+    torch.nn.Linear(120, 10),
+)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org75a21b0" class="outline-2">
+<h2 id="org75a21b0">References</h2>
+<div class="outline-text-2" id="text-org75a21b0">
+<ul class="org-ul">
+<li>Rogozhnikov A. (2018). Einops. GitHub. <a href="https://github.com/arogozhnikov/einops">https://github.com/arogozhnikov/einops</a></li>
+<li>Duran-Martin. G. (2021). Einsums in the wild. Notion. <a href="https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a">https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a</a></li>
+<li>Noobbodyjourney. (2021). [Discussion] Why are Einstein Sum Notations not popular in ML? They changed my life. [Reddit Post]. R/MachineLearning. <a href="https://www.reddit.com/r/MachineLearning/comments/r8tsv6/discussion_why_are_einstein_sum_notations_not/">https://www.reddit.com/r/MachineLearning/comments/r8tsv6/discussion_why_are_einstein_sum_notations_not/</a></li>
+</ul>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div>]]></description>
+  <category><![CDATA[ai]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-11-28-UseEinops/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-11-28-UseEinops/notes.html</guid>
+  <pubDate>Thu, 28 Nov 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[What Happens in A Transformer Layer]]></title>
   <description><![CDATA[

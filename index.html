@@ -29,7 +29,21 @@
 </div>
 </div>
 <div id="content">
-<h1 class=title> Recent Posts </h1><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-10-30-LearnTransformer/notes.html">What Happens in A Transformer Layer</a></h2><div class="post-date">30 Oct 2024</div><p>
+<h1 class=title> Recent Posts </h1><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-11-28-UseEinops/notes.html">Use einops in Practice: An Alternative Way to Describe Tensor Operations Based on Indices</a></h2><div class="post-date">28 Nov 2024</div><p>
+People are familiar with vectors and matrices operations but are less
+familiar with tensor operations. In machine learning, <i>tensors</i> often
+refer to batched vectors or batched matrices and are represented by an
+array-like object with multiple indices. Due to this reason, tensors
+operations in most Python packages, including NumPy, PyTorch and
+TensorFlow, are typically named after vectors and matrices operations.
+However, tensors themselves have a particular useful operation, called
+<i>contraction</i>, which uses index-based notations and can cover most
+vectors and matrices operations. This index-based notations
+intuitively and verbosely describe the relationship between the
+components of input and output tensors. Today's topic, the Python's
+<a href="https://github.com/arogozhnikov/einops">einops</a> package, extends these notations and provides an elegant API
+for flexible and powerful tensor operations.
+</p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-10-30-LearnTransformer/notes.html">What Happens in A Transformer Layer</a></h2><div class="post-date">30 Oct 2024</div><p>
 Transformers serve as the backbone of large language models. Just as
  convolutional networks revolutionized image processing, transformers
  have significantly advanced natural language processing since their
@@ -76,16 +90,7 @@ theory, called Strong Law of Large Numbers (SLLN). It states that the
 emprical mean, i.e., the mean of samples, will converge to the
 expectation of the distribution <i>almost surely</i>. Monte Carlo integration
 is actually a direct application of SLLN.
-</p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div><h2 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-03-12-AcademicCitationsandAPA/notes.html">Academic Citations and APA Style</a></h2><div class="post-date">12 Mar 2024</div><p>
-Citations are important in academic writings, not only for
-acknowledging the original authors and avoiding plagiarism, but also
-for <i>effective communication</i>. Citations help readers track the
-evolution of thought and provide the source where they can retrieve
-the original material. Citations can also add strength and authority
-to your work. In this post, I will show how to properly cite sources
-in academic writings. In particular, I will follow the APA (American
-Psychological Association) citation style.
-</p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div><div id="archive">
+</p>...<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div><div id="archive">
 <a href="https://dou-meishi.github.io/org-blog/archive.html">Other posts</a>
 </div>
 </div>
