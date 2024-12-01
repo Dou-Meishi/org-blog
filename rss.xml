@@ -4,7 +4,171 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sun, 01 Dec 2024 13:33:40 +0800</lastBuildDate>
+<lastBuildDate>Sun, 01 Dec 2024 13:34:54 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Add A Comment Section to My Blog with Giscus]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org7e2cf3e">Giscus and its basic usage</a></li>
+<li><a href="#org13413cc">Use giscus in my blog</a></li>
+<li><a href="#org30956a1">References</a></li>
+</ul>
+</div>
+</nav>
+<p>
+Early this year, I created this blog site and share some well-written
+notes on it. Since then, I really enjoy blogging and continue to post
+interesting things I learn. Recently, I came across the <a href="https://github.com/giscus/giscus/tree/main">giscus</a>
+project, a comment system powered by GitHub Discussions, which allows
+me to add a comment section to my posts. It seems to work well on my
+site after trying it, so I believe it presents a good opportunity to
+enhance this site further and encourage more exchanges of ideas.
+</p>
+
+<p>
+In this post, I will give a brief introduction to <code>giscus</code> and explain
+how I use it on this site.
+</p>
+<div id="outline-container-org7e2cf3e" class="outline-2">
+<h2 id="org7e2cf3e">Giscus and its basic usage</h2>
+<div class="outline-text-2" id="text-org7e2cf3e">
+<p>
+Several years ago, GitHub released the GitHub Discussion feature that
+provides smoother experiences of iteracting with the audience other
+than GitHub Issues. This motivates the <code>giscus</code> project, which takes
+advantage of the GitHub Discussion search API to find the Discussion
+associated with a page and display them in a comment
+section. Therefore, visitors can sign in with their GitHub account and
+leave comments in this section provided by <code>giscus</code>, which were actually
+posted as comments in GitHub Discussion.
+</p>
+
+<p>
+To enable <code>giscus</code> comments on a website, we basically need to do
+several things.
+</p>
+
+<ol class="org-ol">
+<li>Select a <i>public</i> GitHub repository which has enabled the GitHub
+Discussion feature to hold comments. We can use a new repository
+or a existing repository, as long as it is public.</li>
+
+<li>Install giscus as a GitHub APP from <a href="https://github.com/apps/giscus">this page</a> and allow it to
+access and modify data in the repository.</li>
+
+<li>Configure how <code>giscus</code> maches pages and comments by going through
+intructions on <a href="https://giscus.app/">this page</a>.  After configuration, <code>giscus</code> will give a
+short script that can be embedded into our website's template,
+appearing as a comment section.</li>
+
+<li>Paste or integrate the generated code into our website's
+template. This step depends on how we create the site. I will give
+a detailed example for my site later.</li>
+
+<li>Configure <code>giscus.json</code>. To ensure that <code>giscus</code> works properly on our
+website, we may need to create a <code>giscus.json</code> file at the root of
+the repository. This file can specify the domains that can load
+<code>giscus</code>; refer to <a href="https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md">their documentation</a>. I will also give an example
+later that I use on my site.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org13413cc" class="outline-2">
+<h2 id="org13413cc">Use giscus in my blog</h2>
+<div class="outline-text-2" id="text-org13413cc">
+<p>
+First, I choose the current blog repository to hold both posts and
+comments. Then, I install and configure <code>giscus</code> and obtain the snippet
+to be used, which is stored in <code>./static/giscus.html</code> and looks like
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">p</span>&gt;Enjoyed the read? Like and share your thoughts below. Your feedback matters!&lt;/<span style="color: #268bd2;">p</span>&gt;
+
+&lt;<span style="color: #268bd2;">script</span> <span style="color: #268bd2;">src</span>=<span style="color: #2aa198;">"https://giscus.app/client.js"</span>
+        <span style="color: #268bd2;">data-repo</span>=<span style="color: #2aa198;">"Dou-Meishi/org-blog"</span>
+        <span style="color: #268bd2;">data-repo-id</span>=<span style="color: #2aa198;">"R_kgDOLJfSOw"</span>
+        <span style="color: #268bd2;">data-category</span>=<span style="color: #2aa198;">"Announcements"</span>
+        <span style="color: #268bd2;">data-category-id</span>=<span style="color: #2aa198;">"DIC_kwDOLJfSO84CkxDd"</span>
+        <span style="color: #268bd2;">data-mapping</span>=<span style="color: #2aa198;">"pathname"</span>
+        <span style="color: #268bd2;">data-strict</span>=<span style="color: #2aa198;">"0"</span>
+        <span style="color: #268bd2;">data-reactions-enabled</span>=<span style="color: #2aa198;">"1"</span>
+        <span style="color: #268bd2;">data-emit-metadata</span>=<span style="color: #2aa198;">"0"</span>
+        <span style="color: #268bd2;">data-input-position</span>=<span style="color: #2aa198;">"bottom"</span>
+        <span style="color: #268bd2;">data-theme</span>=<span style="color: #2aa198;">"light"</span>
+        <span style="color: #268bd2;">data-lang</span>=<span style="color: #2aa198;">"en"</span>
+        <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span>
+        async&gt;
+&lt;/<span style="color: #268bd2;">script</span>&gt;
+</pre>
+</div>
+
+<p>
+The <code>data-repo</code> refers to the public repo that enables GitHub Discussion
+and is used to store comments. The <code>data-mapping</code> is set to <code>pathname</code>,
+which means <code>giscus</code> will match a page with the comments in GitHub
+Discussion by searching its pathname.
+</p>
+
+<p>
+As I showed in <a href="../2024-01-22-TryOrgStaticBlog/notes.html">the previous post</a>, this site is generated by
+<a href="https://github.com/bastibe/org-static-blog/tree/master">Org-Static-Blog</a>, a static site generator using org-mode. To add a
+comment section at the end of each post, I simply set the variable
+<code>org-static-blog-post-comments</code> to the content of <code>./static/giscus.html</code>,
+i.e.,
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(setq org-static-blog-post-comments (<span style="color: #859900; font-weight: bold;">with-temp-buffer</span>
+  (insert-file-contents (format <span style="color: #2aa198;">"%sstatic/giscus.html"</span> dms/org-static-blog-root-dir))
+  (buffer-string)))
+</pre>
+</div>
+
+<p>
+Finally, I create a <code>giscus.json</code> at the root of my blog repository to
+allow <code>giscus</code> operates on this site.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js">{
+  <span style="color: #2aa198;">"origins"</span>: [
+      <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog"</span>
+   ],
+  <span style="color: #2aa198;">"originsRegex"</span>: [
+      <span style="color: #2aa198;">"https://localhost:[0-9]+"</span>,
+  ],
+  <span style="color: #2aa198;">"defaultCommentOrder"</span>: <span style="color: #2aa198;">"newest"</span>
+}
+</pre>
+</div>
+
+<p>
+That's it! Every post generated by <code>org-static-blog</code> will now display a
+comment section. Visitors can login with GitHub account and leave
+their comments.
+</p>
+</div>
+</div>
+<div id="outline-container-org30956a1" class="outline-2">
+<h2 id="org30956a1">References</h2>
+<div class="outline-text-2" id="text-org30956a1">
+<ul class="org-ul">
+<li>Giscus (2021). Giscus. GitHub. <a href="https://github.com/giscus/giscus">https://github.com/giscus/giscus</a></li>
+<li>Zhauniarovich Y. (2023). Giscus: The New Commenting Engine for My Website. <a href="https://zhauniarovich.com/post/2021/2021-06-giscus/">https://zhauniarovich.com/post/2021/2021-06-giscus/</a></li>
+</ul>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div>
+]]></description>
+  <category><![CDATA[emacs]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2024-12-01-UseGiscusInBlog/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2024-12-01-UseGiscusInBlog/notes.html</guid>
+  <pubDate>Sun, 01 Dec 2024 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Use einops in Practice: An Alternative Way to Describe Tensor Operations Based on Indices]]></title>
   <description><![CDATA[
