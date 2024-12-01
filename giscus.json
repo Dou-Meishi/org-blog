@@ -1,0 +1,9 @@
+{
+  "origins": [
+      "https://dou-meishi.github.io/org-blog/"
+   ],
+  "originsRegex": [
+      "http://selfhost:[0-9]+"
+  ],
+  "defaultCommentOrder": "newest"
+}
