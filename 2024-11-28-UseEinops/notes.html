@@ -34,10 +34,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc3f6206">A quick example for summations</a></li>
-<li><a href="#org31e76c1">Another example for permutations</a></li>
-<li><a href="#orgc7107a1">More features provided by einops</a></li>
-<li><a href="#org115c01b">References</a></li>
+<li><a href="#org7769fe5">A quick example for summations</a></li>
+<li><a href="#orgba66c71">Another example for permutations</a></li>
+<li><a href="#org3e10c7c">More features provided by einops</a></li>
+<li><a href="#orgf1740b5">References</a></li>
 </ul>
 </div>
 </nav>
@@ -63,9 +63,9 @@ example, \(x, y\), and use brackets to denote their components, such as
 \(x[i,j,k], y[i,j]\). With a slight abuse of notation, we may also use
 \(x[i,j,k]\) directly to denote a tensor with three indices.
 </p>
-<div id="outline-container-orgc3f6206" class="outline-2">
-<h2 id="orgc3f6206">A quick example for summations</h2>
-<div class="outline-text-2" id="text-orgc3f6206">
+<div id="outline-container-org7769fe5" class="outline-2">
+<h2 id="org7769fe5">A quick example for summations</h2>
+<div class="outline-text-2" id="text-org7769fe5">
 <p>
 Consider the batched bilinear form \(x^\intercal Q y\) for batched vectors \(x\),
 \(y\) and batched matrices \(Q\). These calculations often arise when
@@ -119,9 +119,9 @@ learn its usage.
 </p>
 </div>
 </div>
-<div id="outline-container-org31e76c1" class="outline-2">
-<h2 id="org31e76c1">Another example for permutations</h2>
-<div class="outline-text-2" id="text-org31e76c1">
+<div id="outline-container-orgba66c71" class="outline-2">
+<h2 id="orgba66c71">Another example for permutations</h2>
+<div class="outline-text-2" id="text-orgba66c71">
 <p>
 The index-based notation is also intuitive for axis
 permutations. Consider a tensor \(x[t,b,c,i]\) with the shape of <code>(time,
@@ -146,9 +146,9 @@ input and output shapes.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc7107a1" class="outline-2">
-<h2 id="orgc7107a1">More features provided by einops</h2>
-<div class="outline-text-2" id="text-orgc7107a1">
+<div id="outline-container-org3e10c7c" class="outline-2">
+<h2 id="org3e10c7c">More features provided by einops</h2>
+<div class="outline-text-2" id="text-org3e10c7c">
 <p>
 In fact, both NumPy and PyTorch provide a routine function <code>einsum</code>,
 which is actually the motivation behind <code>einops.einsum</code>. The two
@@ -243,9 +243,9 @@ check axis sizes and can be skipped.
 </ul>
 </div>
 </div>
-<div id="outline-container-org115c01b" class="outline-2">
-<h2 id="org115c01b">References</h2>
-<div class="outline-text-2" id="text-org115c01b">
+<div id="outline-container-orgf1740b5" class="outline-2">
+<h2 id="orgf1740b5">References</h2>
+<div class="outline-text-2" id="text-orgf1740b5">
 <ul class="org-ul">
 <li>Rogozhnikov A. (2018). Einops. GitHub. <a href="https://github.com/arogozhnikov/einops">https://github.com/arogozhnikov/einops</a></li>
 <li>Duran-Martin. G. (2021). Einsums in the wild. Notion. <a href="https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a">https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a</a></li>
@@ -259,7 +259,7 @@ check axis sizes and can be skipped.
         data-repo-id="R_kgDOLJfSOw"
         data-category="Announcements"
         data-category-id="DIC_kwDOLJfSO84CkxDd"
-        data-mapping="title"
+        data-mapping="pathname"
         data-strict="0"
         data-reactions-enabled="1"
         data-emit-metadata="0"

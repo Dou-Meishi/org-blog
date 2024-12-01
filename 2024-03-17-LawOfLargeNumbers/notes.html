@@ -34,11 +34,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf4d5d51">Tossing a Coin: Probability as Frequency</a></li>
-<li><a href="#orgf33ec73">Application: Monte Carlo Integration</a></li>
-<li><a href="#org1deddee">Application: Bernstein's Theorem</a></li>
-<li><a href="#org93ad237">Other Types of SLLN</a></li>
-<li><a href="#orgf960266">Proof Sketch of SLLN (i.i.d. case)</a></li>
+<li><a href="#org66f764d">Tossing a Coin: Probability as Frequency</a></li>
+<li><a href="#org28dad42">Application: Monte Carlo Integration</a></li>
+<li><a href="#orgbe52e24">Application: Bernstein's Theorem</a></li>
+<li><a href="#org5e7e83b">Other Types of SLLN</a></li>
+<li><a href="#org01880ed">Proof Sketch of SLLN (i.i.d. case)</a></li>
 </ul>
 </div>
 </nav>
@@ -67,10 +67,9 @@ with a brief outline of the proof for the SLLN theorem (i.i.d. case).
 Throughout this post, for a given sequence \((a_n)\) we denote the
 cumulative average by \(\bar{a}_n := \frac{1}{n} \sum_{k=1}^n a_k\).
 </p>
-
-<div id="outline-container-orgf4d5d51" class="outline-2">
-<h2 id="orgf4d5d51">Tossing a Coin: Probability as Frequency</h2>
-<div class="outline-text-2" id="text-orgf4d5d51">
+<div id="outline-container-org66f764d" class="outline-2">
+<h2 id="org66f764d">Tossing a Coin: Probability as Frequency</h2>
+<div class="outline-text-2" id="text-org66f764d">
 <p>
 Perhaps all of us start learning about probability by this example: if
 we toss a fair coin repeatly then the frequency of heads will tend to
@@ -127,10 +126,9 @@ The essential condition in this simple proof is the finiteness of the
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgf33ec73" class="outline-2">
-<h2 id="orgf33ec73">Application: Monte Carlo Integration</h2>
-<div class="outline-text-2" id="text-orgf33ec73">
+<div id="outline-container-org28dad42" class="outline-2">
+<h2 id="org28dad42">Application: Monte Carlo Integration</h2>
+<div class="outline-text-2" id="text-org28dad42">
 <p>
 Perhaps Monte Carlo Integration is one of the most promising
 application of SLLN. Assume we want to estimate the integral \(\int_A f(x)
@@ -164,16 +162,15 @@ mean. The horizontal line is the true value of the integral, i.e.,
 </p>
 
 
-<figure id="org844882d">
+<figure id="orge73ef67">
 <img src="./sinc-square-integral.png" alt="sinc-square-integral.png">
 
 </figure>
 </div>
 </div>
-
-<div id="outline-container-org1deddee" class="outline-2">
-<h2 id="org1deddee">Application: Bernstein's Theorem</h2>
-<div class="outline-text-2" id="text-org1deddee">
+<div id="outline-container-orgbe52e24" class="outline-2">
+<h2 id="orgbe52e24">Application: Bernstein's Theorem</h2>
+<div class="outline-text-2" id="text-orgbe52e24">
 <p>
 According to the famous Weierstrass approximation theorem, any
 continuous function \(f\) on the compact set \([0, 1]\) can be uniformly
@@ -212,10 +209,9 @@ to \(f\) uniformly on \([0, 1]\).
 </p>
 </div>
 </div>
-
-<div id="outline-container-org93ad237" class="outline-2">
-<h2 id="org93ad237">Other Types of SLLN</h2>
-<div class="outline-text-2" id="text-org93ad237">
+<div id="outline-container-org5e7e83b" class="outline-2">
+<h2 id="org5e7e83b">Other Types of SLLN</h2>
+<div class="outline-text-2" id="text-org5e7e83b">
 <p>
 SLLN states that the existence of the expectation ensures the
 convergence of the empirical mean. Interestingly, the converse is also
@@ -262,10 +258,9 @@ independent and identically distributed and \(\mathbb{E}[|X_1|] = \infty\), then
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgf960266" class="outline-2">
-<h2 id="orgf960266">Proof Sketch of SLLN (i.i.d. case)</h2>
-<div class="outline-text-2" id="text-orgf960266">
+<div id="outline-container-org01880ed" class="outline-2">
+<h2 id="org01880ed">Proof Sketch of SLLN (i.i.d. case)</h2>
+<div class="outline-text-2" id="text-org01880ed">
 <p>
 The following arguments are a rephrased version from Billingsley's
 book (2008, pp. 282&#x2013;284).
@@ -383,7 +378,23 @@ For \(n_k \leq n < n_{k+1}\) (noting \(a_n \geq 0\)), there is \[
 
 
 </div>
-</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div></div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>

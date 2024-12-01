@@ -34,11 +34,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org28849b3">A Demo</a></li>
-<li><a href="#org9a9d0a8">Basic Concepts</a></li>
-<li><a href="#orgaf2698a">Typical Usage</a></li>
-<li><a href="#orgbb8e357">Caveats and Shortcomings</a></li>
-<li><a href="#org9796034">Going Further</a></li>
+<li><a href="#org9d56d85">A Demo</a></li>
+<li><a href="#orgde52666">Basic Concepts</a></li>
+<li><a href="#org2820a37">Typical Usage</a></li>
+<li><a href="#org849dc45">Caveats and Shortcomings</a></li>
+<li><a href="#org6ac0c7d">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -52,10 +52,9 @@ brought up to date by propagating the changes in each replica to the other.
 <b>Note:</b> This review is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
-
-<div id="outline-container-org28849b3" class="outline-2">
-<h2 id="org28849b3">A Demo</h2>
-<div class="outline-text-2" id="text-org28849b3">
+<div id="outline-container-org9d56d85" class="outline-2">
+<h2 id="org9d56d85">A Demo</h2>
+<div class="outline-text-2" id="text-org9d56d85">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -126,7 +125,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="org9e585ea">
+<pre class="example" id="org0529ae1">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -141,7 +140,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="org8bcbf2e">
+<pre class="example" id="orgcf0810e">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -149,7 +148,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="org39f9cf1">
+<pre class="example" id="orgb27bcb1">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -159,7 +158,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org7a8b3a9">
+<pre class="example" id="org8870807">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -180,10 +179,9 @@ click the <i>Go</i> button to set them in motion.
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org9a9d0a8" class="outline-2">
-<h2 id="org9a9d0a8">Basic Concepts</h2>
-<div class="outline-text-2" id="text-org9a9d0a8">
+<div id="outline-container-orgde52666" class="outline-2">
+<h2 id="orgde52666">Basic Concepts</h2>
+<div class="outline-text-2" id="text-orgde52666">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -303,10 +301,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </ol>
 </div>
 </div>
-
-<div id="outline-container-orgaf2698a" class="outline-2">
-<h2 id="orgaf2698a">Typical Usage</h2>
-<div class="outline-text-2" id="text-orgaf2698a">
+<div id="outline-container-org2820a37" class="outline-2">
+<h2 id="org2820a37">Typical Usage</h2>
+<div class="outline-text-2" id="text-org2820a37">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -338,10 +335,9 @@ synchronizing only with the hub.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgbb8e357" class="outline-2">
-<h2 id="orgbb8e357">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-orgbb8e357">
+<div id="outline-container-org849dc45" class="outline-2">
+<h2 id="org849dc45">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-org849dc45">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -396,10 +392,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org9796034" class="outline-2">
-<h2 id="org9796034">Going Further</h2>
-<div class="outline-text-2" id="text-org9796034">
+<div id="outline-container-org6ac0c7d" class="outline-2">
+<h2 id="org6ac0c7d">Going Further</h2>
+<div class="outline-text-2" id="text-org6ac0c7d">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>
@@ -422,7 +417,23 @@ following sections in the official manual:
 </ul>
 </div>
 </div>
-<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div></div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>

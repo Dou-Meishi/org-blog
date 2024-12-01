@@ -34,16 +34,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5c8fc58">Preferences</a></li>
-<li><a href="#org7e97b16">Setting Preference</a></li>
-<li><a href="#org87d3aac">Profiles</a></li>
-<li><a href="#org083f409">Path Specification</a></li>
-<li><a href="#orge227284">Ignoring</a></li>
-<li><a href="#orgd091ede">Backup</a></li>
-<li><a href="#org5e53aa7">Scenario: Synchronize with a USB Drive</a>
+<li><a href="#org022e9e3">Preferences</a></li>
+<li><a href="#orgd113678">Setting Preference</a></li>
+<li><a href="#org7bba22d">Profiles</a></li>
+<li><a href="#org4ccef14">Path Specification</a></li>
+<li><a href="#org93e9ea3">Ignoring</a></li>
+<li><a href="#org825797a">Backup</a></li>
+<li><a href="#org29d0a02">Scenario: Synchronize with a USB Drive</a>
 <ul>
-<li><a href="#orgfd2b414">Possible Errors</a></li>
-<li><a href="#orgfa3af5d">Syncrhonize with FAT/NTFS Filesystems</a></li>
+<li><a href="#org79df062">Possible Errors</a></li>
+<li><a href="#org23e7a8f">Syncrhonize with FAT/NTFS Filesystems</a></li>
 </ul>
 </li>
 </ul>
@@ -54,16 +54,15 @@ In the previous blog, we introduced basics of <a href="https://github.com/bcpier
 In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>ignoring</i>, <i>backup,</i> etc.
 You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
-
-<div id="outline-container-org5c8fc58" class="outline-2">
-<h2 id="org5c8fc58">Preferences</h2>
-<div class="outline-text-2" id="text-org5c8fc58">
+<div id="outline-container-org022e9e3" class="outline-2">
+<h2 id="org022e9e3">Preferences</h2>
+<div class="outline-text-2" id="text-org022e9e3">
 <p>
 Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
 options, in other words). If we type <code>unison -help</code>, then the outputs will look like
 </p>
 
-<pre class="example" id="org4b5a041">
+<pre class="example" id="orgd9e6bb0">
 Usage: unison [options]
     or unison root1 root2 [options]
     or unison profilename [options]
@@ -124,10 +123,9 @@ go through these options once by typing <code>unison -help</code>.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org7e97b16" class="outline-2">
-<h2 id="org7e97b16">Setting Preference</h2>
-<div class="outline-text-2" id="text-org7e97b16">
+<div id="outline-container-orgd113678" class="outline-2">
+<h2 id="orgd113678">Setting Preference</h2>
+<div class="outline-text-2" id="text-orgd113678">
 <p>
 There are two ways to set the values of preferences: temporarily, by providing command-line arguments
 to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
@@ -150,10 +148,9 @@ In the profile, a line in the form <code>p = value</code> works for both boolean
 </p>
 </div>
 </div>
-
-<div id="outline-container-org87d3aac" class="outline-2">
-<h2 id="org87d3aac">Profiles</h2>
-<div class="outline-text-2" id="text-org87d3aac">
+<div id="outline-container-org7bba22d" class="outline-2">
+<h2 id="org7bba22d">Profiles</h2>
+<div class="outline-text-2" id="text-org7bba22d">
 <p>
 A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
 Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
@@ -193,10 +190,9 @@ profile. Its value is listed along with the profile name in the graphical user i
 </p>
 </div>
 </div>
-
-<div id="outline-container-org083f409" class="outline-2">
-<h2 id="org083f409">Path Specification</h2>
-<div class="outline-text-2" id="text-org083f409">
+<div id="outline-container-org4ccef14" class="outline-2">
+<h2 id="org4ccef14">Path Specification</h2>
+<div class="outline-text-2" id="text-org4ccef14">
 <p>
 Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
 These preferences can be set to any of the following patterns.
@@ -217,16 +213,15 @@ In those forms, the <code>name</code> or <code>path</code> argument can be a glo
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge227284" class="outline-2">
-<h2 id="orge227284">Ignoring</h2>
-<div class="outline-text-2" id="text-orge227284">
+<div id="outline-container-org93e9ea3" class="outline-2">
+<h2 id="org93e9ea3">Ignoring</h2>
+<div class="outline-text-2" id="text-org93e9ea3">
 <p>
 We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
 in a profile tells Unison to ignore the path <code>a/b</code>:
 </p>
 
-<pre class="example" id="orgd945cd3">
+<pre class="example" id="orge65c55b">
 ignore = Path a/b
 </pre>
 
@@ -257,17 +252,16 @@ then Unison still ignores a path like <code>data/a.py</code>.</li>
 </ol>
 </div>
 </div>
-
-<div id="outline-container-orgd091ede" class="outline-2">
-<h2 id="orgd091ede">Backup</h2>
-<div class="outline-text-2" id="text-orgd091ede">
+<div id="outline-container-org825797a" class="outline-2">
+<h2 id="org825797a">Backup</h2>
+<div class="outline-text-2" id="text-org825797a">
 <p>
 When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
 it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
 to require what kind of files should be backed up. For example,
 </p>
 
-<pre class="example" id="org2f77b05">
+<pre class="example" id="orga9a959c">
 backup = Name *
 </pre>
 
@@ -301,10 +295,9 @@ then the whole directory and all the files in it will be backed up, regardless o
 </p>
 </div>
 </div>
-
-<div id="outline-container-org5e53aa7" class="outline-2">
-<h2 id="org5e53aa7">Scenario: Synchronize with a USB Drive</h2>
-<div class="outline-text-2" id="text-org5e53aa7">
+<div id="outline-container-org29d0a02" class="outline-2">
+<h2 id="org29d0a02">Scenario: Synchronize with a USB Drive</h2>
+<div class="outline-text-2" id="text-org29d0a02">
 <p>
 Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
 mounted at <code>/media/dou/KINGSTON</code>.
@@ -312,10 +305,9 @@ It is very likely that Unison will raise errors time to time. But don't worry. T
 intended and we explain them below.
 </p>
 </div>
-
-<div id="outline-container-orgfd2b414" class="outline-3">
-<h3 id="orgfd2b414">Possible Errors</h3>
-<div class="outline-text-3" id="text-orgfd2b414">
+<div id="outline-container-org79df062" class="outline-3">
+<h3 id="org79df062">Possible Errors</h3>
+<div class="outline-text-3" id="text-org79df062">
 <p>
 If our USB drive is empty, the first time we run Unison will simply copying files.
 Suppose we have done and reject the USB drive. What will happen if we accidentally
@@ -344,10 +336,9 @@ So Unison exits with <i>Fatal Error: Cannot find canonical name of &#x2026;</i>
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgfa3af5d" class="outline-3">
-<h3 id="orgfa3af5d">Syncrhonize with FAT/NTFS Filesystems</h3>
-<div class="outline-text-3" id="text-orgfa3af5d">
+<div id="outline-container-org23e7a8f" class="outline-3">
+<h3 id="org23e7a8f">Syncrhonize with FAT/NTFS Filesystems</h3>
+<div class="outline-text-3" id="text-org23e7a8f">
 <p>
 If Unison is running on a Unix-like machine but told to synchronize
 with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,
@@ -364,7 +355,23 @@ which is equivalent to
 </div>
 </div>
 </div>
-<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div></div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>

@@ -34,22 +34,21 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9b0aa15">Introduction</a></li>
-<li><a href="#orge6dd324">Background and Applications</a></li>
-<li><a href="#org92f94c7">Problem Statement and Our Solution</a></li>
+<li><a href="#org69ecc87">Introduction</a></li>
+<li><a href="#orgabd43f3">Background and Applications</a></li>
+<li><a href="#org3735534">Problem Statement and Our Solution</a></li>
 <li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#orga57bc09">Mathematical Justifications</a></li>
+<li><a href="#org1d506a5">Mathematical Justifications</a></li>
 </ul>
 </div>
 </nav>
 <p>
 <b>Authors</b>: Dou Meishi, ChatGPT
 </p>
-
-<div id="outline-container-org9b0aa15" class="outline-2">
-<h2 id="org9b0aa15">Introduction</h2>
-<div class="outline-text-2" id="text-org9b0aa15">
+<div id="outline-container-org69ecc87" class="outline-2">
+<h2 id="org69ecc87">Introduction</h2>
+<div class="outline-text-2" id="text-org69ecc87">
 <p>
 In many applications, it is often required to simulate swap operations
 on a list of elements without actually modifying the underlying data.
@@ -68,10 +67,9 @@ will explain the reasons behind our implementation and conclude.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge6dd324" class="outline-2">
-<h2 id="orge6dd324">Background and Applications</h2>
-<div class="outline-text-2" id="text-orge6dd324">
+<div id="outline-container-orgabd43f3" class="outline-2">
+<h2 id="orgabd43f3">Background and Applications</h2>
+<div class="outline-text-2" id="text-orgabd43f3">
 <p>
 Swapping elements in a list is a fundamental operation in many
 algorithms, such as sorting algorithms and combinatorial search
@@ -101,10 +99,9 @@ without affecting the original data.</li>
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org92f94c7" class="outline-2">
-<h2 id="org92f94c7">Problem Statement and Our Solution</h2>
-<div class="outline-text-2" id="text-org92f94c7">
+<div id="outline-container-org3735534" class="outline-2">
+<h2 id="org3735534">Problem Statement and Our Solution</h2>
+<div class="outline-text-2" id="text-org3735534">
 <p>
 Suppose we have a list of elements and we want to simulate swap
 operations on this list without modifying the actual data. We also want
@@ -215,7 +212,6 @@ vec.swap(2, 3)
 </div>
 </div>
 </div>
-
 <div id="outline-container-explanation-of-the-implementation" class="outline-2">
 <h2 id="explanation-of-the-implementation">Explanation of the Implementation</h2>
 <div class="outline-text-2" id="text-explanation-of-the-implementation">
@@ -262,7 +258,6 @@ respectively.
 </p>
 </div>
 </div>
-
 <div id="outline-container-conclusion" class="outline-2">
 <h2 id="conclusion">Conclusion</h2>
 <div class="outline-text-2" id="text-conclusion">
@@ -285,10 +280,9 @@ impact of different permutations without affecting the underlying data.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga57bc09" class="outline-2">
-<h2 id="orga57bc09">Mathematical Justifications</h2>
-<div class="outline-text-2" id="text-orga57bc09">
+<div id="outline-container-org1d506a5" class="outline-2">
+<h2 id="org1d506a5">Mathematical Justifications</h2>
+<div class="outline-text-2" id="text-org1d506a5">
 <p>
 It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
 </p>
@@ -423,7 +417,23 @@ It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse m
 </p>
 </div>
 </div>
-<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div></div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-think.html">think</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>

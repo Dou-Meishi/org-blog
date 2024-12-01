@@ -34,8 +34,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org718a608">Examples</a></li>
-<li><a href="#org24f0479">Properties</a></li>
+<li><a href="#org9039827">Examples</a></li>
+<li><a href="#org252985d">Properties</a></li>
 </ul>
 </div>
 </nav>
@@ -45,7 +45,7 @@ function \(q:(0,1)\to\mathbb{R}\) is defined by<sup><a id="fnr.1" class="footref
 q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
 is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
 \(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
-there is also (see the section <a href="#org24f0479">Properties</a>) \[ F(x) = \sup\{u: q(u)
+there is also (see the section <a href="#org252985d">Properties</a>) \[ F(x) = \sup\{u: q(u)
 \leq x\}.\]
 </p>
 
@@ -68,10 +68,9 @@ choose the lowest point as the proper function value while removing a
 vertical line. This reveals that, unlike distribution functions,
 quantile functions are left continuous.
 </p>
-
-<div id="outline-container-org718a608" class="outline-2">
-<h2 id="org718a608">Examples</h2>
-<div class="outline-text-2" id="text-org718a608">
+<div id="outline-container-org9039827" class="outline-2">
+<h2 id="org9039827">Examples</h2>
+<div class="outline-text-2" id="text-org9039827">
 <p>
 <i>Example 1.</i> The distribution function of a exponentially distributed random variable is
 </p>
@@ -162,10 +161,9 @@ Note that in this example, the quantile function is left continuous.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org24f0479" class="outline-2">
-<h2 id="org24f0479">Properties</h2>
-<div class="outline-text-2" id="text-org24f0479">
+<div id="outline-container-org252985d" class="outline-2">
+<h2 id="org252985d">Properties</h2>
+<div class="outline-text-2" id="text-org252985d">
 <p>
 By definition, a quantile function is clearly nondecreasing due to the
 nondecreasing nature of distribution functions. However, a quantile
@@ -177,7 +175,7 @@ continuous. Indeed, as \(q\) is nondecreasing, we can show that
 <p>
 By definition, \[ q(F(x_0)) = \inf\{x: F(x) \geq F(x_0)\} \leq x_0,
 \quad\forall x_0\in\mathbb{R}.\] This inequality even holds when
-\(F(x_0)\) equals 0 or 1<sup><a id="fnr.1.100" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.  This inequality leads to the equation
+\(F(x_0)\) equals 0 or 1<sup><a id="fnr.1.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.  This inequality leads to the equation
 \(F(x)=\sup\{u:q(u) \leq x\}\)<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. Thus, \[ F(q(u_0)) = \sup\{u: q(u)
 \leq q(u_0)\} \geq u_0,\quad\forall u_0\in(0,1).\] Similarly, the
 supremum can be replaced by maximum as \(q\) is left continuous.
@@ -239,7 +237,23 @@ However, this is true by definition.
 
 
 </div>
-</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div></div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-math.html">math</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>
