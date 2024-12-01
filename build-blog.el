@@ -16,6 +16,9 @@
 (setq org-static-blog-page-postamble (with-temp-buffer
   (insert-file-contents (format "%sstatic/postamble.html" dms/org-static-blog-root-dir))
   (buffer-string)))
+(setq org-static-blog-post-comments (with-temp-buffer
+  (insert-file-contents (format "%sstatic/giscus.html" dms/org-static-blog-root-dir))
+  (buffer-string)))
 (setq org-static-blog-index-front-matter
       "<h1 class=title> Recent Posts </h1>")
 (setq org-static-blog-enable-tags t)
