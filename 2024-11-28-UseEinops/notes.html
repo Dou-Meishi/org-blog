@@ -34,10 +34,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgfe00ecc">A quick example for summations</a></li>
-<li><a href="#org8567788">Another example for permutations</a></li>
-<li><a href="#orgf79eca1">More features provided by einops</a></li>
-<li><a href="#org75a21b0">References</a></li>
+<li><a href="#orgc26badc">A quick example for summations</a></li>
+<li><a href="#org6b3eaa3">Another example for permutations</a></li>
+<li><a href="#orgea60d5f">More features provided by einops</a></li>
+<li><a href="#org69e2ea1">References</a></li>
 </ul>
 </div>
 </nav>
@@ -63,9 +63,9 @@ example, \(x, y\), and use brackets to denote their components, such as
 \(x[i,j,k], y[i,j]\). With a slight abuse of notation, we may also use
 \(x[i,j,k]\) directly to denote a tensor with three indices.
 </p>
-<div id="outline-container-orgfe00ecc" class="outline-2">
-<h2 id="orgfe00ecc">A quick example for summations</h2>
-<div class="outline-text-2" id="text-orgfe00ecc">
+<div id="outline-container-orgc26badc" class="outline-2">
+<h2 id="orgc26badc">A quick example for summations</h2>
+<div class="outline-text-2" id="text-orgc26badc">
 <p>
 Consider the batched bilinear form \(x^\intercal Q y\) for batched vectors \(x\),
 \(y\) and batched matrices \(Q\). These calculations often arise when
@@ -119,9 +119,9 @@ learn its usage.
 </p>
 </div>
 </div>
-<div id="outline-container-org8567788" class="outline-2">
-<h2 id="org8567788">Another example for permutations</h2>
-<div class="outline-text-2" id="text-org8567788">
+<div id="outline-container-org6b3eaa3" class="outline-2">
+<h2 id="org6b3eaa3">Another example for permutations</h2>
+<div class="outline-text-2" id="text-org6b3eaa3">
 <p>
 The index-based notation is also intuitive for axis
 permutations. Consider a tensor \(x[t,b,c,i]\) with the shape of <code>(time,
@@ -146,9 +146,9 @@ input and output shapes.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf79eca1" class="outline-2">
-<h2 id="orgf79eca1">More features provided by einops</h2>
-<div class="outline-text-2" id="text-orgf79eca1">
+<div id="outline-container-orgea60d5f" class="outline-2">
+<h2 id="orgea60d5f">More features provided by einops</h2>
+<div class="outline-text-2" id="text-orgea60d5f">
 <p>
 In fact, both NumPy and PyTorch provide a routine function <code>einsum</code>,
 which is actually the motivation behind <code>einops.einsum</code>. The two
@@ -243,9 +243,9 @@ check axis sizes and can be skipped.
 </ul>
 </div>
 </div>
-<div id="outline-container-org75a21b0" class="outline-2">
-<h2 id="org75a21b0">References</h2>
-<div class="outline-text-2" id="text-org75a21b0">
+<div id="outline-container-org69e2ea1" class="outline-2">
+<h2 id="org69e2ea1">References</h2>
+<div class="outline-text-2" id="text-org69e2ea1">
 <ul class="org-ul">
 <li>Rogozhnikov A. (2018). Einops. GitHub. <a href="https://github.com/arogozhnikov/einops">https://github.com/arogozhnikov/einops</a></li>
 <li>Duran-Martin. G. (2021). Einsums in the wild. Notion. <a href="https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a">https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a</a></li>
@@ -253,7 +253,23 @@ check axis sizes and can be skipped.
 </ul>
 </div>
 </div>
-<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div></div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
 <div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
 </div>
 </body>
