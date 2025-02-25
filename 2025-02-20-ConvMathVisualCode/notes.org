@@ -1,0 +1,458 @@
+#+TITLE: Gradients of Convolution: Direct Computation and Linear Algebra Perspective
+#+DATE: [2025-02-20]
+#+FILETAGS: ai
+
+Convolution operations are foundational in deep learning for
+extracting features in image tasks. Calculating their gradients is
+critical for training convolutional neural networks, enabling
+backpropagation to update parameters and minimize loss. This post
+derives these gradients through two complementary approaches: direct
+differentiation of the convolution definition, and a linear algebra
+perspective which naturally introduces the /transposed convolution/
+(also known as /deconvolution/).
+
+Before proceeding, we clarify a key terminological nuance: this posts
+adopts the definitions of /correlation/ and /convolution/ in signal
+processing. These differ from the operation conventionally termed
+"convolution" in deep learning frameworks (which technically should be
+correlation in signal processing). To avoid ambiguity, we explicitly
+append "DL" to deep learning-specific usages (e.g., "convolution-DL")
+throughout this post.
+
+We begin by giving an explicit definition of the convolution-DL in the
+one-dimensional case, which can be easily generalized to
+two-dimensional and three dimensional cases.  We then review the
+vector-Jacobian product (VJP) framework and apply it to calculate the
+gradient of convolution, thereby completing the first part of this
+post. To develop the linear algebra approach, we first define the
+underlying linear space and some key notations. After that, we
+introduce the standard definitions of correlation and convolution in
+signal processing. These operators are linear and calculating their
+vector-Jacobian products naturally involves considering their adjoint
+operators. This motivates the concept of transposed convolution,
+defined by the adjoint operator of convolution in deep learning. For
+concision, we place some technical details in appendices, including a
+detailed explanation of the convolution-DL definition and derivations
+for the two-dimensional case. Python code is also included to
+benchmark our formulae against the PyTorch implementations.
+
+/Convention./ We index vectors with brackets starting from 0 (e.g.,
+$x[0]$ and $x[i]$). Out-of-bounds indices are implicitly evaluated
+to 0. For example, a vector $x$ with 6 elements would treat $x[-1]$
+and $x[6]$ as 0.
+
+** The definition of convolution in deep learning
+
+The one-dimensional convolution-DL operation is defined by $$ y[t] =
+\sum_\tau x[st+\tau-p] \cdot w[\tau], \quad 0 \leq t
+\leq \lfloor (I - K + 2p) / s \rfloor. $$
+
+Let us briefly explain the symbols in this equation.
+
+- The input is $x[i]$ ($0 \leq i \leq I - 1$).
+- The output is $y[t]$ ($0 \leq t \leq T-1$), where $T:= 1 + \lfloor (I - K + 2p)
+  / s \rfloor$.
+- The kernel is $w[\tau]$ ($0 \leq \tau \leq K - 1$).
+- The stride $s$ is a nonzero integer.
+- The padding $p$ is the number of zeros padded to both sides of $x$.
+
+For simplicity, we denote this function by
+$y=\operatorname{Conv-DL}(x,w;s,p)$ afterwards.  See [[#appendix-explanation-convolution-DL][the appendix]] for
+how this compact formulation is obtained.  This definition aligns with
+the PyTorch implementation [[https://pytorch.org/docs/stable/generated/torch.nn.Conv1d.html][torch.nn.Conv1d]], except that we ignore the
+bias term and do not take linear combination of convolutions over
+multiple kernels.
+
+In practice, we determine the boundary of the summation index $\tau$ by
+removing zero terms. As invalid indices won't contribute to the sum,
+we may require
+#+BEGIN_export HTML
+$$ \left. \begin{aligned}
+&0 \leq st + \tau - p \leq I - 1\\
+&0 \leq \tau \leq K - 1
+\end{aligned} \right\} \quad \Rightarrow \quad \max(0, p-st) \leq \tau \leq \min(K-1,I-1+p-st). $$
+#+END_export
+
+For the two-dimensional case, we simply do convolution-DL in different
+dimensions independently, e.g., $$ y[t_1,t_2] = \sum_{\tau_1,\tau_2}
+x[s_1t_1+\tau_1-p_1,s_2t_2+\tau_2-p_2] \cdot w[\tau_1,\tau_2]. $$ The boundaries of
+indices $t_1$ and $t_2$ can be calculated by the previous
+formula. The extension to three-dimensional is similar.
+
+** Method 1: Direct calculation
+
+If we view convolution-DL as a function of the input $x$ and the
+kernel $w$, then the gradients $\partial y / \partial x$ and $\partial y/ \partial w$ would be
+matrices, also known as the Jacobian matrices. In deep learning,
+however, we rarely calculate Jacobian matrices directly. In most
+cases, the purpose is to perform backpropagation from a scalar loss
+function and it is sufficient to calculate the vector-Jacobian product
+(VJP). Given a vector $v$ (with the same shape as $y$), the VJP is
+defined by
+#+BEGIN_export HTML
+$$ \begin{aligned}
+\operatorname{VJP}_\text{Conv-DL}(x,v)[i] &:= \sum_t \frac{\partial y[t]}{\partial x[i]}v[t],\\
+\operatorname{VJP}_\text{Conv-DL}(w,v)[\tau] &:= \sum_t \frac{\partial y[t]}{\partial w[\tau]}v[t].
+\end{aligned} $$
+#+END_export
+Usually, the vector $v$ is set to the upstream derivative $\partial L / \partial y$,
+i.e., the derivative of the loss $L$ w.r.t. $y$. In this case, these
+vector-Jacobian products give the gradient $\partial L / \partial x$ and $\partial L / \partial
+w$, allowing for gradient-based methods to update $w$ or to further
+propagate $\partial L/\partial x$.
+
+For the one-dimensional case, the vector-Jacobian product of convolution-DL w.r.t. the input is
+#+BEGIN_export HTML
+$$ \begin{aligned}
+\operatorname{VJP}_\text{Conv-DL}(x,v)[i] &= \sum_t \frac{\partial y[t]}{\partial x[i]}v[t] \\
+&= \sum_t v[t] \frac{\partial }{\partial x[i]} \sum_\tau x[st+\tau-p]\cdot w[\tau] \\
+&= \sum_t v[t] \frac{\partial }{\partial x[i]} \sum_{i'} x[i']\cdot w[i'+p-st] \\
+&= \sum_t w[i+p-st] \cdot v[t].
+\end{aligned} $$
+#+END_export
+Noting that only valid indices contribute to the sum, we could
+determine the boundary of the summation index $t$ by
+#+BEGIN_export HTML
+$$ \left. \begin{aligned}
+&0 \leq i + p - st \leq K - 1\\
+&0 \leq t \leq T - 1
+\end{aligned} \right\} \quad \Rightarrow \quad \max(0, \biggl\lceil\frac{i+p-K+1}{s} \biggr\rceil) \leq t \leq \min(T-1,\biggl\lfloor
+\frac{i+p}{s} \biggr\rfloor). $$
+#+END_export
+
+*Observation.* The vector-Jacobian products of convolution-DL looks like
+a convolution-DL of $v$ and $w$ with fractional stride $1/s$. Indeed,
+the transposed convolution in deep learning is exactly defined by the
+this vector-Jacobian product, which is also called
+/fractionally-strided convolution/ or /decovolution/. We will discuss this
+topic in the following sections.
+
+** Notations and linear operators
+
+Let us consider the space of finite sequences $$\Omega:=\{x\in\mathbb{R}^{\mathbb{Z}}:
+\text{only finitely many elements of } x \text{ are nonzero.} \}.$$
+Clearly, this is a linear space and we can equip it with the standard
+inner product $$\langle x,y\rangle:=\sum_i x[i]\cdot y[i], \quad \forall x,y\in\Omega.$$ An operator
+$A$ on $\Omega$ is said to be /linear/ if it satisfies the additivity and
+homogeneity properties, i.e., for any $x,y\in\Omega$ and any real number $k$,
+$$ A(x+y) = Ax + Ay, \quad A(kx) = k(Ax). $$ The adjoint operator
+$A^*$ of $A$ is defined by the following property $$ \langle Ax, y\rangle = \langle x,
+A^*y\rangle, \quad \forall x,y\in\Omega. $$
+
+*Observation.* Once an operator is linear, its vector-Jacobian product
+can be directly calculated using its adjoint operator $$
+\operatorname{VJP}_A(x,v) := \frac{\partial \langle Ax, v\rangle }{\partial x} = \frac{\partial \langle x,
+A^*v\rangle}{\partial x} = A^*v. $$
+
+/Convention./ We use double brackets for closed intervals over integers,
+e.g., $\llbracket-1, 3\rrbracket:=[-1,3]\cap\mathbb{Z}$.
+
+** Downsampling and upsampling operators
+
+For a nonzero integer $s$ and an arbitrary integer $p$, define the
+downsampling operator $D_{s,p}$ and upsampling operator $U_{s,p}$ by
+#+BEGIN_export HTML
+$$ \begin{aligned}
+(D_{s,p}x)[t] &:= x[st+p], \\
+(U_{s,p}x)[t] &:= \begin{cases} x[(t+p)/s], &\quad \text{ if } (t+p)/s \in \mathbb{Z}, \\ 0, &\quad \text{ otherwise}.  \end{cases}
+\end{aligned} $$
+#+END_export
+
+We abbreviate the notation to $D_s$ and $U_s$ if $p=0$.
+
+Note that both downsampling and upsampling operators are linear on
+$\Omega$. Moreover, they are adjoint operators to each other $$ \langle
+D_{s,-p}x, y\rangle = \sum_t x[st-p]\cdot y[t] = \sum_{i\in\{st-p\,|\, t\in\mathbb{Z}\}} x[i] \cdot
+y[(i + p) /s] = \langle x, U_{s,p}y\rangle. $$ Hence, $D_{s,p}^* = U_{s,-p}$ and
+$U_{s,p}^* = D_{s,-p}$. Furthermore, they are unitary operators $$
+D_{s,p}D_{s,p}^* = D_{s,p}^*D_{s,p} = I, \quad U_{s,p}U_{s,p}^* =
+U_{s,p}^*U_{s,p} = I.  $$
+
+In particular, the flipping operator $R:=D_{-1,0}$ and shifting
+operator $S_p:=D_{1,p}$ are also unitary.  Moreover, it holds that
+#+BEGIN_export HTML
+$$ \begin{aligned}
+RS_p&= S_{-p}R, &\quad (RS_p)^* &= RS_p, \\
+D_{s,p}&= D_sS_p, &\quad U_{s,p} &= S_pU_s.
+\end{aligned} $$
+#+END_export
+
+** Correlation and convolution
+
+For any $x,y\in\Omega$, the correlation and convolution in signal processing are defined by
+#+BEGIN_export HTML
+$$ \begin{aligned}
+\operatorname{Corr}(x,w)[t] &:= \langle S_t x,w \rangle = \sum_\tau x[t+\tau]\cdot w[\tau],\\
+\operatorname{Conv}(x,w)[t] &:= \langle  S_t x,Rw  \rangle = \sum_\tau x[t+\tau]\cdot w[-\tau].
+\end{aligned} $$
+#+END_export
+
+Fix the kernel $w$. Both the correlation and convolution are linear
+operators w.r.t. $x$. Due to this reason, we introduce the following
+notations $$ C_w x := \operatorname{Corr}(x, w), \quad C^*_w x:=
+\operatorname{Conv}(x, w).  $$
+
+*Observation.* Correlation and convolution are adjoint operators $$ \langle
+C_w x, y\rangle = \sum_{\tau,t}x[t+\tau]\cdot w[\tau]\cdot y[t] = \sum_{\tau,i}x[i]\cdot y[i-\tau]\cdot w[\tau] = \langle
+x, C_w^* y\rangle.  $$ Therefore, we could foresee that the vector-Jacobian
+product of correlation is convolution and vice versa.
+#+BEGIN_export HTML
+$$ \begin{aligned}
+\operatorname{VJP}_\text{Corr}(x, v) &:= \frac{\partial \langle C_w x , v\rangle}{\partial x} = \frac{\partial \langle x, C_w^* v\rangle}{\partial x} = C_w^* v = \operatorname{Conv}(v, w),\\
+\operatorname{VJP}_\text{Conv}(x, v) &:= \frac{\partial \langle C_w^* x, v\rangle}{\partial x} = \frac{\partial \langle x, C_w v\rangle}{\partial x} = C_w v = \operatorname{Corr}(v, w).
+\end{aligned} $$
+#+END_export
+
+*Observation.* Convolution is symmetric w.r.t. its two arguments but
+correlation is not $$ C_w^*x=C_x^*w, \quad C_wx = R C_xw. $$ Moreover,
+convolution is equivalent to correlation with the flipped kernel $Rw$.
+$$ C_w^*x = C_{Rw}x. $$ In particular, if the kernel is symmetric,
+then the output of correlation and convolution are identical $$ C_w^*x
+= C_{Rw}x = C_xw, \quad \text{ if } Rw=w. $$
+
+** Method 2: Linear algebra perspective
+
+Let us reconsider the convolution operation in deep learning. Rewrite
+it with linear operators $$ \operatorname{Conv-DL}(x,w;s,p) \equiv
+D_{s,-p}C_wx. $$ That is, the convolution-DL is equivalent to first
+perform correlation and then downsampling. The vector-Jacobian product
+w.r.t. $x$ is clearly $C_w^* U_{s,p} v$, i.e., first upsampling the
+upstream derivative and then perform correlation with the flipped
+kernel; see also [[https://github.com/vdumoulin/conv_arithmetic][here]] for animations of these operations.
+
+The /transposed convolution/ in deep learning is defined by this adjoint
+operator, $$ \operatorname{TransposedConv-DL}(v, w; s, p):=
+C^*_wU_{s,p}v.  $$ We may verify that this aligns with our /Method 1/
+#+BEGIN_export HTML
+$$ \begin{aligned}
+(C^*_wU_{s,p}v)[i]
+&= \operatorname{Corr}(U_{s,p}v, Rw)[i] \\
+&= \langle S_iS_pU_{s}v, Rw \rangle \\
+&= \langle v, D_s S_{-i-p} Rw \rangle \\
+&= \langle v, D_s R S_{i+p}w \rangle \\
+&= \langle v, D_{-s, i+p}w \rangle \\
+&= \sum_t v[t] \cdot w[-st + i + p].
+\end{aligned} $$
+#+END_export
+
+** Transposed convolution in deep learning
+
+Mathematically, the transposed convolution in deep
+learning is defined by the adjoint operator of convolution-DL. As
+shown above, the explicit definition is $$ u[i] = \sum_{t=\max(0,
+\lceil\frac{i+p-K+1}{s} \rceil)}^{\min(T-1,\lfloor \frac{i+p}{s} \rfloor)} w[i+p-st]\cdot
+v[t]. $$ Here is a brief review of the notations.
+
+- The input is $v[t]~(0 \leq t \leq T-1)$.
+- The output is $u[i]~(0 \leq i \leq I^* - 1)$, where $I^*:= s(T-1)-2p+K + p^*$.
+- The kernel is $w[\tau]~(0 \leq \tau \leq K-1)$.
+- The (input) padding is $p$.
+- The stride is $s$.
+- The output padding is $p^*$.
+
+While the input padding $p$ and output padding $p^*$ might initially
+seem confusing, it is important to clarify that $p^*$ serves
+exclusively to truncate the support of the result $u$. Unlike $p$, the
+output padding $p^*$ does not influence the calculation of $u[i]$, but
+determines the output shape $I^*$. Below we justify the reason why
+$p^*$ is useful.
+
+Note that $u[i]$ is by definition zero if the summation is void. We
+focus on indices $i$ satisfying $$ \max(0,
+\biggl\lceil\frac{i+p-K+1}{s}\biggr\rceil) \leq \min(T-1, \biggl\lfloor \frac{i+p}{s}
+\biggr\rfloor). $$ Solving this for $i$ yields $$ -p \leq i \leq
+s(T-1)-p+K - 1. $$ Indices outside this range would be evaluated
+to 0. In practice, however, we expect $u$ has the same shape as
+another tensor and require $0 \leq i \leq I - 1$, where $I$ is some positive
+integer, e.g., when calculating the vector-Jacobian product of
+convolution-DL. To adjust the output shape, we may choose $p^*$ such
+that $I^*=I$; see also the next section for a concrete example.
+
+** A practical example
+
+To conclude this post, we use a simple example to demonstrate the
+calculation. Given a convolution-DL operation $y=
+\operatorname{Conv-DL}(x,w;s,p)$ and an upstream derivative $\partial L/\partial y$,
+we calculate the gradient $\partial L/\partial x$ using the transposed convolution
+in deep learning.
+
+According to the results established in previous sections $$ \frac{\partial
+L}{\partial x[i]} = \operatorname{TransposedConv-DL}(\frac{\partial L}{\partial y}, w;
+s,p)[i], \quad \forall i. $$ The practical issue here is to ensure the
+output of the right-hand side matches the shape of $x$. Specifically,
+compute and only compute the indices $0 \leq i \leq I-1$, where $I$ is the
+length of $x$. In this case, we may adjust the output padding number
+$p^*$ to align the shape of the output with $I$. Setting
+$s(T-1)-2p+K + p^* = I$ yields $$p^*=I - s(T-1)+2p-K.$$
+
+Here is a simple example to verify our formulae for the output
+padding. Let $I=10,~K=3,~s=2,~p=1$. The length of $y$ is
+$T=1+\lfloor(I-K+2p)/s \rfloor=5$. Then, the output padding should be $p^*=1$.
+The following script compares the gradient and the result of
+transposed convolution.
+
+#+BEGIN_SRC python
+import torch
+
+x = torch.randn(1, 1, 10, requires_grad=True)
+w = torch.randn(1, 1, 3)
+s = 2
+p = 1
+
+y = torch.nn.functional.conv1d(x, w, stride=s, padding=p)
+v = torch.rand_like(y, requires_grad=False)
+
+# calculate the gradient by autograd
+loss = torch.sum(v * y)
+loss.backward()
+
+# calculate the gradient manually by transposed convolution
+with torch.no_grad():
+    # output_padding = x.shape[-1] - s * (y.shape[-1] - 1) + 2 * p - w.shape[-1]
+    # it equals to 1 in this case
+    output_padding = 1
+    u = torch.nn.functional.conv_transpose1d(
+        v, w, stride=s, padding=p, output_padding=output_padding
+    )
+
+# compare these two results
+assert torch.allclose(x.grad, u)
+print("Test passed.")
+#+END_SRC
+
+Implementation details of convolution-DL and transposed convolution
+are left in the appendix.
+
+** Appendix: Benchmark against PyTorch implementations
+
+To validate our formulae for convolution and transposed convolution in
+deep learning, we implement them in Python and benchmark them against
+PyTorch implementations [[https://pytorch.org/docs/stable/generated/torch.nn.functional.conv1d.html][conv1d]] and [[https://pytorch.org/docs/stable/generated/torch.nn.functional.conv_transpose1d.html][convTranspose1d]]. The complete
+script is available [[./code/test_conv.py][here]]. Running this test script confirms that our
+formulae are consistent with PyTorch implementations.
+
+For convolution in deep learning, we use the following formula $$ y[t]
+= \sum_{\tau=\max(0,p-st)}^{\min(K-1,I-1+p-st)} x[st+\tau -p] \cdot w[\tau], \quad 0 \leq t \leq \lfloor (I -K +2p) /s\rfloor. $$ Here,
+$x[i]$ ($0\leq i \leq I-1$) is the input and $w[\tau]$ ($0\leq \tau\leq K-1$) is the
+kernel. The nonzero integer $s$ is the stride and the integer $p$ is
+the number of zeros padded to both side of $x$.
+
+#+BEGIN_SRC python
+def my_conv1d_DL(x: np.ndarray, w: np.ndarray, s: int = 1, p: int = 0) -> np.ndarray:
+    assert x.ndim == 1 and w.ndim == 1
+    I, K = x.shape[-1], w.shape[-1]
+    y = []
+    for t in range(1 + math.floor((I - K + 2 * p) / s)):
+        end = min(K - 1, I - 1 + p - s * t)
+        start = max(0, p - s * t)
+        y.append(sum(w[tau] * x[s * t - p + tau] for tau in range(start, end + 1)))
+    return np.stack(y, axis=-1)
+#+END_SRC
+
+For transposed convolution in deep learning, we use the following
+formula $$ u[i] = \sum_{t=\max(0, \lceil\frac{i+p-K+1}{s} \rceil)}^{\min(T-1,\lfloor
+\frac{i+p}{s} \rfloor)} w[i+p-st]\cdot v[t], \quad 0 \leq i \leq s(T-1)-2p+K-1+p^* . $$
+
+Here, $v[t]$ ($0\leq t \leq T-1$) is the input and $w[\tau]$ ($0\leq \tau\leq K-1$) is
+the kernel. The nonzero integer $s$ is the stride, the integer $p$ is
+the padding, and the integer $p^*$ is the output padding.
+
+#+BEGIN_SRC python
+def my_convtransposed1d_DL(
+    v: np.ndarray,
+    w: np.ndarray,
+    s: int = 1,
+    p: int = 0,
+    pstar: int = 0,
+) -> np.ndarray:
+    assert v.ndim == 1 and w.ndim == 1
+    T, K = v.shape[-1], w.shape[-1]
+    u = []
+    for i in range(s * (T - 1) - 2 * p + K + pstar):
+        end = min(T - 1, math.floor((i + p) / s))
+        start = max(0, math.ceil((i + p - K + 1) / s))
+        u.append(sum(v[t] * w[i + p - s * t] for t in range(start, end + 1)))
+    return np.stack(u, axis=-1)
+#+END_SRC
+
+** Appendix: The two-dimensional case
+
+Recall that the two-dimensional convolution-DL operation is defined by
+$$ y[t_1,t_2] = \sum_{\tau_1,\tau_2} x[s_1t_1+\tau_1-p_1,s_2t_2+\tau_2-p_2] \cdot
+w[\tau_1,\tau_2]. $$
+Direct differentiation yields
+#+BEGIN_export HTML
+$$ \begin{aligned}
+\operatorname{VJP}_\text{Conv-DL}(x,v)[i_1,i_2] &= \sum_{t_1,t_2} \frac{\partial y[t_1,t_2]}{\partial x[i_1,i_2]}v[t_1,t_2] \\
+&= \sum_{t_1,t_2} v[t_1,t_2] \frac{\partial }{\partial x[i_1,i_2]} \sum_{\tau_1,\tau_2} x[s_1t_1+\tau_1-p_1,s_2t_2+\tau_2-p_2]\cdot w[\tau_1,\tau_2] \\
+&= \sum_{t_1,t_2} v[t_1,t_2] \frac{\partial }{\partial x[i_1,i_2]} \sum_{i'_1,i'_2} x[i'_1,i'_2]\cdot w[i'_1+p_1-s_1t_1,i'_2+p_2-s_2t_2] \\
+&= \sum_{t_1,t_2} w[i_1+p_1-s_1t_1,i_2+p_2-s_2t_2] \cdot v[t_1,t_2].
+\end{aligned} $$
+#+END_export
+The boundary of the summation index $t_\alpha~(\alpha=1,2)$ can be determined by
+#+BEGIN_export HTML
+$$ \left. \begin{aligned}
+&0 \leq i_\alpha + p_\alpha - s_\alpha t_\alpha \leq K_\alpha - 1\\
+&0 \leq t_\alpha \leq T_\alpha - 1
+\end{aligned} \right\} \quad \Rightarrow \quad \max(0, \biggl\lceil\frac{i_\alpha+p_\alpha-K_\alpha+1}{s_\alpha} \biggr\rceil) \leq t_\alpha \leq \min(T_\alpha-1,\biggl\lfloor
+\frac{i_\alpha+p_\alpha}{s_\alpha} \biggr\rfloor). $$
+#+END_export
+
+To apply the linear algebra method, we should define the linear space
+first $$ \Omega(\mathbb{Z}^2):= \{x:\mathbb{Z}^2 \to \mathbb{R}\, |\,\exists E \subset \mathbb{Z}^2,~~E \text{ is finite and
+for any } \eta\not\in E,~~ x[\eta]=0.  \}. $$ We also equip it with the
+standard inner product $$ \langle x,y \rangle := \sum_{\eta \in \mathbb{Z}^2} x[\eta]\cdot y[\eta], \quad \forall
+x,y \in \Omega(\mathbb{Z}^2). $$ For any $w \in \Omega(\mathbb{Z}^2)$, define the correlation operator
+and convolution operator by
+#+BEGIN_export HTML
+$$ \begin{aligned}
+(C_wx)[t_1,t_2] &:= \operatorname{Corr}(x,w)[t_1,t_2] = \langle S_{t_1;t_2}x, w \rangle,\\
+(C_w^*x)[t_1,t_2] &:= \operatorname{Conv}(x,w)[t_1,t_2] = \langle S_{t_1;t_2}x, Rw \rangle.
+\end{aligned} $$
+#+END_export
+Then, we rewrite the two-dimensional convolution-DL by linear
+operators $$ \operatorname{Conv-DL}(x,w;s_1,p_1;s_2,p_2) \equiv
+D_{(s_1,-p_1);(s_2,-p_2)} C_w x. $$ Its adjoint operator, i.e., the
+two-dimensional transpoed convolution in deep learning, is $$
+\operatorname{TransposedConv-DL}(v,w;s_1,p_1;s_2,p_2):=C_w^*U_{(s_1,p_1);(s_2,p_2)}v.
+$$
+
+** Appendix: Explanation of the convolution-DL
+:PROPERTIES:
+:CUSTOM_ID: appendix-explanation-convolution-DL
+:END:
+
+1. How to do valid correlation?
+
+   $$ y[t] = \sum_\tau x[t+\tau] \cdot w[\tau].$$
+
+   We require that during the summation these indices remain valid, i.e.,
+   remain in their support respectively.  $$ \forall t\in
+   \operatorname{Supp}(y),\forall \tau\in \operatorname{Supp}(w), t+\tau \in
+   \operatorname{Supp}(x).  $$ Solving this yields $$ t +0 \geq 0, \quad t +
+   K-1 \leq I-1.  $$ Hence, we have $0 \leq t \leq I-K$.
+
+2. How to do valid correlation with padding?
+
+   After padding, the valid indices of $x$ is enlarged to $\llbracket -p,
+   I-1+p\rrbracket$, leading to $$ t+0 \geq -p, \quad t+K-1\leq I-1+p. $$ Then, we
+   have $-p \leq t \leq I - K + p$. Thus, we should correct the formula to
+   $$ y[t] = \tilde{y}[t-p] = \sum_\tau x[t+\tau-p]\cdot w[\tau], \quad 0 \leq t \leq I -
+   K + 2p.  $$
+
+3. How to do valid correlation with both padding and stride?
+
+   Notice that convolution with stride is equivalent to first
+   performing a convolution with unit stride and then downsampling the
+   result by a factor of $s$
+
+   #+BEGIN_export HTML
+   $$ \begin{aligned}
+   z[t] &= \sum_\tau x[t + \tau - p]\cdot w[\tau], \quad 0 \leq t \leq I -K + 2p,\\
+   y[t] &= z[ st ], \quad 0 \leq t \leq \lfloor (I -K +2p) /s\rfloor.
+   \end{aligned} $$
+   #+END_export
+
+Putting it together, we have
+$$ y[t] = \sum_\tau x[st+\tau -p] \cdot w[\tau], \quad 0 \leq t \leq \lfloor (I -K +2p) /s\rfloor. $$
+
