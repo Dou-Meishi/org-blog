@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Tue, 25 Feb 2025 22:16:10 +0800</lastBuildDate>
+<lastBuildDate>Wed, 26 Feb 2025 09:48:40 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Gradients of Convolution: Direct Computation and Linear Algebra Perspective]]></title>
   <description><![CDATA[
@@ -753,16 +753,16 @@ their comments.
   <pubDate>Sun, 01 Dec 2024 00:00:00 +0800</pubDate>
 </item>
 <item>
-  <title><![CDATA[Use einops in Practice: An Alternative Way to Describe Tensor Operations Based on Indices]]></title>
+  <title><![CDATA[Practical Einops: Tensor Operations Based on Indices]]></title>
   <description><![CDATA[
 <nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7769fe5">A quick example for summations</a></li>
-<li><a href="#orgba66c71">Another example for permutations</a></li>
-<li><a href="#org3e10c7c">More features provided by einops</a></li>
-<li><a href="#orgf1740b5">References</a></li>
+<li><a href="#orge036a52">A quick example for summations</a></li>
+<li><a href="#orgd511de3">Another example for permutations</a></li>
+<li><a href="#org061c370">More features provided by einops</a></li>
+<li><a href="#org9870668">References</a></li>
 </ul>
 </div>
 </nav>
@@ -788,9 +788,9 @@ example, \(x, y\), and use brackets to denote their components, such as
 \(x[i,j,k], y[i,j]\). With a slight abuse of notation, we may also use
 \(x[i,j,k]\) directly to denote a tensor with three indices.
 </p>
-<div id="outline-container-org7769fe5" class="outline-2">
-<h2 id="org7769fe5">A quick example for summations</h2>
-<div class="outline-text-2" id="text-org7769fe5">
+<div id="outline-container-orge036a52" class="outline-2">
+<h2 id="orge036a52">A quick example for summations</h2>
+<div class="outline-text-2" id="text-orge036a52">
 <p>
 Consider the batched bilinear form \(x^\intercal Q y\) for batched vectors \(x\),
 \(y\) and batched matrices \(Q\). These calculations often arise when
@@ -844,9 +844,9 @@ learn its usage.
 </p>
 </div>
 </div>
-<div id="outline-container-orgba66c71" class="outline-2">
-<h2 id="orgba66c71">Another example for permutations</h2>
-<div class="outline-text-2" id="text-orgba66c71">
+<div id="outline-container-orgd511de3" class="outline-2">
+<h2 id="orgd511de3">Another example for permutations</h2>
+<div class="outline-text-2" id="text-orgd511de3">
 <p>
 The index-based notation is also intuitive for axis
 permutations. Consider a tensor \(x[t,b,c,i]\) with the shape of <code>(time,
@@ -871,9 +871,9 @@ input and output shapes.
 </p>
 </div>
 </div>
-<div id="outline-container-org3e10c7c" class="outline-2">
-<h2 id="org3e10c7c">More features provided by einops</h2>
-<div class="outline-text-2" id="text-org3e10c7c">
+<div id="outline-container-org061c370" class="outline-2">
+<h2 id="org061c370">More features provided by einops</h2>
+<div class="outline-text-2" id="text-org061c370">
 <p>
 In fact, both NumPy and PyTorch provide a routine function <code>einsum</code>,
 which is actually the motivation behind <code>einops.einsum</code>. The two
@@ -968,9 +968,9 @@ check axis sizes and can be skipped.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf1740b5" class="outline-2">
-<h2 id="orgf1740b5">References</h2>
-<div class="outline-text-2" id="text-orgf1740b5">
+<div id="outline-container-org9870668" class="outline-2">
+<h2 id="org9870668">References</h2>
+<div class="outline-text-2" id="text-org9870668">
 <ul class="org-ul">
 <li>Rogozhnikov A. (2018). Einops. GitHub. <a href="https://github.com/arogozhnikov/einops">https://github.com/arogozhnikov/einops</a></li>
 <li>Duran-Martin. G. (2021). Einsums in the wild. Notion. <a href="https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a">https://grrddm.notion.site/Einsums-in-the-wild-bd773f01ba4c463ca9e4c1b5a6d90f5f#3cc76f8130ac4a348888f531069f7c8a</a></li>

@@ -1,4 +1,4 @@
-#+TITLE: Use einops in Practice: An Alternative Way to Describe Tensor Operations Based on Indices
+#+TITLE: Practical Einops: Tensor Operations Based on Indices
 #+DATE: [2024-11-28]
 #+FILETAGS: ai
 
