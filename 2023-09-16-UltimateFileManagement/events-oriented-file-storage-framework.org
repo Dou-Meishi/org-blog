@@ -1,7 +1,6 @@
 #+TITLE: Event-oriented File Storage Framework
 #+AUTHOR: Dou Meishi
 #+DATE: [2024-01-31]
-#+SUBTITLE: of A Student in interested in Math, Physics and Computer Science
 #+FILETAGS: think
 
 Every day, as I create, receive or update a lot of files (like notes,
@@ -268,6 +267,22 @@ Different from the README file of a git repo, =notes.org= is always
 private and never gets public. If I want to publish some content of it
 to my blog, I just create a new post, cut and paste from it and leave
 a link in the notes which looks like /see my post here/.
+
+*** Generate an index page listing all events
+
+One advantage of adopting the event-oriented framework is the
+convenient reviewing experience. As all event directories follows a
+particular naming pattern and has a descriptive journal =notes.org=, it
+is not hard to recognize all these journals and create an index page;
+see the figure.
+
+[[./demo-index.png]]
+
+Clicking an event in this index page leads to its journal =notes.html=,
+which can give me a quick review about what I have done.
+
+See my post [[https://dou-meishi.github.io/org-blog/2024-01-14-TryOrgPublish/notes.html][Review org-publish Utility]] for how I create this index
+page via emacs org-publish utility.
 
 *** How to transform a folder to an event folder
 
