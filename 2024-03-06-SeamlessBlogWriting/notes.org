@@ -9,8 +9,8 @@ to seamlessly integrate writing and exporting processes by telling
 Emacs to export the =.org= file every time I save it. Then by launching
 a local server with autoreload, I can immediately preview the HTML
 version of the =.org= file. This is particular useful in writing LaTeX
-equations, where it is very hard to imagine what you are writign
-without renderin.
+equations, where it is very hard to imagine what you are writing
+without rendering.
 
 The basic idea is creating a customized minor mode in which the
 exporting function is added to the =after-save-hook=. Combining with the
@@ -32,7 +32,7 @@ Above is the final effect (the vedio was recorded and inserted via
 
 ** A new minor mode
 
-Create such a new minor mode is very simple.
+In Emacs, creating a minor mode for autosaving is straightforward.
 
 #+BEGIN_SRC elisp
 (define-minor-mode dms/blog-mode
@@ -50,16 +50,17 @@ This mode also enables the prettify-symbols-mode."
 
 As any function in =after-save-hook= will be executed after saving, I
 add =org-html-export-to-html= to it when enering this new minor mode and
-remove it when exiting. In either case, the =prettify-symbols-mode= is
+remove it when exiting. See [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.html][this manual page]] for a brief introduction
+to hooks in Emacs.  In either case, the =prettify-symbols-mode= is
 enabled.
 
 ** A simple local server with autoreload
 
 As the exported file is only a static HTML page, it will not be
-updated when its content changes. So it is necessary to find a way to
-refresh the page after updates. Fortunately, there is a nice python
-project [[https://github.com/lepture/python-livereload][python-livereload]] which can start a simple local http server,
-watch a file/directory and reload pages on changes.
+updated by the browser when its content changes. So it is necessary to
+find a way to refresh the page after updates. Fortunately, there is a
+nice python project [[https://github.com/lepture/python-livereload][python-livereload]] which can start a simple local
+http server, watch a file/directory and reload pages on changes.
 
 After installation, I can use a simple command to launch a server and
 host a static HTML page, e.g., =/tmp/temporary-drafts.html= on the URL
@@ -68,6 +69,27 @@ default port used by =livereload=; see [[https://livereload.readthedocs.io/en/la
 
 #+BEGIN_SRC sh
 livereload -t /tmp/temporary-drafts.html
+#+END_SRC
+
+We integrate these steps into Emacs through a simple command; see also
+[[https://www.gnu.org/software/emacs/manual/html_node/elisp/Using-Interactive.html#Using-Interactive][the manual]] for how to use =interactive=.
+
+#+BEGIN_SRC elisp
+(defun dms/livereload (arg &optional port)
+  "Launch a http server to autoreload a HTML file and open Edge.
+
+The server is provided by a python project called python-livereload,
+which uses 35729 as the default port. "
+  (interactive
+   (list
+    (read-file-name "Select a file: ")
+    (read-number "Select the Port: " 35729)))
+  (let ((abspath (expand-file-name arg))
+        (port (or port 35729)))
+    (shell-command (format
+                    "nohup livereload -t %s -p %d > /dev/null 2>&1 &" abspath port))
+    (shell-command (format
+                    "microsoft-edge http://localhost:%d/%s" port abspath))))
 #+END_SRC
 
 ** Replace MathJax with KaTeX
