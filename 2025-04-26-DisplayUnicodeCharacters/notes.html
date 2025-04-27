@@ -35,12 +35,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0ee0048">Backgrounds</a></li>
-<li><a href="#org84b25e2">A Simple Solution</a></li>
+<li><a href="#org02c3be4">Backgrounds</a></li>
+<li><a href="#orga5ed4db">A Simple Solution</a></li>
 <li><a href="#use-display-tables-in-emacs">Appendix: Notes on Display Tables</a></li>
 <li><a href="#appendix-useful-scripts">Appendix: Useful Scripts</a></li>
 <li><a href="#appendix:use-opentype-font-features">Appendix: Use OpenType Font Features</a></li>
-<li><a href="#org37842cc">Useful Links</a></li>
+<li><a href="#org9c849bf">Useful Links</a></li>
 </ul>
 </div>
 </nav>
@@ -75,13 +75,13 @@ Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1
 </div>
 
 
-<figure id="orgb5974e3">
+<figure id="org46098ff">
 <img src="./1.png" alt="1.png" width="100%">
 
 </figure>
-<div id="outline-container-org0ee0048" class="outline-2">
-<h2 id="org0ee0048">Backgrounds</h2>
-<div class="outline-text-2" id="text-org0ee0048">
+<div id="outline-container-org02c3be4" class="outline-2">
+<h2 id="org02c3be4">Backgrounds</h2>
+<div class="outline-text-2" id="text-org02c3be4">
 <ol class="org-ol">
 <li><p>
 How a font selects the glyph for a given code point?
@@ -90,7 +90,7 @@ How a font selects the glyph for a given code point?
 <p>
 <i>Answer.</i> We have to distinguish the concepts of <i>characaters</i>, <i>code
 points</i>, <i>glyphs</i> and <i>fonts</i>. See a brief explanation in the
-footnote<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>; see also the related references in section <a href="#org37842cc">Useful
+footnote<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>; see also the related references in section <a href="#org9c849bf">Useful
 Links</a>.
 </p>
 
@@ -99,7 +99,7 @@ In the simplest case, a code point corresponds to a single
 glyph. For example, <code>U+0041</code> is displayed as a glyph like <code>A</code> in most
 fonts. However, a font might also provide alternative glyphs for
 the same code point (e.g., for ligatures), or display multiple code
-points with a single glyph (e.g., for accents). See more
+points as a single glyph (e.g., for accents). See more
 discussions in <a href="#appendix:use-opentype-font-features">Appendix: Use OpenType Font Features</a>.
 </p></li>
 
@@ -147,9 +147,9 @@ Unicode Characters in Emacs</a>.
 </ol>
 </div>
 </div>
-<div id="outline-container-org84b25e2" class="outline-2">
-<h2 id="org84b25e2">A Simple Solution</h2>
-<div class="outline-text-2" id="text-org84b25e2">
+<div id="outline-container-orga5ed4db" class="outline-2">
+<h2 id="orga5ed4db">A Simple Solution</h2>
+<div class="outline-text-2" id="text-orga5ed4db">
 <p>
 Perhaps the simplest solution is <code>set-font-fontset</code>.
 </p>
@@ -168,8 +168,8 @@ the below settings.
 
 <p>
 Then, I find that STIX Two Math contains glyphs for displaying
-<code>\mathcal</code> characters. To avoid overriding the <code>\mathscr</code> characters, I
-choose to only override code points in range <code>(#x1D49C . #x1D4CF)</code>.
+<code>\mathcal</code> characters. To avoid overriding the <code>\mathscr</code> characters, this
+time the range is chosen as <code>(#x1D49C . #x1D4CF)</code>.
 </p>
 
 <div class="org-src-container">
@@ -180,8 +180,8 @@ choose to only override code points in range <code>(#x1D49C . #x1D4CF)</code>.
 
 <p>
 Finally, I generate lines for my <code>~/.emacs.d/pretty-symbols.csv</code>
-file. Each line consists of the LaTeX command and its Unicode symbol,
-and looks like <code>\mathcal{A}, 𝒜</code>. See the <a href="#appendix-useful-scripts">Appendix: Useful Scripts</a> for a python
+file. Each line consists of a LaTeX command and its Unicode symbol,
+looking like <code>\mathcal{A}, 𝒜</code>. See the <a href="#appendix-useful-scripts">Appendix: Useful Scripts</a> for the python
 script to generate these lines. It should be noted that some code
 points in the range <code>(#x1D49C . #x1D4CF)</code> are glyphless and are manually
 replaced. To ensure the consistency, the font to display these code
@@ -205,8 +205,19 @@ points has to be manually set by <code>set-fontset-font</code> as well, e.g.,
 
 <p>
 The final result is
-<img src="./final-results.png" alt="final-results.png">
 </p>
+
+
+<figure id="orgee6eeeb">
+<img src="./before.png" alt="before.png">
+
+</figure>
+
+
+<figure id="orga8d293a">
+<img src="./after.png" alt="after.png">
+
+</figure>
 </div>
 </div>
 <div id="outline-container-use-display-tables-in-emacs" class="outline-2">
@@ -247,11 +258,11 @@ Therefore, I have to explicitly define named faces by <code>defface</code>.
 
 <p>
 Second, even if the current active display table maps <code>U+1D4D1</code> to the
-glyph described by code <code>U+1D4D0</code> along with a customized face, then the
-font family specified in the customized face might be overridden by
+glyph described by code <code>U+1D4D0</code> along with a customized face, the font
+family specified in the customized face might be overridden by
 fontsets specifications. For example, if the following configurations
-are both applied, then <code>U+1D4D1</code> will be displayed as <code>U+1D4D0</code> in <i>STIX
-Two Math</i>.
+are both applied, then <code>U+1D4D1</code> will be displayed as <code>U+1D4D0</code> in STIX
+Two Math instead of Libertinus Math.
 </p>
 
 <div class="org-src-container">
@@ -263,7 +274,9 @@ Two Math</i>.
 
 <p>
 You may verify this by <code>describe-char</code> and will see something like this.
-<img src="./desc-char.png" alt="desc-char.png">
+That is, even the character is displayed with the customized face, the
+font family specified by the face has been overridden by
+<code>set-font-fontset</code>.  <img src="./desc-char.png" alt="desc-char.png">
 </p>
 
 <p>
@@ -408,13 +421,13 @@ display tables and apply the default fontset anyway.
 <h2 id="appendix:use-opentype-font-features">Appendix: Use OpenType Font Features</h2>
 <div class="outline-text-2" id="text-appendix:use-opentype-font-features">
 <p>
-To support ligature a font might have different versions of <code>i</code> to
+To support ligatures, a font might have different versions of <code>i</code> to
 display a standalone <i>i</i> and a ligature <i>fi</i>. Besides ligature, many
 modern OpenType fonts include optional glyph substitution controlled
 by <i>stylistic sets</i>. For example, by default <i>STIX Two Math</i> display
 script characters as <code>\mathcal</code> characters and provides the <code>ss01</code>
-stylistic set to display <code>\mathscr</code> characters. The <a href="https://github.com/stipub/stixfonts/blob/master/docs">code charts</a> for
-<i>STIX Two Math</i> contains detailed descriptions for OpenType features
+stylistic set to display <code>\mathscr</code> characters. The <a href="https://github.com/stipub/stixfonts/blob/master/docs">code charts</a> for <i>STIX
+Two Math</i> contains detailed descriptions for OpenType features
 supported by this font.
 </p>
 
@@ -452,7 +465,7 @@ Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1
 </div>
 
 
-<figure id="orgf606a4e">
+<figure id="orga3b1aa9">
 <img src="./3.png" alt="3.png">
 
 </figure>
@@ -464,9 +477,9 @@ manually modify a font and let selected features <i>on by default</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-org37842cc" class="outline-2">
-<h2 id="org37842cc">Useful Links</h2>
-<div class="outline-text-2" id="text-org37842cc">
+<div id="outline-container-org9c849bf" class="outline-2">
+<h2 id="org9c849bf">Useful Links</h2>
+<div class="outline-text-2" id="text-org9c849bf">
 <dl class="org-dl">
 <dt>A discussion on choosing a particular glyph</dt><dd>Aad, E. (2015). How to set the glyph of a unicode character? <i>Emacs Stack Exchange.</i> <a href="https://emacs.stackexchange.com/questions/6052/how-to-set-the-glyph-of-a-unicode-character">https://emacs.stackexchange.com/questions/6052/how-to-set-the-glyph-of-a-unicode-character</a></dd>
 

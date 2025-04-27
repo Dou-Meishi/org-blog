@@ -42,7 +42,7 @@ Unicode symbol \verb|U+1D49C| produces $𝒜$.
    glyph. For example, =U+0041= is displayed as a glyph like =A= in most
    fonts. However, a font might also provide alternative glyphs for
    the same code point (e.g., for ligatures), or display multiple code
-   points with a single glyph (e.g., for accents). See more
+   points as a single glyph (e.g., for accents). See more
    discussions in [[#appendix:use-opentype-font-features][Appendix: Use OpenType Font Features]].
 
 2. How to customize the appearance of a Unicode symbol in Emacs?
@@ -107,8 +107,8 @@ the below settings.
 #+END_SRC
 
 Then, I find that STIX Two Math contains glyphs for displaying
-=\mathcal= characters. To avoid overriding the =\mathscr= characters, I
-choose to only override code points in range =(#x1D49C . #x1D4CF)=.
+=\mathcal= characters. To avoid overriding the =\mathscr= characters, this
+time the range is chosen as =(#x1D49C . #x1D4CF)=.
 
 #+BEGIN_SRC elisp
 ;; for \mathcal letters
@@ -116,8 +116,8 @@ choose to only override code points in range =(#x1D49C . #x1D4CF)=.
 #+END_SRC
 
 Finally, I generate lines for my =~/.emacs.d/pretty-symbols.csv=
-file. Each line consists of the LaTeX command and its Unicode symbol,
-and looks like =\mathcal{A}, 𝒜=. See the [[#appendix-useful-scripts][Appendix: Useful Scripts]] for a python
+file. Each line consists of a LaTeX command and its Unicode symbol,
+looking like =\mathcal{A}, 𝒜=. See the [[#appendix-useful-scripts][Appendix: Useful Scripts]] for the python
 script to generate these lines. It should be noted that some code
 points in the range =(#x1D49C . #x1D4CF)= are glyphless and are manually
 replaced. To ensure the consistency, the font to display these code
@@ -138,7 +138,10 @@ points has to be manually set by =set-fontset-font= as well, e.g.,
 #+END_SRC
 
 The final result is
-[[./final-results.png]]
+
+[[./before.png]]
+
+[[./after.png]]
 
 ** Appendix: Notes on Display Tables
 :PROPERTIES:
@@ -170,11 +173,11 @@ Therefore, I have to explicitly define named faces by =defface=.
 #+END_SRC
 
 Second, even if the current active display table maps =U+1D4D1= to the
-glyph described by code =U+1D4D0= along with a customized face, then the
-font family specified in the customized face might be overridden by
+glyph described by code =U+1D4D0= along with a customized face, the font
+family specified in the customized face might be overridden by
 fontsets specifications. For example, if the following configurations
-are both applied, then =U+1D4D1= will be displayed as =U+1D4D0= in /STIX
-Two Math/.
+are both applied, then =U+1D4D1= will be displayed as =U+1D4D0= in STIX
+Two Math instead of Libertinus Math.
 
 #+BEGIN_SRC elisp
 (aset standard-display-table #x1D4D1
@@ -183,7 +186,9 @@ Two Math/.
 #+END_SRC
 
 You may verify this by =describe-char= and will see something like this.
-[[./desc-char.png]]
+That is, even the character is displayed with the customized face, the
+font family specified by the face has been overridden by
+=set-font-fontset=.  [[./desc-char.png]]
 
 Third, only the active display table takes effect and other display
 tables are /completely ignored/. As described in the manual, the
@@ -314,13 +319,13 @@ display tables and apply the default fontset anyway.
 :CUSTOM_ID: appendix:use-opentype-font-features
 :END:
 
-To support ligature a font might have different versions of =i= to
+To support ligatures, a font might have different versions of =i= to
 display a standalone /i/ and a ligature /fi/. Besides ligature, many
 modern OpenType fonts include optional glyph substitution controlled
 by /stylistic sets/. For example, by default /STIX Two Math/ display
 script characters as =\mathcal= characters and provides the =ss01=
-stylistic set to display =\mathscr= characters. The [[https://github.com/stipub/stixfonts/blob/master/docs][code charts]] for
-/STIX Two Math/ contains detailed descriptions for OpenType features
+stylistic set to display =\mathscr= characters. The [[https://github.com/stipub/stixfonts/blob/master/docs][code charts]] for /STIX
+Two Math/ contains detailed descriptions for OpenType features
 supported by this font.
 
 In XeLaTeX, we can choose the stylistic set by =\setmathfont=.
