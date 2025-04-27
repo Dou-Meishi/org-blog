@@ -4,7 +4,502 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Tue, 22 Apr 2025 14:27:07 +0800</lastBuildDate>
+<lastBuildDate>Sun, 27 Apr 2025 20:50:56 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Display Unicode Characters in Emacs]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0ee0048">Backgrounds</a></li>
+<li><a href="#org84b25e2">A Simple Solution</a></li>
+<li><a href="#use-display-tables-in-emacs">Appendix: Notes on Display Tables</a></li>
+<li><a href="#appendix-useful-scripts">Appendix: Useful Scripts</a></li>
+<li><a href="#appendix:use-opentype-font-features">Appendix: Use OpenType Font Features</a></li>
+<li><a href="#org37842cc">Useful Links</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<i>Motivation.</i> I prefer Unicode symbols over LaTeX sequences.  In <a href="https://dou-meishi.github.io/org-blog/2024-02-24-EmacsPrettifySymbols/notes.html">this
+old post</a> , I discussed how to display LaTeX commands as Unicode
+symbols in Emacs. However, after applying these settings, my Emacs
+renders both <code>\mathcal{A}</code> and <code>\mathscr{A}</code> identically as the <code>U+1D4D0</code> character from the
+<i>Libertinus Math</i> font.
+</p>
+
+<p>
+After investigation, I figure out that this behavior might be set by
+my <code>~/.emacs.d/pretty-symbols.csv</code>, where both LaTeX commands map to the
+same Unicode character. I did this because Libertinus Math lacks
+dedicated glyphs for <code>\mathcal</code> characters. Indeed, this issue can also
+be demonstrated by the following TeX file (compiled by <code>XeLaTeX</code>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\documentclass</span>{<span style="color: #657b83; font-weight: bold;">article</span>}
+<span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #657b83; font-weight: bold;">unicode-math</span>}
+<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
+<span style="color: #859900; font-weight: bold;">\setmathfont</span>{Libertinus Math}
+Libertinus Math:
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathcal{A}| produces <span style="color: #2aa198;">$\mathcal{A}$</span>;
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathscr{A}| produces <span style="color: #2aa198;">$\mathscr{A}$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D4D0| produces <span style="color: #2aa198;">$&#120016;$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D49C| produces <span style="color: #2aa198;">$&#119964;$</span>.
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+</pre>
+</div>
+
+
+<figure id="orgb5974e3">
+<img src="./1.png" alt="1.png" width="100%">
+
+</figure>
+<div id="outline-container-org0ee0048" class="outline-2">
+<h2 id="org0ee0048">Backgrounds</h2>
+<div class="outline-text-2" id="text-org0ee0048">
+<ol class="org-ol">
+<li><p>
+How a font selects the glyph for a given code point?
+</p>
+
+<p>
+<i>Answer.</i> We have to distinguish the concepts of <i>characaters</i>, <i>code
+points</i>, <i>glyphs</i> and <i>fonts</i>. See a brief explanation in the
+footnote<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>; see also the related references in section <a href="#org37842cc">Useful
+Links</a>.
+</p>
+
+<p>
+In the simplest case, a code point corresponds to a single
+glyph. For example, <code>U+0041</code> is displayed as a glyph like <code>A</code> in most
+fonts. However, a font might also provide alternative glyphs for
+the same code point (e.g., for ligatures), or display multiple code
+points with a single glyph (e.g., for accents). See more
+discussions in <a href="#appendix:use-opentype-font-features">Appendix: Use OpenType Font Features</a>.
+</p></li>
+
+<li><p>
+How to customize the appearance of a Unicode symbol in Emacs?
+</p>
+
+<p>
+<i>Answer.</i> The simplest way is to customize the font for displaying
+the Unicode symbol via <code>set-fontset-font</code>. For example, the following
+snippet tells Emacs to display <code>U+1D4D0</code> with font <i>STIX Two
+Math</i><sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x1D4D0 <span style="color: #2aa198;">"STIX Two Math"</span>)
+</pre>
+</div>
+
+<p>
+A slightly complicated yet more flexible way is to specify the
+glyph for displaying a unicode character using <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Tables.html">Display Tables</a>. For
+example, the following snippet tells Emacs to display <code>U+1D4D1</code> with
+the glyph corresponding to <code>U+1D4D0</code> in <i>Libertinus Math</i>. See the
+following section <a href="#use-display-tables-in-emacs">Appendix: Notes on Display Tables</a> for more
+explanations.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(aset standard-display-table #x1D4D1
+      (vector (make-glyph-code #x1D4D0 'libertinus-math-face)))
+</pre>
+</div></li>
+
+<li><p>
+How a LaTeX command is displayed as another Unicode symbol?
+</p>
+
+<p>
+<i>Answer.</i> After toggling <code>prettify-symbols-mode</code>, matched strings will
+be composed to a single character defined in the variable
+<code>prettify-symbols-alist</code>. See also my post <a href="https://dou-meishi.github.io/org-blog/2024-02-24-EmacsPrettifySymbols/notes.html">Display LaTeX Command with
+Unicode Characters in Emacs</a>.
+</p></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org84b25e2" class="outline-2">
+<h2 id="org84b25e2">A Simple Solution</h2>
+<div class="outline-text-2" id="text-org84b25e2">
+<p>
+Perhaps the simplest solution is <code>set-font-fontset</code>.
+</p>
+
+<p>
+First, I notice that the glyphs of Libertinus Math in range <code>(#x1D4D0
+. #x1D503)</code> are suitable for displaying <code>\mathscr</code> characters. So, I use
+the below settings.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">for \mathscr letters</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> '(#x1D4D0 . #x1D503) <span style="color: #2aa198;">"Libertinus Math"</span>)
+</pre>
+</div>
+
+<p>
+Then, I find that STIX Two Math contains glyphs for displaying
+<code>\mathcal</code> characters. To avoid overriding the <code>\mathscr</code> characters, I
+choose to only override code points in range <code>(#x1D49C . #x1D4CF)</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">for \mathcal letters</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> '(#x1D49C . #x1D4CF) <span style="color: #2aa198;">"STIX Two Math"</span>)
+</pre>
+</div>
+
+<p>
+Finally, I generate lines for my <code>~/.emacs.d/pretty-symbols.csv</code>
+file. Each line consists of the LaTeX command and its Unicode symbol,
+and looks like <code>\mathcal{A}, 𝒜</code>. See the <a href="#appendix-useful-scripts">Appendix: Useful Scripts</a> for a python
+script to generate these lines. It should be noted that some code
+points in the range <code>(#x1D49C . #x1D4CF)</code> are glyphless and are manually
+replaced. To ensure the consistency, the font to display these code
+points has to be manually set by <code>set-fontset-font</code> as well, e.g.,
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x212C <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal B</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x2130 <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal E</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x2131 <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal F</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x210B <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal H</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x2110 <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal I</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x2112 <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal L</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x2133 <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal M</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x211B <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal R</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x212F <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal e</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x210A <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal g</span>
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x2113 <span style="color: #2aa198;">"STIX Two Math"</span>) <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">mathcal o</span>
+</pre>
+</div>
+
+<p>
+The final result is
+<img src="./final-results.png" alt="final-results.png">
+</p>
+</div>
+</div>
+<div id="outline-container-use-display-tables-in-emacs" class="outline-2">
+<h2 id="use-display-tables-in-emacs">Appendix: Notes on Display Tables</h2>
+<div class="outline-text-2" id="text-use-display-tables-in-emacs">
+<p>
+The section <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Display-Tables.html">42.23.2 Display Tables</a> and <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Active-Display-Table.html">42.23.3 Active Display Table</a> in
+the manual have covered the basics of display tables. Here I add a few
+additional notes.
+</p>
+
+<p>
+First, the function <code>make-glyph-code</code> does not seem to
+accept anonymous faces as the value of its <i>FACE</i> argument, though
+section <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces.html">42.12 Faces</a> mentioned that
+</p>
+
+<blockquote>
+<p>
+One way to represent a face is as a property list of attributes, like (:foreground "red" :weight bold). Such a list is called an anonymous face.
+</p>
+</blockquote>
+
+<p>
+Therefore, I have to explicitly define named faces by <code>defface</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defface</span> <span style="color: #268bd2;">libertinus-math-face</span>
+  '((t <span style="color: #657b83; font-weight: bold;">:family</span> <span style="color: #2aa198;">"Libertinus Math"</span>))
+  <span style="color: #2aa198;">"Face for Libertinus Math glyphs."</span>)
+
+(<span style="color: #859900; font-weight: bold;">defface</span> <span style="color: #268bd2;">stix-math-face</span>
+  '((t <span style="color: #657b83; font-weight: bold;">:family</span> <span style="color: #2aa198;">"STIX Two Math"</span>))
+  <span style="color: #2aa198;">"Face for STIX Two Math glyphs."</span>)
+</pre>
+</div>
+
+<p>
+Second, even if the current active display table maps <code>U+1D4D1</code> to the
+glyph described by code <code>U+1D4D0</code> along with a customized face, then the
+font family specified in the customized face might be overridden by
+fontsets specifications. For example, if the following configurations
+are both applied, then <code>U+1D4D1</code> will be displayed as <code>U+1D4D0</code> in <i>STIX
+Two Math</i>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(aset standard-display-table #x1D4D1
+      (vector (make-glyph-code #x1D4D0 'libertinus-math-face)))
+(set-fontset-font <span style="color: #2aa198;">"fontset-default"</span> #x1D4D0 <span style="color: #2aa198;">"STIX Two Math"</span>)
+</pre>
+</div>
+
+<p>
+You may verify this by <code>describe-char</code> and will see something like this.
+<img src="./desc-char.png" alt="desc-char.png">
+</p>
+
+<p>
+Third, only the active display table takes effect and other display
+tables are <i>completely ignored</i>. As described in the manual, the
+priority is <i>window display table &gt; buffer display table &gt; standard
+display table</i>. In my settings, buffers in Org mode will automatically
+register their buffer display tables to display invisible lines as <code>↺</code>,
+while buffers in other modes seem to use the standard display table.
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-useful-scripts" class="outline-2">
+<h2 id="appendix-useful-scripts">Appendix: Useful Scripts</h2>
+<div class="outline-text-2" id="text-appendix-useful-scripts">
+<p>
+A python script to write unicode characters and their code points.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span>(<span style="color: #2aa198;">"/tmp/unicode_chars.txt"</span>, <span style="color: #2aa198;">"w"</span>, encoding=<span style="color: #2aa198;">"utf-8"</span>) <span style="color: #859900; font-weight: bold;">as</span> <span style="color: #657b83; font-weight: bold;">file</span>:
+    <span style="color: #859900; font-weight: bold;">for</span> code_point <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(0x1D49C, 0x1D4CF + 1):
+        <span style="color: #657b83; font-weight: bold;">file</span>.write(f<span style="color: #2aa198;">"</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(code_point)}<span style="color: #2aa198;">, U+</span>{code_point:05X}<span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+    <span style="color: #859900; font-weight: bold;">for</span> code_point <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(0x1D4D0, 0x1D503 + 1):
+        <span style="color: #657b83; font-weight: bold;">file</span>.write(f<span style="color: #2aa198;">"</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(code_point)}<span style="color: #2aa198;">, U+</span>{code_point:05X}<span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+</pre>
+</div>
+
+<p>
+A python script to generate lines for
+<code>~/.emacs.d/pretty-symbols.csv</code>. Note that some code points in range
+<code>(#x1D49C . #x1D4CF)</code> are glyphless. For example, the code point <code>U+1D49D</code>
+after <code>U+1D49C 𝒜</code> is glyphless in most fonts, as the right code point
+for <code>ℬ</code> is <code>U+212C</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span>(<span style="color: #2aa198;">"/tmp/script_chars.csv"</span>, <span style="color: #2aa198;">"w"</span>, encoding=<span style="color: #2aa198;">"utf-8"</span>) <span style="color: #859900; font-weight: bold;">as</span> <span style="color: #657b83; font-weight: bold;">file</span>:
+    <span style="color: #268bd2;">glyphless_char_map</span> = {
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Uppercase substitutions</span>
+        0x1D49D: 0x212C,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">B</span>
+        0x1D4A0: 0x2130,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">E</span>
+        0x1D4A1: 0x2131,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">F</span>
+        0x1D4A3: 0x210B,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">H</span>
+        0x1D4A4: 0x2110,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">I</span>
+        0x1D4A7: 0x2112,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">L</span>
+        0x1D4A8: 0x2133,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">M</span>
+        0x1D4AD: 0x211B,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">R</span>
+
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Lowercase substitutions</span>
+        0x1D4BA: 0x212F,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">e</span>
+        0x1D4BC: 0x210A,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">g</span>
+        0x1D4C4: 0x2113,  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">o</span>
+    }
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">generate \mathcal mappings (uppercase)</span>
+    <span style="color: #268bd2;">start</span> = 0x1D49C
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        <span style="color: #268bd2;">letter</span> = i + <span style="color: #657b83; font-weight: bold;">ord</span>(<span style="color: #2aa198;">"A"</span>)
+        <span style="color: #268bd2;">code</span> = i + start
+        <span style="color: #859900; font-weight: bold;">if</span> code <span style="color: #859900; font-weight: bold;">in</span> glyphless_char_map:
+            <span style="color: #268bd2;">code</span> = glyphless_char_map[code]
+        <span style="color: #657b83; font-weight: bold;">file</span>.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathcal{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(letter)}<span style="color: #2aa198;">}}, </span>{<span style="color: #657b83; font-weight: bold;">chr</span>(code)}<span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">generate \mathcal mappings (lowercase)</span>
+    <span style="color: #268bd2;">start</span> = 0x1D4B6
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        <span style="color: #268bd2;">letter</span> = i + <span style="color: #657b83; font-weight: bold;">ord</span>(<span style="color: #2aa198;">"a"</span>)
+        <span style="color: #268bd2;">code</span> = i + start
+        <span style="color: #859900; font-weight: bold;">if</span> code <span style="color: #859900; font-weight: bold;">in</span> glyphless_char_map:
+            <span style="color: #268bd2;">code</span> = glyphless_char_map[code]
+        <span style="color: #657b83; font-weight: bold;">file</span>.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathcal{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(letter)}<span style="color: #2aa198;">}}, </span>{<span style="color: #657b83; font-weight: bold;">chr</span>(code)}<span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">generate \mathscr mappings (uppercase)</span>
+    <span style="color: #268bd2;">start</span> = 0x1D4D0
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        <span style="color: #268bd2;">letter</span> = i + <span style="color: #657b83; font-weight: bold;">ord</span>(<span style="color: #2aa198;">"A"</span>)
+        <span style="color: #657b83; font-weight: bold;">file</span>.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathscr{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(letter)}<span style="color: #2aa198;">}}, </span>{<span style="color: #657b83; font-weight: bold;">chr</span>(i + start)}<span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">generate \mathscr mappings (lowercase)</span>
+    <span style="color: #268bd2;">start</span> = 0x1D4EA
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        <span style="color: #268bd2;">letter</span> = i + <span style="color: #657b83; font-weight: bold;">ord</span>(<span style="color: #2aa198;">"a"</span>)
+        <span style="color: #657b83; font-weight: bold;">file</span>.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathscr{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(letter)}<span style="color: #2aa198;">}}, </span>{<span style="color: #657b83; font-weight: bold;">chr</span>(i + start)}<span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+</pre>
+</div>
+
+<p>
+A python script to write all LaTeX commands for verification.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span>(<span style="color: #2aa198;">"/tmp/check_results.org"</span>, <span style="color: #2aa198;">"w"</span>) <span style="color: #859900; font-weight: bold;">as</span> fpr:
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        fpr.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathcal{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(i + <span style="color: #657b83; font-weight: bold;">ord</span>('A'))}<span style="color: #2aa198;">}} "</span>)
+    fpr.write(<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        fpr.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathcal{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(i + <span style="color: #657b83; font-weight: bold;">ord</span>('a'))}<span style="color: #2aa198;">}} "</span>)
+    fpr.write(<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        fpr.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathscr{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(i + <span style="color: #657b83; font-weight: bold;">ord</span>('A'))}<span style="color: #2aa198;">}} "</span>)
+    fpr.write(<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\n</span><span style="color: #2aa198;">"</span>)
+
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(26):
+        fpr.write(f<span style="color: #2aa198;">"</span><span style="color: #268bd2; font-weight: bold;">\\</span><span style="color: #2aa198;">mathscr{{</span>{<span style="color: #657b83; font-weight: bold;">chr</span>(i + <span style="color: #657b83; font-weight: bold;">ord</span>('a'))}<span style="color: #2aa198;">}} "</span>)
+</pre>
+</div>
+
+<p>
+A Lisp function to edit a given display and map <code>(#x1D4D0 . #x1D503)</code> to
+corresponding glyphs in <i>Libertinus Math</i> and maps <code>(#x1D49C . #x1D4CF)</code>
+to glyphs in <code>(#x1D4D0 . #x1D503)</code> in <i>STIX Two Math</i>. Sadly, it seems
+that the characters composed by <code>prettify-symbols-mode</code> do not respect
+display tables and apply the default fontset anyway.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">setup-math-display-table</span> (current-display-table)
+  <span style="color: #2aa198;">"Configure display table for math script characters."</span>
+  (<span style="color: #859900; font-weight: bold;">unless</span> current-display-table
+    (<span style="color: #859900; font-weight: bold;">setq</span> current-display-table (make-display-table)))
+
+  <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Map \mathscr (U+1D4D0 to U+1D503) via Libertinus</span>
+  (<span style="color: #859900; font-weight: bold;">dotimes</span> (i (- #x1D504 #x1D4D0))
+    (<span style="color: #859900; font-weight: bold;">let</span> ((code (+ #x1D4D0 i)))
+      (aset current-display-table code
+            (vector (make-glyph-code code 'libertinus-math-face)))))
+
+  <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Map \mathcal (U+1D49C to U+1D4CF) via STIX (offset mapping)</span>
+  (<span style="color: #859900; font-weight: bold;">dotimes</span> (i (- #x1D4D0 #x1D49C))
+    (<span style="color: #859900; font-weight: bold;">let*</span> ((src-code (+ #x1D49C i))
+           (stix-code (+ #x1D4D0 i)))  <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">Offset mapping</span>
+      (aset current-display-table src-code
+            (vector (make-glyph-code stix-code 'stix-math-face))))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-appendix:use-opentype-font-features" class="outline-2">
+<h2 id="appendix:use-opentype-font-features">Appendix: Use OpenType Font Features</h2>
+<div class="outline-text-2" id="text-appendix:use-opentype-font-features">
+<p>
+To support ligature a font might have different versions of <code>i</code> to
+display a standalone <i>i</i> and a ligature <i>fi</i>. Besides ligature, many
+modern OpenType fonts include optional glyph substitution controlled
+by <i>stylistic sets</i>. For example, by default <i>STIX Two Math</i> display
+script characters as <code>\mathcal</code> characters and provides the <code>ss01</code>
+stylistic set to display <code>\mathscr</code> characters. The <a href="https://github.com/stipub/stixfonts/blob/master/docs">code charts</a> for
+<i>STIX Two Math</i> contains detailed descriptions for OpenType features
+supported by this font.
+</p>
+
+<p>
+In XeLaTeX, we can choose the stylistic set by <code>\setmathfont</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\documentclass</span>{<span style="color: #657b83; font-weight: bold;">article</span>}
+<span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #657b83; font-weight: bold;">unicode-math</span>}
+<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
+<span style="color: #859900; font-weight: bold;">\setmathfont</span>{STIX Two Math}
+STIX Two Math:
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathcal{A}| produces <span style="color: #2aa198;">$\mathcal{A}$</span>;
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathscr{A}| produces <span style="color: #2aa198;">$\mathscr{A}$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D4D0| produces <span style="color: #2aa198;">$&#120016;$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D49C| produces <span style="color: #2aa198;">$&#119964;$</span>.
+
+<span style="color: #859900; font-weight: bold;">\setmathfont</span>[StylisticSet=1]{STIX Two Math}
+STIX Two Math (<span style="color: #859900; font-weight: bold;">\textit</span>{<span style="font-style: italic;">ss01</span>}):
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathcal{A}| produces <span style="color: #2aa198;">$\mathcal{A}$</span>;
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathscr{A}| produces <span style="color: #2aa198;">$\mathscr{A}$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D4D0| produces <span style="color: #2aa198;">$&#120016;$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D49C| produces <span style="color: #2aa198;">$&#119964;$</span>.
+
+<span style="color: #859900; font-weight: bold;">\setmathfont</span>{STIX Two Math}
+<span style="color: #859900; font-weight: bold;">\setmathfont</span>[StylisticSet=1,range=scr]{STIX Two Math}
+STIX Two Math (apply <span style="color: #859900; font-weight: bold;">\textit</span>{<span style="font-style: italic;">ss01</span>} variant for scr characters):
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathcal{A}| produces <span style="color: #2aa198;">$\mathcal{A}$</span>;
+<span style="color: #859900; font-weight: bold;">\verb</span>|\mathscr{A}| produces <span style="color: #2aa198;">$\mathscr{A}$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D4D0| produces <span style="color: #2aa198;">$&#120016;$</span>;
+Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1D49C| produces <span style="color: #2aa198;">$&#119964;$</span>.
+<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+</pre>
+</div>
+
+
+<figure id="orgf606a4e">
+<img src="./3.png" alt="3.png">
+
+</figure>
+
+<p>
+Unfortunately, it seems that we cannot toggle OpenType features in
+Emacs in this way. A workaround is to use <a href="https://github.com/twardoch/fonttools-opentype-feature-freezer">OpenType Feature Freezer</a> to
+manually modify a font and let selected features <i>on by default</i>.
+</p>
+</div>
+</div>
+<div id="outline-container-org37842cc" class="outline-2">
+<h2 id="org37842cc">Useful Links</h2>
+<div class="outline-text-2" id="text-org37842cc">
+<dl class="org-dl">
+<dt>A discussion on choosing a particular glyph</dt><dd>Aad, E. (2015). How to set the glyph of a unicode character? <i>Emacs Stack Exchange.</i> <a href="https://emacs.stackexchange.com/questions/6052/how-to-set-the-glyph-of-a-unicode-character">https://emacs.stackexchange.com/questions/6052/how-to-set-the-glyph-of-a-unicode-character</a></dd>
+
+<dt>Emacs lisp manual covering glyphs and display tables</dt><dd>GNU. (2025). <i>GNU Emacs Lisp Reference Manual</i> (Emacs version 30.1). <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Character-Display.html">https://www.gnu.org/software/emacs/manual/html_node/elisp/Character-Display.html</a></dd>
+
+<dt>A post about font basics in Emacs</dt><dd>Idiocy. (2019). Emacs, fonts and fontsets. <a href="https://idiocy.org/emacs-fonts-and-fontsets.html">https://idiocy.org/emacs-fonts-and-fontsets.html</a></dd>
+
+<dt>A Stack Overflow discussion on code points and glyphs</dt><dd>Amery, M. (2014). What's the difference between a character, a code point, a glyph and a grapheme? <i>Stack Overflow.</i> <a href="https://stackoverflow.com/questions/27331819/whats-the-difference-between-a-character-a-code-point-a-glyph-and-a-grapheme">https://stackoverflow.com/questions/27331819/whats-the-difference-between-a-character-a-code-point-a-glyph-and-a-grapheme</a></dd>
+
+<dt>A brief post on distinguishing code points and glyphs</dt><dd>Dkf. (2019). Characters, glyphs, code-points, and byte-sequences. <a href="https://wiki.tcl-lang.org/page/Characters%2C+glyphs%2C+code-points%2C+and+byte-sequences">https://wiki.tcl-lang.org/page/Characters%2C+glyphs%2C+code-points%2C+and+byte-sequences</a></dd>
+
+<dt>A post with in-depth introduction on what are code points and how they are rendered</dt><dd>Litherum. (2017). Relationship Between Glyphs and Code Points. <a href="https://litherum.blogspot.com/2017/05/relationship-between-glyphs-and-code.html">https://litherum.blogspot.com/2017/05/relationship-between-glyphs-and-code.html</a></dd>
+
+<dt>A post about using OpenType feature freezer</dt><dd>Catalfamo, D. (2022). Exploring OpenType Font Features. <a href="https://blog.lambda.cx/posts/opentype-font-exploration/">https://blog.lambda.cx/posts/opentype-font-exploration/</a></dd>
+</dl>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The following explanations are summarized by AI.
+</p>
+<ol class="org-ol">
+<li><i>Code Point.</i> A numerical identifier in the Unicode standard (e.g.,
+U+1D4D0 = 𝓐).</li>
+<li><i>Character.</i> An abstract concept, like "MATHEMATICAL BOLD SCRIPT
+CAPITAL A".</li>
+<li><i>Glyph.</i> The visual representation (shape) of a character on a
+screen.</li>
+<li><i>Font.</i> A collection of glyphs and metadata for rendering text.</li>
+</ol></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+To list all font families in Emacs, go to a buffer and enable
+the <code>lisp-interaction-mode</code>. Then, navigate to the end of the following
+form and press <code>C-j</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(mapconcat 'identity (font-family-list) <span style="color: #2aa198;">"\n"</span>)
+</pre>
+</div>
+<p class="footpara">
+Once the font family name is obtained, use <code>(describe-font name)</code> to
+inspect more info about the font, like the file path.
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"></div>
+]]></description>
+  <link>https://dou-meishi.github.io/org-blog/2025-04-26-DisplayUnicodeCharacters/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2025-04-26-DisplayUnicodeCharacters/notes.html</guid>
+  <pubDate>Sat, 26 Apr 2025 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Gradients of Convolution: Direct Computation and Linear Algebra Perspective]]></title>
   <description><![CDATA[
