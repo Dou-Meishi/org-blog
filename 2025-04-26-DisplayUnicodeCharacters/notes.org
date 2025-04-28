@@ -1,5 +1,6 @@
 #+TITLE: Display Unicode Characters in Emacs
 #+DATE: [2025-04-26]
+#+FILETAGS: emacs
 
 /Motivation./ I prefer Unicode symbols over LaTeX sequences.  In [[https://dou-meishi.github.io/org-blog/2024-02-24-EmacsPrettifySymbols/notes.html][this
 old post]] , I discussed how to display LaTeX commands as Unicode
