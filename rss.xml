@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Mon, 28 Apr 2025 09:32:53 +0800</lastBuildDate>
+<lastBuildDate>Sat, 03 May 2025 16:31:00 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Display Unicode Characters in Emacs]]></title>
   <description><![CDATA[
@@ -4218,20 +4218,20 @@ For \(n_k \leq n < n_{k+1}\) (noting \(a_n \geq 0\)), there is \[
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1f43809">In-text Citations and The Reference List</a></li>
-<li><a href="#orgd657323">Formatting Rules for In-text Citations</a></li>
-<li><a href="#org29bf979">Formatting Rules for Reference List Entries</a>
+<li><a href="#orgb4f667e">In-text Citations and The Reference List</a></li>
+<li><a href="#orgae1b717">Formatting Rules for In-text Citations</a></li>
+<li><a href="#org5ee037e">Formatting Rules for Reference List Entries</a>
 <ul>
-<li><a href="#org64250b4">The Author Element</a></li>
-<li><a href="#orgc201c72">The Date Element</a></li>
-<li><a href="#org3a2ebc9">The Title Element</a></li>
-<li><a href="#orgc8b7df4">The Source Element</a></li>
-<li><a href="#orgf2462c3">Examples</a></li>
+<li><a href="#org28b6d70">The Author Element</a></li>
+<li><a href="#org1c98002">The Date Element</a></li>
+<li><a href="#orgefa2be1">The Title Element</a></li>
+<li><a href="#org032c55e">The Source Element</a></li>
+<li><a href="#orgcf6d136">Examples</a></li>
 </ul>
 </li>
-<li><a href="#org09eb55e">The Official APA Website</a></li>
-<li><a href="#orgc842428">A File Naming Convention for References</a></li>
-<li><a href="#org6612221">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orgfb9af95">The Official APA Website</a></li>
+<li><a href="#org8340bca">A File Naming Convention for References</a></li>
+<li><a href="#org4913965">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -4267,9 +4267,9 @@ website</a> and illustrate how to locate resources there. Finally, I
 will introduce my file naming convention for references by following
 APA style.
 </p>
-<div id="outline-container-org1f43809" class="outline-2">
-<h2 id="org1f43809">In-text Citations and The Reference List</h2>
-<div class="outline-text-2" id="text-org1f43809">
+<div id="outline-container-orgb4f667e" class="outline-2">
+<h2 id="orgb4f667e">In-text Citations and The Reference List</h2>
+<div class="outline-text-2" id="text-orgb4f667e">
 <p>
 In APA style, the reference metadata are typically grouped into four
 elements:
@@ -4290,9 +4290,9 @@ which contains additional information include <i>title</i> and <i>source</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd657323" class="outline-2">
-<h2 id="orgd657323">Formatting Rules for In-text Citations</h2>
-<div class="outline-text-2" id="text-orgd657323">
+<div id="outline-container-orgae1b717" class="outline-2">
+<h2 id="orgae1b717">Formatting Rules for In-text Citations</h2>
+<div class="outline-text-2" id="text-orgae1b717">
 <p>
 There are two type of in-text citations:
 </p>
@@ -4303,7 +4303,7 @@ There are two type of in-text citations:
 in parentheses.  This often appears at the end of a sentence, e.g.,
 </p>
 
-<pre class="example" id="org7cc30bc">
+<pre class="example" id="org90ae8bb">
 Falsely balanced news coverage can distort the public’s perception
 of expert consensus on an issue (Koehler, 2016).
 
@@ -4315,11 +4315,11 @@ It was found that ... (Reynar et al., 2010).
 <li><p>
 <i>narrative citations</i>, where the author's surname appears as part of
 the sentence, followed by the year in parentheses. In this case, <code>&amp;</code>
-is replaced by the word <code>and</code>. For three or more authors, use <code>et. al</code>.,
+is replaced by the word <code>and</code>. For three or more authors, use <code>et al.</code>,
 This often appears at the beginning of a sentence, e.g.,
 </p>
 
-<pre class="example" id="orgdb9ff0c">
+<pre class="example" id="org50184f9">
 Koehler (2016) noted the dangers of falsely balanced news coverage.
 
 Anderson and Bratos-Anderson (1987) found that ...
@@ -4329,9 +4329,9 @@ Reynar et al. (2010) found that ...
 </ul>
 </div>
 </div>
-<div id="outline-container-org29bf979" class="outline-2">
-<h2 id="org29bf979">Formatting Rules for Reference List Entries</h2>
-<div class="outline-text-2" id="text-org29bf979">
+<div id="outline-container-org5ee037e" class="outline-2">
+<h2 id="org5ee037e">Formatting Rules for Reference List Entries</h2>
+<div class="outline-text-2" id="text-org5ee037e">
 <p>
 While in-text citation doesn’t vary depending on source type,
 reference list citations are highly variable depending on the source.
@@ -4340,9 +4340,9 @@ the author, date, title, and source; see <a href="https://apastyle.apa.org/style
 Entries</a> for more details.
 </p>
 </div>
-<div id="outline-container-org64250b4" class="outline-3">
-<h3 id="org64250b4">The Author Element</h3>
-<div class="outline-text-3" id="text-org64250b4">
+<div id="outline-container-org28b6d70" class="outline-3">
+<h3 id="org28b6d70">The Author Element</h3>
+<div class="outline-text-3" id="text-org28b6d70">
 <p>
 <i>Author</i> refers broadly to the person(s) or group(s) responsible for a
 work. An author may be an individual, multiple people, or a group
@@ -4354,7 +4354,7 @@ include the first 19 authors’ names, insert an ellipsis (but no
 ampersand), and then add the final author’s name.
 </p>
 
-<pre class="example" id="orgb6b48a8">
+<pre class="example" id="org9bef8ef">
 Author, A. A.
 
 Author, A. A., &amp; Author, B. B.
@@ -4369,16 +4369,16 @@ Author, A. A., Author, B. B., Author, C. C., Author, D. D., Author, E. E.,
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc201c72" class="outline-3">
-<h3 id="orgc201c72">The Date Element</h3>
-<div class="outline-text-3" id="text-orgc201c72">
+<div id="outline-container-org1c98002" class="outline-3">
+<h3 id="org1c98002">The Date Element</h3>
+<div class="outline-text-3" id="text-org1c98002">
 <p>
 <i>Date</i> refers to the date of publication of the work. It can be year
 only or an exact date. When formatting, enclose the date in
 parentheses, followed by a period.
 </p>
 
-<pre class="example" id="org2b1edaa">
+<pre class="example" id="orge382bad">
 (2020).
 
 (2018, July).
@@ -4387,9 +4387,9 @@ parentheses, followed by a period.
 </pre>
 </div>
 </div>
-<div id="outline-container-org3a2ebc9" class="outline-3">
-<h3 id="org3a2ebc9">The Title Element</h3>
-<div class="outline-text-3" id="text-org3a2ebc9">
+<div id="outline-container-orgefa2be1" class="outline-3">
+<h3 id="orgefa2be1">The Title Element</h3>
+<div class="outline-text-3" id="text-orgefa2be1">
 <p>
 <i>Title</i> refers to the title of the work being cited. When formatting,
 capitalize the title using sentence case and finish the title with a
@@ -4398,14 +4398,14 @@ and webpages). But do not italicize for works that a part of a great
 whole (e.g., journal articles and conference papers).
 </p>
 
-<pre class="example" id="org64cc19d">
+<pre class="example" id="org8de5d14">
 Happy fish in little ponds: Testing a reference group model of achievement and emotion.
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc8b7df4" class="outline-3">
-<h3 id="orgc8b7df4">The Source Element</h3>
-<div class="outline-text-3" id="text-orgc8b7df4">
+<div id="outline-container-org032c55e" class="outline-3">
+<h3 id="org032c55e">The Source Element</h3>
+<div class="outline-text-3" id="text-org032c55e">
 <p>
 <i>Source</i> indicates where readers can retrieve the cited work. As with
 titles, sources fall into two broad categories: works that are part of
@@ -4468,9 +4468,9 @@ The format of the source varies depending on the reference type.
 </table>
 </div>
 </div>
-<div id="outline-container-orgf2462c3" class="outline-3">
-<h3 id="orgf2462c3">Examples</h3>
-<div class="outline-text-3" id="text-orgf2462c3">
+<div id="outline-container-orgcf6d136" class="outline-3">
+<h3 id="orgcf6d136">Examples</h3>
+<div class="outline-text-3" id="text-orgcf6d136">
 <p>
 A conference paper:
 </p>
@@ -4504,9 +4504,9 @@ For more examples, see the <a href="https://apastyle.apa.org/style-grammar-guide
 </div>
 </div>
 </div>
-<div id="outline-container-org09eb55e" class="outline-2">
-<h2 id="org09eb55e">The Official APA Website</h2>
-<div class="outline-text-2" id="text-org09eb55e">
+<div id="outline-container-orgfb9af95" class="outline-2">
+<h2 id="orgfb9af95">The Official APA Website</h2>
+<div class="outline-text-2" id="text-orgfb9af95">
 <p>
 <a href="https://apastyle.apa.org/">The APA style official website</a> contains a comprehensive section of
 <a href="https://apastyle.apa.org/style-grammar-guidelines">Style and Grammar Guidelines</a>, an illustrative section of <a href="https://apastyle.apa.org/instructional-aids/handouts-guides">Handouts and
@@ -4523,9 +4523,9 @@ useful:
 </ol>
 </div>
 </div>
-<div id="outline-container-orgc842428" class="outline-2">
-<h2 id="orgc842428">A File Naming Convention for References</h2>
-<div class="outline-text-2" id="text-orgc842428">
+<div id="outline-container-org8340bca" class="outline-2">
+<h2 id="org8340bca">A File Naming Convention for References</h2>
+<div class="outline-text-2" id="text-org8340bca">
 <p>
 I always try to follow some file naming convention for electronic
 documents. After knowing APA style, I realize that it offers a perfect
@@ -4546,7 +4546,7 @@ reference list:
 Here are some examples:
 </p>
 
-<pre class="example" id="org061d754">
+<pre class="example" id="org7323e82">
 Anderson, B. D. O. (1982). Reverse-time diffusion equation models.pdf
 
 Polyanskiy, Y., &amp; Wu, Y. (2022). Information theory.pdf
@@ -4557,9 +4557,9 @@ Goodfellow, I., Pouget-Abadie, J., ... Bengio, Y. (2014). GAN.pdf
 </pre>
 </div>
 </div>
-<div id="outline-container-org6612221" class="outline-2">
-<h2 id="org6612221">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org6612221">
+<div id="outline-container-org4913965" class="outline-2">
+<h2 id="org4913965">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org4913965">
 <ul class="org-ul">
 <li>APA Org (2020). <i>Academic Writer Tutorial: Basics of Seventh Edition APA Style</i>. <a href="https://extras.apa.org/apastyle/basics-7e/#/">https://extras.apa.org/apastyle/basics-7e/#/</a></li>
 <li>APA Org (2024). <i>Style and Grammar Guidelines</i>. <a href="https://apastyle.apa.org/style-grammar-guidelines">https://apastyle.apa.org/style-grammar-guidelines</a></li>

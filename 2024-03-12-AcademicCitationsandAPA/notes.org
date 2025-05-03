@@ -63,7 +63,7 @@ It was found that ... (Reynar et al., 2010).
 
 - /narrative citations/, where the author's surname appears as part of
   the sentence, followed by the year in parentheses. In this case, =&=
-  is replaced by the word =and=. For three or more authors, use =et. al=.,
+  is replaced by the word =and=. For three or more authors, use =et al.=,
   This often appears at the beginning of a sentence, e.g.,
 
   #+BEGIN_EXAMPLE
