@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sat, 03 May 2025 16:32:04 +0800</lastBuildDate>
+<lastBuildDate>Sat, 03 May 2025 23:40:39 +0800</lastBuildDate>
 <item>
   <title><![CDATA[A Repository for Future Tasks]]></title>
   <description><![CDATA[
@@ -315,6 +315,463 @@ properties.
   <link>https://dou-meishi.github.io/org-blog/2025-05-01-ATaskRepository/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2025-05-01-ATaskRepository/notes.html</guid>
   <pubDate>Thu, 01 May 2025 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[Fit a Sin Function with Neural Networks]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org1a4087b"><span class="done DONE">DONE</span> Study-0128-RSGS</a></li>
+<li><a href="#org59abc85"><span class="done DONE">DONE</span> Study-1522-TestRemoteTrain</a></li>
+<li><a href="#org3203b1f"><span class="done DONE">DONE</span> Study-2720-DefaultSampler</a></li>
+<li><a href="#org24d282e"><span class="done DONE">DONE</span> Study-1758-CentralStorage</a></li>
+<li><a href="#orgf9cd5e9"><span class="done DONE">DONE</span> Study-3342-EarlyFail</a></li>
+<li><a href="#org2a73a73"><span class="done DONE">DONE</span> Study-0714-RedoRS</a></li>
+<li><a href="#org3dd813d"><span class="done DONE">DONE</span> Study-3002-TryParallel</a></li>
+<li><a href="#org3010555"><span class="done DONE">DONE</span> Study-0411-RedoRS2</a></li>
+<li><a href="#org84ca1fc"><span class="done DONE">DONE</span> Study-4413-RedoGS</a></li>
+<li><a href="#org728534a"><span class="done DONE">DONE</span> Study-4907-RedoRS3</a></li>
+<li><a href="#orgf63b6f1"><span class="todo TODO">TODO</span> Study-3809-TryParallel2</a></li>
+<li><a href="#org329e99c"><span class="todo TODO">TODO</span> Study-1549-RSTPE</a></li>
+<li><a href="#org6281cd6"><span class="todo TODO">TODO</span> Study-0827-GSTPE</a></li>
+<li><a href="#org7639722"><span class="todo TODO">TODO</span> Study-1734-LargeBatchSize</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<i>Problem.</i> Fit \(g(x)=\sin x\) with a fully-connected network
+\(f(x;\theta)\).
+</p>
+
+<p>
+<i>Subproblem 1.</i> Generate the training dataset by uniformly discretizing
+\([-4\pi, 4\pi]\) into 800 points. Generate the test data similarly but
+sample only 199 points, avoiding overlapping with the training
+data.
+</p>
+
+<p>
+<i>Subproblem 1.1.</i> Train a two-layer FC network and apply SGD for
+optimization.
+</p>
+
+<p>
+<i>Project folders.</i> Local root folder
+<code>dou-GramStyle:~/Documents/2025-04-24-PracticeOptuna</code>. Local git repo
+folder <code>./optuna-examples/</code>, linked to <a href="https://github.com/Dou-Meishi/optuna-examples">this public GitHub repo</a>. Local
+data folder <code>./outputs/</code>.
+</p>
+
+<p>
+For more background information, see <a href="notes.html">note:2025-04-24::A Beginner's
+Guide to Optuna</a>.
+</p>
+<div id="outline-container-org1a4087b" class="outline-2">
+<h2 id="org1a4087b"><span class="done DONE">DONE</span> Study-0128-RSGS</h2>
+<div class="outline-text-2" id="text-org1a4087b">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-25 Fri]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Practice the basic usage of Optuna. Approach <i>Subproblem 1.1.</i> Try
+using random search and grid search to tune the following
+parameters: 1) the hidden size; 2) the learning rate; 3) the momentum
+in SGD; 4) the number of training epochs. The objective of
+hyperparameter optimization is defined by averaging the test errors of
+5 independent runs.
+</p>
+
+<p>
+<b>Setup.</b> Basic training snippets are included in
+<code>./optuna-examples/fit_sin_GS.py</code>. Commit hash is <code>b7f419c</code>.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-0128-RSGS.db</code>. Grid search 27 trials
+(6 failed) and Random search 30 trials (14 failed).  Best trial of RS
+achieves value 0.462. Best trial of GS achieves value 0.448.
+</p>
+<pre class="example" id="orga6698ae">
+Parameters of RS best trial (value: 0.462)
+--------------------
+hidden_size 188
+lr 0.0001943403128026264
+momentum 0.5811539234948213
+num_epochs 10
+--------------------
+
+Parameters of GS best trial (value: 0.448)
+--------------------
+hidden_size 256
+lr 0.0001
+momentum 0.9
+num_epochs 5
+--------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org59abc85" class="outline-2">
+<h2 id="org59abc85"><span class="done DONE">DONE</span> Study-1522-TestRemoteTrain</h2>
+<div class="outline-text-2" id="text-org59abc85">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Follow up <i>Study-0128-RSGS</i> to practice task managements on a
+server.
+</p>
+
+<p>
+<b>Setup.</b> Execute the python script <code>./optuna-examples/rs.py</code>. Git commit
+hash <code>bda9d23</code>. Run random search on <code>dou-Legion</code> and set <code>timeout=300</code>.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-1522-TestRemoteTrain.db</code>.  Evaluated
+224 trials (107 failed). Best trial achieved value 0.436.
+</p>
+<pre class="example" id="orga46a1ba">
+Parameters of the best trial (value: 0.436)
+--------------------
+hidden_size 68
+lr 0.00452247212086387
+momentum 0.8332848308334438
+num_epochs 10
+--------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org3203b1f" class="outline-2">
+<h2 id="org3203b1f"><span class="done DONE">DONE</span> Study-2720-DefaultSampler</h2>
+<div class="outline-text-2" id="text-org3203b1f">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Follow up <i>Study-0128-RSGS</i> but use Optuna's default sampler until
+manually terminated.
+</p>
+
+<p>
+<b>Setup.</b> Execute <code>./optuna-examples/study-2720.py</code>. Git commit hash
+<code>c9a5dc2</code>. Run on <code>dou-Legion</code>.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-2720-DefaultSampler.db</code>. Evaluated
+2673 trials (2663 failed). Best trials achieved value 0.452.
+</p>
+<pre class="example" id="orgf0e1137">
+Parameters of the best trial (value: 0.452)
+--------------------
+hidden_size 157
+lr 0.00011223737855212125
+momentum 0.884522041444841
+num_epochs 10
+--------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org24d282e" class="outline-2">
+<h2 id="org24d282e"><span class="done DONE">DONE</span> Study-1758-CentralStorage</h2>
+<div class="outline-text-2" id="text-org24d282e">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Aggregate separate storages into a big storage to ease analysis?
+</p>
+
+<p>
+<b>Analysis.</b> It seems that Optuna does not support this feature; see also
+<a href="https://github.com/optuna/optuna/issues/2364">this github issue</a>. Though I think it is possible to copy the content
+of a database to another one, the solution of opening multiple
+Optuna's dashboard is enough for my case.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">open dashboard under URL localhost:8081</span>
+nohup optuna-dashboard --port 8081 sqlite:///PATH &gt; /dev/null 2&gt;&amp;1 &amp;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf9cd5e9" class="outline-2">
+<h2 id="orgf9cd5e9"><span class="done DONE">DONE</span> Study-3342-EarlyFail</h2>
+<div class="outline-text-2" id="text-orgf9cd5e9">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon 19:32]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Manually fail a trail if one run is too bad. Avoid run 5 times
+for all trials.  In each run, if the test error greater than a
+threshold or is nan, then return immediately.
+</p>
+
+<p>
+<b>Setup.</b> Modify the <code>objective</code> function in script
+<code>./optuna-examples/fit_sin_GS.py</code>. Execute the script
+<code>optuna-examples/study-3342.py</code>.  Git commit hash <code>ffc2de7</code>. Run on <code>dou-GramStyle</code>.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-3342-EarlyFail.db</code>. Evaluated 20
+trials (2 completed). Best trial achieved value 0.437
+</p>
+<pre class="example" id="org25b4fa6">
+Parameters of the best trial (value: 0.437)
+--------------------
+hidden_size 104
+lr 0.0003140147791787246
+momentum 0.8274419297671974
+num_epochs 10
+--------------------
+</pre>
+
+<p>
+<b>Analysis.</b> It seems that I should change the search space to
+</p>
+<div class="org-src-container">
+<pre class="src src-python">{
+    <span style="color: #2aa198;">"hidden_size"</span>: trial.suggest_int(<span style="color: #2aa198;">"hidden_size"</span>, 64, 512, step=64),
+    <span style="color: #2aa198;">"lr"</span>: trial.suggest_float(<span style="color: #2aa198;">"lr"</span>, 5e-5, 5e-3, log=<span style="color: #268bd2; font-weight: bold;">True</span>),
+    <span style="color: #2aa198;">"momentum"</span>: trial.suggest_float(<span style="color: #2aa198;">"momentum"</span>, 0.8, 0.99),
+    <span style="color: #2aa198;">"num_epochs"</span>: trial.suggest_int(<span style="color: #2aa198;">"num_epochs"</span>, 5, 10),
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2a73a73" class="outline-2">
+<h2 id="org2a73a73"><span class="done DONE">DONE</span> Study-0714-RedoRS</h2>
+<div class="outline-text-2" id="text-org2a73a73">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon 20:07]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Change the search space to that suggested in
+<i>Study-3342-EarlyFail</i>.
+</p>
+
+<p>
+<b>Setup.</b> Execute the script <code>./optuna-examples/study-0714.py</code>. Git commit
+hash <code>c3149ae</code>. Run on <code>dou-GramStyle</code> and monitor results in real-time.
+</p>
+
+<p>
+<b>NOTE</b>. I forget to modify the main script to redefine the search
+space. See <i>Study-0411-RedoRS2</i> for the correct implementation.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-0714-RedoRS.db</code>. Evaluated 1333 trials
+(244 completed). Best trial achieved value 0.443.
+</p>
+<pre class="example" id="org4ea180e">
+Parameters of the best trial (value: 0.443)
+--------------------
+hidden_size 72
+lr 0.00025116919989179423
+momentum 0.8523339519713462
+num_epochs 10
+--------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org3dd813d" class="outline-2">
+<h2 id="org3dd813d"><span class="done DONE">DONE</span> Study-3002-TryParallel</h2>
+<div class="outline-text-2" id="text-org3dd813d">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Try parallelization.
+</p>
+
+<p>
+<b>Setup.</b> Execute the script <code>./optuna-examples/study-3002.py</code>. Git commit
+hash . Run on <code>dou-GramStyle</code> and monitor results in real-time.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-3002-TryParallel.db</code>. Evaluated 665
+trials (103 completed). Best trial achieved value 0.432.
+</p>
+
+<pre class="example" id="org2e18bb8">
+Parameters of the best trial (value: 0.432)
+--------------------
+hidden_size 114
+lr 0.00038712879285619675
+momentum 0.8445783487833786
+num_epochs 9
+--------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org3010555" class="outline-2">
+<h2 id="org3010555"><span class="done DONE">DONE</span> Study-0411-RedoRS2</h2>
+<div class="outline-text-2" id="text-org3010555">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon 21:04]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Follow up of <i>Study-0714-RedoRS</i> with correct search space.
+Moreover, I modify the main script to support tuning the batch size. I
+also add early fail in the <code>train_and_eval</code> function when loss is nan.
+</p>
+
+<p>
+<b>Setup.</b> Execute the script <code>./optuna-examples/study-0411.py</code>. Git commit
+hash <code>4c89f7c</code>. Run on <code>dou-GramStyle</code> and monitor results in real-time.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-0411-RedoRS2.db</code>. Evaluated 715 trials
+(101 completed). Best trial achieved value 0.436.
+</p>
+<pre class="example" id="org87ffb45">
+Parameters of the best trial (value: 0.436)
+--------------------
+batch_size 32
+hidden_size 64
+lr 0.00037310774730677437
+momentum 0.9225834312673848
+num_epochs 9
+--------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org84ca1fc" class="outline-2">
+<h2 id="org84ca1fc"><span class="done DONE">DONE</span> Study-4413-RedoGS</h2>
+<div class="outline-text-2" id="text-org84ca1fc">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon 21:25]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Use grid search to try different batch size and larger number of
+epochs. Consider batch size in <code>[16, 32, 128]</code> and number of epochs in
+<code>[10, 100, 1000]</code>.
+</p>
+
+<p>
+<b>Setup.</b> Execute the script <code>optuna-examples/study-4413.py</code>. Git commit
+hash <code>affb616</code>. Run on <code>dou-GramStyle</code>.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-4413-RedoGS.db</code>. Evaluated 9 trials
+(8 completed). Best trial achieved value 0.367.
+</p>
+<pre class="example" id="org16b4f00">
+Parameters of the best trial (value: 0.367)
+--------------------
+batch_size 32
+hidden_size 32
+lr 0.0001
+momentum 0.9
+num_epochs 1000
+--------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org728534a" class="outline-2">
+<h2 id="org728534a"><span class="done DONE">DONE</span> Study-4907-RedoRS3</h2>
+<div class="outline-text-2" id="text-org728534a">
+<p>
+<b>Date.</b> <span class="timestamp-wrapper"><span class="timestamp">[2025-04-28 Mon 21:49]</span></span>
+</p>
+
+<p>
+<b>Idea.</b> Do random search around the best trial of
+<i>Study-4413-RedoGS</i>. Change the search space accordingly in the main
+script. Run on <code>dou-Legion</code>.
+</p>
+
+<p>
+<b>Setup.</b> Execute the script <code>./optuna-examples/study-4907.py</code>. Git commit
+hash <code>07ca252</code>. Run on <code>dou-Legion</code>.
+</p>
+
+<p>
+<b>Result.</b> Saved in <code>./outputs/study-4907-RedoRS3.db</code>. Evaluated  trials
+( completed). Best trial achieved value 0.048.
+</p>
+<pre class="example" id="orgde5b240">
+Parameters of the best trial (value: 0.048)
+--------------------
+batch_size 32
+hidden_size 256
+lr 0.00041248960052382266
+momentum 0.8962061621328364
+num_epochs 5000
+--------------------
+</pre>
+
+
+<figure id="orgcd57dab">
+<img src="./outputs/func_curve_4907_best_config.png" alt="func_curve_4907_best_config.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-orgf63b6f1" class="outline-2">
+<h2 id="orgf63b6f1"><span class="todo TODO">TODO</span> Study-3809-TryParallel2</h2>
+<div class="outline-text-2" id="text-orgf63b6f1">
+<p>
+<b>Idea.</b> In <i>Study-3002-TryParallel</i>, it seems that setting <code>n_jobs=-1</code> slows
+the overall calculation. Is it because the communication overhead? How
+to speed up via parallelization? Perhaps I should try on <code>dou-Legion</code>
+instead of <code>dou-GramStyle</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org329e99c" class="outline-2">
+<h2 id="org329e99c"><span class="todo TODO">TODO</span> Study-1549-RSTPE</h2>
+<div class="outline-text-2" id="text-org329e99c">
+<p>
+<b>Idea.</b> Load the existing study with a new TPE sampler (the default
+one). According to <a href="https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/001_rdb.html">the doc</a>, loading an existing study will not load
+the previous sampler, which was not saved in fact.
+</p>
+
+<p>
+<b>Setup.</b> Execute the script <code>./optuna-examples/study.py</code>. Git commit
+hash . Run on <code>dou-</code>
+</p>
+</div>
+</div>
+<div id="outline-container-org6281cd6" class="outline-2">
+<h2 id="org6281cd6"><span class="todo TODO">TODO</span> Study-0827-GSTPE</h2>
+<div class="outline-text-2" id="text-org6281cd6">
+<p>
+<b>Idea.</b> Do grid search first and switch to the default sampler.
+</p>
+</div>
+</div>
+<div id="outline-container-org7639722" class="outline-2">
+<h2 id="org7639722"><span class="todo TODO">TODO</span> Study-1734-LargeBatchSize</h2>
+<div class="outline-text-2" id="text-org7639722">
+<p>
+<b>Idea.</b>  Overcome CPU bound by enlarging batch size?
+</p>
+</div>
+</div>
+<div class="taglist"></div>
+]]></description>
+  <link>https://dou-meishi.github.io/org-blog/2025-04-24-PracticeOptuna/fit-sin-experiment.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2025-04-24-PracticeOptuna/fit-sin-experiment.html</guid>
+  <pubDate>Mon, 28 Apr 2025 00:00:00 +0800</pubDate>
 </item>
 <item>
   <title><![CDATA[Display Unicode Characters in Emacs]]></title>
@@ -824,6 +1281,505 @@ inspect more info about the font, like the file path.
   <link>https://dou-meishi.github.io/org-blog/2025-04-26-DisplayUnicodeCharacters/notes.html</link>
   <guid>https://dou-meishi.github.io/org-blog/2025-04-26-DisplayUnicodeCharacters/notes.html</guid>
   <pubDate>Sat, 26 Apr 2025 00:00:00 +0800</pubDate>
+</item>
+<item>
+  <title><![CDATA[A Beginner's Guide to Optuna]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org5f47064">The Basic Workflow</a></li>
+<li><a href="#orgf93ed5d">A Random Search Example</a>
+<ul>
+<li><a href="#org81f9997">Set up the problem</a></li>
+<li><a href="#org240ea9f">Define the objective</a></li>
+<li><a href="#org0ba5804">Create a study</a></li>
+<li><a href="#orga9ffecd">Inspect trial results</a></li>
+<li><a href="#orgd85ddbd">Save and visualize</a></li>
+<li><a href="#org91487d4">The best trial</a></li>
+</ul>
+</li>
+<li><a href="#org1016d30">Advanced Features</a></li>
+<li><a href="#org5a4a41e">References</a></li>
+<li><a href="#org4d97ed8">Appendix: Document the Experiment</a></li>
+</ul>
+</div>
+</nav>
+<p>
+Many sophisticated algorithms, particularly deep learning-based ones,
+have various hyperparameters that control the running process.  Those
+hyperparameters often have a significant impact on
+performance. Manually searching for a good combination of those
+hyperparameters is tedious, and even keeping track of all results
+becomes unwieldy as the number of hyperparameters grows
+beyond 10. Today's topic, <i>Optuna</i>, is such a tool that helps automate
+the search process and stores all results in a structured
+database. Even better, its web-based dashboard lets us explore these
+results intuitively with just a few clicks.
+</p>
+
+
+<figure id="orgaa43927">
+<img src="./trial-table-preview.png" alt="trial-table-preview.png">
+
+</figure>
+
+
+<figure id="org16ec477">
+<img src="./history-preview.png" alt="history-preview.png">
+
+</figure>
+
+
+<figure id="org7bc3584">
+<img src="./timeline-preview.png" alt="timeline-preview.png">
+
+</figure>
+
+<p>
+In this post, we'll first review the Optuna's basic workflow,
+revolving around several core concepts. Then we'll demonstrate its
+basic usage with a simple random search example. Advanced features are
+highlighted at the end, along with links to online resources for
+interested readers.
+</p>
+<div id="outline-container-org5f47064" class="outline-2">
+<h2 id="org5f47064">The Basic Workflow</h2>
+<div class="outline-text-2" id="text-org5f47064">
+<p>
+<a href="https://optuna.org/">Optuna</a> is an open source hyperparameter optimization framework to
+automate hyperparameter search. See <a href="https://www.youtube.com/watch?v=P6NwZVl8ttc">this video</a> for a quick overview of
+Optuna's motivation and features. See their paper (Akiba et al., 2019)
+for the design philosophy. For interested readers, we recommend going
+through key features and recipes in <a href="https://optuna.readthedocs.io/en/stable/tutorial/index.html">the official tutorial</a>.
+</p>
+
+<p>
+To set up the hyperparameter optimization problem, we need an
+evaluation metric \(c(\lambda)\) to measure the performance of a
+hyperparameter combination \(\lambda \in \Lambda\). A hyperparameter optimization
+algorithm explores a subset of \(\Lambda\) and tries to find a well-performed
+\(\lambda\). In Optuna, this workflow is abstracted by two concepts, the <i>study</i>
+and <i>trials</i>. A <code>Study</code> instance is responsible for optimizing a
+user-defined objective function (i.e., the evaluation metric),
+and cordinates multiple <code>Trial</code> objects to explore the hyperparameter
+space \(\Lambda\). Each <code>Trial</code> is assigned a hyperparamter to be evaluated and
+during the evaluation process some trials might be pruned to
+accelerate the optimization process.
+</p>
+
+<p>
+<i>Sampling</i> and <i>Pruning</i> are another two central concepts in
+Optuna. Candidates of hyperparameter combinations are selected through
+various sampling strategies, including uniform samplers for grid
+search, random samplers for random search, samplers derived from
+Bayesian optimization, and etc. Each candidate of hyperparameter
+combinations is evaluated through a <code>Trial</code> object, and pruning
+strategies might be applied to terminate underperforming trials early
+to save computational resources.
+</p>
+
+<p>
+Intuitively, Optuna's workflow can be summarized into following steps.
+</p>
+
+<ol class="org-ol">
+<li>Propose a hyperparameter combination. This is done by samplers.</li>
+
+<li>Evaluate the hyperaprameter combination. This is designated to
+<code>Trial</code> instances.</li>
+
+<li>Record the trial result and propose new hyperparameter
+combinations. In this step, the <code>Study</code> object communicate with all
+trials and saves results in memory or a database. Moreover, various
+samplers used in Optuna can efficiently utilize history infomation
+to propose possible better hyperparameter candidates for future
+trials.</li>
+</ol>
+
+<p>
+Within this framework, Optuna supports easy parallelization by running
+multiple trials simultaneously, efficient pruning by terminating
+trials early, and visualization by a separate dashboard module which
+interfaces with the database.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf93ed5d" class="outline-2">
+<h2 id="orgf93ed5d">A Random Search Example</h2>
+<div class="outline-text-2" id="text-orgf93ed5d">
+<p>
+Below we demonstrate how to do random search with Optuna.  For
+clarity, we focus on essential code snippets; complete scripts are
+available <a href="./fit_sin_GS.py">here</a>. For more examples, please see the
+<a href="https://github.com/optuna/optuna-examples">official repo</a>. In particular, <a href="https://github.com/optuna/optuna-examples/blob/main/sklearn/sklearn_simple.py">here</a> is a simple example that optimizes
+a classifier configuration for Iris dataset using sklearn, and <a href="https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_simple.py">here</a> is
+an official example that optimizes multi-layer perceptrons using
+PyTorch.
+</p>
+</div>
+<div id="outline-container-org81f9997" class="outline-3">
+<h3 id="org81f9997">Set up the problem</h3>
+<div class="outline-text-3" id="text-org81f9997">
+<p>
+Consider a simple nonlinear regression task which fits the sine
+function with fully-connect networks. We begin by a concise script to
+complete the training and testing. Once the original supervised
+learning problem is well-defined, we apply Optuna to tune its
+hyperparameters.
+</p>
+
+<p>
+<i>Original regression problem.</i> Fit \(g(x)=\sin x\) with a fully-connected
+network \(f(x;\theta)\). The training dataset is generated by uniformly
+discretizing \([-4\pi, 4\pi]\) and has 800 data points. The test dataset is
+generated similarly but has 199 data points. Train a two-layer FC
+network and apply SGD for optimization.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">import necessary packages</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">define some global variables for convenience</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">get_dataloader</span>():
+    <span style="color: #2aa198;">"""Return the train dataloader and test dataloader."""</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">get_model_and_optimizer</span>(config: <span style="color: #657b83; font-weight: bold;">dict</span>):
+    <span style="color: #2aa198;">"""Return the model and optimizer specified by `config`."""</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">train_and_eval</span>(model, optimizer, train_loader, test_loader, config):
+    <span style="color: #2aa198;">"""Train the model with optimizer and report test error."""</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org240ea9f" class="outline-3">
+<h3 id="org240ea9f">Define the objective</h3>
+<div class="outline-text-3" id="text-org240ea9f">
+<p>
+<i>The hyperparameter optimization problem.</i> The hyperparameters to be
+tuned are 1) the batch size; 2) the hidden size; 3) the learning
+rate; 4) the momentum in SGD; 5) the number of training epochs. The
+objective of hyperparameter optimization is defined by averaging the
+test errors of 5 independent runs.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">objective</span>(trial: optuna.trial.Trial):
+    <span style="color: #268bd2;">config</span> = {
+        <span style="color: #2aa198;">"batch_size"</span>: trial.suggest_int(<span style="color: #2aa198;">"batch_size"</span>, 16, 128, step=16),
+        <span style="color: #2aa198;">"hidden_size"</span>: trial.suggest_int(<span style="color: #2aa198;">"hidden_size"</span>, 64, 512, step=64),
+        <span style="color: #2aa198;">"lr"</span>: trial.suggest_float(<span style="color: #2aa198;">"lr"</span>, 5e-5, 5e-3, log=<span style="color: #268bd2; font-weight: bold;">True</span>),
+        <span style="color: #2aa198;">"momentum"</span>: trial.suggest_float(<span style="color: #2aa198;">"momentum"</span>, 0.8, 0.99),
+        <span style="color: #2aa198;">"num_epochs"</span>: trial.suggest_int(<span style="color: #2aa198;">"num_epochs"</span>, 500, 5000, step=500),
+    }
+
+    <span style="color: #268bd2;">train_loader</span>, <span style="color: #268bd2;">test_loader</span> = get_dataloader()
+    <span style="color: #268bd2;">total_error</span> = 0.0
+
+    <span style="color: #859900; font-weight: bold;">for</span> _ <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(NUM_REPEATS):
+        <span style="color: #268bd2;">model</span>, <span style="color: #268bd2;">optimizer</span> = get_model_and_optimizer(config)
+        <span style="color: #268bd2;">test_error</span> = train_and_eval(model, optimizer, train_loader, test_loader, config)
+        <span style="color: #268bd2;">total_error</span> += test_error
+
+    <span style="color: #859900; font-weight: bold;">return</span> total_error / NUM_REPEATS
+</pre>
+</div>
+
+<p>
+This objective function accepts a <code>Trial</code> instance and uses optuna's
+<i>suggest</i> API to define the search space of hyperparameters. During the
+runtime, we need to specify a sampler to sample the hyperparameter
+combination for this trial; see <a href="https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/005_user_defined_sampler.html#user-defined-sampler">the doc</a> for an overview of
+samplers. Note that the value returned by <code>suggest_int</code> and
+<code>suggest_float</code> is a single hyperparameter value sampled from a
+distribution instead of a fixed set of values.
+</p>
+</div>
+</div>
+<div id="outline-container-org0ba5804" class="outline-3">
+<h3 id="org0ba5804">Create a study</h3>
+<div class="outline-text-3" id="text-org0ba5804">
+<p>
+We create a <code>Study</code> instance and equip it with the random sampler.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #268bd2;">study</span> = optuna.create_study(
+    sampler=optuna.samplers.RandomSampler(),
+)
+</pre>
+</div>
+
+<p>
+Then, we invoke the <code>optimize</code> method to run trials and evaluate
+hyperparameter combinations sampled by the random sampler. For
+demonstration purpose, we run 10 trials here. Besides the number of
+trials, the <code>optimize</code> method also accept a <code>timeout</code> argument to limit
+the elapsed time; see <a href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.study.Study.html#optuna.study.Study.optimize">the doc</a> for more details.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">study.optimize(objective, n_trials=10)
+</pre>
+</div>
+
+
+<figure id="org970cd82">
+<img src="./optimize-log-demo.png" alt="optimize-log-demo.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-orga9ffecd" class="outline-3">
+<h3 id="orga9ffecd">Inspect trial results</h3>
+<div class="outline-text-3" id="text-orga9ffecd">
+<p>
+All evaluated trials are stored in <code>study.trials</code> and we can access a
+particular trial by its index. For example, above output tells us that
+the first trial is failed. Check its state by
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">study.trials[0].state
+</pre>
+</div>
+
+<pre class="example" id="org4d3e659">
+TrialState.FAIL
+</pre>
+
+<p>
+According to the log output, the trial fails because the objective
+value happens to be NaN. Please see <a href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.trial.TrialState.html">the doc</a> for more explanations on
+trial states in optuna. Actually, the instances stored in <code>study.trials</code>
+are instances of <code>FrozenTrial</code>, and contain the status and results of
+existed trials; see <a href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.trial.FrozenTrial.html">the doc</a> for more details on the methods and
+attributes of frozen trials.
+</p>
+
+<p>
+The <code>optimize</code> method can be called multiple times and the <code>study</code> object
+would preserve the entire optimization history. For instance, here we
+run another 20 trials, which are numbered starting from 10.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">study.optimize(objective, n_trials=20)
+</pre>
+</div>
+
+
+<figure id="org11fdf60">
+<img src="./optimize-log2-demo.png" alt="optimize-log2-demo.png">
+
+</figure>
+
+<p>
+The <code>study</code> object provides useful interfaces to inspect the experiment
+results. For example, the <code>trials_dataframe</code> method can export all trial
+results as a pandas dataframe, and the <code>best_trial</code> attribute returns
+the trial result with best objective value. See <a href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.study.Study.html#optuna.study.Study">the API reference</a> for
+more details.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd85ddbd" class="outline-3">
+<h3 id="orgd85ddbd">Save and visualize</h3>
+<div class="outline-text-3" id="text-orgd85ddbd">
+<p>
+We can save the <code>study</code> object to a RDB (Relational DataBase) for future
+usage. In general, all data associated with a <code>Study</code> instance is stored
+in its attribute <code>_storage</code>, which is created at initialization; see <a href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.study.create_study.html#optuna.study.create_study">the
+API reference</a> for details. As we did not manually specify the storage,
+optuna initializes in-memory storage by default. In addition, optuna
+also automatically assigns a name to the study if not specified.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">study.study_name, study._storage
+</pre>
+</div>
+
+<pre class="example" id="orgd65a71c">
+('no-name-1303842b-a35f-4d3e-b74f-15b25601b7ff',
+ &lt;optuna.storages._in_memory.InMemoryStorage at 0x7d9e495c5cf0&gt;)
+</pre>
+
+<p>
+Optuna does not provide a direct method for saving an in-memory study
+to an RDB, at least I did not find it in the doc at the time of
+writing this post. Nevertheless, we can create a new study with RDB
+storage and copy the in-memory study to the new one.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">save by copying to a new study with RDB storage</span>
+<span style="color: #268bd2;">study_saved</span> = optuna.copy_study(
+    from_study_name=study.study_name,
+    from_storage=study._storage,
+    to_storage=<span style="color: #2aa198;">"sqlite:///fit-sin.db"</span>,
+    to_study_name=<span style="color: #2aa198;">"Random Search"</span>,
+)
+</pre>
+</div>
+
+<p>
+This will save all trial results in a sqlite database <code>./fit-sin.db</code>;
+see <a href="https://docs.sqlalchemy.org/en/20/core/engines.html#database-urls">here</a> for how to set up the database URL. See also <a href="https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/001_rdb.html">this official
+tutorial</a> for how to work with RDB backend.
+</p>
+
+<p>
+Like in-memory storage, RDB-based storage is continuously updated
+during the optimization process, and we can view the real-time
+progress with <code>optuna-dashboard</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">optuna-dashboard sqlite:///fit-sin.db
+</pre>
+</div>
+
+<pre class="example" id="org76ba7a1">
+Listening on http://127.0.0.1:8080/
+</pre>
+
+<p>
+By default, this launches a local HTTP server at <code>localhost:8080</code>. Open
+it in the browser to access the dashboard, which provides an
+interactive interface for visualizing the optimization history. See
+<a href="https://optuna-dashboard.readthedocs.io/en/stable/">the dashboard doc</a> for more details. See also <a href="https://optuna.readthedocs.io/en/stable/reference/visualization/index.html">the doc</a> for
+<code>optuna.visualization</code> module for how these visualizations are generated
+and what they mean.
+</p>
+</div>
+</div>
+<div id="outline-container-org91487d4" class="outline-3">
+<h3 id="org91487d4">The best trial</h3>
+<div class="outline-text-3" id="text-org91487d4">
+<p>
+In a following experiment, Optuna run a random search for 4 hours and
+explored 265 possible hyperparameter combinations. The best trial
+achieved objective value 0.048 with
+</p>
+<pre class="example" id="orgbf27413">
+batch_size 32
+hidden_size 256
+lr 0.00041248960052382266
+momentum 0.8962061621328364
+num_epochs 5000
+</pre>
+
+<p>
+Training the model with that combination yields the following function
+curve.
+</p>
+
+
+<figure id="org7c01011">
+<img src="./best-trial-preview.png" alt="best-trial-preview.png">
+
+</figure>
+</div>
+</div>
+</div>
+<div id="outline-container-org1016d30" class="outline-2">
+<h2 id="org1016d30">Advanced Features</h2>
+<div class="outline-text-2" id="text-org1016d30">
+<p>
+The previous section covered the basic usage of Optuna. The next step
+is to integrate Optuna into various aspects of the training workflow.
+</p>
+
+<ol class="org-ol">
+<li><i>Explore the hyperparameter space.</i> Random search is simple and
+efficient for most problems, but Optuna also provides many
+sophisticated samplers; see <a href="https://optuna.readthedocs.io/en/stable/reference/samplers/index.html">its manual</a> for more discussion.</li>
+
+<li><i>Prune unpromising trials early.</i> The pruner is another core concept
+of Optuna. By monitoring the test error during the training
+process, it decides whether to terminate the trial before
+completion and saves time for other trials.</li>
+
+<li><i>Search endlessly until manual termination.</i> It's easy to write a
+script and let Optuna do trials endlessly in a remote machine until
+being manually terminated or reaching elapsed time; see <a href="https://optuna.readthedocs.io/en/stable/reference/generated/optuna.study.Study.html#optuna.study.Study.optimize">the doc</a> of
+<code>study.optimize</code> for more details.</li>
+
+<li><i>Run multiple trials by parallelization.</i> Parallelization and
+distributed calculation in Optuna are straightforward; see <a href="https://optuna.readthedocs.io/en/stable/tutorial/10_key_features/004_distributed.html">this
+official tutorial</a> for an example.</li>
+
+<li><i>Manage trials results.</i> Using Optuna's RDB API, it is
+straightforward to add or copy existing trial results. This enables
+use cases like saving and resuming the study via loading all
+results in the database; see also <a href="https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/001_rdb.html">this official tutorial</a>.</li>
+</ol>
+
+<p>
+For more advanced features, please refer to <a href="https://optuna.readthedocs.io/en/stable/tutorial/index.html">the official tutorial
+collections</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org5a4a41e" class="outline-2">
+<h2 id="org5a4a41e">References</h2>
+<div class="outline-text-2" id="text-org5a4a41e">
+<dl class="org-dl">
+<dt>Optuna's official documentation</dt><dd>Optuna. (2018). Optuna: A hyperparameter optimization framework. <i>Read the Docs.</i> <a href="https://optuna.readthedocs.io/en/stable/index.html">https://optuna.readthedocs.io/en/stable/index.html</a></dd>
+
+<dt>Optuna's paper</dt><dd>Akiba, T., Sano, S., Yanase, T., Ohta, T., &amp; Koyama, M. (2019). Optuna: A next-generation hyperparameter optimization framework. <i>Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining</i>, 2623–2631. <a href="https://doi.org/10.1145/3292500.3330701">https://doi.org/10.1145/3292500.3330701</a></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org4d97ed8" class="outline-2">
+<h2 id="org4d97ed8">Appendix: Document the Experiment</h2>
+<div class="outline-text-2" id="text-org4d97ed8">
+<p>
+It is good practice to document our findings and ideas during
+exploration. For instance, create a dedicated text file to serve as a
+lab journal. The actual format can vary based on requirements; the
+example below is just one possible approach.
+</p>
+
+<p>
+In this journal, clearly state the problem and the expected
+outcome. Whenever we explore a certain idea, create a dedicated entry
+to elaborate the motivation and record findings. To simplify
+referencing, name these entries using a consistent pattern, e.g.,
+<code>Study-DDDD-Title</code>, where <code>Title</code> is a brief study description and <code>DDDD</code> is
+a four-digit ID generated randomly. Each entry should include the
+following elements:
+</p>
+
+<ul class="org-ul">
+<li><i>Date.</i> Specify <i>when</i> the study was conducted.</li>
+<li><i>Idea.</i> Describe the motivation and basic information about this study.</li>
+<li><i>Setup.</i> Explain <i>how</i> the experiment was configured to ensure reproducibility.</li>
+<li><i>Result.</i> Record the outcomes..</li>
+<li><i>Analysis.</i> Summarize insights and interpretations.</li>
+<li><i>Other.</i> Additional notes or observations.</li>
+</ul>
+
+<p>
+In practice, we can use the Git commit hash for describing the
+experiment configuration and record results in a RDB via Optuna.
+</p>
+
+<p>
+The journal I created for this problem is attached <a href="fit-sin-experiment.html">here</a>.
+</p>
+</div>
+</div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-ai.html">ai</a> </div>
+]]></description>
+  <category><![CDATA[ai]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2025-04-24-PracticeOptuna/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2025-04-24-PracticeOptuna/notes.html</guid>
+  <pubDate>Thu, 24 Apr 2025 00:00:00 +0800</pubDate>
 </item>
 <item>
   <title><![CDATA[Gradients of Convolution: Direct Computation and Linear Algebra Perspective]]></title>

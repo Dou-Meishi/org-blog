@@ -1,0 +1,300 @@
+#+TITLE: Fit a Sin Function with Neural Networks
+#+DATE: [2025-04-28]
+
+/Problem./ Fit $g(x)=\sin x$ with a fully-connected network
+$f(x;\theta)$.
+
+/Subproblem 1./ Generate the training dataset by uniformly discretizing
+$[-4\pi, 4\pi]$ into 800 points. Generate the test data similarly but
+sample only 199 points, avoiding overlapping with the training
+data.
+
+/Subproblem 1.1./ Train a two-layer FC network and apply SGD for
+optimization.
+
+/Project folders./ Local root folder
+=dou-GramStyle:~/Documents/2025-04-24-PracticeOptuna=. Local git repo
+folder =./optuna-examples/=, linked to [[https://github.com/Dou-Meishi/optuna-examples][this public GitHub repo]]. Local
+data folder =./outputs/=.
+
+For more background information, see [[file:notes.org][note:2025-04-24::A Beginner's
+Guide to Optuna]].
+
+** DONE Study-0128-RSGS
+
+*Date.* [2025-04-25 Fri]
+
+*Idea.* Practice the basic usage of Optuna. Approach /Subproblem 1.1./ Try
+using random search and grid search to tune the following
+parameters: 1) the hidden size; 2) the learning rate; 3) the momentum
+in SGD; 4) the number of training epochs. The objective of
+hyperparameter optimization is defined by averaging the test errors of
+5 independent runs.
+
+*Setup.* Basic training snippets are included in
+=./optuna-examples/fit_sin_GS.py=. Commit hash is =b7f419c=.
+
+*Result.* Saved in =./outputs/study-0128-RSGS.db=. Grid search 27 trials
+(6 failed) and Random search 30 trials (14 failed).  Best trial of RS
+achieves value 0.462. Best trial of GS achieves value 0.448.
+#+BEGIN_EXAMPLE
+Parameters of RS best trial (value: 0.462)
+--------------------
+hidden_size 188
+lr 0.0001943403128026264
+momentum 0.5811539234948213
+num_epochs 10
+--------------------
+
+Parameters of GS best trial (value: 0.448)
+--------------------
+hidden_size 256
+lr 0.0001
+momentum 0.9
+num_epochs 5
+--------------------
+#+END_EXAMPLE
+
+** DONE Study-1522-TestRemoteTrain
+
+*Date.* [2025-04-28 Mon]
+
+*Idea.* Follow up /Study-0128-RSGS/ to practice task managements on a
+server.
+
+*Setup.* Execute the python script =./optuna-examples/rs.py=. Git commit
+hash =bda9d23=. Run random search on =dou-Legion= and set ~timeout=300~.
+
+*Result.* Saved in =./outputs/study-1522-TestRemoteTrain.db=.  Evaluated
+224 trials (107 failed). Best trial achieved value 0.436.
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.436)
+--------------------
+hidden_size 68
+lr 0.00452247212086387
+momentum 0.8332848308334438
+num_epochs 10
+--------------------
+#+END_EXAMPLE
+
+** DONE Study-2720-DefaultSampler
+
+*Date.* [2025-04-28 Mon]
+
+*Idea.* Follow up /Study-0128-RSGS/ but use Optuna's default sampler until
+manually terminated.
+
+*Setup.* Execute =./optuna-examples/study-2720.py=. Git commit hash
+=c9a5dc2=. Run on =dou-Legion=.
+
+*Result.* Saved in =./outputs/study-2720-DefaultSampler.db=. Evaluated
+2673 trials (2663 failed). Best trials achieved value 0.452.
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.452)
+--------------------
+hidden_size 157
+lr 0.00011223737855212125
+momentum 0.884522041444841
+num_epochs 10
+--------------------
+#+END_EXAMPLE
+
+** DONE Study-1758-CentralStorage
+
+*Date.* [2025-04-28 Mon]
+
+*Idea.* Aggregate separate storages into a big storage to ease analysis?
+
+*Analysis.* It seems that Optuna does not support this feature; see also
+[[https://github.com/optuna/optuna/issues/2364][this github issue]]. Though I think it is possible to copy the content
+of a database to another one, the solution of opening multiple
+Optuna's dashboard is enough for my case.
+#+BEGIN_SRC shell
+# open dashboard under URL localhost:8081
+nohup optuna-dashboard --port 8081 sqlite:///PATH > /dev/null 2>&1 &
+#+END_SRC
+
+** DONE Study-3342-EarlyFail
+
+*Date.* [2025-04-28 Mon 19:32]
+
+*Idea.* Manually fail a trail if one run is too bad. Avoid run 5 times
+for all trials.  In each run, if the test error greater than a
+threshold or is nan, then return immediately.
+
+*Setup.* Modify the =objective= function in script
+=./optuna-examples/fit_sin_GS.py=. Execute the script
+=optuna-examples/study-3342.py=.  Git commit hash =ffc2de7=. Run on =dou-GramStyle=.
+
+*Result.* Saved in =./outputs/study-3342-EarlyFail.db=. Evaluated 20
+trials (2 completed). Best trial achieved value 0.437
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.437)
+--------------------
+hidden_size 104
+lr 0.0003140147791787246
+momentum 0.8274419297671974
+num_epochs 10
+--------------------
+#+END_EXAMPLE
+
+*Analysis.* It seems that I should change the search space to
+#+BEGIN_SRC python
+{
+    "hidden_size": trial.suggest_int("hidden_size", 64, 512, step=64),
+    "lr": trial.suggest_float("lr", 5e-5, 5e-3, log=True),
+    "momentum": trial.suggest_float("momentum", 0.8, 0.99),
+    "num_epochs": trial.suggest_int("num_epochs", 5, 10),
+}
+#+END_SRC
+
+** DONE Study-0714-RedoRS
+
+*Date.* [2025-04-28 Mon 20:07]
+
+*Idea.* Change the search space to that suggested in
+/Study-3342-EarlyFail/.
+
+*Setup.* Execute the script =./optuna-examples/study-0714.py=. Git commit
+hash =c3149ae=. Run on =dou-GramStyle= and monitor results in real-time.
+
+*NOTE*. I forget to modify the main script to redefine the search
+space. See /Study-0411-RedoRS2/ for the correct implementation.
+
+*Result.* Saved in =./outputs/study-0714-RedoRS.db=. Evaluated 1333 trials
+(244 completed). Best trial achieved value 0.443.
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.443)
+--------------------
+hidden_size 72
+lr 0.00025116919989179423
+momentum 0.8523339519713462
+num_epochs 10
+--------------------
+#+END_EXAMPLE
+
+** DONE Study-3002-TryParallel
+
+*Date.* [2025-04-28 Mon]
+
+*Idea.* Try parallelization.
+
+*Setup.* Execute the script =./optuna-examples/study-3002.py=. Git commit
+hash . Run on =dou-GramStyle= and monitor results in real-time.
+
+*Result.* Saved in =./outputs/study-3002-TryParallel.db=. Evaluated 665
+trials (103 completed). Best trial achieved value 0.432.
+
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.432)
+--------------------
+hidden_size 114
+lr 0.00038712879285619675
+momentum 0.8445783487833786
+num_epochs 9
+--------------------
+#+END_EXAMPLE
+
+** DONE Study-0411-RedoRS2
+
+*Date.* [2025-04-28 Mon 21:04]
+
+*Idea.* Follow up of /Study-0714-RedoRS/ with correct search space.
+Moreover, I modify the main script to support tuning the batch size. I
+also add early fail in the =train_and_eval= function when loss is nan.
+
+*Setup.* Execute the script =./optuna-examples/study-0411.py=. Git commit
+hash =4c89f7c=. Run on =dou-GramStyle= and monitor results in real-time.
+
+*Result.* Saved in =./outputs/study-0411-RedoRS2.db=. Evaluated 715 trials
+(101 completed). Best trial achieved value 0.436.
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.436)
+--------------------
+batch_size 32
+hidden_size 64
+lr 0.00037310774730677437
+momentum 0.9225834312673848
+num_epochs 9
+--------------------
+#+END_EXAMPLE
+
+** DONE Study-4413-RedoGS
+CLOSED: [2025-04-28 Mon 21:43]
+
+*Date.* [2025-04-28 Mon 21:25]
+
+*Idea.* Use grid search to try different batch size and larger number of
+epochs. Consider batch size in =[16, 32, 128]= and number of epochs in
+=[10, 100, 1000]=.
+
+*Setup.* Execute the script =optuna-examples/study-4413.py=. Git commit
+hash =affb616=. Run on =dou-GramStyle=.
+
+*Result.* Saved in =./outputs/study-4413-RedoGS.db=. Evaluated 9 trials
+(8 completed). Best trial achieved value 0.367.
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.367)
+--------------------
+batch_size 32
+hidden_size 32
+lr 0.0001
+momentum 0.9
+num_epochs 1000
+--------------------
+#+END_EXAMPLE
+
+** DONE Study-4907-RedoRS3
+CLOSED: [2025-04-29 Tue 08:51]
+:LOGBOOK:
+- State "WAITING"    from "TODO"       [2025-04-28 Mon 21:54]
+:END:
+
+*Date.* [2025-04-28 Mon 21:49]
+
+*Idea.* Do random search around the best trial of
+/Study-4413-RedoGS/. Change the search space accordingly in the main
+script. Run on =dou-Legion=.
+
+*Setup.* Execute the script =./optuna-examples/study-4907.py=. Git commit
+hash =07ca252=. Run on =dou-Legion=.
+
+*Result.* Saved in =./outputs/study-4907-RedoRS3.db=. Evaluated  trials
+( completed). Best trial achieved value 0.048.
+#+BEGIN_EXAMPLE
+Parameters of the best trial (value: 0.048)
+--------------------
+batch_size 32
+hidden_size 256
+lr 0.00041248960052382266
+momentum 0.8962061621328364
+num_epochs 5000
+--------------------
+#+END_EXAMPLE
+
+[[./outputs/func_curve_4907_best_config.png]]
+
+** TODO Study-3809-TryParallel2
+
+*Idea.* In /Study-3002-TryParallel/, it seems that setting ~n_jobs=-1~ slows
+the overall calculation. Is it because the communication overhead? How
+to speed up via parallelization? Perhaps I should try on =dou-Legion=
+instead of =dou-GramStyle=.
+
+** TODO Study-1549-RSTPE
+
+*Idea.* Load the existing study with a new TPE sampler (the default
+one). According to [[https://optuna.readthedocs.io/en/stable/tutorial/20_recipes/001_rdb.html][the doc]], loading an existing study will not load
+the previous sampler, which was not saved in fact.
+
+*Setup.* Execute the script =./optuna-examples/study.py=. Git commit
+hash . Run on =dou-=
+
+** TODO Study-0827-GSTPE
+
+*Idea.* Do grid search first and switch to the default sampler.
+
+** TODO Study-1734-LargeBatchSize
+
+*Idea.*  Overcome CPU bound by enlarging batch size?
+
