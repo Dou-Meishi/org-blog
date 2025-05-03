@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>A Repository for Future Tasks</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">01 May 2025</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2025-05-01-ATaskRepository/notes.html">A Repository for Future Tasks</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org6b8d7a6">Capture Ideas Quickly</a></li>
+<li><a href="#org270c469">Assign Task Priorities</a></li>
+<li><a href="#orgd14e7ba">Review All Future Tasks</a></li>
+<li><a href="#orgbf90b6a">Organize the Init File</a></li>
+<li><a href="#org5bf6b87">References</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<i>Motivation.</i> Store potential future tasks and rank them based on
+priority. Many ideas aren't worth pursuing immediately and could be
+stored for future consideration. To avoid being overwhelmed by an
+ever-growing list of such tasks, consider ranking them by priority.
+</p>
+
+<p>
+In daily work, I often encounter this dilemma: sometimes I have a
+great idea that I don't have time to work on this week. If I create a
+task entry for it, the entry is often left empty due to limited
+time. It would be great if I had a repository to store those ideas,
+allowing me to select and convert them into task entries if time
+permits. I could also periodically visit this repository, review
+existing ideas, and adjust their priority.
+</p>
+
+<p>
+<i>Overview of my implementation via Emacs Org Mode.</i> Use capture
+templates to quickly capture new ideas and store them in the
+repository which is literally a org file. Define and use the <i>PRIORITY</i>
+attribute of org headlines to rank these ideas. To review existing
+ideas, create a custom agenda view and toggle sorting by priority by
+default.
+</p>
+
+<p>
+<i>Write freely, but do not expect to act on every idea. Many ideas
+aren't worth pursuing immediately; some may never be worth
+pursuing. Remember that we only have limited time and limited
+intelligence. Focus on what turly matters. This repository exists to
+preserve transformative ideas that might even change our life. Review
+it regularly and prune unworthy ideas to focus our attentions.</i>
+</p>
+<div id="outline-container-org6b8d7a6" class="outline-2">
+<h2 id="org6b8d7a6">Capture Ideas Quickly</h2>
+<div class="outline-text-2" id="text-org6b8d7a6">
+<p>
+The <code>org-capture</code> command provides a convenient way to capture ideas
+quickly; see <a href="https://orgmode.org/manual/Capture.html">the org manual</a> for a complete introduction. When invoked,
+it will ask to select a capture template, which specifies a formatted
+string as the initial content of a captured entry and a location where
+to store the entry. After selection, it will prompt a temporary buffer
+where user can fill in or directly modify to write down anything they
+want.
+</p>
+
+<p>
+We can create a capture template by customizing the
+<code>org-capture-templates</code> variable, which is a list of such templates.  In
+my init file, I set it to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">setq</span> org-capture-templates
+ '((<span style="color: #2aa198;">"f"</span> <span style="color: #2aa198;">"idea"</span> entry (file+datetree <span style="color: #2aa198;">"~/org/future-tasks.org"</span>)
+      <span style="color: #2aa198;">"* [#E] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"</span>
+      <span style="color: #657b83; font-weight: bold;">:empty-lines</span> 1)))
+</pre>
+</div>
+
+<p>
+This template defines a prompt key <code>f</code>, which is used in selection after
+invoking <code>org-capture</code>. The description <code>"idea"</code> is also displayed in the
+selection buffer after <code>f</code> to aid selection. Captured item is set to
+type <code>entry</code>, a normal Org headline, and will be stored in file
+<code>~/org/future-tasks.org</code> with a date tree structure. The last element is
+the template string, in which we can use special <i>%-escaped</i> codes. For
+example, <code>%U</code> will be expanded to a timestamp with date and time, and <code>%i</code>
+will be expand to contents of the active region; see <a href="https://orgmode.org/manual/Template-expansion.html">the manual</a> for a
+complete list of such codes and explanations. When creating a capture
+template, we can also specify additional options to control various
+behaviors. For example, the <code>empty-lines</code> determines how many blank
+lines wrap this entry when inserted to the target file; see also <a href="https://orgmode.org/manual/Template-elements.html">the
+manual</a> for more details.
+</p>
+
+<p>
+To use, invoke <code>org-capture</code> and hit <code>f</code> to select this template. Write
+down whatever we want and press <code>C-c C-c</code> to finish and store in
+<code>~/org/future-tasks.org</code>. When necessary, use
+<code>org-capture-goto-last-stored</code> to visit the last stored capture entry.
+</p>
+
+<p>
+Note that after selecting a capture template, Emacs will prompt a
+capture buffer where the template has been expanded and inserted.
+</p>
+
+
+<figure id="orge142574">
+<img src="./capture-template-preview.png" alt="capture-template-preview.png">
+
+</figure>
+
+<p>
+As our capture template specifies the location as <code>file+datetree</code>,
+entries would be automatically stored with a date tree structure<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.
+</p>
+
+
+<figure id="org858ccfe">
+<img src="./capture-results-preview.png" alt="capture-results-preview.png">
+
+</figure>
+</div>
+</div>
+<div id="outline-container-org270c469" class="outline-2">
+<h2 id="org270c469">Assign Task Priorities</h2>
+<div class="outline-text-2" id="text-org270c469">
+<p>
+As time goes by, there would be more and more future tasks and it
+makes sense to prioritize them; see <a href="https://orgmode.org/manual/Priorities.html">the org manual</a> for a complete
+introduction. In Org mode, any headline can be assigned a priority
+value and support sorting in built-in commands or user-defined
+commands<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+</p>
+
+<p>
+To quickly change the priorities, navigate to a headline and press
+<code>S-UP</code> or <code>S-DOWN</code> to increase/decrease its priority, or use <code>C-c ,
+(org-priority)</code> to directly set the priority.
+</p>
+
+<p>
+In my init file, I set the lowest, highest, default priority, and the
+face to display the priority value.
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">setq</span> org-lowest-priority ?F)
+(<span style="color: #859900; font-weight: bold;">setq</span> org-highest-priority ?A)
+(<span style="color: #859900; font-weight: bold;">setq</span> org-default-priority ?F)
+(<span style="color: #859900; font-weight: bold;">setq</span> org-priority-faces
+      '((?A . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#d33682"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+        (?B . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#268bd2"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+        (?C . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#dc322f"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+        (?D . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#2aa198"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+        (?E . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#6c71c4"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+        (?F . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#859900"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd14e7ba" class="outline-2">
+<h2 id="orgd14e7ba">Review All Future Tasks</h2>
+<div class="outline-text-2" id="text-orgd14e7ba">
+<p>
+To review all future tasks and sort them by priority, we can create a
+custom agenda view; see <a href="https://orgmode.org/manual/Agenda-Views.html">the org manual</a> for a complete
+introduction. The command <code>org-agenda</code> can select entries based on
+various criteria and display them in a separate <i>agenda buffer</i>. It
+provides several default agenda views to select and display entries in
+specific ways.
+</p>
+
+<p>
+Here, we create a custom agenda view to select future tasks stored in
+<code>~/org/future-tasks.org</code> and display them by sorting with their priority
+values. Here, we only display tasks with priority higher than <code>F</code> by
+searching entries with <code>PRIORITY&lt;"F"</code> (priority value is a character, or
+equivalently an integer in lisp; for example, F is equivalent to 70
+and E is equivalent to 69). Note that by default the <code>org-agenda</code> only
+collect entries stored in agenda files (specified by
+<code>org-agenda-files</code>). Therefore, we override its value when creating this
+agenda view. Besides, all tasks considered <i>done</i> are ignored; see also
+<a href="https://orgmode.org/manual/TODO-Extensions.html">the manual</a> for how to set TODO keywords.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">setq</span> org-agenda-custom-commands
+  '((<span style="color: #2aa198;">"f"</span> <span style="color: #2aa198;">"Future Tasks"</span>
+     ((tags <span style="color: #2aa198;">"PRIORITY&lt;\"F\""</span>
+              ((org-agenda-overriding-header <span style="color: #2aa198;">"Future Tasks:"</span>)
+               (org-agenda-files '(<span style="color: #2aa198;">"~/org/future-tasks.org"</span>))
+               (org-agenda-sorting-strategy '(priority-down alpha-up))
+               (org-agenda-prefix-format <span style="color: #2aa198;">"  "</span>)
+               (org-agenda-skip-function
+                '(org-agenda-skip-entry-if 'todo 'done)))))
+      nil)
+))
+</pre>
+</div>
+
+<p>
+To use, invoke <code>org-agenda</code> and hit <code>f</code> to obtain the defined agenda
+view. Use <code>n</code> or <code>p</code> for moving around to select tasks. Use <code>+</code> or <code>-</code> to
+increase/decrease the priority of the selected task. Use <code>,</code> to directly
+set the priority. To modify multiple entries quickly, mark them via <code>m</code>
+and hit <code>B</code> to activate bulk actions; see also <a href="https://orgmode.org/manual/Agenda-Commands.html">the manual</a> for more
+details.
+</p>
+
+
+<figure id="orgfc19fcf">
+<img src="./agenda-view.png" alt="agenda-view.png">
+
+</figure>
+
+<p>
+To ignore a task entry, simply set its priority to F. To mark a task
+as <i>done</i>, change its TODO state to <i>DONE</i>. In either way, the entry will
+not show up in this agenda view.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbf90b6a" class="outline-2">
+<h2 id="orgbf90b6a">Organize the Init File</h2>
+<div class="outline-text-2" id="text-orgbf90b6a">
+<p>
+I use the <code>use-package</code> macro to organize those settings in my init
+file. Below is the relevant sections in my <code>~/.emacs.d/init.el</code> file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">use-package</span> org
+  <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">org capture settings</span>
+  <span style="color: #657b83; font-weight: bold;">:bind</span> ((<span style="color: #2aa198;">"C-c c"</span> . org-capture))
+  <span style="color: #657b83; font-weight: bold;">:config</span>
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-capture-templates
+        '((<span style="color: #2aa198;">"f"</span> <span style="color: #2aa198;">"idea"</span> entry (file+datetree <span style="color: #2aa198;">"~/org/future-tasks.org"</span>)
+           <span style="color: #2aa198;">"* [#E] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"</span>
+           <span style="color: #657b83; font-weight: bold;">:empty-lines</span> 1)))
+)
+
+(<span style="color: #859900; font-weight: bold;">use-package</span> org
+  <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">org priority settings</span>
+  <span style="color: #657b83; font-weight: bold;">:config</span>
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-lowest-priority ?E)
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-highest-priority ?A)
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-default-priority ?E)
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-priority-faces
+        '((?A . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#d33682"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+          (?B . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#268bd2"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+          (?C . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#dc322f"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+          (?D . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#2aa198"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+          (?E . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#6c71c4"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))
+          (?F . '(<span style="color: #657b83; font-weight: bold;">:foreground</span> <span style="color: #2aa198;">"#859900"</span> <span style="color: #657b83; font-weight: bold;">:weight</span> extra-bold))))
+)
+
+(<span style="color: #859900; font-weight: bold;">use-package</span> org
+  <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">org agenda settings</span>
+  <span style="color: #657b83; font-weight: bold;">:bind</span> ((<span style="color: #2aa198;">"C-c a"</span> . org-agenda))
+  <span style="color: #657b83; font-weight: bold;">:config</span>
+  (<span style="color: #859900; font-weight: bold;">setq</span> org-agenda-custom-commands
+        '((<span style="color: #2aa198;">"f"</span> <span style="color: #2aa198;">"Future Tasks"</span>
+           ((tags <span style="color: #2aa198;">"PRIORITY&lt;\"F\""</span>
+                  ((org-agenda-overriding-header <span style="color: #2aa198;">"Future Tasks:"</span>)
+                   (org-agenda-files '(<span style="color: #2aa198;">"~/org/future-tasks.org"</span>))
+                   (org-agenda-sorting-strategy '(priority-down alpha-up))
+                   (org-agenda-prefix-format <span style="color: #2aa198;">"  "</span>)
+                   (org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'todo 'done)))))
+           nil)))
+)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5bf6b87" class="outline-2">
+<h2 id="org5bf6b87">References</h2>
+<div class="outline-text-2" id="text-org5bf6b87">
+<dl class="org-dl">
+<dt>Section 5 <i>TODO Items</i> in Emacs Org Manual</dt><dd>GNU. (2024). <i>The Org Manual.</i> Free Software Foundation. <a href="https://orgmode.org/manual/TODO-Items.html">https://orgmode.org/manual/TODO-Items.html</a></dd>
+
+<dt>Section 7 <i>Properties and Columns</i> in Emacs Org Manual</dt><dd>GNU. (2024). <i>The Org Manual.</i> Free Software Foundation. <a href="https://orgmode.org/manual/Properties-and-Columns.html">https://orgmode.org/manual/Properties-and-Columns.html</a></dd>
+
+<dt>Section 10.1 <i>Capture</i> in Emacs Org Manual</dt><dd>GNU. (2024). <i>The Org Manual.</i> Free Software Foundation. <a href="https://orgmode.org/manual/Capture.html">https://orgmode.org/manual/Capture.html</a></dd>
+
+<dt>Section 11 <i>Agenda Views</i> in Emacs Org Manual</dt><dd>GNU. (2024). <i>The Org Manual.</i> Free Software Foundation. <a href="https://orgmode.org/manual/Agenda-Views.html">https://orgmode.org/manual/Agenda-Views.html</a></dd>
+</dl>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+It is also possible to change the default tree structure from
+<i>Year-Month-Day</i> to <i>Year-Week</i>; see the <code>tree-type</code> option in the <a href="https://orgmode.org/manual/Template-elements.html">manual</a>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+The priority value can be accessed by a special property called
+<i>PROIRITY</i>; see also <a href="https://orgmode.org/manual/Special-Properties.html">the manual</a> for a complete list of special
+properties.
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-emacs.html">emacs</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

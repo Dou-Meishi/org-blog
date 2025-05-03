@@ -1,0 +1,228 @@
+#+TITLE: A Repository for Future Tasks
+#+DATE: [2025-05-01]
+#+FILETAGS: emacs
+
+/Motivation./ Store potential future tasks and rank them based on
+priority. Many ideas aren't worth pursuing immediately and could be
+stored for future consideration. To avoid being overwhelmed by an
+ever-growing list of such tasks, consider ranking them by priority.
+
+In daily work, I often encounter this dilemma: sometimes I have a
+great idea that I don't have time to work on this week. If I create a
+task entry for it, the entry is often left empty due to limited
+time. It would be great if I had a repository to store those ideas,
+allowing me to select and convert them into task entries if time
+permits. I could also periodically visit this repository, review
+existing ideas, and adjust their priority.
+
+/Overview of my implementation via Emacs Org Mode./ Use capture
+templates to quickly capture new ideas and store them in the
+repository which is literally a org file. Define and use the /PRIORITY/
+attribute of org headlines to rank these ideas. To review existing
+ideas, create a custom agenda view and toggle sorting by priority by
+default.
+
+/Write freely, but do not expect to act on every idea. Many ideas
+aren't worth pursuing immediately; some may never be worth
+pursuing. Remember that we only have limited time and limited
+intelligence. Focus on what turly matters. This repository exists to
+preserve transformative ideas that might even change our life. Review
+it regularly and prune unworthy ideas to focus our attentions./
+
+** Capture Ideas Quickly
+
+The =org-capture= command provides a convenient way to capture ideas
+quickly; see [[https://orgmode.org/manual/Capture.html][the org manual]] for a complete introduction. When invoked,
+it will ask to select a capture template, which specifies a formatted
+string as the initial content of a captured entry and a location where
+to store the entry. After selection, it will prompt a temporary buffer
+where user can fill in or directly modify to write down anything they
+want.
+
+We can create a capture template by customizing the
+=org-capture-templates= variable, which is a list of such templates.  In
+my init file, I set it to
+
+#+BEGIN_SRC elisp
+(setq org-capture-templates
+ '(("f" "idea" entry (file+datetree "~/org/future-tasks.org")
+      "* [#E] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"
+      :empty-lines 1)))
+#+END_SRC
+
+This template defines a prompt key =f=, which is used in selection after
+invoking =org-capture=. The description ="idea"= is also displayed in the
+selection buffer after =f= to aid selection. Captured item is set to
+type =entry=, a normal Org headline, and will be stored in file
+=~/org/future-tasks.org= with a date tree structure. The last element is
+the template string, in which we can use special /%-escaped/ codes. For
+example, =%U= will be expanded to a timestamp with date and time, and =%i=
+will be expand to contents of the active region; see [[https://orgmode.org/manual/Template-expansion.html][the manual]] for a
+complete list of such codes and explanations. When creating a capture
+template, we can also specify additional options to control various
+behaviors. For example, the =empty-lines= determines how many blank
+lines wrap this entry when inserted to the target file; see also [[https://orgmode.org/manual/Template-elements.html][the
+manual]] for more details.
+
+To use, invoke =org-capture= and hit =f= to select this template. Write
+down whatever we want and press =C-c C-c= to finish and store in
+=~/org/future-tasks.org=. When necessary, use
+=org-capture-goto-last-stored= to visit the last stored capture entry.
+
+Note that after selecting a capture template, Emacs will prompt a
+capture buffer where the template has been expanded and inserted.
+
+[[./capture-template-preview.png]]
+
+As our capture template specifies the location as =file+datetree=,
+entries would be automatically stored with a date tree structure[fn:2].
+
+[[./capture-results-preview.png]]
+
+[fn:2] It is also possible to change the default tree structure from
+/Year-Month-Day/ to /Year-Week/; see the =tree-type= option in the [[https://orgmode.org/manual/Template-elements.html][manual]].
+
+** Assign Task Priorities
+
+As time goes by, there would be more and more future tasks and it
+makes sense to prioritize them; see [[https://orgmode.org/manual/Priorities.html][the org manual]] for a complete
+introduction. In Org mode, any headline can be assigned a priority
+value and support sorting in built-in commands or user-defined
+commands[fn:1].
+
+To quickly change the priorities, navigate to a headline and press
+=S-UP= or =S-DOWN= to increase/decrease its priority, or use =C-c ,
+(org-priority)= to directly set the priority.
+
+In my init file, I set the lowest, highest, default priority, and the
+face to display the priority value.
+#+BEGIN_SRC elisp
+(setq org-lowest-priority ?F)
+(setq org-highest-priority ?A)
+(setq org-default-priority ?F)
+(setq org-priority-faces
+      '((?A . '(:foreground "#d33682" :weight extra-bold))
+        (?B . '(:foreground "#268bd2" :weight extra-bold))
+        (?C . '(:foreground "#dc322f" :weight extra-bold))
+        (?D . '(:foreground "#2aa198" :weight extra-bold))
+        (?E . '(:foreground "#6c71c4" :weight extra-bold))
+        (?F . '(:foreground "#859900" :weight extra-bold))))
+#+END_SRC
+
+[fn:1] The priority value can be accessed by a special property called
+/PROIRITY/; see also [[https://orgmode.org/manual/Special-Properties.html][the manual]] for a complete list of special
+properties.
+
+** Review All Future Tasks
+
+To review all future tasks and sort them by priority, we can create a
+custom agenda view; see [[https://orgmode.org/manual/Agenda-Views.html][the org manual]] for a complete
+introduction. The command =org-agenda= can select entries based on
+various criteria and display them in a separate /agenda buffer/. It
+provides several default agenda views to select and display entries in
+specific ways.
+
+Here, we create a custom agenda view to select future tasks stored in
+=~/org/future-tasks.org= and display them by sorting with their priority
+values. Here, we only display tasks with priority higher than =F= by
+searching entries with =PRIORITY<"F"= (priority value is a character, or
+equivalently an integer in lisp; for example, F is equivalent to 70
+and E is equivalent to 69). Note that by default the =org-agenda= only
+collect entries stored in agenda files (specified by
+=org-agenda-files=). Therefore, we override its value when creating this
+agenda view. Besides, all tasks considered /done/ are ignored; see also
+[[https://orgmode.org/manual/TODO-Extensions.html][the manual]] for how to set TODO keywords.
+
+#+BEGIN_SRC elisp
+(setq org-agenda-custom-commands
+  '(("f" "Future Tasks"
+     ((tags "PRIORITY<\"F\""
+              ((org-agenda-overriding-header "Future Tasks:")
+               (org-agenda-files '("~/org/future-tasks.org"))
+               (org-agenda-sorting-strategy '(priority-down alpha-up))
+               (org-agenda-prefix-format "  ")
+               (org-agenda-skip-function
+                '(org-agenda-skip-entry-if 'todo 'done)))))
+      nil)
+))
+#+END_SRC
+
+To use, invoke =org-agenda= and hit =f= to obtain the defined agenda
+view. Use =n= or =p= for moving around to select tasks. Use =+= or =-= to
+increase/decrease the priority of the selected task. Use =,= to directly
+set the priority. To modify multiple entries quickly, mark them via =m=
+and hit =B= to activate bulk actions; see also [[https://orgmode.org/manual/Agenda-Commands.html][the manual]] for more
+details.
+
+[[./agenda-view.png]]
+
+To ignore a task entry, simply set its priority to F. To mark a task
+as /done/, change its TODO state to /DONE/. In either way, the entry will
+not show up in this agenda view.
+
+** Organize the Init File
+
+I use the =use-package= macro to organize those settings in my init
+file. Below is the relevant sections in my =~/.emacs.d/init.el= file.
+
+#+BEGIN_SRC elisp
+(use-package org
+  ;; org capture settings
+  :bind (("C-c c" . org-capture))
+  :config
+  (setq org-capture-templates
+        '(("f" "idea" entry (file+datetree "~/org/future-tasks.org")
+           "* [#E] %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"
+           :empty-lines 1)))
+)
+
+(use-package org
+  ;; org priority settings
+  :config
+  (setq org-lowest-priority ?E)
+  (setq org-highest-priority ?A)
+  (setq org-default-priority ?E)
+  (setq org-priority-faces
+        '((?A . '(:foreground "#d33682" :weight extra-bold))
+          (?B . '(:foreground "#268bd2" :weight extra-bold))
+          (?C . '(:foreground "#dc322f" :weight extra-bold))
+          (?D . '(:foreground "#2aa198" :weight extra-bold))
+          (?E . '(:foreground "#6c71c4" :weight extra-bold))
+          (?F . '(:foreground "#859900" :weight extra-bold))))
+)
+
+(use-package org
+  ;; org agenda settings
+  :bind (("C-c a" . org-agenda))
+  :config
+  (setq org-agenda-custom-commands
+        '(("f" "Future Tasks"
+           ((tags "PRIORITY<\"F\""
+                  ((org-agenda-overriding-header "Future Tasks:")
+                   (org-agenda-files '("~/org/future-tasks.org"))
+                   (org-agenda-sorting-strategy '(priority-down alpha-up))
+                   (org-agenda-prefix-format "  ")
+                   (org-agenda-skip-function
+                    '(org-agenda-skip-entry-if 'todo 'done)))))
+           nil)))
+)
+#+END_SRC
+
+** References
+
+- Section 5 /TODO Items/ in Emacs Org Manual ::
+
+    GNU. (2024). /The Org Manual./ Free Software Foundation. https://orgmode.org/manual/TODO-Items.html
+
+- Section 7 /Properties and Columns/ in Emacs Org Manual ::
+
+    GNU. (2024). /The Org Manual./ Free Software Foundation. https://orgmode.org/manual/Properties-and-Columns.html
+
+- Section 10.1 /Capture/ in Emacs Org Manual ::
+
+  GNU. (2024). /The Org Manual./ Free Software Foundation. https://orgmode.org/manual/Capture.html
+
+- Section 11 /Agenda Views/ in Emacs Org Manual ::
+
+  GNU. (2024). /The Org Manual./ Free Software Foundation. https://orgmode.org/manual/Agenda-Views.html
+
