@@ -6,10 +6,11 @@
       type="application/rss+xml"
       href="https://dou-meishi.github.io/org-blog/rss.xml"
       title="RSS feed for https://dou-meishi.github.io/org-blog/">
-<title>Beginner's Guide to Unison</title>
+<title>A Beginner's Guide to Unison</title>
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -29,16 +30,16 @@
 </div>
 </div>
 <div id="content">
-<div class="post-date">06 Jan 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-01-07-ReviewUnison/basics.html">Beginner's Guide to Unison</a></h1>
+<div class="post-date">06 Jan 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-01-07-ReviewUnison/basics.html">A Beginner's Guide to Unison</a></h1>
 <nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9d56d85">A Demo</a></li>
-<li><a href="#orgde52666">Basic Concepts</a></li>
-<li><a href="#org2820a37">Typical Usage</a></li>
-<li><a href="#org849dc45">Caveats and Shortcomings</a></li>
-<li><a href="#org6ac0c7d">Going Further</a></li>
+<li><a href="#org40f800d">A Demo</a></li>
+<li><a href="#orgde62e88">Basic Concepts</a></li>
+<li><a href="#orga30fb72">Typical Usage</a></li>
+<li><a href="#org3ea8675">Caveats and Shortcomings</a></li>
+<li><a href="#org88fcffb">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -52,9 +53,9 @@ brought up to date by propagating the changes in each replica to the other.
 <b>Note:</b> This review is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
-<div id="outline-container-org9d56d85" class="outline-2">
-<h2 id="org9d56d85">A Demo</h2>
-<div class="outline-text-2" id="text-org9d56d85">
+<div id="outline-container-org40f800d" class="outline-2">
+<h2 id="org40f800d">A Demo</h2>
+<div class="outline-text-2" id="text-org40f800d">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -125,7 +126,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="org0529ae1">
+<pre class="example" id="orgdd6d74f">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -140,7 +141,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="orgcf0810e">
+<pre class="example" id="orgaa1324b">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -148,7 +149,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="orgb27bcb1">
+<pre class="example" id="orgec67685">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -158,7 +159,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org8870807">
+<pre class="example" id="org057dd65">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -179,9 +180,9 @@ click the <i>Go</i> button to set them in motion.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgde52666" class="outline-2">
-<h2 id="orgde52666">Basic Concepts</h2>
-<div class="outline-text-2" id="text-orgde52666">
+<div id="outline-container-orgde62e88" class="outline-2">
+<h2 id="orgde62e88">Basic Concepts</h2>
+<div class="outline-text-2" id="text-orgde62e88">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -301,9 +302,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </ol>
 </div>
 </div>
-<div id="outline-container-org2820a37" class="outline-2">
-<h2 id="org2820a37">Typical Usage</h2>
-<div class="outline-text-2" id="text-org2820a37">
+<div id="outline-container-orga30fb72" class="outline-2">
+<h2 id="orga30fb72">Typical Usage</h2>
+<div class="outline-text-2" id="text-orga30fb72">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -335,9 +336,9 @@ synchronizing only with the hub.
 </p>
 </div>
 </div>
-<div id="outline-container-org849dc45" class="outline-2">
-<h2 id="org849dc45">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-org849dc45">
+<div id="outline-container-org3ea8675" class="outline-2">
+<h2 id="org3ea8675">Caveats and Shortcomings</h2>
+<div class="outline-text-2" id="text-org3ea8675">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -361,24 +362,45 @@ If <code>D</code> is renamed to <code>Dnew</code> on the remote machine, and thi
 such files or subdirectories <code>P</code> will be deleted. This is because Unison sees the rename as a delete and
 a separate create: it deletes the old directory (including the ignored files) and creates a new one (not
 including the ignored files, since they are completely invisible to it).
-</p></li>
-
-<li><p>
-It could be very <i>DANGEROUS</i> to use Unison with removable media such as USB drives
-unless you are careful.
 </p>
 
 <p>
-If you synchronize a directory that is stored on removable media when the media is not present, it will look to Unison as though
-the whole directory has been deleted, and it will proceed to delete the directory from the other replica!
+<i>Solution.</i> Keep in mind that Unison may deleted ignored paths
+without warning. Create backups for those paths separately.
 </p></li>
 
-<li>Archives are created based on names of roots (and other informations), meaning that renaming roots
-results Unison think it never sync these before. For example, assume you have run Unison to sync
-<code>work</code> and <code>mirror</code> before, and you rename <code>mirror</code> to <code>backup</code> then change some files in
-<code>backup</code>. Now, running <code>unison</code> work backup will create new archives and ask you to resolve conflicts.
-In this case, you may find the option <code>-prefer backup</code> be useful, which effectively choose files
-in <code>backup</code> to resolve possible conflicts.</li>
+<li><p>
+It could be very <i>DANGEROUS</i> to use Unison with removable media
+such as USB drives unless you are careful.
+</p>
+
+<p>
+If you synchronize a directory that is stored on removable media
+when the media is not present, it will look to Unison as though
+the whole directory has been deleted, and it will proceed to
+delete the directory from the other replica!
+</p>
+
+<p>
+<i>Solution.</i> Running Unison with <code>-confirmbigdel</code> option will ask
+about whole-replica (or path) deletes. Running Unison with
+<code>-nodeletion</code> or similar options will prevent Unison from
+performing any file deletion on a specified root.
+</p></li>
+
+<li><p>
+Archives are created based on names of roots (and other informations), meaning that renaming roots
+results Unison think it never sync these before.
+</p>
+
+<p>
+For example, assume you have run Unison to sync <code>work</code> and <code>mirror</code>
+before, and <code>mirror</code> were renamed to <code>backup</code> and some files are
+changed. Now, running <code>unison work backup</code> will create new
+archives and ask you to resolve conflicts.  In this case, you
+may find the option <code>-prefer backup</code> be useful, which effectively
+choose files in <code>backup</code> to resolve possible conflicts.
+</p></li>
 
 <li>If you want to run Unison continuously as a crontab task, then you have to ensure the same
 script will not be called unless its previous call has finished. Otherwise there will be two
@@ -392,9 +414,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </ol>
 </div>
 </div>
-<div id="outline-container-org6ac0c7d" class="outline-2">
-<h2 id="org6ac0c7d">Going Further</h2>
-<div class="outline-text-2" id="text-org6ac0c7d">
+<div id="outline-container-org88fcffb" class="outline-2">
+<h2 id="org88fcffb">Going Further</h2>
+<div class="outline-text-2" id="text-org88fcffb">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>

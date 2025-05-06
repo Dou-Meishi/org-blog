@@ -10,6 +10,7 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -30,6 +31,16 @@
 </div>
 <div id="content">
 <div class="post-date">11 Jan 2024</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2024-01-11-CodeBlockinLaTeX/notes.html">Insert Code Block in LaTeX</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgb6a8c09">Create Own Code Block Environment with tcolorbox</a></li>
+<li><a href="#org2e65bb9">Explanation of the Created Code Environment</a></li>
+<li><a href="#org65b2b45">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+</ul>
+</div>
+</nav>
 <p>
 The most simple way of inserting code blocks in LaTeX is the built-in
 command <code>\verb</code> and environment <code>verbatim</code>.
@@ -74,7 +85,7 @@ The LaTeX code above produces the following output.
 </p>
 
 
-<figure id="org12f0c78">
+<figure id="org9a66db7">
 <img src="./simple-code.png" alt="simple-code.png">
 
 </figure>
@@ -87,9 +98,9 @@ and <code>tcolorbox</code> package. While  <code>listings</code> and  <code>mint
 <code>tcolorbox</code> is a general package for redering contents in a box.
 Actually, <code>tcolorbox</code> internally loads <code>listings</code> or <code>minted</code> packages.
 </p>
-<div id="outline-container-org3fb72ca" class="outline-2">
-<h2 id="org3fb72ca">Create Own Code Block Environment with tcolorbox</h2>
-<div class="outline-text-2" id="text-org3fb72ca">
+<div id="outline-container-orgb6a8c09" class="outline-2">
+<h2 id="orgb6a8c09">Create Own Code Block Environment with tcolorbox</h2>
+<div class="outline-text-2" id="text-orgb6a8c09">
 <p>
 When <code>tcolorbox</code> is loaded with the option <code>listings</code>, it provides various useful predefined commands
 for rendering source blocks by loading <code>listings</code> package automatically. Besides the <code>listings</code> option,
@@ -204,15 +215,15 @@ This is the <span style="color: #859900; font-weight: bold;">\LaTeX</span>\ sour
 </div>
 
 
-<figure id="org6312be1">
+<figure id="org89ba9b8">
 <img src="./tcolorbox-listings.png" alt="tcolorbox-listings.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org89d10b8" class="outline-2">
-<h2 id="org89d10b8">Explanation of the Created Code Environment</h2>
-<div class="outline-text-2" id="text-org89d10b8">
+<div id="outline-container-org2e65bb9" class="outline-2">
+<h2 id="org2e65bb9">Explanation of the Created Code Environment</h2>
+<div class="outline-text-2" id="text-org2e65bb9">
 <p>
 First, we load <code>tcolorbox</code> with appropriate options. In addition, we load the <code>xcolor</code> package for color support.
 </p>
@@ -320,9 +331,9 @@ name of the source file.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf3e69d0" class="outline-2">
-<h2 id="orgf3e69d0">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orgf3e69d0">
+<div id="outline-container-org65b2b45" class="outline-2">
+<h2 id="org65b2b45">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org65b2b45">
 <ol class="org-ol">
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf">the official manual of tcolorbox - CTAN</a></li>
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the official manual of listings - CTAN</a></li>
@@ -332,7 +343,7 @@ name of the source file.
 </ol>
 </div>
 </div>
-<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-latex.html">latex</a> </div>
+<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>
 <div id="comments"><script src="https://giscus.app/client.js"
         data-repo="Dou-Meishi/org-blog"
         data-repo-id="R_kgDOLJfSOw"
