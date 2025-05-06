@@ -3,7 +3,7 @@
 #+DATE: [2024-01-07 21:00]
 #+FILETAGS: tool
 
-In the previous blog, we introduced basics of [[https://github.com/bcpierce00/unison][Unison]], the lightweight yet versatile file-synchronization tool for Unix and Windows.
+In the [[./basics.org][previous blog]], we introduced basics of [[https://github.com/bcpierce00/unison][Unison]], the lightweight yet versatile file-synchronization tool for Unix and Windows.
 In this blog, we will cover more advanced topics, including /profiles/, /ignoring/, /backup,/ etc.
 You can also find the complete documentation in [[https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf][the official manual]].
 
@@ -168,11 +168,14 @@ The location of backup files are controlled by =backuploc=, whose value must be 
 We can have finer controls on backup files by setting preferences like
 =maxbackups=, =backupprefix=, =backupsuffix= and etc.
 
-It is important to note that Unison will backup will only be checked against updated paths,
-not their descendants. For example, if you set =backup = Name *.txt= and then delete a whole directory named
-=foo= containing some text files, these files will not be backed up because Unison will just check that =foo=
-is updated and it does not match =*.txt=. Similarly, if the directory itself happened to be called =foo.txt=,
-then the whole directory and all the files in it will be backed up, regardless of their names.
+It is important to note that backups will only be checked against
+updated paths, not their descendants. For example, if you set =backup =
+Name *.txt= and delete a whole directory named =foo= containing some text
+files, then these files will not be backed up because Unison will just
+check that =foo= is updated and it does not match =*.txt=. Similarly, if
+the directory itself happened to be called =foo.txt=, then the whole
+directory and all the files in it will be backed up, regardless of
+their names.
 
 * Scenario: Synchronize with a USB Drive
 
@@ -183,9 +186,10 @@ intended and we explain them below.
 
 ** Possible Errors
 
-If our USB drive is empty, the first time we run Unison will simply copying files.
-Suppose we have done and reject the USB drive. What will happen if we accidentally
-run Unison again, e.g., triggered by a crontab task?
+If our USB drive is empty, the first run of Unison will simply copying
+files. Suppose we have done and /rejected/ the USB drive. What will
+happen if we accidentally run Unison again, e.g., triggered by a
+crontab task?
 
 The answer is that Unison will try to /remove our whole home directory/!
 As Unison keeps a records of the state of last synchronization,
@@ -196,13 +200,10 @@ Fortunately, if =confirmbigdel= is set to true, which is the default case,
 Unison will ask for the confirmation of such deletion.
 If Unison is run in batch mode, it will simply abort and exit.
 
-If what we want to do is synchronizing =/home/dou/Documents= with =/media/dou/KINGSTON/Documents=,
-then Unison might throw the /No such file or directory/ error.
-This is the case when our USB drive is rejected, the default mount point =/media/dou/KINGSTON=
-is also deleted. As the second root directory
- =/media/dou/KINGSTON/Documents=  does not exist, Unison will first try to
-cd to the parent directory =/media/dou/KINGSTON=, which does not exist too.
-So Unison exits with /Fatal Error: Cannot find canonical name of .../
+If we synchronize =/home/dou/Documents= with
+=/media/dou/KINGSTON/Documents=, Unison might throw the /No such file or
+directory/ error. This is becausethe second root directory
+=/media/dou/KINGSTON/Documents= does not exist.
 
 ** Syncrhonize with FAT/NTFS Filesystems
 
