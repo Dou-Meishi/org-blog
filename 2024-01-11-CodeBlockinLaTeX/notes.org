@@ -1,8 +1,7 @@
 #+TITLE: Insert Code Block in LaTeX
 #+AUTHOR: Dou Meishi
 #+DATE: [2024-01-11]
-#+FILETAGS: latex
-#+OPTIONS: toc:nil
+#+FILETAGS: tool
 
 The most simple way of inserting code blocks in LaTeX is the built-in
 command =\verb= and environment =verbatim=.
