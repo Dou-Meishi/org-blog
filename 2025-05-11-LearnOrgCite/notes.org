@@ -1,0 +1,113 @@
+#+TITLE: Write Citations in Org and Export to LaTeX
+#+DATE: [2025-05-11]
+#+FILETAGS: emacs
+
+/Motivation./ This post considers handling citations in Org, generating
+nicely formatted reference entries in HTML, and supporting direct
+export to LaTeX with properly generated Bib(La)TeX citation commands.
+
+I’ve used Emacs Org mode for note-taking for years. After implementing
+the /write-in-org-view-in-HTML/ workflow introduced in
+[[file:../2024-03-06-SeamlessBlogWriting/notes.org][note:2024-03-06::Seamless Writing and Rendering with Emacs Org]], I even
+enjoy writing math-heavy content because it offers both elegant editor
+previews and instant HTML rendering. Yet LaTeX remains the standard
+choice for academic writing, and I still need it for paper
+submissions. Indeed, HTML prioritizes web-friendly visuals, while
+LaTeX excels at print-ready typesetting for formal contexts.
+
+My current workflow involves drafting in Org mode with HTML export,
+then switching to LaTeX for final typesetting once the manuscript
+stabilizes. It handles basic markup and equations well but lacks a
+critical component: citations. When I first adopted Org mode as the
+primary note format, there was no standard solution for managing
+citations and I had to rely on thrid party packages.
+
+Recently, I accidentally noticed that Org has incorporated a nice
+citation system since 2021. Upon investigating, I was pleasantly to
+find it mature enough to unify my workflow: write in Org, preview in
+HTML, with the option to export directly to LaTeX for future
+typesetting adjustments. In this post, I'll briefly introduce /Org Cite/
+and how I integrate it into my workflow.
+
+** Overview of Org Cite
+
+/Org Cite/ aims to provide easy citation management in Org and also
+serves as a solid foundation for more sophisticated customization.
+For a quick tutorial, I recommend the post by
+[cite/a/b:@timothyIntroducingCitations2021]. For more details, please
+refer to [cite/l/b:@gnuOrgManual2024 sec. 15] /Citation Handling/ in the
+manual. [cite/t:@dentonBasicCitationsOrg2024] also wrote a series of
+posts on this topic.
+
+The basic usage in Org is simple. Just like how we do in LaTeX,
+writing citations in Org involving three parts: specifying the
+bibliography, using citation commands, and printing the bibliography
+section.
+#+BEGIN_SRC text
+,#+BIBLIOGRAPHY: post.bib
+
+Parenthesis citation can be done via the standard command
+[cite:@key]. For narrative citations, use the text variant
+[cite/t:@key].
+
+,#+PRINT_BIBLIOGRAPHY:
+#+END_SRC
+
+Please refer to the references mentioned before for detailed
+explanations and advanced usages.
+
+** Export to HTML
+
+Org Cite uses /export processors/ as its backend to support export to
+various formats, including plain text, html and LaTeX. The default
+processor does not support specifying citation styles and here we
+choose the CSL (Citation Style Language) processor, which is included
+in the =citeproc= package.
+#+BEGIN_SRC text
+,#+CITE_EXPORT: csl apa.csl apa.csl
+#+END_SRC
+Note that the APA citation style =apa.csl= is located under
+=~/Zotero/styles=, which is shipped with Zotero installation. To tell
+Emacs to search that folder for style files, use
+#+BEGIN_SRC elisp
+(setq org-cite-csl-styles-dir "~/Zotero/styles")
+#+END_SRC
+Now the bibliography section in the HTML export should be correctly
+formatted in APA citation style. We can write CSS rules to further
+customize the appearance of reference entries.
+
+** Export to LaTeX
+
+For LaTeX export, use the biblatex export processor.
+#+BEGIN_SRC text
+,#+CITE_EXPORT: biblatex
+#+END_SRC
+
+Highlight the text to be exported and press =C-c C-e RET l RET L=. This
+will translate org-cite commands like =[cite:@key]= or =[cite/t:@key]= to
+proper biblatex commands such as =\cite{key}= or =\textcite{key}=; see
+[[https://blog.tecosaur.com/tmio/2021-07-31-citations.html#cite-styles][here]] for a quick reference of supported citation commands in org-cite
+and their corresponding biblatex commands.
+
+** References
+
+#+PRINT_BIBLIOGRAPHY:
+
+** Appendix: Emacs Init File
+
+For convenience, I include the following sectin in my Emacs init
+file. Note that I use a global bibliography for convenience, which is
+generated and regularly updated by [[https://retorque.re/zotero-better-bibtex/][Better BibTeX for Zotero]].
+
+#+BEGIN_SRC elisp
+(use-package citeproc
+  :ensure t
+  :config
+  (setq org-cite-csl-styles-dir "~/Zotero/styles")
+  (setq org-cite-export-processors
+        '((latex biblatex)
+          (t csl)))
+  (setq org-cite-global-bibliography '("~/.emacs.d/mylibrary.bib"))
+)
+#+END_SRC
+
