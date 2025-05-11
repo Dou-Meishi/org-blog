@@ -3,12 +3,12 @@
 #+FILETAGS: emacs
 
 /Motivation./ This post considers handling citations in Org, generating
-nicely formatted reference entries in HTML, and supporting direct
-export to LaTeX with properly generated Bib(La)TeX citation commands.
+nicely formatted reference entries in HTML, and exporting to LaTeX
+directly with properly generated Bib(La)TeX citation commands.
 
 I’ve used Emacs Org mode for note-taking for years. After implementing
 the /write-in-org-view-in-HTML/ workflow introduced in
-[[file:../2024-03-06-SeamlessBlogWriting/notes.org][note:2024-03-06::Seamless Writing and Rendering with Emacs Org]], I even
+[[https://dou-meishi.github.io/org-blog/2024-03-06-SeamlessBlogWriting/notes.html][post:2024-03-06::Seamless Writing and Rendering with Emacs Org]], I even
 enjoy writing math-heavy content because it offers both elegant editor
 previews and instant HTML rendering. Yet LaTeX remains the standard
 choice for academic writing, and I still need it for paper

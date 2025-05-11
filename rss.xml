@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sun, 11 May 2025 16:45:28 +0800</lastBuildDate>
+<lastBuildDate>Sun, 11 May 2025 16:50:35 +0800</lastBuildDate>
 <item>
   <title><![CDATA[Write Citations in Org and Export to LaTeX]]></title>
   <description><![CDATA[
@@ -12,24 +12,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org440c5ba">Overview of Org Cite</a></li>
-<li><a href="#orgc5e197c">Export to HTML</a></li>
-<li><a href="#org4c122d5">Export to LaTeX</a></li>
-<li><a href="#org6ca14dd">References</a></li>
-<li><a href="#orgbbd3b9f">Appendix: Emacs Init File</a></li>
+<li><a href="#org1343f11">Overview of Org Cite</a></li>
+<li><a href="#org058844f">Export to HTML</a></li>
+<li><a href="#org20b91c0">Export to LaTeX</a></li>
+<li><a href="#orgbb8d087">References</a></li>
+<li><a href="#org01a701d">Appendix: Emacs Init File</a></li>
 </ul>
 </div>
 </nav>
 <p>
 <i>Motivation.</i> This post considers handling citations in Org, generating
-nicely formatted reference entries in HTML, and supporting direct
-export to LaTeX with properly generated Bib(La)TeX citation commands.
+nicely formatted reference entries in HTML, and exporting to LaTeX
+directly with properly generated Bib(La)TeX citation commands.
 </p>
 
 <p>
 I’ve used Emacs Org mode for note-taking for years. After implementing
 the <i>write-in-org-view-in-HTML</i> workflow introduced in
-<a href="../2024-03-06-SeamlessBlogWriting/notes.html">note:2024-03-06::Seamless Writing and Rendering with Emacs Org</a>, I even
+<a href="https://dou-meishi.github.io/org-blog/2024-03-06-SeamlessBlogWriting/notes.html">post:2024-03-06::Seamless Writing and Rendering with Emacs Org</a>, I even
 enjoy writing math-heavy content because it offers both elegant editor
 previews and instant HTML rendering. Yet LaTeX remains the standard
 choice for academic writing, and I still need it for paper
@@ -54,9 +54,9 @@ HTML, with the option to export directly to LaTeX for future
 typesetting adjustments. In this post, I'll briefly introduce <i>Org Cite</i>
 and how I integrate it into my workflow.
 </p>
-<div id="outline-container-org440c5ba" class="outline-2">
-<h2 id="org440c5ba">Overview of Org Cite</h2>
-<div class="outline-text-2" id="text-org440c5ba">
+<div id="outline-container-org1343f11" class="outline-2">
+<h2 id="org1343f11">Overview of Org Cite</h2>
+<div class="outline-text-2" id="text-org1343f11">
 <p>
 <i>Org Cite</i> aims to provide easy citation management in Org and also
 serves as a solid foundation for more sophisticated customization.
@@ -90,9 +90,9 @@ explanations and advanced usages.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc5e197c" class="outline-2">
-<h2 id="orgc5e197c">Export to HTML</h2>
-<div class="outline-text-2" id="text-orgc5e197c">
+<div id="outline-container-org058844f" class="outline-2">
+<h2 id="org058844f">Export to HTML</h2>
+<div class="outline-text-2" id="text-org058844f">
 <p>
 Org Cite uses <i>export processors</i> as its backend to support export to
 various formats, including plain text, html and LaTeX. The default
@@ -120,9 +120,9 @@ customize the appearance of reference entries.
 </p>
 </div>
 </div>
-<div id="outline-container-org4c122d5" class="outline-2">
-<h2 id="org4c122d5">Export to LaTeX</h2>
-<div class="outline-text-2" id="text-org4c122d5">
+<div id="outline-container-org20b91c0" class="outline-2">
+<h2 id="org20b91c0">Export to LaTeX</h2>
+<div class="outline-text-2" id="text-org20b91c0">
 <p>
 For LaTeX export, use the biblatex export processor.
 </p>
@@ -140,9 +140,9 @@ and their corresponding biblatex commands.
 </p>
 </div>
 </div>
-<div id="outline-container-org6ca14dd" class="outline-2">
-<h2 id="org6ca14dd">References</h2>
-<div class="outline-text-2" id="text-org6ca14dd">
+<div id="outline-container-orgbb8d087" class="outline-2">
+<h2 id="orgbb8d087">References</h2>
+<div class="outline-text-2" id="text-orgbb8d087">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Denton, William. 2024. “Basic Citations in Org (Part 5).” Miskatonic University Press. January 22, 2024. <a href="https://www.miskatonic.org/2024/01/22/org-citations-basic-5/">https://www.miskatonic.org/2024/01/22/org-citations-basic-5/</a>.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>GNU. 2024. “The Org Manual.” Free Software Foundation. 2024. <a href="https://orgmode.org/manual/index.html">https://orgmode.org/manual/index.html</a>.</div>
@@ -150,9 +150,9 @@ and their corresponding biblatex commands.
 </div>
 </div>
 </div>
-<div id="outline-container-orgbbd3b9f" class="outline-2">
-<h2 id="orgbbd3b9f">Appendix: Emacs Init File</h2>
-<div class="outline-text-2" id="text-orgbbd3b9f">
+<div id="outline-container-org01a701d" class="outline-2">
+<h2 id="org01a701d">Appendix: Emacs Init File</h2>
+<div class="outline-text-2" id="text-org01a701d">
 <p>
 For convenience, I include the following sectin in my Emacs init
 file. Note that I use a global bibliography for convenience, which is
