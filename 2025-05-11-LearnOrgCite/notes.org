@@ -106,7 +106,7 @@ generated and regularly updated by [[https://retorque.re/zotero-better-bibtex/][
   (setq org-cite-csl-styles-dir "~/Zotero/styles")
   (setq org-cite-export-processors
         '((latex biblatex)
-          (t csl)))
+          (t csl "apa.csl" "apa.csl")))
   (setq org-cite-global-bibliography '("~/.emacs.d/mylibrary.bib"))
 )
 #+END_SRC
