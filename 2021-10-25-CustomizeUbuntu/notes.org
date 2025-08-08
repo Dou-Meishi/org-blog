@@ -1,5 +1,4 @@
 #+TITLE: 配置 Ubuntu 系统
-#+AUTHOR: Dou Meishi
 #+DATE: [2021-10-25]
 #+FILETAGS: tool
 

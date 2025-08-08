@@ -1,5 +1,4 @@
 #+TITLE: Manage All Your Files
-#+AUTHOR: Dou Meishi
 #+DATE: [2023-04-09]
 #+FILETAGS: think
 
