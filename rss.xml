@@ -4,7 +4,487 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Mon, 12 May 2025 11:01:16 +0800</lastBuildDate>
+<lastBuildDate>Fri, 08 Aug 2025 20:53:02 +0800</lastBuildDate>
+<item>
+  <title><![CDATA[Install, Configure, and Use WSL on Windows 11]]></title>
+  <description><![CDATA[
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org7be5ca3">Introduction and Installation</a></li>
+<li><a href="#org105ab50">Configuration and Usage: Overview</a></li>
+<li><a href="#orgec177b9">Config: Windows Terminal</a></li>
+<li><a href="#org9316c25">Usage: Interoperability between Windows and Linux Commands</a></li>
+<li><a href="#org1e78203">Usage: Work across Windows and Linux File Systems</a></li>
+<li><a href="#org78bb0a9">Usage: SSH into WSL from an External Machine</a></li>
+<li><a href="#org52b9022">Appendix: WSL 1 v.s. WSL 2</a></li>
+<li><a href="#appendix-bash-configuration">Appendix: Bash Configuration</a></li>
+<li><a href="#appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</a></li>
+</ul>
+</div>
+</nav>
+<p>
+For me, WSL (Windows Subsystem for Linux) is <i>the</i> answer for working in
+<i>both</i> Linux and Windows environments. It works by running a Linux
+virtual machine within Windows.  Although it's not perfect&#x2014;nothing
+in the world is&#x2014;WSL does a reasonably good job.
+</p>
+
+<p>
+In this note, I will walk through the installation and configuration
+of WSL, and share some usages.
+</p>
+<div id="outline-container-org7be5ca3" class="outline-2">
+<h2 id="org7be5ca3">Introduction and Installation</h2>
+<div class="outline-text-2" id="text-org7be5ca3">
+<p>
+According to <a href="https://learn.microsoft.com/en-us/windows/wsl/">the WSL documentation</a>,
+</p>
+
+<blockquote>
+<p>
+Windows Subsystem for Linux (WSL) lets developers run a GNU/Linux
+environment &#x2013; including most command-line tools, utilities, and
+applications &#x2013; directly on Windows, unmodified, without the overhead
+of a traditional virtual machine or dual-boot setup.
+</p>
+</blockquote>
+
+<p>
+To install WSL, follow <a href="https://learn.microsoft.com/en-us/windows/wsl/install">this official guide</a>. It is as simple as running
+a single command <code>wsl --install</code> from PowerShell. However, if
+any error occurs, please refer to <a href="https://learn.microsoft.com/en-us/windows/wsl/install-manual">the manual installation</a> and see
+whether some requirement is missing.
+</p>
+
+<p>
+After the installation, one can use <code>wsl</code> in PowerShell to (see <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands">this page</a> for a full list of options)
+</p>
+
+<ul class="org-ul">
+<li>list available/installed Linux distributions;</li>
+<li>update WSL or check its status;</li>
+<li>shutdown or terminate running distributions;</li>
+<li>identify IP address;</li>
+<li>mount or unmount disks.</li>
+</ul>
+
+<p>
+<i>Clarification.</i> In this note, I assume the WSL version is 2 and it runs
+a single Ubuntu distribution.
+</p>
+</div>
+</div>
+<div id="outline-container-org105ab50" class="outline-2">
+<h2 id="org105ab50">Configuration and Usage: Overview</h2>
+<div class="outline-text-2" id="text-org105ab50">
+<p>
+Using WSL on Windows 11 is much like <b>opening a terminal to connect to
+a separate Linux server</b>, except that this Linux environment runs
+directly on the same machine.
+</p>
+
+<p>
+To access the running Linux distribution in WSL, one can use <i>Windows
+Terminal</i>, a built-in terminal emulator to run shells on Windows. It is
+similar to the GNOME terminal on Ubuntu, as summarized by the
+following table.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Feature</th>
+<th scope="col" class="org-left">Windows Terminal</th>
+<th scope="col" class="org-left">GNOME Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Platform</td>
+<td class="org-left">Windows</td>
+<td class="org-left">Linux</td>
+</tr>
+
+<tr>
+<td class="org-left">Native Shells</td>
+<td class="org-left">Powershell, CMD, Bash (via WSL)</td>
+<td class="org-left">Bash, Zsh, Fish</td>
+</tr>
+
+<tr>
+<td class="org-left">Profile-based customization</td>
+<td class="org-left">Yes</td>
+<td class="org-left">Yes</td>
+</tr>
+
+<tr>
+<td class="org-left">Open source</td>
+<td class="org-left">Yes (MIT)</td>
+<td class="org-left">Yes (GPL)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<a href="https://learn.microsoft.com/en-us/windows/terminal/">Here</a> is the official documentation of Windows terminal.
+</p>
+</div>
+</div>
+<div id="outline-container-orgec177b9" class="outline-2">
+<h2 id="orgec177b9">Config: Windows Terminal</h2>
+<div class="outline-text-2" id="text-orgec177b9">
+<p>
+Below are my settings.
+</p>
+
+<ol class="org-ol">
+<li>Initial terminal size: 120  columns, 36 rows (measured in characters)</li>
+<li>Font name: <a href="https://github.com/microsoft/cascadia-code">Cascadia Code NF</a> (a version of Cascadia that has Nerd Font symbols)</li>
+<li>Font size: 14</li>
+<li>Color scheme: Solarized light</li>
+<li>Intense text style: bold (<i>not</i> bright)</li>
+<li>Bell notification style: flash window (<i>not</i> audible)</li>
+</ol>
+
+<p>
+The bash environment in WSL can be configured as in normal Linux
+distributions; my configurations are listed in <a href="#appendix-bash-configuration">Appendix: Bash
+Configuration</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org9316c25" class="outline-2">
+<h2 id="org9316c25">Usage: Interoperability between Windows and Linux Commands</h2>
+<div class="outline-text-2" id="text-org9316c25">
+<p>
+Windows and Linux tools and commands can be used interchangeably with WSL.
+</p>
+
+<p>
+To <b>run Linux tools from a Windows command line</b>, prepend the bash command with <code>wsl</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-powershell">wsl ls -la
+</pre>
+</div>
+
+<p>
+To <b>run Windows tools from WSL command line</b>, append the tool name with <code>.exe</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">explorer.exe .
+</pre>
+</div>
+
+<p>
+See more examples and explanations on <a href="https://learn.microsoft.com/en-us/windows/wsl/filesystems#run-linux-tools-from-a-windows-command-line">this page</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org1e78203" class="outline-2">
+<h2 id="org1e78203">Usage: Work across Windows and Linux File Systems</h2>
+<div class="outline-text-2" id="text-org1e78203">
+<p>
+Access Linux files from Windows or vice versa is generally
+slow. Nevertheless, it is still possible.
+</p>
+
+<p>
+Windows files can be accessed by a Linux distribution under <code>/mnt/c/</code>.
+Linux files can be accessed by Windows under <code>\\wsl$</code> (an address
+recognizable for Windows File Explorer).
+</p>
+</div>
+</div>
+<div id="outline-container-org78bb0a9" class="outline-2">
+<h2 id="org78bb0a9">Usage: SSH into WSL from an External Machine</h2>
+<div class="outline-text-2" id="text-org78bb0a9">
+<p>
+The goal is to configure WSL as a local server so that external
+machines can access WSL via SSH. Below is a summarized procedure;
+refer also to the official WSL documentation: <a href="https://learn.microsoft.com/en-us/windows/wsl/networking">Accessing network
+applications with WSL</a> and <a href="https://learn.microsoft.com/en-us/windows/wsl/faq#how-do-i-run-an-openssh-server-">How do I run an OpenSSH server?</a> The
+<a href="../2025-04-18-RemoteDeveloping/notes.html">note:2025-04-18::Remotely Develop a Python Project</a> might also be
+helpful.
+</p>
+
+<p>
+<b>Step 1. Identify IP address.</b> There are two machines involved: a
+Windows machine running WSL, and an external Ubuntu machine. However,
+there are three distinct IP addresses, as WSL itself has a virtual IP
+address. Here are example outputs from my machines.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">external Ubuntu machine</span>
+dou-GramStyle    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname</span>
+192.168.1.111    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname -I</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Windows Powershell</span>
+dou-Legion       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname</span>
+192.168.1.104    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ipconfig</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">WSL terminal</span>
+172.27.71.86     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname -I</span>
+</pre>
+</div>
+
+<p>
+Before proceeding, ensure both machines are reachable on the local
+network by trying <code>ping</code>. There are 3 addresses, which means 6 possible
+paths for communication. At this stage, 5 of these paths should be
+working<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>. The path that will not work is from the external
+machine to WSL, because the WSL address is only accessible from the
+Windows host.
+</p>
+
+<p>
+<b>Step 2. Start SSH service on WSL.</b> Install <code>openssh-server</code> on WSL and
+edit the the configuration
+<code>/ect/ssh/sshd_config</code> (this requires root permission). Look for similar
+lines and change them to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+Port 2222
+ListenAddress 0.0.0.0
+PasswordAuthentication yes
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+</pre>
+</div>
+
+<p>
+This tells SSH to use port 2222 and listen to any address. It also
+enables the passward authentication. After saving the configuration,
+start or restart the SSH device from WSL by <code>sudo systemctl start
+ssh.service</code>.
+</p>
+
+<p>
+At this stage, it should be able to connect to WSL on the Windows
+machine. Try running <code>ssh wsl.localhost -p 2222</code> on PowerShell.
+</p>
+
+<p>
+<b>Step 3. Expose WSL address by port forwarding.</b> To allow SSH from an
+external machine, I forward Windows port 2222 to WSL port 2222 and
+configure the firewall accordingly. This can be done from PowerShell
+by
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">port forwarding</span>
+netsh interface portproxy add v4tov4 <span style="color: #268bd2;">listenaddress</span>=0.0.0.0 <span style="color: #268bd2;">listenport</span>=2222 <span style="color: #268bd2;">connectaddress</span>=172.27.71.86 <span style="color: #268bd2;">connectport</span>=2222
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">set up firewall</span>
+netsh advfirewall firewall add rule <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"Open Port 2222 for WSL2"</span> <span style="color: #268bd2;">dir</span>=in <span style="color: #268bd2;">action</span>=allow <span style="color: #268bd2;">protocol</span>=TCP <span style="color: #268bd2;">localport</span>=2222
+</pre>
+</div>
+
+<p>
+Once the port forwarding is correctly configured, I can directly SSH
+into WSL from my Ubuntu laptop
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">ssh dou-Legion.local -p 2222
+</pre>
+</div>
+
+<p>
+<b>Step 4 (Optional). Use SSH key authentication instead of passwoard
+authentication.</b> In step 2, the configuraiton file <code>/ect/ssh/sshd_config</code>
+use password authentication for SSH login. It is possible to use SSH
+keys for authentication; see <a href="#appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH
+Keys</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org52b9022" class="outline-2">
+<h2 id="org52b9022">Appendix: WSL 1 v.s. WSL 2</h2>
+<div class="outline-text-2" id="text-org52b9022">
+<p>
+WSL 1 and WSL 2 are two different WSL architectures. WSL 2
+architecture outperforms WSL 1 in several ways, <i>with the exception of
+performance across OS file systems</i>, which can be addressed by storing
+project files on the same operating system where the tools are
+installed.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Feature</th>
+<th scope="col" class="org-left">WSL 1</th>
+<th scope="col" class="org-left">WSL 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Integration between Windows and Linux</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Fast boot times</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Small resource foot print compared to traditional Virtual Machines</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Runs with current versions of VMware and VirtualBox</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Managed VM</td>
+<td class="org-left">❌</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Full Linux Kernel</td>
+<td class="org-left">❌</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Full system call compatibility</td>
+<td class="org-left">❌</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Performance across OS file systems</td>
+<td class="org-left">✅</td>
+<td class="org-left">❌</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+See more comparisons in <a href="https://learn.microsoft.com/en-us/windows/wsl/compare-versions?source=recommendations">the official documentation</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-bash-configuration" class="outline-2">
+<h2 id="appendix-bash-configuration">Appendix: Bash Configuration</h2>
+<div class="outline-text-2" id="text-appendix-bash-configuration">
+<p>
+I am accustomed to my own evolving Bash profile and a collection of
+small tools. To ensure a consistent experience across Ubuntu, WSL, and
+remote servers, key elements include: 1) basic bash environment; 2)
+personal bash scripts; 3) standard tools like git, oh-my-posh, unison,
+emacs, and etc. For details, please refer to
+<a href="../2025-08-06-CustomBash/notes.html">note:2025-08-06::Customize Bash on Ubuntu and Windows</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-ssh-authentication-via-ssh-keys" class="outline-2">
+<h2 id="appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</h2>
+<div class="outline-text-2" id="text-appendix-ssh-authentication-via-ssh-keys">
+<p>
+First, obtain a pair of SSH keys either by: 1) reusing existing
+keys; 2) <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">generating a new pair</a>. Let <code>dou-GramStyle:~/.ssh/id_ed25519</code> be
+the private key and <code>dou-GramStyle:~/.ssh/id_ed25519.pub</code> be the
+associated public key.
+</p>
+
+<p>
+Second, edit the ssh configuration file <code>dou-GramStyle:~/.ssh/config</code> to
+add the following lines
+</p>
+<div class="org-src-container">
+<pre class="src src-conf">Host wsl
+     HostName dou-Legion.local
+     User dou
+     Port 2222
+     IdentityFile ~/.ssh/id_ed25519
+</pre>
+</div>
+
+<p>
+Third, save the public key to the server's authorized keys. This is
+done by simply <i>appending</i> the content of
+<code>dou-GramStyle:~/.ssh/id_ed25519.pub</code> to
+<code>dou-Legion:~/.ssh/authorized_keys</code> (create if not existed).
+</p>
+
+<p>
+Finally, disable password authentication on the server side. Edit the
+ssh configuration file <code>/etc/ssh/sshd_config</code> on the server. Look for
+similar lines and change them to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+PubkeyAuthentication yes
+PasswordAuthentication no
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+</pre>
+</div>
+
+<p>
+After restarting the ssh service, I could connect from the client by
+simply typing <code>ssh wsl</code>.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+If the Windows machine does not respond to ping, this could be an
+issue related network or firewall settings. First, please ensure the
+network profile is set to <i>Private</i> instead of Public. Second, try allow
+incoming ICMP requests using the Windows PowerShell command
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">netsh advfirewall firewall add rule <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"Allow Ping"</span> <span style="color: #268bd2;">dir</span>=in <span style="color: #268bd2;">action</span>=allow <span style="color: #268bd2;">protocol</span>=icmpv4
+</pre>
+</div></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>
+]]></description>
+  <category><![CDATA[tool]]></category>
+  <link>https://dou-meishi.github.io/org-blog/2025-08-05-InstallConfigUseWSL/notes.html</link>
+  <guid>https://dou-meishi.github.io/org-blog/2025-08-05-InstallConfigUseWSL/notes.html</guid>
+  <pubDate>Tue, 05 Aug 2025 00:00:00 +0800</pubDate>
+</item>
 <item>
   <title><![CDATA[Write Citations in Org and Export to LaTeX]]></title>
   <description><![CDATA[
@@ -11665,9 +12145,9 @@ It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse m
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgcd19614">Motivation</a></li>
-<li><a href="#orge056e31">A combined solution</a></li>
-<li><a href="#orge87b800">Further Discussion</a></li>
+<li><a href="#orgee1a622">Motivation</a></li>
+<li><a href="#orga5293aa">A combined solution</a></li>
+<li><a href="#orgc142218">Further Discussion</a></li>
 </ul>
 </div>
 </nav>
@@ -11675,9 +12155,9 @@ It's easy to verify that \(\mathtt{inversed\_indices}'\) is indeed the inverse m
 随着工作和学习的需要，个人电脑里的文件越来越多，几乎每天都会因为各种各样的原因而
 或下载或创建各种文件。如何有条理的管理这些文件是一个非常值得讨论和思考的问题。
 </p>
-<div id="outline-container-orgcd19614" class="outline-2">
-<h2 id="orgcd19614">Motivation</h2>
-<div class="outline-text-2" id="text-orgcd19614">
+<div id="outline-container-orgee1a622" class="outline-2">
+<h2 id="orgee1a622">Motivation</h2>
+<div class="outline-text-2" id="text-orgee1a622">
 <p>
 在正式讨论之前，先让我们罗列几种日常情形。
 </p>
@@ -11745,9 +12225,9 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 </p>
 </div>
 </div>
-<div id="outline-container-orge056e31" class="outline-2">
-<h2 id="orge056e31">A combined solution</h2>
-<div class="outline-text-2" id="text-orge056e31">
+<div id="outline-container-orga5293aa" class="outline-2">
+<h2 id="orga5293aa">A combined solution</h2>
+<div class="outline-text-2" id="text-orga5293aa">
 <p>
 目前的解决办法是：在基于类别管理的基础上,
 对某些类别的文件夹设计一套专门的文件组织方式。
@@ -11780,7 +12260,7 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 下的子文件夹的内容。
 </p>
 
-<pre class="example" id="org359482d">
+<pre class="example" id="org2cd7b35">
   ├── 2022-11-25-MidtermExam/
   │   ├── notes.md
   │   ├── report.pdf
@@ -11855,9 +12335,9 @@ Videos, Pictures 这几个标签工作得很好，但是 <code>Documents</code>
 </ol>
 </div>
 </div>
-<div id="outline-container-orge87b800" class="outline-2">
-<h2 id="orge87b800">Further Discussion</h2>
-<div class="outline-text-2" id="text-orge87b800">
+<div id="outline-container-orgc142218" class="outline-2">
+<h2 id="orgc142218">Further Discussion</h2>
+<div class="outline-text-2" id="text-orgc142218">
 <p>
 我认为文件的 <b>存储</b> 和 <b>浏览/管理</b> 是可以区分开的。
 </p>
@@ -12978,29 +13458,29 @@ At last, the gradient is
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org769fedf">Get Ubuntu</a></li>
-<li><a href="#orgca0ab58">Appearance</a>
+<li><a href="#org05722e0">Get Ubuntu</a></li>
+<li><a href="#orgb8b5ce2">Appearance</a>
 <ul>
-<li><a href="#org3f3e7bf">Customize Fonts</a></li>
-<li><a href="#orgbc8f2c0">Customize Bash</a></li>
-<li><a href="#org9d909e1">GNOME Tweaks</a></li>
-<li><a href="#orgd7b95e6">Choose Cinnamon (Deprecated)</a></li>
+<li><a href="#org1ea63f3">Customize Fonts</a></li>
+<li><a href="#orgf1a57ac">Customize Bash</a></li>
+<li><a href="#org5435255">GNOME Tweaks</a></li>
+<li><a href="#orge598cd9">Choose Cinnamon (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#orga80761b">Toolkits</a>
+<li><a href="#org66a1475">Toolkits</a>
 <ul>
-<li><a href="#orgaef23cb">Install Edge</a></li>
-<li><a href="#org89ca1fa">Install VS code</a></li>
-<li><a href="#org7798fa9">Install Clash</a></li>
-<li><a href="#orgb4ca26a">Install Git</a></li>
-<li><a href="#orge414798">Install Emacs</a></li>
-<li><a href="#orga0f7d7d">Install Python</a></li>
-<li><a href="#org6c98b5d">Install TeXLive</a></li>
-<li><a href="#org2c1f4c9">Customize Input Methods (Deprecated)</a></li>
+<li><a href="#org0228aa7">Install Edge</a></li>
+<li><a href="#org8e63906">Install VS code</a></li>
+<li><a href="#orgef186a6">Install Clash</a></li>
+<li><a href="#org2795f48">Install Git</a></li>
+<li><a href="#org46a9f20">Install Emacs</a></li>
+<li><a href="#orge2b4edb">Install Python</a></li>
+<li><a href="#orgf72ffc3">Install TeXLive</a></li>
+<li><a href="#orgd1fc5ea">Customize Input Methods (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#orge8ca62e">Future Customization</a></li>
-<li><a href="#org7f3af81">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org0f1b11d">Future Customization</a></li>
+<li><a href="#org70930f2">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -13021,9 +13501,9 @@ At last, the gradient is
 终于, 我下定决心将实验室电脑也配置成它的形状.
 以后就让这位老战友退居二线吧.
 </p>
-<div id="outline-container-org769fedf" class="outline-2">
-<h2 id="org769fedf">Get Ubuntu</h2>
-<div class="outline-text-2" id="text-org769fedf">
+<div id="outline-container-org05722e0" class="outline-2">
+<h2 id="org05722e0">Get Ubuntu</h2>
+<div class="outline-text-2" id="text-org05722e0">
 <p>
 在 Ubuntu 官网下载 20.04 LTS 版本,
 用 Universal USB Installer 将 <code>.iso</code> 文件烧录到 U 盘上.
@@ -13050,9 +13530,9 @@ At last, the gradient is
 </p>
 </div>
 </div>
-<div id="outline-container-orgca0ab58" class="outline-2">
-<h2 id="orgca0ab58">Appearance</h2>
-<div class="outline-text-2" id="text-orgca0ab58">
+<div id="outline-container-orgb8b5ce2" class="outline-2">
+<h2 id="orgb8b5ce2">Appearance</h2>
+<div class="outline-text-2" id="text-orgb8b5ce2">
 <p>
 安装完成后首先更新
 </p>
@@ -13071,9 +13551,9 @@ sudo apt upgrade
 在 <code>~/.config/user-dirs.dirs</code> 里修改默认下载路径, 默认桌面路径, 默认图片路径等等.
 </p>
 </div>
-<div id="outline-container-org3f3e7bf" class="outline-3">
-<h3 id="org3f3e7bf">Customize Fonts</h3>
-<div class="outline-text-3" id="text-org3f3e7bf">
+<div id="outline-container-org1ea63f3" class="outline-3">
+<h3 id="org1ea63f3">Customize Fonts</h3>
+<div class="outline-text-3" id="text-org1ea63f3">
 <p>
 从小破本里将 <code>~/.local/share/fonts/</code> 复制到主目录.
 然后刷新缓存
@@ -13089,9 +13569,9 @@ sudo apt upgrade
 </p>
 </div>
 </div>
-<div id="outline-container-orgbc8f2c0" class="outline-3">
-<h3 id="orgbc8f2c0">Customize Bash</h3>
-<div class="outline-text-3" id="text-orgbc8f2c0">
+<div id="outline-container-orgf1a57ac" class="outline-3">
+<h3 id="orgf1a57ac">Customize Bash</h3>
+<div class="outline-text-3" id="text-orgf1a57ac">
 <p>
 将 <code>.bashrc</code>, <code>.bash_env</code>, <code>.bash_aliases</code>, <code>.inputrc</code>, <code>bin/</code> 复制到主目录.
 </p>
@@ -13130,9 +13610,9 @@ git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git
 </p>
 </div>
 </div>
-<div id="outline-container-org9d909e1" class="outline-3">
-<h3 id="org9d909e1">GNOME Tweaks</h3>
-<div class="outline-text-3" id="text-org9d909e1">
+<div id="outline-container-org5435255" class="outline-3">
+<h3 id="org5435255">GNOME Tweaks</h3>
+<div class="outline-text-3" id="text-org5435255">
 <p>
 Ubuntu 的很多系统外观设置需要使用 GNOME Tweaks，
 参考 <a href="https://linuxhint.com/gnome_tweak_installation_ubuntu/">How to Install the Gnome Tweak Tool on Ubuntu 22.04</a>.
@@ -13168,9 +13648,9 @@ sudo apt install gnome-tweaks
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd7b95e6" class="outline-3">
-<h3 id="orgd7b95e6">Choose Cinnamon (Deprecated)</h3>
-<div class="outline-text-3" id="text-orgd7b95e6">
+<div id="outline-container-orge598cd9" class="outline-3">
+<h3 id="orge598cd9">Choose Cinnamon (Deprecated)</h3>
+<div class="outline-text-3" id="text-orge598cd9">
 <p>
 <del>个人更习惯 Win 风格的 UI
 于是偏爱 Cinnamon 桌面环境</del>
@@ -13193,29 +13673,29 @@ sudo apt install gnome-tweaks
 </div>
 </div>
 </div>
-<div id="outline-container-orga80761b" class="outline-2">
-<h2 id="orga80761b">Toolkits</h2>
-<div class="outline-text-2" id="text-orga80761b">
+<div id="outline-container-org66a1475" class="outline-2">
+<h2 id="org66a1475">Toolkits</h2>
+<div class="outline-text-2" id="text-org66a1475">
 </div>
-<div id="outline-container-orgaef23cb" class="outline-3">
-<h3 id="orgaef23cb">Install Edge</h3>
-<div class="outline-text-3" id="text-orgaef23cb">
+<div id="outline-container-org0228aa7" class="outline-3">
+<h3 id="org0228aa7">Install Edge</h3>
+<div class="outline-text-3" id="text-org0228aa7">
 <p>
 下载 Edge, 设置字体 Fira Sans + Lora, 登陆帐号.
 </p>
 </div>
 </div>
-<div id="outline-container-org89ca1fa" class="outline-3">
-<h3 id="org89ca1fa">Install VS code</h3>
-<div class="outline-text-3" id="text-org89ca1fa">
+<div id="outline-container-org8e63906" class="outline-3">
+<h3 id="org8e63906">Install VS code</h3>
+<div class="outline-text-3" id="text-org8e63906">
 <p>
 下载 VS Code, 登录账号. See also <a href="../2023-04-06-IntroVSCode/notes.html">this note</a> for a brief intro to VS code.
 </p>
 </div>
 </div>
-<div id="outline-container-org7798fa9" class="outline-3">
-<h3 id="org7798fa9">Install Clash</h3>
-<div class="outline-text-3" id="text-org7798fa9">
+<div id="outline-container-orgef186a6" class="outline-3">
+<h3 id="orgef186a6">Install Clash</h3>
+<div class="outline-text-3" id="text-orgef186a6">
 <p>
 准备科学上网.
 从小破本上复制 <del>或者从 github 上下载</del> 到 <del>最新版本的</del> clash,
@@ -13237,9 +13717,9 @@ sudo chmod a+x ./clash
 </p>
 </div>
 </div>
-<div id="outline-container-orgb4ca26a" class="outline-3">
-<h3 id="orgb4ca26a">Install Git</h3>
-<div class="outline-text-3" id="text-orgb4ca26a">
+<div id="outline-container-org2795f48" class="outline-3">
+<h3 id="org2795f48">Install Git</h3>
+<div class="outline-text-3" id="text-org2795f48">
 <p>
 安装 <code>git</code> 后登陆 GitHub, 按照提示生成 SSH key 并添加.
 See also <a href="../2023-04-05-ConfigGit/notes.html">this note</a> for details.
@@ -13258,9 +13738,9 @@ See also <a href="../2023-04-05-ConfigGit/notes.html">this note</a> for details.
 </p>
 </div>
 </div>
-<div id="outline-container-orge414798" class="outline-3">
-<h3 id="orge414798">Install Emacs</h3>
-<div class="outline-text-3" id="text-orge414798">
+<div id="outline-container-org46a9f20" class="outline-3">
+<h3 id="org46a9f20">Install Emacs</h3>
+<div class="outline-text-3" id="text-org46a9f20">
 <p>
 添加源并下载最新的 Emacs
 </p>
@@ -13277,9 +13757,9 @@ sudo apt install emacs-snapshot
 </p>
 </div>
 </div>
-<div id="outline-container-orga0f7d7d" class="outline-3">
-<h3 id="orga0f7d7d">Install Python</h3>
-<div class="outline-text-3" id="text-orga0f7d7d">
+<div id="outline-container-orge2b4edb" class="outline-3">
+<h3 id="orge2b4edb">Install Python</h3>
+<div class="outline-text-3" id="text-orge2b4edb">
 <p>
 Ubuntu 20.04 LTS 是自带 <code>Python3.8</code> 的,
 但一些第三方包还是需要自己装.
@@ -13308,17 +13788,17 @@ jupyter contrib nbextension install --user
 </p>
 </div>
 </div>
-<div id="outline-container-org6c98b5d" class="outline-3">
-<h3 id="org6c98b5d">Install TeXLive</h3>
-<div class="outline-text-3" id="text-org6c98b5d">
+<div id="outline-container-orgf72ffc3" class="outline-3">
+<h3 id="orgf72ffc3">Install TeXLive</h3>
+<div class="outline-text-3" id="text-orgf72ffc3">
 <p>
 See official doc
 </p>
 </div>
 </div>
-<div id="outline-container-org2c1f4c9" class="outline-3">
-<h3 id="org2c1f4c9">Customize Input Methods (Deprecated)</h3>
-<div class="outline-text-3" id="text-org2c1f4c9">
+<div id="outline-container-orgd1fc5ea" class="outline-3">
+<h3 id="orgd1fc5ea">Customize Input Methods (Deprecated)</h3>
+<div class="outline-text-3" id="text-orgd1fc5ea">
 <p>
 <b>Ubuntu 22.04 LTS 自带的输入法已经足够使用，不必再进行后续配置</b>
 </p>
@@ -13337,18 +13817,18 @@ sudo apt install fcitx-config-gtk
 </div>
 </div>
 </div>
-<div id="outline-container-orge8ca62e" class="outline-2">
-<h2 id="orge8ca62e">Future Customization</h2>
-<div class="outline-text-2" id="text-orge8ca62e">
+<div id="outline-container-org0f1b11d" class="outline-2">
+<h2 id="org0f1b11d">Future Customization</h2>
+<div class="outline-text-2" id="text-org0f1b11d">
 <ul class="org-ul">
 <li>Customize titlebar</li>
 <li>More funny animations</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org7f3af81" class="outline-2">
-<h2 id="org7f3af81">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org7f3af81">
+<div id="outline-container-org70930f2" class="outline-2">
+<h2 id="org70930f2">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org70930f2">
 <ul class="org-ul">
 <li><a href="https://einverne.github.io/post/2021/03/linux-use-clash.html">在 Linux 上使用 Clash 作代理</a></li>
 <li><a href="http://www.webupd8.org/2011/04/solarized-must-have-color-paletter-for.html">SOLARIZED: A MUST HAVE COLOR SCHEME FOR GNOME TERMINAL, VIM, GEDIT AND LOTS MORE</a></li>

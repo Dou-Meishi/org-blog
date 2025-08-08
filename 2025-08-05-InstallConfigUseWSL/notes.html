@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>Install, Configure, and Use WSL on Windows 11</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">05 Aug 2025</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2025-08-05-InstallConfigUseWSL/notes.html">Install, Configure, and Use WSL on Windows 11</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org7be5ca3">Introduction and Installation</a></li>
+<li><a href="#org105ab50">Configuration and Usage: Overview</a></li>
+<li><a href="#orgec177b9">Config: Windows Terminal</a></li>
+<li><a href="#org9316c25">Usage: Interoperability between Windows and Linux Commands</a></li>
+<li><a href="#org1e78203">Usage: Work across Windows and Linux File Systems</a></li>
+<li><a href="#org78bb0a9">Usage: SSH into WSL from an External Machine</a></li>
+<li><a href="#org52b9022">Appendix: WSL 1 v.s. WSL 2</a></li>
+<li><a href="#appendix-bash-configuration">Appendix: Bash Configuration</a></li>
+<li><a href="#appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</a></li>
+</ul>
+</div>
+</nav>
+<p>
+For me, WSL (Windows Subsystem for Linux) is <i>the</i> answer for working in
+<i>both</i> Linux and Windows environments. It works by running a Linux
+virtual machine within Windows.  Although it's not perfect&#x2014;nothing
+in the world is&#x2014;WSL does a reasonably good job.
+</p>
+
+<p>
+In this note, I will walk through the installation and configuration
+of WSL, and share some usages.
+</p>
+<div id="outline-container-org7be5ca3" class="outline-2">
+<h2 id="org7be5ca3">Introduction and Installation</h2>
+<div class="outline-text-2" id="text-org7be5ca3">
+<p>
+According to <a href="https://learn.microsoft.com/en-us/windows/wsl/">the WSL documentation</a>,
+</p>
+
+<blockquote>
+<p>
+Windows Subsystem for Linux (WSL) lets developers run a GNU/Linux
+environment &#x2013; including most command-line tools, utilities, and
+applications &#x2013; directly on Windows, unmodified, without the overhead
+of a traditional virtual machine or dual-boot setup.
+</p>
+</blockquote>
+
+<p>
+To install WSL, follow <a href="https://learn.microsoft.com/en-us/windows/wsl/install">this official guide</a>. It is as simple as running
+a single command <code>wsl --install</code> from PowerShell. However, if
+any error occurs, please refer to <a href="https://learn.microsoft.com/en-us/windows/wsl/install-manual">the manual installation</a> and see
+whether some requirement is missing.
+</p>
+
+<p>
+After the installation, one can use <code>wsl</code> in PowerShell to (see <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands">this page</a> for a full list of options)
+</p>
+
+<ul class="org-ul">
+<li>list available/installed Linux distributions;</li>
+<li>update WSL or check its status;</li>
+<li>shutdown or terminate running distributions;</li>
+<li>identify IP address;</li>
+<li>mount or unmount disks.</li>
+</ul>
+
+<p>
+<i>Clarification.</i> In this note, I assume the WSL version is 2 and it runs
+a single Ubuntu distribution.
+</p>
+</div>
+</div>
+<div id="outline-container-org105ab50" class="outline-2">
+<h2 id="org105ab50">Configuration and Usage: Overview</h2>
+<div class="outline-text-2" id="text-org105ab50">
+<p>
+Using WSL on Windows 11 is much like <b>opening a terminal to connect to
+a separate Linux server</b>, except that this Linux environment runs
+directly on the same machine.
+</p>
+
+<p>
+To access the running Linux distribution in WSL, one can use <i>Windows
+Terminal</i>, a built-in terminal emulator to run shells on Windows. It is
+similar to the GNOME terminal on Ubuntu, as summarized by the
+following table.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Feature</th>
+<th scope="col" class="org-left">Windows Terminal</th>
+<th scope="col" class="org-left">GNOME Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Platform</td>
+<td class="org-left">Windows</td>
+<td class="org-left">Linux</td>
+</tr>
+
+<tr>
+<td class="org-left">Native Shells</td>
+<td class="org-left">Powershell, CMD, Bash (via WSL)</td>
+<td class="org-left">Bash, Zsh, Fish</td>
+</tr>
+
+<tr>
+<td class="org-left">Profile-based customization</td>
+<td class="org-left">Yes</td>
+<td class="org-left">Yes</td>
+</tr>
+
+<tr>
+<td class="org-left">Open source</td>
+<td class="org-left">Yes (MIT)</td>
+<td class="org-left">Yes (GPL)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<a href="https://learn.microsoft.com/en-us/windows/terminal/">Here</a> is the official documentation of Windows terminal.
+</p>
+</div>
+</div>
+<div id="outline-container-orgec177b9" class="outline-2">
+<h2 id="orgec177b9">Config: Windows Terminal</h2>
+<div class="outline-text-2" id="text-orgec177b9">
+<p>
+Below are my settings.
+</p>
+
+<ol class="org-ol">
+<li>Initial terminal size: 120  columns, 36 rows (measured in characters)</li>
+<li>Font name: <a href="https://github.com/microsoft/cascadia-code">Cascadia Code NF</a> (a version of Cascadia that has Nerd Font symbols)</li>
+<li>Font size: 14</li>
+<li>Color scheme: Solarized light</li>
+<li>Intense text style: bold (<i>not</i> bright)</li>
+<li>Bell notification style: flash window (<i>not</i> audible)</li>
+</ol>
+
+<p>
+The bash environment in WSL can be configured as in normal Linux
+distributions; my configurations are listed in <a href="#appendix-bash-configuration">Appendix: Bash
+Configuration</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org9316c25" class="outline-2">
+<h2 id="org9316c25">Usage: Interoperability between Windows and Linux Commands</h2>
+<div class="outline-text-2" id="text-org9316c25">
+<p>
+Windows and Linux tools and commands can be used interchangeably with WSL.
+</p>
+
+<p>
+To <b>run Linux tools from a Windows command line</b>, prepend the bash command with <code>wsl</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-powershell">wsl ls -la
+</pre>
+</div>
+
+<p>
+To <b>run Windows tools from WSL command line</b>, append the tool name with <code>.exe</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">explorer.exe .
+</pre>
+</div>
+
+<p>
+See more examples and explanations on <a href="https://learn.microsoft.com/en-us/windows/wsl/filesystems#run-linux-tools-from-a-windows-command-line">this page</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org1e78203" class="outline-2">
+<h2 id="org1e78203">Usage: Work across Windows and Linux File Systems</h2>
+<div class="outline-text-2" id="text-org1e78203">
+<p>
+Access Linux files from Windows or vice versa is generally
+slow. Nevertheless, it is still possible.
+</p>
+
+<p>
+Windows files can be accessed by a Linux distribution under <code>/mnt/c/</code>.
+Linux files can be accessed by Windows under <code>\\wsl$</code> (an address
+recognizable for Windows File Explorer).
+</p>
+</div>
+</div>
+<div id="outline-container-org78bb0a9" class="outline-2">
+<h2 id="org78bb0a9">Usage: SSH into WSL from an External Machine</h2>
+<div class="outline-text-2" id="text-org78bb0a9">
+<p>
+The goal is to configure WSL as a local server so that external
+machines can access WSL via SSH. Below is a summarized procedure;
+refer also to the official WSL documentation: <a href="https://learn.microsoft.com/en-us/windows/wsl/networking">Accessing network
+applications with WSL</a> and <a href="https://learn.microsoft.com/en-us/windows/wsl/faq#how-do-i-run-an-openssh-server-">How do I run an OpenSSH server?</a> The
+<a href="../2025-04-18-RemoteDeveloping/notes.html">note:2025-04-18::Remotely Develop a Python Project</a> might also be
+helpful.
+</p>
+
+<p>
+<b>Step 1. Identify IP address.</b> There are two machines involved: a
+Windows machine running WSL, and an external Ubuntu machine. However,
+there are three distinct IP addresses, as WSL itself has a virtual IP
+address. Here are example outputs from my machines.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">external Ubuntu machine</span>
+dou-GramStyle    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname</span>
+192.168.1.111    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname -I</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Windows Powershell</span>
+dou-Legion       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname</span>
+192.168.1.104    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ipconfig</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">WSL terminal</span>
+172.27.71.86     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hostname -I</span>
+</pre>
+</div>
+
+<p>
+Before proceeding, ensure both machines are reachable on the local
+network by trying <code>ping</code>. There are 3 addresses, which means 6 possible
+paths for communication. At this stage, 5 of these paths should be
+working<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>. The path that will not work is from the external
+machine to WSL, because the WSL address is only accessible from the
+Windows host.
+</p>
+
+<p>
+<b>Step 2. Start SSH service on WSL.</b> Install <code>openssh-server</code> on WSL and
+edit the the configuration
+<code>/ect/ssh/sshd_config</code> (this requires root permission). Look for similar
+lines and change them to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+Port 2222
+ListenAddress 0.0.0.0
+PasswordAuthentication yes
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+</pre>
+</div>
+
+<p>
+This tells SSH to use port 2222 and listen to any address. It also
+enables the passward authentication. After saving the configuration,
+start or restart the SSH device from WSL by <code>sudo systemctl start
+ssh.service</code>.
+</p>
+
+<p>
+At this stage, it should be able to connect to WSL on the Windows
+machine. Try running <code>ssh wsl.localhost -p 2222</code> on PowerShell.
+</p>
+
+<p>
+<b>Step 3. Expose WSL address by port forwarding.</b> To allow SSH from an
+external machine, I forward Windows port 2222 to WSL port 2222 and
+configure the firewall accordingly. This can be done from PowerShell
+by
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">port forwarding</span>
+netsh interface portproxy add v4tov4 <span style="color: #268bd2;">listenaddress</span>=0.0.0.0 <span style="color: #268bd2;">listenport</span>=2222 <span style="color: #268bd2;">connectaddress</span>=172.27.71.86 <span style="color: #268bd2;">connectport</span>=2222
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">set up firewall</span>
+netsh advfirewall firewall add rule <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"Open Port 2222 for WSL2"</span> <span style="color: #268bd2;">dir</span>=in <span style="color: #268bd2;">action</span>=allow <span style="color: #268bd2;">protocol</span>=TCP <span style="color: #268bd2;">localport</span>=2222
+</pre>
+</div>
+
+<p>
+Once the port forwarding is correctly configured, I can directly SSH
+into WSL from my Ubuntu laptop
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">ssh dou-Legion.local -p 2222
+</pre>
+</div>
+
+<p>
+<b>Step 4 (Optional). Use SSH key authentication instead of passwoard
+authentication.</b> In step 2, the configuraiton file <code>/ect/ssh/sshd_config</code>
+use password authentication for SSH login. It is possible to use SSH
+keys for authentication; see <a href="#appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH
+Keys</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org52b9022" class="outline-2">
+<h2 id="org52b9022">Appendix: WSL 1 v.s. WSL 2</h2>
+<div class="outline-text-2" id="text-org52b9022">
+<p>
+WSL 1 and WSL 2 are two different WSL architectures. WSL 2
+architecture outperforms WSL 1 in several ways, <i>with the exception of
+performance across OS file systems</i>, which can be addressed by storing
+project files on the same operating system where the tools are
+installed.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Feature</th>
+<th scope="col" class="org-left">WSL 1</th>
+<th scope="col" class="org-left">WSL 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Integration between Windows and Linux</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Fast boot times</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Small resource foot print compared to traditional Virtual Machines</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Runs with current versions of VMware and VirtualBox</td>
+<td class="org-left">✅</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Managed VM</td>
+<td class="org-left">❌</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Full Linux Kernel</td>
+<td class="org-left">❌</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Full system call compatibility</td>
+<td class="org-left">❌</td>
+<td class="org-left">✅</td>
+</tr>
+
+<tr>
+<td class="org-left">Performance across OS file systems</td>
+<td class="org-left">✅</td>
+<td class="org-left">❌</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+See more comparisons in <a href="https://learn.microsoft.com/en-us/windows/wsl/compare-versions?source=recommendations">the official documentation</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-bash-configuration" class="outline-2">
+<h2 id="appendix-bash-configuration">Appendix: Bash Configuration</h2>
+<div class="outline-text-2" id="text-appendix-bash-configuration">
+<p>
+I am accustomed to my own evolving Bash profile and a collection of
+small tools. To ensure a consistent experience across Ubuntu, WSL, and
+remote servers, key elements include: 1) basic bash environment; 2)
+personal bash scripts; 3) standard tools like git, oh-my-posh, unison,
+emacs, and etc. For details, please refer to
+<a href="../2025-08-06-CustomBash/notes.html">note:2025-08-06::Customize Bash on Ubuntu and Windows</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-ssh-authentication-via-ssh-keys" class="outline-2">
+<h2 id="appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</h2>
+<div class="outline-text-2" id="text-appendix-ssh-authentication-via-ssh-keys">
+<p>
+First, obtain a pair of SSH keys either by: 1) reusing existing
+keys; 2) <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">generating a new pair</a>. Let <code>dou-GramStyle:~/.ssh/id_ed25519</code> be
+the private key and <code>dou-GramStyle:~/.ssh/id_ed25519.pub</code> be the
+associated public key.
+</p>
+
+<p>
+Second, edit the ssh configuration file <code>dou-GramStyle:~/.ssh/config</code> to
+add the following lines
+</p>
+<div class="org-src-container">
+<pre class="src src-conf">Host wsl
+     HostName dou-Legion.local
+     User dou
+     Port 2222
+     IdentityFile ~/.ssh/id_ed25519
+</pre>
+</div>
+
+<p>
+Third, save the public key to the server's authorized keys. This is
+done by simply <i>appending</i> the content of
+<code>dou-GramStyle:~/.ssh/id_ed25519.pub</code> to
+<code>dou-Legion:~/.ssh/authorized_keys</code> (create if not existed).
+</p>
+
+<p>
+Finally, disable password authentication on the server side. Edit the
+ssh configuration file <code>/etc/ssh/sshd_config</code> on the server. Look for
+similar lines and change them to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-conf"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+PubkeyAuthentication yes
+PasswordAuthentication no
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+</pre>
+</div>
+
+<p>
+After restarting the ssh service, I could connect from the client by
+simply typing <code>ssh wsl</code>.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+If the Windows machine does not respond to ping, this could be an
+issue related network or firewall settings. First, please ensure the
+network profile is set to <i>Private</i> instead of Public. Second, try allow
+incoming ICMP requests using the Windows PowerShell command
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">netsh advfirewall firewall add rule <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"Allow Ping"</span> <span style="color: #268bd2;">dir</span>=in <span style="color: #268bd2;">action</span>=allow <span style="color: #268bd2;">protocol</span>=icmpv4
+</pre>
+</div></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

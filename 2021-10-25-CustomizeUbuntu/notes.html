@@ -10,6 +10,7 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
 <link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
 <!-- Math Support by KaTeX -->
@@ -34,29 +35,29 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org769fedf">Get Ubuntu</a></li>
-<li><a href="#orgca0ab58">Appearance</a>
+<li><a href="#org05722e0">Get Ubuntu</a></li>
+<li><a href="#orgb8b5ce2">Appearance</a>
 <ul>
-<li><a href="#org3f3e7bf">Customize Fonts</a></li>
-<li><a href="#orgbc8f2c0">Customize Bash</a></li>
-<li><a href="#org9d909e1">GNOME Tweaks</a></li>
-<li><a href="#orgd7b95e6">Choose Cinnamon (Deprecated)</a></li>
+<li><a href="#org1ea63f3">Customize Fonts</a></li>
+<li><a href="#orgf1a57ac">Customize Bash</a></li>
+<li><a href="#org5435255">GNOME Tweaks</a></li>
+<li><a href="#orge598cd9">Choose Cinnamon (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#orga80761b">Toolkits</a>
+<li><a href="#org66a1475">Toolkits</a>
 <ul>
-<li><a href="#orgaef23cb">Install Edge</a></li>
-<li><a href="#org89ca1fa">Install VS code</a></li>
-<li><a href="#org7798fa9">Install Clash</a></li>
-<li><a href="#orgb4ca26a">Install Git</a></li>
-<li><a href="#orge414798">Install Emacs</a></li>
-<li><a href="#orga0f7d7d">Install Python</a></li>
-<li><a href="#org6c98b5d">Install TeXLive</a></li>
-<li><a href="#org2c1f4c9">Customize Input Methods (Deprecated)</a></li>
+<li><a href="#org0228aa7">Install Edge</a></li>
+<li><a href="#org8e63906">Install VS code</a></li>
+<li><a href="#orgef186a6">Install Clash</a></li>
+<li><a href="#org2795f48">Install Git</a></li>
+<li><a href="#org46a9f20">Install Emacs</a></li>
+<li><a href="#orge2b4edb">Install Python</a></li>
+<li><a href="#orgf72ffc3">Install TeXLive</a></li>
+<li><a href="#orgd1fc5ea">Customize Input Methods (Deprecated)</a></li>
 </ul>
 </li>
-<li><a href="#orge8ca62e">Future Customization</a></li>
-<li><a href="#org7f3af81">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org0f1b11d">Future Customization</a></li>
+<li><a href="#org70930f2">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -77,9 +78,9 @@
 终于, 我下定决心将实验室电脑也配置成它的形状.
 以后就让这位老战友退居二线吧.
 </p>
-<div id="outline-container-org769fedf" class="outline-2">
-<h2 id="org769fedf">Get Ubuntu</h2>
-<div class="outline-text-2" id="text-org769fedf">
+<div id="outline-container-org05722e0" class="outline-2">
+<h2 id="org05722e0">Get Ubuntu</h2>
+<div class="outline-text-2" id="text-org05722e0">
 <p>
 在 Ubuntu 官网下载 20.04 LTS 版本,
 用 Universal USB Installer 将 <code>.iso</code> 文件烧录到 U 盘上.
@@ -106,9 +107,9 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgca0ab58" class="outline-2">
-<h2 id="orgca0ab58">Appearance</h2>
-<div class="outline-text-2" id="text-orgca0ab58">
+<div id="outline-container-orgb8b5ce2" class="outline-2">
+<h2 id="orgb8b5ce2">Appearance</h2>
+<div class="outline-text-2" id="text-orgb8b5ce2">
 <p>
 安装完成后首先更新
 </p>
@@ -127,9 +128,9 @@ sudo apt upgrade
 在 <code>~/.config/user-dirs.dirs</code> 里修改默认下载路径, 默认桌面路径, 默认图片路径等等.
 </p>
 </div>
-<div id="outline-container-org3f3e7bf" class="outline-3">
-<h3 id="org3f3e7bf">Customize Fonts</h3>
-<div class="outline-text-3" id="text-org3f3e7bf">
+<div id="outline-container-org1ea63f3" class="outline-3">
+<h3 id="org1ea63f3">Customize Fonts</h3>
+<div class="outline-text-3" id="text-org1ea63f3">
 <p>
 从小破本里将 <code>~/.local/share/fonts/</code> 复制到主目录.
 然后刷新缓存
@@ -145,9 +146,9 @@ sudo apt upgrade
 </p>
 </div>
 </div>
-<div id="outline-container-orgbc8f2c0" class="outline-3">
-<h3 id="orgbc8f2c0">Customize Bash</h3>
-<div class="outline-text-3" id="text-orgbc8f2c0">
+<div id="outline-container-orgf1a57ac" class="outline-3">
+<h3 id="orgf1a57ac">Customize Bash</h3>
+<div class="outline-text-3" id="text-orgf1a57ac">
 <p>
 将 <code>.bashrc</code>, <code>.bash_env</code>, <code>.bash_aliases</code>, <code>.inputrc</code>, <code>bin/</code> 复制到主目录.
 </p>
@@ -186,9 +187,9 @@ git clone https://github.com/aruhier/gnome-terminal-colors-solarized.git
 </p>
 </div>
 </div>
-<div id="outline-container-org9d909e1" class="outline-3">
-<h3 id="org9d909e1">GNOME Tweaks</h3>
-<div class="outline-text-3" id="text-org9d909e1">
+<div id="outline-container-org5435255" class="outline-3">
+<h3 id="org5435255">GNOME Tweaks</h3>
+<div class="outline-text-3" id="text-org5435255">
 <p>
 Ubuntu 的很多系统外观设置需要使用 GNOME Tweaks，
 参考 <a href="https://linuxhint.com/gnome_tweak_installation_ubuntu/">How to Install the Gnome Tweak Tool on Ubuntu 22.04</a>.
@@ -224,9 +225,9 @@ sudo apt install gnome-tweaks
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd7b95e6" class="outline-3">
-<h3 id="orgd7b95e6">Choose Cinnamon (Deprecated)</h3>
-<div class="outline-text-3" id="text-orgd7b95e6">
+<div id="outline-container-orge598cd9" class="outline-3">
+<h3 id="orge598cd9">Choose Cinnamon (Deprecated)</h3>
+<div class="outline-text-3" id="text-orge598cd9">
 <p>
 <del>个人更习惯 Win 风格的 UI
 于是偏爱 Cinnamon 桌面环境</del>
@@ -249,29 +250,29 @@ sudo apt install gnome-tweaks
 </div>
 </div>
 </div>
-<div id="outline-container-orga80761b" class="outline-2">
-<h2 id="orga80761b">Toolkits</h2>
-<div class="outline-text-2" id="text-orga80761b">
+<div id="outline-container-org66a1475" class="outline-2">
+<h2 id="org66a1475">Toolkits</h2>
+<div class="outline-text-2" id="text-org66a1475">
 </div>
-<div id="outline-container-orgaef23cb" class="outline-3">
-<h3 id="orgaef23cb">Install Edge</h3>
-<div class="outline-text-3" id="text-orgaef23cb">
+<div id="outline-container-org0228aa7" class="outline-3">
+<h3 id="org0228aa7">Install Edge</h3>
+<div class="outline-text-3" id="text-org0228aa7">
 <p>
 下载 Edge, 设置字体 Fira Sans + Lora, 登陆帐号.
 </p>
 </div>
 </div>
-<div id="outline-container-org89ca1fa" class="outline-3">
-<h3 id="org89ca1fa">Install VS code</h3>
-<div class="outline-text-3" id="text-org89ca1fa">
+<div id="outline-container-org8e63906" class="outline-3">
+<h3 id="org8e63906">Install VS code</h3>
+<div class="outline-text-3" id="text-org8e63906">
 <p>
 下载 VS Code, 登录账号. See also <a href="../2023-04-06-IntroVSCode/notes.html">this note</a> for a brief intro to VS code.
 </p>
 </div>
 </div>
-<div id="outline-container-org7798fa9" class="outline-3">
-<h3 id="org7798fa9">Install Clash</h3>
-<div class="outline-text-3" id="text-org7798fa9">
+<div id="outline-container-orgef186a6" class="outline-3">
+<h3 id="orgef186a6">Install Clash</h3>
+<div class="outline-text-3" id="text-orgef186a6">
 <p>
 准备科学上网.
 从小破本上复制 <del>或者从 github 上下载</del> 到 <del>最新版本的</del> clash,
@@ -293,9 +294,9 @@ sudo chmod a+x ./clash
 </p>
 </div>
 </div>
-<div id="outline-container-orgb4ca26a" class="outline-3">
-<h3 id="orgb4ca26a">Install Git</h3>
-<div class="outline-text-3" id="text-orgb4ca26a">
+<div id="outline-container-org2795f48" class="outline-3">
+<h3 id="org2795f48">Install Git</h3>
+<div class="outline-text-3" id="text-org2795f48">
 <p>
 安装 <code>git</code> 后登陆 GitHub, 按照提示生成 SSH key 并添加.
 See also <a href="../2023-04-05-ConfigGit/notes.html">this note</a> for details.
@@ -314,9 +315,9 @@ See also <a href="../2023-04-05-ConfigGit/notes.html">this note</a> for details.
 </p>
 </div>
 </div>
-<div id="outline-container-orge414798" class="outline-3">
-<h3 id="orge414798">Install Emacs</h3>
-<div class="outline-text-3" id="text-orge414798">
+<div id="outline-container-org46a9f20" class="outline-3">
+<h3 id="org46a9f20">Install Emacs</h3>
+<div class="outline-text-3" id="text-org46a9f20">
 <p>
 添加源并下载最新的 Emacs
 </p>
@@ -333,9 +334,9 @@ sudo apt install emacs-snapshot
 </p>
 </div>
 </div>
-<div id="outline-container-orga0f7d7d" class="outline-3">
-<h3 id="orga0f7d7d">Install Python</h3>
-<div class="outline-text-3" id="text-orga0f7d7d">
+<div id="outline-container-orge2b4edb" class="outline-3">
+<h3 id="orge2b4edb">Install Python</h3>
+<div class="outline-text-3" id="text-orge2b4edb">
 <p>
 Ubuntu 20.04 LTS 是自带 <code>Python3.8</code> 的,
 但一些第三方包还是需要自己装.
@@ -364,17 +365,17 @@ jupyter contrib nbextension install --user
 </p>
 </div>
 </div>
-<div id="outline-container-org6c98b5d" class="outline-3">
-<h3 id="org6c98b5d">Install TeXLive</h3>
-<div class="outline-text-3" id="text-org6c98b5d">
+<div id="outline-container-orgf72ffc3" class="outline-3">
+<h3 id="orgf72ffc3">Install TeXLive</h3>
+<div class="outline-text-3" id="text-orgf72ffc3">
 <p>
 See official doc
 </p>
 </div>
 </div>
-<div id="outline-container-org2c1f4c9" class="outline-3">
-<h3 id="org2c1f4c9">Customize Input Methods (Deprecated)</h3>
-<div class="outline-text-3" id="text-org2c1f4c9">
+<div id="outline-container-orgd1fc5ea" class="outline-3">
+<h3 id="orgd1fc5ea">Customize Input Methods (Deprecated)</h3>
+<div class="outline-text-3" id="text-orgd1fc5ea">
 <p>
 <b>Ubuntu 22.04 LTS 自带的输入法已经足够使用，不必再进行后续配置</b>
 </p>
@@ -393,18 +394,18 @@ sudo apt install fcitx-config-gtk
 </div>
 </div>
 </div>
-<div id="outline-container-orge8ca62e" class="outline-2">
-<h2 id="orge8ca62e">Future Customization</h2>
-<div class="outline-text-2" id="text-orge8ca62e">
+<div id="outline-container-org0f1b11d" class="outline-2">
+<h2 id="org0f1b11d">Future Customization</h2>
+<div class="outline-text-2" id="text-org0f1b11d">
 <ul class="org-ul">
 <li>Customize titlebar</li>
 <li>More funny animations</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org7f3af81" class="outline-2">
-<h2 id="org7f3af81">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org7f3af81">
+<div id="outline-container-org70930f2" class="outline-2">
+<h2 id="org70930f2">References&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
+<div class="outline-text-2" id="text-org70930f2">
 <ul class="org-ul">
 <li><a href="https://einverne.github.io/post/2021/03/linux-use-clash.html">在 Linux 上使用 Clash 作代理</a></li>
 <li><a href="http://www.webupd8.org/2011/04/solarized-must-have-color-paletter-for.html">SOLARIZED: A MUST HAVE COLOR SCHEME FOR GNOME TERMINAL, VIM, GEDIT AND LOTS MORE</a></li>
