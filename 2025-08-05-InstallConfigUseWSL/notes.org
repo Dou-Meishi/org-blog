@@ -1,0 +1,264 @@
+#+TITLE: Install, Configure, and Use WSL on Windows 11
+#+DATE: [2025-08-05]
+#+FILETAGS: tool
+
+For me, WSL (Windows Subsystem for Linux) is /the/ answer for working in
+/both/ Linux and Windows environments. It works by running a Linux
+virtual machine within Windows.  Although it's not perfect---nothing
+in the world is---WSL does a reasonably good job.
+
+In this note, I will walk through the installation and configuration
+of WSL, and share some usages.
+
+** Introduction and Installation
+
+According to [[https://learn.microsoft.com/en-us/windows/wsl/][the WSL documentation]],
+
+#+BEGIN_QUOTE
+Windows Subsystem for Linux (WSL) lets developers run a GNU/Linux
+environment -- including most command-line tools, utilities, and
+applications -- directly on Windows, unmodified, without the overhead
+of a traditional virtual machine or dual-boot setup.
+#+END_QUOTE
+
+To install WSL, follow [[https://learn.microsoft.com/en-us/windows/wsl/install][this official guide]]. It is as simple as running
+a single command =wsl --install= from PowerShell. However, if
+any error occurs, please refer to [[https://learn.microsoft.com/en-us/windows/wsl/install-manual][the manual installation]] and see
+whether some requirement is missing.
+
+After the installation, one can use =wsl= in PowerShell to (see [[https://learn.microsoft.com/en-us/windows/wsl/basic-commands][this page]] for a full list of options)
+
+- list available/installed Linux distributions;
+- update WSL or check its status;
+- shutdown or terminate running distributions;
+- identify IP address;
+- mount or unmount disks.
+
+/Clarification./ In this note, I assume the WSL version is 2 and it runs
+a single Ubuntu distribution.
+
+** Configuration and Usage: Overview
+
+Using WSL on Windows 11 is much like *opening a terminal to connect to
+a separate Linux server*, except that this Linux environment runs
+directly on the same machine.
+
+To access the running Linux distribution in WSL, one can use /Windows
+Terminal/, a built-in terminal emulator to run shells on Windows. It is
+similar to the GNOME terminal on Ubuntu, as summarized by the
+following table.
+
+| Feature                     | Windows Terminal                | GNOME Terminal  |
+|-----------------------------+---------------------------------+-----------------|
+| Platform                    | Windows                         | Linux           |
+| Native Shells               | Powershell, CMD, Bash (via WSL) | Bash, Zsh, Fish |
+| Profile-based customization | Yes                             | Yes             |
+| Open source                 | Yes (MIT)                       | Yes (GPL)       |
+
+[[https://learn.microsoft.com/en-us/windows/terminal/][Here]] is the official documentation of Windows terminal.
+
+** Config: Windows Terminal
+
+Below are my settings.
+
+1. Initial terminal size: 120  columns, 36 rows (measured in characters)
+2. Font name: [[https://github.com/microsoft/cascadia-code][Cascadia Code NF]] (a version of Cascadia that has Nerd Font symbols)
+3. Font size: 14
+4. Color scheme: Solarized light
+5. Intense text style: bold (/not/ bright)
+6. Bell notification style: flash window (/not/ audible)
+
+The bash environment in WSL can be configured as in normal Linux
+distributions; my configurations are listed in [[#appendix-bash-configuration][Appendix: Bash
+Configuration]].
+
+** Usage: Interoperability between Windows and Linux Commands
+
+Windows and Linux tools and commands can be used interchangeably with WSL.
+
+To *run Linux tools from a Windows command line*, prepend the bash command with =wsl=:
+
+#+BEGIN_SRC powershell
+wsl ls -la
+#+END_SRC
+
+To *run Windows tools from WSL command line*, append the tool name with =.exe=:
+
+#+BEGIN_SRC shell
+explorer.exe .
+#+END_SRC
+
+See more examples and explanations on [[https://learn.microsoft.com/en-us/windows/wsl/filesystems#run-linux-tools-from-a-windows-command-line][this page]].
+
+** Usage: Work across Windows and Linux File Systems
+
+Access Linux files from Windows or vice versa is generally
+slow. Nevertheless, it is still possible.
+
+Windows files can be accessed by a Linux distribution under =/mnt/c/=.
+Linux files can be accessed by Windows under =\\wsl$= (an address
+recognizable for Windows File Explorer).
+
+** Usage: SSH into WSL from an External Machine
+
+The goal is to configure WSL as a local server so that external
+machines can access WSL via SSH. Below is a summarized procedure;
+refer also to the official WSL documentation: [[https://learn.microsoft.com/en-us/windows/wsl/networking][Accessing network
+applications with WSL]] and [[https://learn.microsoft.com/en-us/windows/wsl/faq#how-do-i-run-an-openssh-server-][How do I run an OpenSSH server?]] The
+[[file:../2025-04-18-RemoteDeveloping/notes.org][note:2025-04-18::Remotely Develop a Python Project]] might also be
+helpful.
+
+*Step 1. Identify IP address.* There are two machines involved: a
+Windows machine running WSL, and an external Ubuntu machine. However,
+there are three distinct IP addresses, as WSL itself has a virtual IP
+address. Here are example outputs from my machines.
+
+#+BEGIN_SRC shell
+# external Ubuntu machine
+dou-GramStyle    # hostname
+192.168.1.111    # hostname -I
+
+# Windows Powershell
+dou-Legion       # hostname
+192.168.1.104    # ipconfig
+
+# WSL terminal
+172.27.71.86     # hostname -I
+#+END_SRC
+
+Before proceeding, ensure both machines are reachable on the local
+network by trying =ping=. There are 3 addresses, which means 6 possible
+paths for communication. At this stage, 5 of these paths should be
+working[fn:1]. The path that will not work is from the external
+machine to WSL, because the WSL address is only accessible from the
+Windows host.
+
+*Step 2. Start SSH service on WSL.* Install =openssh-server= on WSL and
+edit the the configuration
+=/ect/ssh/sshd_config= (this requires root permission). Look for similar
+lines and change them to
+
+#+BEGIN_SRC conf
+# ...
+Port 2222
+ListenAddress 0.0.0.0
+PasswordAuthentication yes
+# ...
+#+END_SRC
+
+This tells SSH to use port 2222 and listen to any address. It also
+enables the passward authentication. After saving the configuration,
+start or restart the SSH device from WSL by =sudo systemctl start
+ssh.service=.
+
+At this stage, it should be able to connect to WSL on the Windows
+machine. Try running =ssh wsl.localhost -p 2222= on PowerShell.
+
+*Step 3. Expose WSL address by port forwarding.* To allow SSH from an
+external machine, I forward Windows port 2222 to WSL port 2222 and
+configure the firewall accordingly. This can be done from PowerShell
+by
+
+#+BEGIN_SRC shell
+# port forwarding
+netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=2222 connectaddress=172.27.71.86 connectport=2222
+# set up firewall
+netsh advfirewall firewall add rule name="Open Port 2222 for WSL2" dir=in action=allow protocol=TCP localport=2222
+#+END_SRC
+
+Once the port forwarding is correctly configured, I can directly SSH
+into WSL from my Ubuntu laptop
+
+#+BEGIN_SRC shell
+ssh dou-Legion.local -p 2222
+#+END_SRC
+
+*Step 4 (Optional). Use SSH key authentication instead of passwoard
+authentication.* In step 2, the configuraiton file =/ect/ssh/sshd_config=
+use password authentication for SSH login. It is possible to use SSH
+keys for authentication; see [[#appendix-ssh-authentication-via-ssh-keys][Appendix: SSH Authentication via SSH
+Keys]].
+
+** Appendix: WSL 1 v.s. WSL 2
+
+WSL 1 and WSL 2 are two different WSL architectures. WSL 2
+architecture outperforms WSL 1 in several ways, /with the exception of
+performance across OS file systems/, which can be addressed by storing
+project files on the same operating system where the tools are
+installed.
+
+| Feature                                                            | WSL 1 | WSL 2 |
+|--------------------------------------------------------------------+-------+-------|
+| Integration between Windows and Linux                              | ✅     | ✅     |
+| Fast boot times                                                    | ✅     | ✅     |
+| Small resource foot print compared to traditional Virtual Machines | ✅     | ✅     |
+| Runs with current versions of VMware and VirtualBox                | ✅     | ✅     |
+| Managed VM                                                         | ❌     | ✅     |
+| Full Linux Kernel                                                  | ❌     | ✅     |
+| Full system call compatibility                                     | ❌     | ✅     |
+| Performance across OS file systems                                 | ✅     | ❌     |
+
+See more comparisons in [[https://learn.microsoft.com/en-us/windows/wsl/compare-versions?source=recommendations][the official documentation]].
+
+** Appendix: Bash Configuration
+:PROPERTIES:
+:CUSTOM_ID: appendix-bash-configuration
+:END:
+
+I am accustomed to my own evolving Bash profile and a collection of
+small tools. To ensure a consistent experience across Ubuntu, WSL, and
+remote servers, key elements include: 1) basic bash environment; 2)
+personal bash scripts; 3) standard tools like git, oh-my-posh, unison,
+emacs, and etc. For details, please refer to
+[[file:../2025-08-06-CustomBash/notes.org][note:2025-08-06::Customize Bash on Ubuntu and Windows]].
+
+** Appendix: SSH Authentication via SSH Keys
+:PROPERTIES:
+:CUSTOM_ID: appendix-ssh-authentication-via-ssh-keys
+:END:
+
+First, obtain a pair of SSH keys either by: 1) reusing existing
+keys; 2) [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent][generating a new pair]]. Let =dou-GramStyle:~/.ssh/id_ed25519= be
+the private key and =dou-GramStyle:~/.ssh/id_ed25519.pub= be the
+associated public key.
+
+Second, edit the ssh configuration file =dou-GramStyle:~/.ssh/config= to
+add the following lines
+#+BEGIN_SRC conf
+Host wsl
+     HostName dou-Legion.local
+     User dou
+     Port 2222
+     IdentityFile ~/.ssh/id_ed25519
+#+END_SRC
+
+Third, save the public key to the server's authorized keys. This is
+done by simply /appending/ the content of
+=dou-GramStyle:~/.ssh/id_ed25519.pub= to
+=dou-Legion:~/.ssh/authorized_keys= (create if not existed).
+
+Finally, disable password authentication on the server side. Edit the
+ssh configuration file =/etc/ssh/sshd_config= on the server. Look for
+similar lines and change them to
+
+#+BEGIN_SRC conf
+# ...
+PubkeyAuthentication yes
+PasswordAuthentication no
+# ...
+#+END_SRC
+
+After restarting the ssh service, I could connect from the client by
+simply typing =ssh wsl=.
+
+** Footnotes
+
+[fn:1] If the Windows machine does not respond to ping, this could be an
+issue related network or firewall settings. First, please ensure the
+network profile is set to /Private/ instead of Public. Second, try allow
+incoming ICMP requests using the Windows PowerShell command
+
+#+BEGIN_SRC shell
+netsh advfirewall firewall add rule name="Allow Ping" dir=in action=allow protocol=icmpv4
+#+END_SRC
+
