@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="https://dou-meishi.github.io/org-blog/rss.xml"
+      title="RSS feed for https://dou-meishi.github.io/org-blog/">
+<title>A How-to Guide to Font Selection</title>
+<meta name="author" content="Dou Meishi">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
+<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<!-- Math Support by KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<!-- To automatically render math in text elements, include the auto-render extension: -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+<div id="preamble" class="status"><div class="header">
+  <div class="sitelinks">
+    <a href="https://dou-meishi.github.io/org-blog/index.html">Home</a>
+    |
+    <a href="https://dou-meishi.github.io/org-blog/archive.html">All Posts</a>
+  </div>
+</div>
+</div>
+<div id="content">
+<div class="post-date">11 Aug 2025</div><h1 class="post-title"><a href="https://dou-meishi.github.io/org-blog/2025-08-11-SelectandUseFonts/notes.html">A How-to Guide to Font Selection</a></h1>
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgf602201">Terminology</a></li>
+<li><a href="#orgeeacfa4">How-to: Choose Fonts</a></li>
+<li><a href="#orgdadad00">How-to: Preview Fonts</a></li>
+<li><a href="#appendix-query-fonts-via-fontconfig">How-to: Query Fonts</a></li>
+<li><a href="#appendix-inspect-opentype-font-files">How-to: Inspect Fonts</a></li>
+<li><a href="#org8afe46b">References</a></li>
+<li><a href="#appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</a></li>
+<li><a href="#appendix-a-list-of-my-preferred-fonts">Appendix: A List of My Favorite Fonts</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<i>Motivation.</i> There are two practical considerations to move beyond the
+<i>default</i> fonts. First, defaults are designed to be universally
+applicable, which inevitably makes them suboptimal for specific
+situations. Different types of texts&#x2014;such as research papers,
+technical manuals, personal blogs, or software user
+interfaces&#x2014;require different fonts to establish the right tone and
+clearly convey meaning without distracting their readers. Second, from
+a practical standpoint, most fonts are created to support only a
+limited subset of characters and styles. In practice, we have to deal
+with coverage issues and need to pair fonts to handle a wide range of
+characters, especially in non-English texts.
+</p>
+
+<p>
+In this note, I will first clarify some terminology and introduce the
+general principles for choosing fonts. Then, I provide guides on the
+following topics: previewing fonts, querying fonts, and inspecting
+fonts. Finally, I include a list of my favorite fonts and a brief
+overview of text rendering in the appendices.
+</p>
+<div id="outline-container-orgf602201" class="outline-2">
+<h2 id="orgf602201">Terminology</h2>
+<div class="outline-text-2" id="text-orgf602201">
+<p>
+Terms used in typography, web development, and other fields may vary a
+lot. To avoid possible confusions, a brief list is provided below for
+reference. More terms and explanations can be found in the <a href="https://fonts.google.com/knowledge/glossary">Glossary</a>
+provided by Google Fonts, <i>The Vocabulary of Type</i> in
+Tracy (<a href="#citeproc_bib_item_2">2003</a>), and <i>Appendix C: Glossary of
+Terms</i> in Bringhurst (<a href="#citeproc_bib_item_1">2002</a>).
+</p>
+
+<dl class="org-dl">
+<dt>Glyph.</dt><dd><p>
+A <i>glyph</i> is a specific, visual representation of a
+character. Glyphs are the <i>visual forms</i>; characters are the <i>abstract
+text elements</i>.
+</p>
+
+<p>
+In traditional typography, a glyph is literally <i>a physical piece of
+metal or wood</i>. In early digital typography, a glyph is <i>a bitmap
+image</i>&#x2014;a pattern of tiny pixels that, when viewed together,
+resembles the shape of a character. In modern digital typography, a
+glyph is <i>a vector outline</i>&#x2014;a flexible, resolution-independent
+vector graphic used to render a character visually.
+</p>
+
+<p>
+A single character may have multiple glyphs (see <a href="https://fonts.google.com/knowledge/glossary/alternates">alternates</a>), and a
+glyph may represent multiple characters (see <a href="https://fonts.google.com/knowledge/glossary/ligature">ligatures</a>).
+</p></dd>
+
+<dt>Font.</dt><dd><p>
+A <i>font</i> is a set of glyphs.
+</p>
+
+<p>
+In traditional typography, a font is <i>a physical plate with all its
+glyphs</i>. In modern digital typography, a font is <i>the digital palette
+itself</i> or the digital information encoding it (a font
+file). Currently, most fonts are available in TrueType (.ttf, .ttc),
+OpenType (.otf, .otc), or Web Open Font Format (.woff, .woff2).
+</p></dd>
+
+<dt>Font family</dt><dd><p>
+A <i>font family</i> is a collection of fonts that share the
+same design.
+</p>
+
+<p>
+Each font in a family often has a specific <i>size</i> and <i>weight</i>. For
+example, the font <code>DejaVu Sans-12:bold</code> has a size of <i>12 points</i> and a
+weight of <i>bold</i>. The font family, in this case, is <i>DejaVu Sans</i>.
+</p>
+
+<p>
+In addition, a <i>superfamily</i> is a group of related font families. For
+example, the superfamily <i>DejaVu</i> contains font families <i>DejaVu Serif</i>,
+<i>DejaVu Sans</i>, and <i>DejaVu Sans Mono</i>.
+</p></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgeeacfa4" class="outline-2">
+<h2 id="orgeeacfa4">How-to: Choose Fonts</h2>
+<div class="outline-text-2" id="text-orgeeacfa4">
+<p>
+The general principle for choosing fonts is to ensure that they
+<i>effectively convey the intended meaning of the text</i>. To achieve this,
+one need to check:
+</p>
+
+<ol class="org-ol">
+<li>The selected fonts are appropriate for the project. To avoid
+issues, choose fonts that were designed for the intended use.</li>
+
+<li>The selected fonts offer enough style variants to reflect text
+structures. For example, make sure there are suitable styles for
+emphasis, headlines, verbatim texts, and code sections.</li>
+
+<li>The selected fonts provide adequate script coverage (e.g., Greek
+and CJK).</li>
+
+<li>(Optional) The selected fonts support advanced typographic
+features. Look for features such as ligatures, alternative
+stylistic sets, and proper handling of punctuation for CJK
+characters.</li>
+</ol>
+
+<p>
+For detailed considerations, please refer to <a href="https://fonts.google.com/knowledge/choosing_type">Choosing type</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgdadad00" class="outline-2">
+<h2 id="orgdadad00">How-to: Preview Fonts</h2>
+<div class="outline-text-2" id="text-orgdadad00">
+<p>
+If a font family is accessible on the machine, then a convenient way
+to preview it is through the web browser. For example, the following
+HTML template previews the regular, italic, bold, and the small caps
+variant in Lora family.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">div</span> <span style="color: #268bd2;">class</span>=<span style="color: #2aa198;">"font-section"</span> <span style="color: #268bd2;">style</span>=<span style="color: #2aa198;">"font-family: lora;"</span>&gt;
+  &lt;<span style="color: #268bd2;">p</span> <span style="color: #268bd2;">style</span>=<span style="color: #2aa198;">"font-size: xx-large; font-variant: small-caps"</span>&gt;Lora:&lt;/<span style="color: #268bd2;">p</span>&gt;
+  &lt;<span style="color: #268bd2;">p</span>&gt;
+    &lt;<span style="color: #268bd2;">b</span>&gt;<span style="font-weight: bold;">Theorem (Arzel&#224;&#8211;Ascoli).</span>&lt;/<span style="color: #268bd2;">b</span>&gt; Consider a set of real-valued continuous
+    functions defined on a compact metric space. If this set is
+    &lt;<span style="color: #268bd2;">i</span>&gt;<span style="font-style: italic;">equicontinuous</span>&lt;/<span style="color: #268bd2;">i</span>&gt; and &lt;<span style="color: #268bd2;">i</span>&gt;<span style="font-style: italic;">pointwise bounded</span>&lt;/<span style="color: #268bd2;">i</span>&gt;, then it is relatively compact in
+    the topology induced by the &lt;<span style="color: #268bd2;">i</span>&gt;<span style="font-style: italic;">uniform</span>&lt;/<span style="color: #268bd2;">i</span>&gt; norm.
+  &lt;/<span style="color: #268bd2;">p</span>&gt;
+&lt;/<span style="color: #268bd2;">div</span>&gt;
+</pre>
+</div>
+
+
+<figure id="orgda8633e">
+<img src="./preview-lora.png" alt="preview-lora.png">
+
+</figure>
+
+<p>
+For preview results of additional fonts, see also <a href="#appendix-a-list-of-my-preferred-fonts">Appendix: A List of
+My Preferred Fonts</a>. To list fonts available to the operating system,
+see also <a href="#appendix-query-fonts-via-fontconfig">Appendix: Query Fonts via Fontconfig</a>. Given a font file in
+.ttf or .otf format, one can use <code>otfinfo</code> or <a href="https://fontdrop.info/">this online tool</a> to view
+various metadata of the font; see also <a href="#appendix-inspect-opentype-font-files">Appendix: Inspect OpenType Font
+Files</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-query-fonts-via-fontconfig" class="outline-2">
+<h2 id="appendix-query-fonts-via-fontconfig">How-to: Query Fonts</h2>
+<div class="outline-text-2" id="text-appendix-query-fonts-via-fontconfig">
+<p>
+<a href="https://www.freedesktop.org/wiki/Software/fontconfig/">Fontconfig</a> is a free and open-source software library designed to
+provide font discovery, configuration, and substitution functionality
+on Linux. It comes with a set of command-line utilities <code>fc-*</code>. Some of
+their usages are demonstrated below.
+</p>
+
+<p>
+<b>fc-list.</b> List and filter fonts Fontconfig knows about.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">fc-list :<span style="color: #268bd2;">family</span>=lora:<span style="color: #268bd2;">style</span>=italic file
+</pre>
+</div>
+
+<pre class="example" id="orgdf8d591">
+/home/dou/.local/share/fonts/opentype/Lora/Lora-Italic.otf:
+/home/dou/.local/share/fonts/opentype/Lora/Lora-SemiBoldItalic.otf:
+/home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf:
+</pre>
+
+<p>
+<b>fc-match.</b> Find the font that matches a given pattern.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">fc-match <span style="color: #2aa198;">"lora-8:slant=italic:weight=medium"</span> file
+</pre>
+</div>
+
+<pre class="example" id="orgd9c99e5">
+:file=/home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf
+</pre>
+
+<p>
+<b>fc-pattern.</b> Parse and show pattern according to Fontconfig's syntax.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">fc-pattern <span style="color: #2aa198;">"lora-8:slant=italic:weight=medium"</span>
+</pre>
+</div>
+
+<pre class="example" id="org4c293b6">
+Pattern has 4 elts (size 16)
+    family: "lora"(s)
+    slant: 100(i)(s)
+    weight: 100(f)(s)
+    size: 8(f)(s)
+</pre>
+
+<p>
+See more explanations in <a href="https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html">fontconfig user documentation</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-inspect-opentype-font-files" class="outline-2">
+<h2 id="appendix-inspect-opentype-font-files">How-to: Inspect Fonts</h2>
+<div class="outline-text-2" id="text-appendix-inspect-opentype-font-files">
+<p>
+<a href="https://learn.microsoft.com/en-us/typography/opentype/spec/">OpenType</a> (.otf) is an extension of TrueType (.ttf), and both are
+widely supported font formats on modern systems. Besides the glyph
+table, an OpenType font file also encodes various metadata and other
+font information to provide advanced typographic capabilities; see
+also <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/ttochap1">OpenType Layout Overview</a>.  The online tool <a href="https://fontdrop.info/">Font Drop</a> can be used
+to inspect these data. Below, I demonstrate the usage of <code>otfinfo</code>.
+</p>
+
+<p>
+The command-line utility <code>otfinfo</code> can report scripts and language
+systems supported in the font.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">otfinfo -s sarasa-term-sc-nerd-regular.ttf
+</pre>
+</div>
+
+<pre class="example" id="org89d8f8d">
+...
+hani		CJK Ideographic
+hani.JAN	CJK Ideographic/Japanese
+hani.KOR	CJK Ideographic/Korean
+hani.ZHH	CJK Ideographic/Chinese, Hong Kong SAR
+hani.ZHS	CJK Ideographic/Chinese Simplified
+hani.ZHT	CJK Ideographic/Chinese Traditional
+...
+latn		Latin
+latn.JAN	Latin/Japanese
+latn.KOR	Latin/Korean
+latn.ZHH	Latin/Chinese, Hong Kong SAR
+latn.ZHS	Latin/Chinese Simplified
+latn.ZHT	Latin/Chinese Traditional
+</pre>
+
+<p>
+This shows that it supports two script systems: Latin and CJK. For CJK
+scripts, it supports five language systems: Simplified Chinese,
+Traditional Chinese, Chinese HK, Japanese, and Korean.
+</p>
+
+<p>
+Supported <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist">OpenType features</a> can also be printed via <code>otfinfo</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">otfinfo -f Lora-Regular.otf
+</pre>
+</div>
+
+<pre class="example" id="org287ccd3">
+aalt	Access All Alternates
+calt	Contextual Alternates
+case	Case-Sensitive Forms
+ccmp	Glyph Composition/Decomposition
+frac	Fractions
+kern	Kerning
+liga	Standard Ligatures
+mark	Mark Positioning
+mkmk	Mark to Mark Positioning
+ordn	Ordinals
+pnum	Proportional Figures
+sups	Superscript
+tnum	Tabular Figures
+</pre>
+
+<p>
+For font collections (.ttc or .otc), one can inspect encoded tables or
+extract individual fonts via <a href="https://github.com/fonttools/fonttools">Fonttools</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> fontTools.ttLib <span style="color: #859900; font-weight: bold;">import</span> TTCollection
+<span style="color: #859900; font-weight: bold;">from</span> pathlib <span style="color: #859900; font-weight: bold;">import</span> Path
+
+<span style="color: #268bd2;">filepath</span> = Path(...)
+<span style="color: #268bd2;">ttc</span> = TTCollection(filepath)
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">list opentype features</span>
+<span style="color: #859900; font-weight: bold;">for</span> i, font <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span>(ttc.fonts):
+    <span style="color: #657b83; font-weight: bold;">print</span>(f<span style="color: #2aa198;">"Font index </span>{i}<span style="color: #2aa198;">:"</span>)
+    <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #2aa198;">"GSUB"</span> <span style="color: #859900; font-weight: bold;">in</span> font:
+        <span style="color: #268bd2;">gsub</span> = font[<span style="color: #2aa198;">"GSUB"</span>]
+        <span style="color: #268bd2;">featureList</span> = gsub.table.FeatureList
+        <span style="color: #859900; font-weight: bold;">if</span> featureList:
+            <span style="color: #268bd2;">featureSet</span> = <span style="color: #657b83; font-weight: bold;">set</span>()
+            <span style="color: #859900; font-weight: bold;">for</span> record <span style="color: #859900; font-weight: bold;">in</span> featureList.FeatureRecord:
+                featureSet.add(record.FeatureTag)
+            <span style="color: #657b83; font-weight: bold;">print</span>(<span style="color: #657b83; font-weight: bold;">sorted</span>(<span style="color: #657b83; font-weight: bold;">list</span>(featureSet)))
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">unpack the font collection</span>
+<span style="color: #859900; font-weight: bold;">for</span> i, font <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span>(ttc.fonts):
+    <span style="color: #268bd2;">output_path</span> = f<span style="color: #2aa198;">"</span>{filepath.stem}<span style="color: #2aa198;">_</span>{i}<span style="color: #2aa198;">.ttf"</span>
+    <span style="color: #859900; font-weight: bold;">try</span>:
+        font.save(<span style="color: #657b83; font-weight: bold;">str</span>(output_path))  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">font.save() expects a string path</span>
+        <span style="color: #657b83; font-weight: bold;">print</span>(f<span style="color: #2aa198;">"Extracted: </span>{output_path}<span style="color: #2aa198;">"</span>)
+    <span style="color: #859900; font-weight: bold;">except</span> <span style="color: #b58900;">Exception</span> <span style="color: #859900; font-weight: bold;">as</span> e:
+        <span style="color: #657b83; font-weight: bold;">print</span>(f<span style="color: #2aa198;">"Error saving font </span>{i}<span style="color: #2aa198;">: </span>{e}<span style="color: #2aa198;">"</span>)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8afe46b" class="outline-2">
+<h2 id="org8afe46b">References</h2>
+<div class="outline-text-2" id="text-org8afe46b">
+<p>
+Books:
+</p>
+
+<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+  <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Bringhurst, R. (2002). <i>The elements of typographic style</i>. Hartley and Marks.</div>
+  <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Tracy, W. (2003). <i>Letters of credit: A view of type design</i>. David R. Godine.</div>
+</div>
+
+<p>
+Online resources:
+</p>
+
+<ul class="org-ul">
+<li>Fontconfig user documentation.  <a href="https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html">https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html</a>.</li>
+
+<li>Fonttools. <a href="https://github.com/fonttools/fonttools">https://github.com/fonttools/fonttools</a></li>
+
+<li>Google fonts knowledge. <a href="https://fonts.google.com/knowledge">https://fonts.google.com/knowledge</a>.</li>
+
+<li>MDN web docs. Font. <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font">https://developer.mozilla.org/en-US/docs/Web/CSS/font</a>.</li>
+
+<li>OpenType® specification version 1.9.1. <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/">https://learn.microsoft.com/en-us/typography/opentype/spec/</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-appendix-text-rendering-with-opentype-fonts" class="outline-2">
+<h2 id="appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</h2>
+<div class="outline-text-2" id="text-appendix-text-rendering-with-opentype-fonts">
+<p>
+According to <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/ttochap1#text-processing-with-opentype-layout">Microsoft's OpenType Specifications</a>, a string of
+characters codes are rendered by following a standard process
+summarized below.
+</p>
+
+<ol class="org-ol">
+<li>Convert a string of characters into a sequence of character codes.</li>
+
+<li>Convert the character codes into a sequence of glyph indices.</li>
+
+<li>Modify, substitute, and position the glyphs.</li>
+
+<li>Rasterizes the line of glyphs and renders the glyphs in device
+coordinates that correspond to the resolution of the output device.</li>
+</ol>
+
+<p>
+Here, a <i>character code</i> (or <i>code point</i>) is simply an integer, which
+uniquely identifies a specific character within the Unicode
+standard. These integers are often experssed in hexadecimal (base-16)
+format, using the prefix "U+". For example, the letter "A" is assigned
+the integer 65, which is represented as "U+0041".
+</p>
+</div>
+</div>
+<div id="outline-container-appendix-a-list-of-my-preferred-fonts" class="outline-2">
+<h2 id="appendix-a-list-of-my-preferred-fonts">Appendix: A List of My Favorite Fonts</h2>
+<div class="outline-text-2" id="text-appendix-a-list-of-my-preferred-fonts">
+<p>
+Below is a collection of my favorite fonts and their attributes; see
+previews <a href="./preview.pdf">here</a>. The column <i>Supported Scripts</i> considers only: Latin,
+Greek, Math, and CJK. The column <i>OpenType Features</i> considers only:
+ligatures, fractions, small capitals, superscripts, and subscripts.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Font Family</th>
+<th scope="col" class="org-left">Properties and Tags</th>
+<th scope="col" class="org-left">Supported Scripts</th>
+<th scope="col" class="org-left">Style Variants</th>
+<th scope="col" class="org-left">OpenType Features</th>
+<th scope="col" class="org-left">Recommended Usage</th>
+<th scope="col" class="org-left">Additional Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">DejaVu Serif</td>
+<td class="org-left">Serif</td>
+<td class="org-left">Latin, Greek</td>
+<td class="org-left">Regular, Italic, Bold, Bold Italic</td>
+<td class="org-left">Ligatures</td>
+<td class="org-left">Print, documents, body text</td>
+<td class="org-left">Good Unicode coverage, Free &amp; Open Source</td>
+</tr>
+
+<tr>
+<td class="org-left">DejaVu Sans</td>
+<td class="org-left">Sans-serif</td>
+<td class="org-left">Latin, Greek</td>
+<td class="org-left">Regular, Oblique, Bold, Bold Oblique</td>
+<td class="org-left">Ligatures</td>
+<td class="org-left">UI, web design, documentation</td>
+<td class="org-left">Readable at small sizes, Free &amp; Open Source</td>
+</tr>
+
+<tr>
+<td class="org-left">DejaVu Sans Mono</td>
+<td class="org-left">Monospace</td>
+<td class="org-left">Latin, Greek</td>
+<td class="org-left">Regular, Oblique, Bold, Bold Oblique</td>
+<td class="org-left">N/A</td>
+<td class="org-left">Coding, terminals</td>
+<td class="org-left">Popular with programmers, Free &amp; Open Source</td>
+</tr>
+
+<tr>
+<td class="org-left">Fira Sans</td>
+<td class="org-left">Sans-serif</td>
+<td class="org-left">Latin, Greek</td>
+<td class="org-left">Regular, Italic, Bold, Bold Italic</td>
+<td class="org-left">Fractions, Ligatures, Small Capitals, Subscripts, Superscripts</td>
+<td class="org-left">UI, body text, print</td>
+<td class="org-left">Modern, legible design, Free &amp; Open Source</td>
+</tr>
+
+<tr>
+<td class="org-left">Fira Code</td>
+<td class="org-left">Monospace</td>
+<td class="org-left">Latin, Greek</td>
+<td class="org-left">Regular, Bold</td>
+<td class="org-left">Fractions, Subscripts, Superscripts</td>
+<td class="org-left">Code editors, programming</td>
+<td class="org-left">Specialized for programming, includes ligatures for code</td>
+</tr>
+
+<tr>
+<td class="org-left">Lora</td>
+<td class="org-left">Serif</td>
+<td class="org-left">Latin</td>
+<td class="org-left">Regular, Italic, Bold, Bold Italic</td>
+<td class="org-left">Fractions, Ligatures, Superscripts</td>
+<td class="org-left">Editorial, web, blogs, print</td>
+<td class="org-left">Contemporary with roots in calligraphy, Google Fonts</td>
+</tr>
+
+<tr>
+<td class="org-left">Noto Serif CJK SC</td>
+<td class="org-left">Serif</td>
+<td class="org-left">Latin, Greek, CJK</td>
+<td class="org-left">Regular, Bold</td>
+<td class="org-left">Ligatures</td>
+<td class="org-left">Multilingual documents, CJK support</td>
+<td class="org-left">Excellent for combining CJK &amp; Latin, Google Fonts</td>
+</tr>
+
+<tr>
+<td class="org-left">Noto Sans CJK SC</td>
+<td class="org-left">Sans-serif</td>
+<td class="org-left">Latin, Greek, CJK</td>
+<td class="org-left">Regular, Bold</td>
+<td class="org-left">Ligatures</td>
+<td class="org-left">UI, documents, multilingual text</td>
+<td class="org-left">Excellent for CJK and Latin, Google Fonts</td>
+</tr>
+
+<tr>
+<td class="org-left">Noto Sans Mono CJK SC</td>
+<td class="org-left">Monospace</td>
+<td class="org-left">Latin, Greek, CJK</td>
+<td class="org-left">Regular, Bold</td>
+<td class="org-left">Ligatures</td>
+<td class="org-left">Programming, multilingual coding</td>
+<td class="org-left">Covers East Asian monospace needs, Google Fonts</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="taglist"></div>
+<div id="comments"><script src="https://giscus.app/client.js"
+        data-repo="Dou-Meishi/org-blog"
+        data-repo-id="R_kgDOLJfSOw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLJfSO84CkxDd"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+</div></div>
+<div id="postamble" class="status">Created by <a href="https://github.com/bastibe/org-static-blog/">Org Static Blog</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,321 @@
+#+TITLE: A How-to Guide to Font Selection
+#+DATE: [2025-08-11]
+#+TAGS: tool
+
+/Motivation./ There are two practical considerations to move beyond the
+/default/ fonts. First, defaults are designed to be universally
+applicable, which inevitably makes them suboptimal for specific
+situations. Different types of texts---such as research papers,
+technical manuals, personal blogs, or software user
+interfaces---require different fonts to establish the right tone and
+clearly convey meaning without distracting their readers. Second, from
+a practical standpoint, most fonts are created to support only a
+limited subset of characters and styles. In practice, we have to deal
+with coverage issues and need to pair fonts to handle a wide range of
+characters, especially in non-English texts.
+
+In this note, I will first clarify some terminology and introduce the
+general principles for choosing fonts. Then, I provide guides on the
+following topics: previewing fonts, querying fonts, and inspecting
+fonts. Finally, I include a list of my favorite fonts and a brief
+overview of text rendering in the appendices.
+
+** Terminology
+
+Terms used in typography, web development, and other fields may vary a
+lot. To avoid possible confusions, a brief list is provided below for
+reference. More terms and explanations can be found in the [[https://fonts.google.com/knowledge/glossary][Glossary]]
+provided by Google Fonts, /The Vocabulary of Type/ in
+[cite/t:@tracyLettersCreditView2003], and /Appendix C: Glossary of
+Terms/ in [cite/t:@bringhurstElementsTypographicStyle2002].
+
+- Glyph. :: A /glyph/ is a specific, visual representation of a
+  character. Glyphs are the /visual forms/; characters are the /abstract
+  text elements/.
+
+  In traditional typography, a glyph is literally /a physical piece of
+  metal or wood/. In early digital typography, a glyph is /a bitmap
+  image/---a pattern of tiny pixels that, when viewed together,
+  resembles the shape of a character. In modern digital typography, a
+  glyph is /a vector outline/---a flexible, resolution-independent
+  vector graphic used to render a character visually.
+
+  A single character may have multiple glyphs (see [[https://fonts.google.com/knowledge/glossary/alternates][alternates]]), and a
+  glyph may represent multiple characters (see [[https://fonts.google.com/knowledge/glossary/ligature][ligatures]]).
+
+- Font. :: A /font/ is a set of glyphs.
+
+  In traditional typography, a font is /a physical plate with all its
+  glyphs/. In modern digital typography, a font is /the digital palette
+  itself/ or the digital information encoding it (a font
+  file). Currently, most fonts are available in TrueType (.ttf, .ttc),
+  OpenType (.otf, .otc), or Web Open Font Format (.woff, .woff2).
+
+- Font family :: A /font family/ is a collection of fonts that share the
+  same design.
+
+  Each font in a family often has a specific /size/ and /weight/. For
+  example, the font =DejaVu Sans-12:bold= has a size of /12 points/ and a
+  weight of /bold/. The font family, in this case, is /DejaVu Sans/.
+
+  In addition, a /superfamily/ is a group of related font families. For
+  example, the superfamily /DejaVu/ contains font families /DejaVu Serif/,
+  /DejaVu Sans/, and /DejaVu Sans Mono/.
+
+** How-to: Choose Fonts
+
+The general principle for choosing fonts is to ensure that they
+/effectively convey the intended meaning of the text/. To achieve this,
+one need to check:
+
+1. The selected fonts are appropriate for the project. To avoid
+   issues, choose fonts that were designed for the intended use.
+
+2. The selected fonts offer enough style variants to reflect text
+   structures. For example, make sure there are suitable styles for
+   emphasis, headlines, verbatim texts, and code sections.
+
+3. The selected fonts provide adequate script coverage (e.g., Greek
+   and CJK).
+
+4. (Optional) The selected fonts support advanced typographic
+   features. Look for features such as ligatures, alternative
+   stylistic sets, and proper handling of punctuation for CJK
+   characters.
+
+For detailed considerations, please refer to [[https://fonts.google.com/knowledge/choosing_type][Choosing type]].
+
+** How-to: Preview Fonts
+
+If a font family is accessible on the machine, then a convenient way
+to preview it is through the web browser. For example, the following
+HTML template previews the regular, italic, bold, and the small caps
+variant in Lora family.
+
+#+BEGIN_SRC html
+<div class="font-section" style="font-family: lora;">
+  <p style="font-size: xx-large; font-variant: small-caps">Lora:</p>
+  <p>
+    <b>Theorem (Arzelà–Ascoli).</b> Consider a set of real-valued continuous
+    functions defined on a compact metric space. If this set is
+    <i>equicontinuous</i> and <i>pointwise bounded</i>, then it is relatively compact in
+    the topology induced by the <i>uniform</i> norm.
+  </p>
+</div>
+#+END_SRC
+
+[[./preview-lora.png]]
+
+For preview results of additional fonts, see also [[#appendix-a-list-of-my-preferred-fonts][Appendix: A List of
+My Preferred Fonts]]. To list fonts available to the operating system,
+see also [[#appendix-query-fonts-via-fontconfig][Appendix: Query Fonts via Fontconfig]]. Given a font file in
+.ttf or .otf format, one can use =otfinfo= or [[https://fontdrop.info/][this online tool]] to view
+various metadata of the font; see also [[#appendix-inspect-opentype-font-files][Appendix: Inspect OpenType Font
+Files]].
+
+** How-to: Query Fonts
+:PROPERTIES:
+:CUSTOM_ID: appendix-query-fonts-via-fontconfig
+:END:
+
+[[https://www.freedesktop.org/wiki/Software/fontconfig/][Fontconfig]] is a free and open-source software library designed to
+provide font discovery, configuration, and substitution functionality
+on Linux. It comes with a set of command-line utilities =fc-*=. Some of
+their usages are demonstrated below.
+
+*fc-list.* List and filter fonts Fontconfig knows about.
+
+#+BEGIN_SRC bash
+fc-list :family=lora:style=italic file
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+/home/dou/.local/share/fonts/opentype/Lora/Lora-Italic.otf:
+/home/dou/.local/share/fonts/opentype/Lora/Lora-SemiBoldItalic.otf:
+/home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf:
+#+END_EXAMPLE
+
+*fc-match.* Find the font that matches a given pattern.
+
+#+BEGIN_SRC bash
+fc-match "lora-8:slant=italic:weight=medium" file
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+:file=/home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf
+#+END_EXAMPLE
+
+*fc-pattern.* Parse and show pattern according to Fontconfig's syntax.
+
+#+BEGIN_SRC bash
+fc-pattern "lora-8:slant=italic:weight=medium"
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Pattern has 4 elts (size 16)
+    family: "lora"(s)
+    slant: 100(i)(s)
+    weight: 100(f)(s)
+    size: 8(f)(s)
+#+END_EXAMPLE
+
+See more explanations in [[https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html][fontconfig user documentation]].
+
+** How-to: Inspect Fonts
+:PROPERTIES:
+:CUSTOM_ID: appendix-inspect-opentype-font-files
+:END:
+
+[[https://learn.microsoft.com/en-us/typography/opentype/spec/][OpenType]] (.otf) is an extension of TrueType (.ttf), and both are
+widely supported font formats on modern systems. Besides the glyph
+table, an OpenType font file also encodes various metadata and other
+font information to provide advanced typographic capabilities; see
+also [[https://learn.microsoft.com/en-us/typography/opentype/spec/ttochap1][OpenType Layout Overview]].  The online tool [[https://fontdrop.info/][Font Drop]] can be used
+to inspect these data. Below, I demonstrate the usage of =otfinfo=.
+
+The command-line utility =otfinfo= can report scripts and language
+systems supported in the font.
+
+#+BEGIN_SRC bash
+otfinfo -s sarasa-term-sc-nerd-regular.ttf
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+...
+hani		CJK Ideographic
+hani.JAN	CJK Ideographic/Japanese
+hani.KOR	CJK Ideographic/Korean
+hani.ZHH	CJK Ideographic/Chinese, Hong Kong SAR
+hani.ZHS	CJK Ideographic/Chinese Simplified
+hani.ZHT	CJK Ideographic/Chinese Traditional
+...
+latn		Latin
+latn.JAN	Latin/Japanese
+latn.KOR	Latin/Korean
+latn.ZHH	Latin/Chinese, Hong Kong SAR
+latn.ZHS	Latin/Chinese Simplified
+latn.ZHT	Latin/Chinese Traditional
+#+END_EXAMPLE
+
+This shows that it supports two script systems: Latin and CJK. For CJK
+scripts, it supports five language systems: Simplified Chinese,
+Traditional Chinese, Chinese HK, Japanese, and Korean.
+
+Supported [[https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist][OpenType features]] can also be printed via =otfinfo=.
+
+#+BEGIN_SRC bash
+otfinfo -f Lora-Regular.otf
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+aalt	Access All Alternates
+calt	Contextual Alternates
+case	Case-Sensitive Forms
+ccmp	Glyph Composition/Decomposition
+frac	Fractions
+kern	Kerning
+liga	Standard Ligatures
+mark	Mark Positioning
+mkmk	Mark to Mark Positioning
+ordn	Ordinals
+pnum	Proportional Figures
+sups	Superscript
+tnum	Tabular Figures
+#+END_EXAMPLE
+
+For font collections (.ttc or .otc), one can inspect encoded tables or
+extract individual fonts via [[https://github.com/fonttools/fonttools][Fonttools]].
+
+#+BEGIN_SRC python
+from fontTools.ttLib import TTCollection
+from pathlib import Path
+
+filepath = Path(...)
+ttc = TTCollection(filepath)
+
+# list opentype features
+for i, font in enumerate(ttc.fonts):
+    print(f"Font index {i}:")
+    if "GSUB" in font:
+        gsub = font["GSUB"]
+        featureList = gsub.table.FeatureList
+        if featureList:
+            featureSet = set()
+            for record in featureList.FeatureRecord:
+                featureSet.add(record.FeatureTag)
+            print(sorted(list(featureSet)))
+
+# unpack the font collection
+for i, font in enumerate(ttc.fonts):
+    output_path = f"{filepath.stem}_{i}.ttf"
+    try:
+        font.save(str(output_path))  # font.save() expects a string path
+        print(f"Extracted: {output_path}")
+    except Exception as e:
+        print(f"Error saving font {i}: {e}")
+#+END_SRC
+
+** References
+
+Books:
+
+#+PRINT_BIBLIOGRAPHY:
+
+Online resources:
+
+- Fontconfig user documentation.  https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html.
+
+- Fonttools. https://github.com/fonttools/fonttools
+
+- Google fonts knowledge. https://fonts.google.com/knowledge.
+
+- MDN web docs. Font. https://developer.mozilla.org/en-US/docs/Web/CSS/font.
+
+- OpenType® specification version 1.9.1. https://learn.microsoft.com/en-us/typography/opentype/spec/
+
+** Appendix: Text Rendering
+:PROPERTIES:
+:CUSTOM_ID: appendix-text-rendering-with-opentype-fonts
+:END:
+
+According to [[https://learn.microsoft.com/en-us/typography/opentype/spec/ttochap1#text-processing-with-opentype-layout][Microsoft's OpenType Specifications]], a string of
+characters codes are rendered by following a standard process
+summarized below.
+
+1. Convert a string of characters into a sequence of character codes.
+
+2. Convert the character codes into a sequence of glyph indices.
+
+3. Modify, substitute, and position the glyphs.
+
+4. Rasterizes the line of glyphs and renders the glyphs in device
+   coordinates that correspond to the resolution of the output device.
+
+Here, a /character code/ (or /code point/) is simply an integer, which
+uniquely identifies a specific character within the Unicode
+standard. These integers are often experssed in hexadecimal (base-16)
+format, using the prefix "U+". For example, the letter "A" is assigned
+the integer 65, which is represented as "U+0041".
+
+** Appendix: A List of My Favorite Fonts
+:PROPERTIES:
+:CUSTOM_ID: appendix-a-list-of-my-preferred-fonts
+:END:
+
+Below is a collection of my favorite fonts and their attributes; see
+previews [[./preview.pdf][here]]. The column /Supported Scripts/ considers only: Latin,
+Greek, Math, and CJK. The column /OpenType Features/ considers only:
+ligatures, fractions, small capitals, superscripts, and subscripts.
+
+| Font Family           | Properties and Tags | Supported Scripts | Style Variants                       | OpenType Features                                              | Recommended Usage                   | Additional Info                                          |
+|-----------------------+---------------------+-------------------+--------------------------------------+----------------------------------------------------------------+-------------------------------------+----------------------------------------------------------|
+| DejaVu Serif          | Serif               | Latin, Greek      | Regular, Italic, Bold, Bold Italic   | Ligatures                                                      | Print, documents, body text         | Good Unicode coverage, Free & Open Source                |
+| DejaVu Sans           | Sans-serif          | Latin, Greek      | Regular, Oblique, Bold, Bold Oblique | Ligatures                                                      | UI, web design, documentation       | Readable at small sizes, Free & Open Source              |
+| DejaVu Sans Mono      | Monospace           | Latin, Greek      | Regular, Oblique, Bold, Bold Oblique | N/A                                                            | Coding, terminals                   | Popular with programmers, Free & Open Source             |
+| Fira Sans             | Sans-serif          | Latin, Greek      | Regular, Italic, Bold, Bold Italic   | Fractions, Ligatures, Small Capitals, Subscripts, Superscripts | UI, body text, print                | Modern, legible design, Free & Open Source               |
+| Fira Code             | Monospace           | Latin, Greek      | Regular, Bold                        | Fractions, Subscripts, Superscripts                            | Code editors, programming           | Specialized for programming, includes ligatures for code |
+| Lora                  | Serif               | Latin             | Regular, Italic, Bold, Bold Italic   | Fractions, Ligatures, Superscripts                             | Editorial, web, blogs, print        | Contemporary with roots in calligraphy, Google Fonts     |
+| Noto Serif CJK SC     | Serif               | Latin, Greek, CJK | Regular, Bold                        | Ligatures                                                      | Multilingual documents, CJK support | Excellent for combining CJK & Latin, Google Fonts        |
+| Noto Sans CJK SC      | Sans-serif          | Latin, Greek, CJK | Regular, Bold                        | Ligatures                                                      | UI, documents, multilingual text    | Excellent for CJK and Latin, Google Fonts                |
+| Noto Sans Mono CJK SC | Monospace           | Latin, Greek, CJK | Regular, Bold                        | Ligatures                                                      | Programming, multilingual coding    | Covers East Asian monospace needs, Google Fonts          |
+
