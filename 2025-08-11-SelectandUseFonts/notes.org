@@ -1,6 +1,6 @@
 #+TITLE: A How-to Guide to Font Selection
 #+DATE: [2025-08-11]
-#+TAGS: tool
+#+FILETAGS: tool
 
 /Motivation./ There are two practical considerations to move beyond the
 /default/ fonts. First, defaults are designed to be universally
