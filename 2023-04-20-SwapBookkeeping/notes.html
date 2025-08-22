@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,21 +53,21 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org69ecc87">Introduction</a></li>
-<li><a href="#orgabd43f3">Background and Applications</a></li>
-<li><a href="#org3735534">Problem Statement and Our Solution</a></li>
+<li><a href="#org14aa49a">Introduction</a></li>
+<li><a href="#orgce82936">Background and Applications</a></li>
+<li><a href="#orga194a39">Problem Statement and Our Solution</a></li>
 <li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#org1d506a5">Mathematical Justifications</a></li>
+<li><a href="#org669688f">Mathematical Justifications</a></li>
 </ul>
 </div>
 </nav>
 <p>
 <b>Authors</b>: Dou Meishi, ChatGPT
 </p>
-<div id="outline-container-org69ecc87" class="outline-2">
-<h2 id="org69ecc87">Introduction</h2>
-<div class="outline-text-2" id="text-org69ecc87">
+<div id="outline-container-org14aa49a" class="outline-2">
+<h2 id="org14aa49a"><a href="#org14aa49a">Introduction</a></h2>
+<div class="outline-text-2" id="text-org14aa49a">
 <p>
 In many applications, it is often required to simulate swap operations
 on a list of elements without actually modifying the underlying data.
@@ -67,9 +86,9 @@ will explain the reasons behind our implementation and conclude.
 </p>
 </div>
 </div>
-<div id="outline-container-orgabd43f3" class="outline-2">
-<h2 id="orgabd43f3">Background and Applications</h2>
-<div class="outline-text-2" id="text-orgabd43f3">
+<div id="outline-container-orgce82936" class="outline-2">
+<h2 id="orgce82936"><a href="#orgce82936">Background and Applications</a></h2>
+<div class="outline-text-2" id="text-orgce82936">
 <p>
 Swapping elements in a list is a fundamental operation in many
 algorithms, such as sorting algorithms and combinatorial search
@@ -99,9 +118,9 @@ without affecting the original data.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org3735534" class="outline-2">
-<h2 id="org3735534">Problem Statement and Our Solution</h2>
-<div class="outline-text-2" id="text-org3735534">
+<div id="outline-container-orga194a39" class="outline-2">
+<h2 id="orga194a39"><a href="#orga194a39">Problem Statement and Our Solution</a></h2>
+<div class="outline-text-2" id="text-orga194a39">
 <p>
 Suppose we have a list of elements and we want to simulate swap
 operations on this list without modifying the actual data. We also want
@@ -213,7 +232,7 @@ vec.swap(2, 3)
 </div>
 </div>
 <div id="outline-container-explanation-of-the-implementation" class="outline-2">
-<h2 id="explanation-of-the-implementation">Explanation of the Implementation</h2>
+<h2 id="explanation-of-the-implementation"><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></h2>
 <div class="outline-text-2" id="text-explanation-of-the-implementation">
 <p>
 Our solution is based on creating a class called <code>Viewable_Mixin</code> that
@@ -259,7 +278,7 @@ respectively.
 </div>
 </div>
 <div id="outline-container-conclusion" class="outline-2">
-<h2 id="conclusion">Conclusion</h2>
+<h2 id="conclusion"><a href="#conclusion">Conclusion</a></h2>
 <div class="outline-text-2" id="text-conclusion">
 <p>
 In this blog post, we have explored the problem of simulating swap
@@ -280,9 +299,9 @@ impact of different permutations without affecting the underlying data.
 </p>
 </div>
 </div>
-<div id="outline-container-org1d506a5" class="outline-2">
-<h2 id="org1d506a5">Mathematical Justifications</h2>
-<div class="outline-text-2" id="text-org1d506a5">
+<div id="outline-container-org669688f" class="outline-2">
+<h2 id="org669688f"><a href="#org669688f">Mathematical Justifications</a></h2>
+<div class="outline-text-2" id="text-org669688f">
 <p>
 It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
 </p>
@@ -383,7 +402,7 @@ $$ \begin{bmatrix}
 where \(\mathbb{I}(j = \mathtt{indices}[0])\) denotes a row vector with
 subscript \(j\). To swap the <code>view</code> vector without modifying the <code>data</code>
 vector, we can swap rows of \(A\) to satisfying the transforming
-equation. For example, if we want to swap the $i<sub>1</sub>$-th and $i<sub>2</sub>$-th
+equation. For example, if we want to swap the $i_1$-th and $i_2$-th
 entry of <code>view</code>, we can create another indices to represent the new
 permutation matrix:
 </p>

@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,9 +53,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6114a94">Definitions</a></li>
-<li><a href="#org98f837c">Skorohod's theorem</a></li>
-<li><a href="#orgaba8d75">Equivalent definition of weak convergence</a></li>
+<li><a href="#org4c36c95">Definitions</a></li>
+<li><a href="#org1809972">Skorohod's theorem</a></li>
+<li><a href="#org739e106">Equivalent definition of weak convergence</a></li>
 </ul>
 </div>
 </nav>
@@ -79,9 +98,9 @@ distribution function \(F\) of a random variable \(X\) is thereby \(F(x)=
 \(\mathbb{R}^n\), and or more general in a Polish space, is a bit
 complicated and left untouched.
 </p>
-<div id="outline-container-org6114a94" class="outline-2">
-<h2 id="org6114a94">Definitions</h2>
-<div class="outline-text-2" id="text-org6114a94">
+<div id="outline-container-org4c36c95" class="outline-2">
+<h2 id="org4c36c95"><a href="#org4c36c95">Definitions</a></h2>
+<div class="outline-text-2" id="text-org4c36c95">
 <p>
 <i>Definition.</i> A sequence of real-valued random variables \(\{X_n\}\) (with
 distribution functions \(\{F_n\}\)) is said to <i>converge in distribution</i>
@@ -99,7 +118,7 @@ different probability space.
 
 <p>
 As we all know, there is a one-to-one correspondence between
-distribution functions and probability measures<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.  Therefore, we
+distribution functions and probability measures<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>.  Therefore, we
 can define the convergence of probability measures in the same vain.
 </p>
 
@@ -160,9 +179,9 @@ complete proof.
 </p>
 </div>
 </div>
-<div id="outline-container-org98f837c" class="outline-2">
-<h2 id="org98f837c">Skorohod's theorem</h2>
-<div class="outline-text-2" id="text-org98f837c">
+<div id="outline-container-org1809972" class="outline-2">
+<h2 id="org1809972"><a href="#org1809972">Skorohod's theorem</a></h2>
+<div class="outline-text-2" id="text-org1809972">
 <p>
 For any probability measure \(\mu_n\) on the real line, we can construct
 a probability space and a random variable \(Y_n\) on it such that \(Y_n\)
@@ -236,9 +255,9 @@ h(a)\).
 </p>
 </div>
 </div>
-<div id="outline-container-orgaba8d75" class="outline-2">
-<h2 id="orgaba8d75">Equivalent definition of weak convergence</h2>
-<div class="outline-text-2" id="text-orgaba8d75">
+<div id="outline-container-org739e106" class="outline-2">
+<h2 id="org739e106"><a href="#org739e106">Equivalent definition of weak convergence</a></h2>
+<div class="outline-text-2" id="text-org739e106">
 <p>
 <i>Definition.</i> A set \(A\) is a \(\mu\)-continuity set if it is a Borel set
 and \(\mu(\partial A)=0\).  Here, the boundary \(\partial A\) is the
@@ -295,7 +314,7 @@ Q.E.D.
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 For a given probability measure \(\mu\) on the real line, the
 function \(F(x):=\mu((-\infty,x])\) is nondecreasing, right-continuous,
 and satisfies \(F(-\infty)=0\) and \(F(\infty)=1\), and thus is a

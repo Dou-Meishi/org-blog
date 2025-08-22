@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,19 +53,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgc4f215c">1. Basic Configuration</a>
+<li><a href="#orge3b1ca5">1. Basic Configuration</a>
 <ul>
-<li><a href="#org089ff46">1.1. Transfer Existed Configuration</a></li>
-<li><a href="#org5d574b0">1.2. First-Time Set up</a></li>
+<li><a href="#orgf2a8446">1.1. Transfer Existed Configuration</a></li>
+<li><a href="#org2d8429f">1.2. First-Time Set up</a></li>
 </ul>
 </li>
-<li><a href="#orgad78b2f">2. Add-ons</a>
+<li><a href="#org646863e">2. Add-ons</a>
 <ul>
-<li><a href="#orgde524a4">2.1. Prompt</a></li>
-<li><a href="#org18381a8">2.2. Pager</a></li>
+<li><a href="#org440f47d">2.1. Prompt</a></li>
+<li><a href="#orgd48ed3d">2.2. Pager</a></li>
 </ul>
 </li>
-<li><a href="#orgc415d4a">3. An Example of .gitconfig</a></li>
+<li><a href="#org9d32fc3">3. An Example of .gitconfig</a></li>
 </ul>
 </div>
 </nav>
@@ -54,13 +73,13 @@
 See <a href="https://git-scm.com/book/en/v2">Pro Git</a> if you are not familiar
 with Git.
 </p>
-<div id="outline-container-orgc4f215c" class="outline-2">
-<h2 id="orgc4f215c">1. Basic Configuration</h2>
-<div class="outline-text-2" id="text-orgc4f215c">
+<div id="outline-container-orge3b1ca5" class="outline-2">
+<h2 id="orge3b1ca5"><a href="#orge3b1ca5">1. Basic Configuration</a></h2>
+<div class="outline-text-2" id="text-orge3b1ca5">
 </div>
-<div id="outline-container-org089ff46" class="outline-3">
-<h3 id="org089ff46">1.1. Transfer Existed Configuration</h3>
-<div class="outline-text-3" id="text-org089ff46">
+<div id="outline-container-orgf2a8446" class="outline-3">
+<h3 id="orgf2a8446"><a href="#orgf2a8446">1.1. Transfer Existed Configuration</a></h3>
+<div class="outline-text-3" id="text-orgf2a8446">
 <ol class="org-ol">
 <li>Copy the global git configuration file to <code>~/.gitconfig</code>.</li>
 
@@ -78,9 +97,9 @@ ssh-add ~/.ssh/id_ed25519
 </ol>
 </div>
 </div>
-<div id="outline-container-org5d574b0" class="outline-3">
-<h3 id="org5d574b0">1.2. First-Time Set up</h3>
-<div class="outline-text-3" id="text-org5d574b0">
+<div id="outline-container-org2d8429f" class="outline-3">
+<h3 id="org2d8429f"><a href="#org2d8429f">1.2. First-Time Set up</a></h3>
+<div class="outline-text-3" id="text-org2d8429f">
 <p>
 See also <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">Pro Git - Section 1.6</a>
 </p>
@@ -145,13 +164,13 @@ git config --global alias.st status
 </div>
 </div>
 </div>
-<div id="outline-container-orgad78b2f" class="outline-2">
-<h2 id="orgad78b2f">2. Add-ons</h2>
-<div class="outline-text-2" id="text-orgad78b2f">
+<div id="outline-container-org646863e" class="outline-2">
+<h2 id="org646863e"><a href="#org646863e">2. Add-ons</a></h2>
+<div class="outline-text-2" id="text-org646863e">
 </div>
-<div id="outline-container-orgde524a4" class="outline-3">
-<h3 id="orgde524a4">2.1. Prompt</h3>
-<div class="outline-text-3" id="text-orgde524a4">
+<div id="outline-container-org440f47d" class="outline-3">
+<h3 id="org440f47d"><a href="#org440f47d">2.1. Prompt</a></h3>
+<div class="outline-text-3" id="text-org440f47d">
 <p>
 <a href="https://github.com/magicmonty/bash-git-prompt">bash-git-prompt</a>: A bash prompt that displays information about the
 current git repository.  In particular the branch name, difference
@@ -159,22 +178,22 @@ with remote branch, number of files staged, changed, etc.
 </p>
 
 
-<figure id="org4cdd9fa">
+<figure id="org75479d3">
 <img src="./gitprompt.png" alt="gitprompt.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>Example of bash-git-prompt</figcaption>
 </figure>
 </div>
 </div>
-<div id="outline-container-org18381a8" class="outline-3">
-<h3 id="org18381a8">2.2. Pager</h3>
-<div class="outline-text-3" id="text-org18381a8">
+<div id="outline-container-orgd48ed3d" class="outline-3">
+<h3 id="orgd48ed3d"><a href="#orgd48ed3d">2.2. Pager</a></h3>
+<div class="outline-text-3" id="text-orgd48ed3d">
 <p>
 <a href="https://github.com/dandavison/delta">delta</a>: A syntax-highlighting pager for git, diff, and grep output.
 </p>
 
 
-<figure id="org241678d">
+<figure id="orgfbc1fe5">
 <img src="./delta.png" alt="delta.png">
 
 <figcaption><span class="figure-number">Figure 2: </span>Example of delta</figcaption>
@@ -182,10 +201,10 @@ with remote branch, number of files staged, changed, etc.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc415d4a" class="outline-2">
-<h2 id="orgc415d4a">3. An Example of .gitconfig</h2>
-<div class="outline-text-2" id="text-orgc415d4a">
-<pre class="example" id="org81bc8de">
+<div id="outline-container-org9d32fc3" class="outline-2">
+<h2 id="org9d32fc3"><a href="#org9d32fc3">3. An Example of .gitconfig</a></h2>
+<div class="outline-text-2" id="text-org9d32fc3">
+<pre class="example" id="org086d9b1">
 [user]
     name = John Doe
     email = johndoe@example.com

@@ -11,14 +11,32 @@
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -35,20 +53,20 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5f47064">The Basic Workflow</a></li>
-<li><a href="#orgf93ed5d">A Random Search Example</a>
+<li><a href="#org475a0a6">The Basic Workflow</a></li>
+<li><a href="#org6adfbc7">A Random Search Example</a>
 <ul>
-<li><a href="#org81f9997">Set up the problem</a></li>
-<li><a href="#org240ea9f">Define the objective</a></li>
-<li><a href="#org0ba5804">Create a study</a></li>
-<li><a href="#orga9ffecd">Inspect trial results</a></li>
-<li><a href="#orgd85ddbd">Save and visualize</a></li>
-<li><a href="#org91487d4">The best trial</a></li>
+<li><a href="#org10cac6f">Set up the problem</a></li>
+<li><a href="#org7044b41">Define the objective</a></li>
+<li><a href="#org4a8774f">Create a study</a></li>
+<li><a href="#org318cca2">Inspect trial results</a></li>
+<li><a href="#org0e92375">Save and visualize</a></li>
+<li><a href="#org88b2b0b">The best trial</a></li>
 </ul>
 </li>
-<li><a href="#org1016d30">Advanced Features</a></li>
-<li><a href="#org5a4a41e">References</a></li>
-<li><a href="#org4d97ed8">Appendix: Document the Experiment</a></li>
+<li><a href="#org5abef8e">Advanced Features</a></li>
+<li><a href="#org6d8441e">References</a></li>
+<li><a href="#org328888f">Appendix: Document the Experiment</a></li>
 </ul>
 </div>
 </nav>
@@ -66,19 +84,19 @@ results intuitively with just a few clicks.
 </p>
 
 
-<figure id="orgaa43927">
+<figure id="org50d6d7d">
 <img src="./trial-table-preview.png" alt="trial-table-preview.png">
 
 </figure>
 
 
-<figure id="org16ec477">
+<figure id="org34a6534">
 <img src="./history-preview.png" alt="history-preview.png">
 
 </figure>
 
 
-<figure id="org7bc3584">
+<figure id="org095c569">
 <img src="./timeline-preview.png" alt="timeline-preview.png">
 
 </figure>
@@ -90,9 +108,9 @@ basic usage with a simple random search example. Advanced features are
 highlighted at the end, along with links to online resources for
 interested readers.
 </p>
-<div id="outline-container-org5f47064" class="outline-2">
-<h2 id="org5f47064">The Basic Workflow</h2>
-<div class="outline-text-2" id="text-org5f47064">
+<div id="outline-container-org475a0a6" class="outline-2">
+<h2 id="org475a0a6"><a href="#org475a0a6">The Basic Workflow</a></h2>
+<div class="outline-text-2" id="text-org475a0a6">
 <p>
 <a href="https://optuna.org/">Optuna</a> is an open source hyperparameter optimization framework to
 automate hyperparameter search. See <a href="https://www.youtube.com/watch?v=P6NwZVl8ttc">this video</a> for a quick overview of
@@ -152,9 +170,9 @@ interfaces with the database.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf93ed5d" class="outline-2">
-<h2 id="orgf93ed5d">A Random Search Example</h2>
-<div class="outline-text-2" id="text-orgf93ed5d">
+<div id="outline-container-org6adfbc7" class="outline-2">
+<h2 id="org6adfbc7"><a href="#org6adfbc7">A Random Search Example</a></h2>
+<div class="outline-text-2" id="text-org6adfbc7">
 <p>
 Below we demonstrate how to do random search with Optuna.  For
 clarity, we focus on essential code snippets; complete scripts are
@@ -165,9 +183,9 @@ an official example that optimizes multi-layer perceptrons using
 PyTorch.
 </p>
 </div>
-<div id="outline-container-org81f9997" class="outline-3">
-<h3 id="org81f9997">Set up the problem</h3>
-<div class="outline-text-3" id="text-org81f9997">
+<div id="outline-container-org10cac6f" class="outline-3">
+<h3 id="org10cac6f"><a href="#org10cac6f">Set up the problem</a></h3>
+<div class="outline-text-3" id="text-org10cac6f">
 <p>
 Consider a simple nonlinear regression task which fits the sine
 function with fully-connect networks. We begin by a concise script to
@@ -201,9 +219,9 @@ network and apply SGD for optimization.
 </div>
 </div>
 </div>
-<div id="outline-container-org240ea9f" class="outline-3">
-<h3 id="org240ea9f">Define the objective</h3>
-<div class="outline-text-3" id="text-org240ea9f">
+<div id="outline-container-org7044b41" class="outline-3">
+<h3 id="org7044b41"><a href="#org7044b41">Define the objective</a></h3>
+<div class="outline-text-3" id="text-org7044b41">
 <p>
 <i>The hyperparameter optimization problem.</i> The hyperparameters to be
 tuned are 1) the batch size; 2) the hidden size; 3) the learning
@@ -245,9 +263,9 @@ distribution instead of a fixed set of values.
 </p>
 </div>
 </div>
-<div id="outline-container-org0ba5804" class="outline-3">
-<h3 id="org0ba5804">Create a study</h3>
-<div class="outline-text-3" id="text-org0ba5804">
+<div id="outline-container-org4a8774f" class="outline-3">
+<h3 id="org4a8774f"><a href="#org4a8774f">Create a study</a></h3>
+<div class="outline-text-3" id="text-org4a8774f">
 <p>
 We create a <code>Study</code> instance and equip it with the random sampler.
 </p>
@@ -273,15 +291,15 @@ the elapsed time; see <a href="https://optuna.readthedocs.io/en/stable/reference
 </div>
 
 
-<figure id="org970cd82">
+<figure id="org3eac55f">
 <img src="./optimize-log-demo.png" alt="optimize-log-demo.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orga9ffecd" class="outline-3">
-<h3 id="orga9ffecd">Inspect trial results</h3>
-<div class="outline-text-3" id="text-orga9ffecd">
+<div id="outline-container-org318cca2" class="outline-3">
+<h3 id="org318cca2"><a href="#org318cca2">Inspect trial results</a></h3>
+<div class="outline-text-3" id="text-org318cca2">
 <p>
 All evaluated trials are stored in <code>study.trials</code> and we can access a
 particular trial by its index. For example, above output tells us that
@@ -293,7 +311,7 @@ the first trial is failed. Check its state by
 </pre>
 </div>
 
-<pre class="example" id="org4d3e659">
+<pre class="example" id="org3f6c3bb">
 TrialState.FAIL
 </pre>
 
@@ -318,7 +336,7 @@ run another 20 trials, which are numbered starting from 10.
 </div>
 
 
-<figure id="org11fdf60">
+<figure id="org69dbd24">
 <img src="./optimize-log2-demo.png" alt="optimize-log2-demo.png">
 
 </figure>
@@ -332,9 +350,9 @@ more details.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd85ddbd" class="outline-3">
-<h3 id="orgd85ddbd">Save and visualize</h3>
-<div class="outline-text-3" id="text-orgd85ddbd">
+<div id="outline-container-org0e92375" class="outline-3">
+<h3 id="org0e92375"><a href="#org0e92375">Save and visualize</a></h3>
+<div class="outline-text-3" id="text-org0e92375">
 <p>
 We can save the <code>study</code> object to a RDB (Relational DataBase) for future
 usage. In general, all data associated with a <code>Study</code> instance is stored
@@ -349,7 +367,7 @@ also automatically assigns a name to the study if not specified.
 </pre>
 </div>
 
-<pre class="example" id="orgd65a71c">
+<pre class="example" id="org37825b3">
 ('no-name-1303842b-a35f-4d3e-b74f-15b25601b7ff',
  &lt;optuna.storages._in_memory.InMemoryStorage at 0x7d9e495c5cf0&gt;)
 </pre>
@@ -389,7 +407,7 @@ progress with <code>optuna-dashboard</code>.
 </pre>
 </div>
 
-<pre class="example" id="org76ba7a1">
+<pre class="example" id="org1eddbb6">
 Listening on http://127.0.0.1:8080/
 </pre>
 
@@ -403,15 +421,15 @@ and what they mean.
 </p>
 </div>
 </div>
-<div id="outline-container-org91487d4" class="outline-3">
-<h3 id="org91487d4">The best trial</h3>
-<div class="outline-text-3" id="text-org91487d4">
+<div id="outline-container-org88b2b0b" class="outline-3">
+<h3 id="org88b2b0b"><a href="#org88b2b0b">The best trial</a></h3>
+<div class="outline-text-3" id="text-org88b2b0b">
 <p>
 In a following experiment, Optuna run a random search for 4 hours and
 explored 265 possible hyperparameter combinations. The best trial
 achieved objective value 0.048 with
 </p>
-<pre class="example" id="orgbf27413">
+<pre class="example" id="org06dfc83">
 batch_size 32
 hidden_size 256
 lr 0.00041248960052382266
@@ -425,16 +443,16 @@ curve.
 </p>
 
 
-<figure id="org7c01011">
+<figure id="orge6f6a4b">
 <img src="./best-trial-preview.png" alt="best-trial-preview.png">
 
 </figure>
 </div>
 </div>
 </div>
-<div id="outline-container-org1016d30" class="outline-2">
-<h2 id="org1016d30">Advanced Features</h2>
-<div class="outline-text-2" id="text-org1016d30">
+<div id="outline-container-org5abef8e" class="outline-2">
+<h2 id="org5abef8e"><a href="#org5abef8e">Advanced Features</a></h2>
+<div class="outline-text-2" id="text-org5abef8e">
 <p>
 The previous section covered the basic usage of Optuna. The next step
 is to integrate Optuna into various aspects of the training workflow.
@@ -471,9 +489,9 @@ collections</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org5a4a41e" class="outline-2">
-<h2 id="org5a4a41e">References</h2>
-<div class="outline-text-2" id="text-org5a4a41e">
+<div id="outline-container-org6d8441e" class="outline-2">
+<h2 id="org6d8441e"><a href="#org6d8441e">References</a></h2>
+<div class="outline-text-2" id="text-org6d8441e">
 <dl class="org-dl">
 <dt>Optuna's official documentation</dt><dd>Optuna. (2018). Optuna: A hyperparameter optimization framework. <i>Read the Docs.</i> <a href="https://optuna.readthedocs.io/en/stable/index.html">https://optuna.readthedocs.io/en/stable/index.html</a></dd>
 
@@ -481,9 +499,9 @@ collections</a>.
 </dl>
 </div>
 </div>
-<div id="outline-container-org4d97ed8" class="outline-2">
-<h2 id="org4d97ed8">Appendix: Document the Experiment</h2>
-<div class="outline-text-2" id="text-org4d97ed8">
+<div id="outline-container-org328888f" class="outline-2">
+<h2 id="org328888f"><a href="#org328888f">Appendix: Document the Experiment</a></h2>
+<div class="outline-text-2" id="text-org328888f">
 <p>
 It is good practice to document our findings and ideas during
 exploration. For instance, create a dedicated text file to serve as a

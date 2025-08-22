@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,10 +53,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org18669c8">Prerequisite Concepts</a></li>
-<li><a href="#orge0ae373">Definitions</a></li>
-<li><a href="#org3a46d3c">Main Results</a></li>
-<li><a href="#org7c2d47e">Detailed Proofs</a></li>
+<li><a href="#org9eb5a9e">Prerequisite Concepts</a></li>
+<li><a href="#org0db738a">Definitions</a></li>
+<li><a href="#orgbe79c02">Main Results</a></li>
+<li><a href="#org425314a">Detailed Proofs</a></li>
 </ul>
 </div>
 </nav>
@@ -46,9 +65,9 @@ This note is a review of Chapter IV.8 of the book
 <i>An introduction to set theory and topology</i>
 by Freiwald.
 </p>
-<div id="outline-container-org18669c8" class="outline-2">
-<h2 id="org18669c8">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-org18669c8">
+<div id="outline-container-org9eb5a9e" class="outline-2">
+<h2 id="org9eb5a9e"><a href="#org9eb5a9e">Prerequisite Concepts</a></h2>
+<div class="outline-text-2" id="text-org9eb5a9e">
 <ul class="org-ul">
 <li>topological space and its subspace</li>
 <li>T1 topological space and T2 topological space</li>
@@ -61,22 +80,22 @@ by Freiwald.
 </ul>
 </div>
 </div>
-<div id="outline-container-orge0ae373" class="outline-2">
-<h2 id="orge0ae373">Definitions</h2>
-<div class="outline-text-2" id="text-orge0ae373">
+<div id="outline-container-org0db738a" class="outline-2">
+<h2 id="org0db738a"><a href="#org0db738a">Definitions</a></h2>
+<div class="outline-text-2" id="text-org0db738a">
 <p>
 Two equivalent definition of a <b>compact</b> topological space \((X,\mathcal{T})\):
 </p>
 
 <ol class="org-ol">
-<li>Any open cover of \(X\) has a finite open subcover<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.</li>
+<li>Any open cover of \(X\) has a finite open subcover<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>.</li>
 <li>Any family of closed sets \(\mathcal{F}\) with <i>Finite Intersection Property</i>
-has \(\bigcap\mathcal{F}\neq\emptyset\)<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.</li>
+has \(\bigcap\mathcal{F}\neq\emptyset\)<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup>.</li>
 </ol>
 
 <p>
 A subset \(K\) in \((X,\mathcal{T})\) is called a <b>compact subset</b>
-if the subspace \((K, \mathcal{T}_K)\) is compact<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+if the subspace \((K, \mathcal{T}_K)\) is compact<sup>[<a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a>]</sup>.
 </p>
 
 <p>
@@ -99,15 +118,15 @@ a finite number of \(\epsilon\)-balls.</dd>
 </dl>
 </div>
 </div>
-<div id="outline-container-org3a46d3c" class="outline-2">
-<h2 id="org3a46d3c">Main Results</h2>
-<div class="outline-text-2" id="text-org3a46d3c">
+<div id="outline-container-orgbe79c02" class="outline-2">
+<h2 id="orgbe79c02"><a href="#orgbe79c02">Main Results</a></h2>
+<div class="outline-text-2" id="text-orgbe79c02">
 <p>
 Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.5.</b> <a id="orgf2bc98f"></a> <i>Let \(K \subset X\).</i>
+<b>Theorem 8.5.</b> <a id="org2d540db"></a> <i>Let \(K \subset X\).</i>
 </p>
 
 <p>
@@ -119,32 +138,32 @@ Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.11.</b> <a id="org9891839"></a> <i>The following implications hold generally.</i>
+<b>Theorem 8.11.</b> <a id="org2a4f5c4"></a> <i>The following implications hold generally.</i>
 \[ X\text{ is (sequentially) compact }\Rightarrow X\text{ is countably compact }
 \Rightarrow X\text{ is pseudocompact}.\]
 </p>
 
 <p>
-<b>Lemma 8.12.</b> <a id="org52049be"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
+<b>Lemma 8.12.</b> <a id="org15ea2a0"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
 if \(X\) is first countable.
 </p>
 
 <p>
-<b>Lemma 8.16.</b> <a id="orgb017007"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
+<b>Lemma 8.16.</b> <a id="orgd172abf"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
 </p>
 
 <p>
-<b>Theorem 8.17.</b> <a id="orge3f6358"></a> In a pseudometric space \((X,d)\),
+<b>Theorem 8.17.</b> <a id="org60fbd4e"></a> In a pseudometric space \((X,d)\),
 the property of compactness, sequentially compactness, countably compactness
 and pseudocompactness are all equivalent.
 </p>
 </div>
 </div>
-<div id="outline-container-org7c2d47e" class="outline-2">
-<h2 id="org7c2d47e">Detailed Proofs</h2>
-<div class="outline-text-2" id="text-org7c2d47e">
+<div id="outline-container-org425314a" class="outline-2">
+<h2 id="org425314a"><a href="#org425314a">Detailed Proofs</a></h2>
+<div class="outline-text-2" id="text-org425314a">
 <p>
-<i>Proof to <a href="#orgf2bc98f">Theorem 8.5</a>.</i>
+<i>Proof to <a href="#org2d540db">Theorem 8.5</a>.</i>
 Assume \(K\) is closed and \(X\) is compact, then any open cover
 of \(K\) would form an open cover of \(X\) if augmented by \(K^\mathsf{c}\).
 This implies that a finite subcover of \(K\) exists.
@@ -165,7 +184,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org9891839">Theorem 8.11</a>.</i>
+<i>Proof to <a href="#org2a4f5c4">Theorem 8.11</a>.</i>
 </p>
 
 <p>
@@ -195,7 +214,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org52049be">Lemma 8.12</a>.</i>
+<i>Proof to <a href="#org15ea2a0">Lemma 8.12</a>.</i>
 First, we prove that \(X\) <span class="underline">is countably compact if and only if every sequence
 has a cluster point</span>. The <i>if</i> part has been proved in Theorem 8.11. To prove
 the <i>only if</i> part, assume \(X\) be countably compact and \((x_n)\) is a sequence
@@ -241,7 +260,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orgb017007">Lemma 8.16</a>.</i>
+<i>Proof to <a href="#orgd172abf">Lemma 8.16</a>.</i>
 Let \((X,d)\) be a totally bounded pseudometric space.
 </p>
 
@@ -301,7 +320,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orge3f6358">Theorem 8.17</a>.</i>
+<i>Proof to <a href="#org60fbd4e">Theorem 8.17</a>.</i>
 Based on Theorem 8.11, we need only to prove the following implications.
 </p>
 
@@ -438,17 +457,17 @@ Therefore, \(f\) is continous at any point \(a\).
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 An open cover of \(X\) is a family of open sets \(\mathcal{O}\)
 such that \(\bigcup\mathcal{O} \supset X\).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 A family \(\mathcal{F}\) of sets with finite intersection property
 if every finite subfamily of \(\mathcal{F}\) has nonempty intersection.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Compactness is a property of topological spaces.
 It is different from the definition of closed sets.
 We can say a topological space is compact,

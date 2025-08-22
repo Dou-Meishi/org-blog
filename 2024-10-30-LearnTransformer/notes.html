@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,17 +53,17 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1fa9243">Inputs and outputs</a></li>
-<li><a href="#org6ba264e">Scaled dot-product attention</a></li>
-<li><a href="#org3a3d1b7">Self-attention and its multihead version</a></li>
-<li><a href="#org29e4d98">Masks in self-attention</a></li>
-<li><a href="#org035675a">Transformer Layers</a></li>
-<li><a href="#org0936a44">Conclusions</a></li>
-<li><a href="#org3610b49">References</a></li>
-<li><a href="#org3e2e4e7">Appendix: Layer normalization and batch normalization</a></li>
-<li><a href="#orgf44d07c">Appendix: Positional encoding</a></li>
-<li><a href="#org93c6a54">Appendix: Cross-attention</a></li>
-<li><a href="#org8fc0ec8">Appendix: Encoder-decoder transformer</a></li>
+<li><a href="#org921e9df">Inputs and outputs</a></li>
+<li><a href="#org9d2c5d5">Scaled dot-product attention</a></li>
+<li><a href="#org7a5899f">Self-attention and its multihead version</a></li>
+<li><a href="#orgeda066c">Masks in self-attention</a></li>
+<li><a href="#org71aaee3">Transformer Layers</a></li>
+<li><a href="#org8eefb2f">Conclusions</a></li>
+<li><a href="#orgc4a4e5f">References</a></li>
+<li><a href="#org1981ddb">Appendix: Layer normalization and batch normalization</a></li>
+<li><a href="#org5bb2381">Appendix: Positional encoding</a></li>
+<li><a href="#orgfa57804">Appendix: Cross-attention</a></li>
+<li><a href="#orge86d983">Appendix: Encoder-decoder transformer</a></li>
 </ul>
 </div>
 </nav>
@@ -78,9 +97,9 @@ for reference. With this knowledge, it is even possible to train a GPT
 given sufficient data and computational resources. For an example,
 check out Karpathy's <a href="https://github.com/karpathy/nanoGPT">nanoGPT project</a> on GitHub.
 </p>
-<div id="outline-container-org1fa9243" class="outline-2">
-<h2 id="org1fa9243">Inputs and outputs</h2>
-<div class="outline-text-2" id="text-org1fa9243">
+<div id="outline-container-org921e9df" class="outline-2">
+<h2 id="org921e9df"><a href="#org921e9df">Inputs and outputs</a></h2>
+<div class="outline-text-2" id="text-org921e9df">
 <p>
 Similar to its predecessors, RNN and LSTM, the transformer
 architecture is a sequence-to-sequence model. Mathematically, it
@@ -102,9 +121,9 @@ by a matrix \(X = (x_1, x_2, \ldots, x_N)^\intercal\), where \(x_n^\intercal\) i
 </p>
 </div>
 </div>
-<div id="outline-container-org6ba264e" class="outline-2">
-<h2 id="org6ba264e">Scaled dot-product attention</h2>
-<div class="outline-text-2" id="text-org6ba264e">
+<div id="outline-container-org9d2c5d5" class="outline-2">
+<h2 id="org9d2c5d5"><a href="#org9d2c5d5">Scaled dot-product attention</a></h2>
+<div class="outline-text-2" id="text-org9d2c5d5">
 <p>
 The fundamental part of transformers is the attention function
 </p>
@@ -165,14 +184,14 @@ coefficients are proportional to the similarities.
 </p>
 </div>
 </div>
-<div id="outline-container-org3a3d1b7" class="outline-2">
-<h2 id="org3a3d1b7">Self-attention and its multihead version</h2>
-<div class="outline-text-2" id="text-org3a3d1b7">
+<div id="outline-container-org7a5899f" class="outline-2">
+<h2 id="org7a5899f"><a href="#org7a5899f">Self-attention and its multihead version</a></h2>
+<div class="outline-text-2" id="text-org7a5899f">
 <p>
 Self-attention is an applications of the attention function in
 transformers mentioned in the attention paper. It takes a sequential
 data \(X\) as inputs, and computes \((Q,K,V)\) in Eq. (1) by learnable
-linear transformations<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> of \(X\)
+linear transformations<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup> of \(X\)
 </p>
 \begin{equation}
 Q = \operatorname{Linear}^Q(X), \quad
@@ -205,9 +224,9 @@ to \(H\) and obtain the output.
 </p>
 </div>
 </div>
-<div id="outline-container-org29e4d98" class="outline-2">
-<h2 id="org29e4d98">Masks in self-attention</h2>
-<div class="outline-text-2" id="text-org29e4d98">
+<div id="outline-container-orgeda066c" class="outline-2">
+<h2 id="orgeda066c"><a href="#orgeda066c">Masks in self-attention</a></h2>
+<div class="outline-text-2" id="text-orgeda066c">
 <p>
 As a sequence-to-sequence model, it is often the case that the output
 vector should depend on only a subset of the vectors within the input
@@ -262,9 +281,9 @@ Z_n = \sum_{m=1}^3 e^{a_{nm}}. \] As a result, the calculation of
 </p>
 </div>
 </div>
-<div id="outline-container-org035675a" class="outline-2">
-<h2 id="org035675a">Transformer Layers</h2>
-<div class="outline-text-2" id="text-org035675a">
+<div id="outline-container-org71aaee3" class="outline-2">
+<h2 id="org71aaee3"><a href="#org71aaee3">Transformer Layers</a></h2>
+<div class="outline-text-2" id="text-org71aaee3">
 <figure style="text-align: center;">
   <img src="./transformer-encoder-layer.png" alt="One layer of the transformer architecture" style="width: 30%;">
   <figcaption>Figure 1: One layer of the transformer architecture. Cropped from Figure 12.9 in Bishop & Bishop (2024).</figcaption>
@@ -274,7 +293,7 @@ Z_n = \sum_{m=1}^3 e^{a_{nm}}. \] As a result, the calculation of
 Figure 1 shows an overall architecture for a single transformer
 layer. It consists of two major trainable blocks, a self-attention
 block and a multilayer perceptron block. Each block is enclosed by a
-residual connection and a layer normalization; see <a href="#orga73945e">the appendix</a> for a
+residual connection and a layer normalization; see <a href="#org84f1b9e">the appendix</a> for a
 brief explanation of layer normalization. The pseudocode for the
 forward pass is provided below.
 </p>
@@ -322,9 +341,9 @@ transformer outputs.
 </p>
 </div>
 </div>
-<div id="outline-container-org0936a44" class="outline-2">
-<h2 id="org0936a44">Conclusions</h2>
-<div class="outline-text-2" id="text-org0936a44">
+<div id="outline-container-org8eefb2f" class="outline-2">
+<h2 id="org8eefb2f"><a href="#org8eefb2f">Conclusions</a></h2>
+<div class="outline-text-2" id="text-org8eefb2f">
 <p>
 The core of a transformer layer is the multi-head self-attention
 layer, whose inputs and outputs are both sequences. I have explained
@@ -338,9 +357,9 @@ references listed below.
 </p>
 </div>
 </div>
-<div id="outline-container-org3610b49" class="outline-2">
-<h2 id="org3610b49">References</h2>
-<div class="outline-text-2" id="text-org3610b49">
+<div id="outline-container-orgc4a4e5f" class="outline-2">
+<h2 id="orgc4a4e5f"><a href="#orgc4a4e5f">References</a></h2>
+<div class="outline-text-2" id="text-orgc4a4e5f">
 <p>
 Books and Papers
 </p>
@@ -400,11 +419,11 @@ Online resources (codes)
 </ul>
 </div>
 </div>
-<div id="outline-container-org3e2e4e7" class="outline-2">
-<h2 id="org3e2e4e7">Appendix: Layer normalization and batch normalization</h2>
-<div class="outline-text-2" id="text-org3e2e4e7">
+<div id="outline-container-org1981ddb" class="outline-2">
+<h2 id="org1981ddb"><a href="#org1981ddb">Appendix: Layer normalization and batch normalization</a></h2>
+<div class="outline-text-2" id="text-org1981ddb">
 <p>
-<a id="orga73945e"></a>
+<a id="org84f1b9e"></a>
 </p>
 
 <p>
@@ -447,13 +466,13 @@ computes statistics over \((L, D)\); see its manual for more details.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf44d07c" class="outline-2">
-<h2 id="orgf44d07c">Appendix: Positional encoding</h2>
-<div class="outline-text-2" id="text-orgf44d07c">
+<div id="outline-container-org5bb2381" class="outline-2">
+<h2 id="org5bb2381"><a href="#org5bb2381">Appendix: Positional encoding</a></h2>
+<div class="outline-text-2" id="text-org5bb2381">
 <p>
 One limitation of the attention function is that Eq. (1) is
 <i>equivariant</i> w.r.t. row permutations. Specifically, it is not hard to
-observe that for any permutation matrix \(P\), it holds that<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> \[
+observe that for any permutation matrix \(P\), it holds that<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup> \[
 \operatorname{Attention}(PQ, PK, PV) = P(\operatorname{Attention}(Q,
 K, V)). \] Moreover, given that the linear maps Eq. (4) also follows
 this equivariance, self-attention exhibits equivariance with respect
@@ -495,9 +514,9 @@ layer is no longer equivariant with respect to row permutations.
 </p>
 </div>
 </div>
-<div id="outline-container-org93c6a54" class="outline-2">
-<h2 id="org93c6a54">Appendix: Cross-attention</h2>
-<div class="outline-text-2" id="text-org93c6a54">
+<div id="outline-container-orgfa57804" class="outline-2">
+<h2 id="orgfa57804"><a href="#orgfa57804">Appendix: Cross-attention</a></h2>
+<div class="outline-text-2" id="text-orgfa57804">
 <p>
 Cross-attention is another application of the attention mechanism
 mentioned in the original attention paper. Different from
@@ -532,9 +551,9 @@ also help to the eliminate dependence between \(y_n\) and \(\{z_1, z_2,
 </p>
 </div>
 </div>
-<div id="outline-container-org8fc0ec8" class="outline-2">
-<h2 id="org8fc0ec8">Appendix: Encoder-decoder transformer</h2>
-<div class="outline-text-2" id="text-org8fc0ec8">
+<div id="outline-container-orge86d983" class="outline-2">
+<h2 id="orge86d983"><a href="#orge86d983">Appendix: Encoder-decoder transformer</a></h2>
+<div class="outline-text-2" id="text-orge86d983">
 <figure style="text-align: center;">
   <img src="./encoder-decoder-transformer.png" alt="Encoder-decoder transformer architecture" style="width: 60%;">
   <figcaption>Figure 2: Encoder-decoder transformer architecture. Cropped from Figure 1 in Vaswani et al. (2017).</figcaption>
@@ -545,13 +564,13 @@ also help to the eliminate dependence between \(y_n\) and \(\{z_1, z_2,
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 In PyTorch implementation, e.g., <a href="https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html#torch.nn.TransformerEncoderLayer">TransformerEncoderLayer</a>, there
 is a parameter <code>bias</code> to determine whether or not a bias term will be
 included in this linear transformation.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Indeed, for any matrix \(X\) and any permutation matrix \(P\), it
 holds that \[P^{-1} = P^\intercal, \quad \operatorname{Softmax}[PX] = P
 \operatorname{Softmax}[X], \quad \operatorname{Softmax}[XP] =

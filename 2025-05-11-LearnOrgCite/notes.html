@@ -11,14 +11,32 @@
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -35,11 +53,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org16870d9">Overview of Org Cite</a></li>
-<li><a href="#org2a79a92">Export to HTML</a></li>
-<li><a href="#org66e92dd">Export to LaTeX</a></li>
-<li><a href="#orgeebd6bd">References</a></li>
-<li><a href="#org5ea403c">Appendix: Emacs Init File</a></li>
+<li><a href="#orgb30806b">Overview of Org Cite</a></li>
+<li><a href="#org5de15ee">Export to HTML</a></li>
+<li><a href="#org349cb13">Export to LaTeX</a></li>
+<li><a href="#org7002653">References</a></li>
+<li><a href="#org8925b72">Appendix: Emacs Init File</a></li>
 </ul>
 </div>
 </nav>
@@ -77,9 +95,9 @@ HTML, with the option to export directly to LaTeX for future
 typesetting adjustments. In this post, I'll briefly introduce <i>Org Cite</i>
 and how I integrate it into my workflow.
 </p>
-<div id="outline-container-org16870d9" class="outline-2">
-<h2 id="org16870d9">Overview of Org Cite</h2>
-<div class="outline-text-2" id="text-org16870d9">
+<div id="outline-container-orgb30806b" class="outline-2">
+<h2 id="orgb30806b"><a href="#orgb30806b">Overview of Org Cite</a></h2>
+<div class="outline-text-2" id="text-orgb30806b">
 <p>
 <i>Org Cite</i> aims to provide easy citation management in Org and also
 serves as a solid foundation for more sophisticated customization.
@@ -113,9 +131,9 @@ explanations and advanced usages.
 </p>
 </div>
 </div>
-<div id="outline-container-org2a79a92" class="outline-2">
-<h2 id="org2a79a92">Export to HTML</h2>
-<div class="outline-text-2" id="text-org2a79a92">
+<div id="outline-container-org5de15ee" class="outline-2">
+<h2 id="org5de15ee"><a href="#org5de15ee">Export to HTML</a></h2>
+<div class="outline-text-2" id="text-org5de15ee">
 <p>
 Org Cite uses <i>export processors</i> as its backend to support export to
 various formats, including plain text, html and LaTeX. The default
@@ -143,9 +161,9 @@ customize the appearance of reference entries.
 </p>
 </div>
 </div>
-<div id="outline-container-org66e92dd" class="outline-2">
-<h2 id="org66e92dd">Export to LaTeX</h2>
-<div class="outline-text-2" id="text-org66e92dd">
+<div id="outline-container-org349cb13" class="outline-2">
+<h2 id="org349cb13"><a href="#org349cb13">Export to LaTeX</a></h2>
+<div class="outline-text-2" id="text-org349cb13">
 <p>
 For LaTeX export, use the biblatex export processor.
 </p>
@@ -163,9 +181,9 @@ and their corresponding biblatex commands.
 </p>
 </div>
 </div>
-<div id="outline-container-orgeebd6bd" class="outline-2">
-<h2 id="orgeebd6bd">References</h2>
-<div class="outline-text-2" id="text-orgeebd6bd">
+<div id="outline-container-org7002653" class="outline-2">
+<h2 id="org7002653"><a href="#org7002653">References</a></h2>
+<div class="outline-text-2" id="text-org7002653">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Denton, W. (2024, January 22). <i>Basic citations in Org (Part 5)</i>. Miskatonic University Press. <a href="https://www.miskatonic.org/2024/01/22/org-citations-basic-5/">https://www.miskatonic.org/2024/01/22/org-citations-basic-5/</a></div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>GNU. (2024). <i>The Org manual</i>. Free Software Foundation. <a href="https://orgmode.org/manual/index.html">https://orgmode.org/manual/index.html</a></div>
@@ -173,9 +191,9 @@ and their corresponding biblatex commands.
 </div>
 </div>
 </div>
-<div id="outline-container-org5ea403c" class="outline-2">
-<h2 id="org5ea403c">Appendix: Emacs Init File</h2>
-<div class="outline-text-2" id="text-org5ea403c">
+<div id="outline-container-org8925b72" class="outline-2">
+<h2 id="org8925b72"><a href="#org8925b72">Appendix: Emacs Init File</a></h2>
+<div class="outline-text-2" id="text-org8925b72">
 <p>
 For convenience, I include the following sectin in my Emacs init
 file. Note that I use a global bibliography for convenience, which is

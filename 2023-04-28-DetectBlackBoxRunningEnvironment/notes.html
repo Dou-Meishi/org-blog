@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,9 +53,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2f5a6b2">Mathematical Analysis</a>
+<li><a href="#orge3d42d3">Mathematical Analysis</a>
 <ul>
-<li><a href="#org32843b7">A simple case study</a></li>
+<li><a href="#org7b59923">A simple case study</a></li>
 <li><a href="#the-revised-simple-case">The revised simple case</a></li>
 </ul>
 </li>
@@ -59,13 +78,13 @@ specific projects. This post provides a systematic way to collect
 useful information about the blackbox running environment by analyzing
 the execution results of carefully crafted scripts.
 </p>
-<div id="outline-container-org2f5a6b2" class="outline-2">
-<h2 id="org2f5a6b2">Mathematical Analysis</h2>
-<div class="outline-text-2" id="text-org2f5a6b2">
+<div id="outline-container-orge3d42d3" class="outline-2">
+<h2 id="orge3d42d3"><a href="#orge3d42d3">Mathematical Analysis</a></h2>
+<div class="outline-text-2" id="text-orge3d42d3">
 </div>
-<div id="outline-container-org32843b7" class="outline-3">
-<h3 id="org32843b7">A simple case study</h3>
-<div class="outline-text-3" id="text-org32843b7">
+<div id="outline-container-org7b59923" class="outline-3">
+<h3 id="org7b59923"><a href="#org7b59923">A simple case study</a></h3>
+<div class="outline-text-3" id="text-org7b59923">
 <p>
 Given a blackbox environment, we aim to detect the true value of a
 single target variable \(X\), which can take values in a set \(U\). The
@@ -146,7 +165,7 @@ determined with \(\lceil \frac{\log_2 n}{\log_2 m} \rceil\) observations.
 </div>
 </div>
 <div id="outline-container-the-revised-simple-case" class="outline-3">
-<h3 id="the-revised-simple-case">The revised simple case</h3>
+<h3 id="the-revised-simple-case"><a href="#the-revised-simple-case">The revised simple case</a></h3>
 <div class="outline-text-3" id="text-the-revised-simple-case">
 <p>
 Let's consider the previous example again. But this time assume the
@@ -217,7 +236,7 @@ approximation error \(|X-X^*| \leq m^{-N-1}\).
 </div>
 </div>
 <div id="outline-container-a-demo-determine-the-version-of-scipy" class="outline-2">
-<h2 id="a-demo-determine-the-version-of-scipy">A Demo: determine the version of SciPy</h2>
+<h2 id="a-demo-determine-the-version-of-scipy"><a href="#a-demo-determine-the-version-of-scipy">A Demo: determine the version of SciPy</a></h2>
 <div class="outline-text-2" id="text-a-demo-determine-the-version-of-scipy">
 <p>
 Let us consider a scenario where we are participating in an algorithm
@@ -352,7 +371,7 @@ can be used to narrow down the range of possible version numbers.
 </div>
 </div>
 <div id="outline-container-discussion" class="outline-2">
-<h2 id="discussion">Discussion</h2>
+<h2 id="discussion"><a href="#discussion">Discussion</a></h2>
 <div class="outline-text-2" id="text-discussion">
 <p>
 If a contest organizer provides an upload limit of at least 20 times per

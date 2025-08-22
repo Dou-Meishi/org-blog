@@ -11,14 +11,32 @@
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -35,11 +53,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6b8d7a6">Capture Ideas Quickly</a></li>
-<li><a href="#org270c469">Assign Task Priorities</a></li>
-<li><a href="#orgd14e7ba">Review All Future Tasks</a></li>
-<li><a href="#orgbf90b6a">Organize the Init File</a></li>
-<li><a href="#org5bf6b87">References</a></li>
+<li><a href="#org51b9360">Capture Ideas Quickly</a></li>
+<li><a href="#orgaa6bc3a">Assign Task Priorities</a></li>
+<li><a href="#org5db64d7">Review All Future Tasks</a></li>
+<li><a href="#org830058b">Organize the Init File</a></li>
+<li><a href="#orgcb1ffa0">References</a></li>
 </ul>
 </div>
 </nav>
@@ -77,9 +95,9 @@ intelligence. Focus on what turly matters. This repository exists to
 preserve transformative ideas that might even change our life. Review
 it regularly and prune unworthy ideas to focus our attentions.</i>
 </p>
-<div id="outline-container-org6b8d7a6" class="outline-2">
-<h2 id="org6b8d7a6">Capture Ideas Quickly</h2>
-<div class="outline-text-2" id="text-org6b8d7a6">
+<div id="outline-container-org51b9360" class="outline-2">
+<h2 id="org51b9360"><a href="#org51b9360">Capture Ideas Quickly</a></h2>
+<div class="outline-text-2" id="text-org51b9360">
 <p>
 The <code>org-capture</code> command provides a convenient way to capture ideas
 quickly; see <a href="https://orgmode.org/manual/Capture.html">the org manual</a> for a complete introduction. When invoked,
@@ -133,32 +151,32 @@ capture buffer where the template has been expanded and inserted.
 </p>
 
 
-<figure id="orge142574">
+<figure id="org93853a9">
 <img src="./capture-template-preview.png" alt="capture-template-preview.png">
 
 </figure>
 
 <p>
 As our capture template specifies the location as <code>file+datetree</code>,
-entries would be automatically stored with a date tree structure<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.
+entries would be automatically stored with a date tree structure<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>.
 </p>
 
 
-<figure id="org858ccfe">
+<figure id="orge430ff7">
 <img src="./capture-results-preview.png" alt="capture-results-preview.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org270c469" class="outline-2">
-<h2 id="org270c469">Assign Task Priorities</h2>
-<div class="outline-text-2" id="text-org270c469">
+<div id="outline-container-orgaa6bc3a" class="outline-2">
+<h2 id="orgaa6bc3a"><a href="#orgaa6bc3a">Assign Task Priorities</a></h2>
+<div class="outline-text-2" id="text-orgaa6bc3a">
 <p>
 As time goes by, there would be more and more future tasks and it
 makes sense to prioritize them; see <a href="https://orgmode.org/manual/Priorities.html">the org manual</a> for a complete
 introduction. In Org mode, any headline can be assigned a priority
 value and support sorting in built-in commands or user-defined
-commands<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+commands<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup>.
 </p>
 
 <p>
@@ -186,9 +204,9 @@ face to display the priority value.
 </div>
 </div>
 </div>
-<div id="outline-container-orgd14e7ba" class="outline-2">
-<h2 id="orgd14e7ba">Review All Future Tasks</h2>
-<div class="outline-text-2" id="text-orgd14e7ba">
+<div id="outline-container-org5db64d7" class="outline-2">
+<h2 id="org5db64d7"><a href="#org5db64d7">Review All Future Tasks</a></h2>
+<div class="outline-text-2" id="text-org5db64d7">
 <p>
 To review all future tasks and sort them by priority, we can create a
 custom agenda view; see <a href="https://orgmode.org/manual/Agenda-Views.html">the org manual</a> for a complete
@@ -236,7 +254,7 @@ details.
 </p>
 
 
-<figure id="orgfc19fcf">
+<figure id="orgf8f084a">
 <img src="./agenda-view.png" alt="agenda-view.png">
 
 </figure>
@@ -248,9 +266,9 @@ not show up in this agenda view.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf90b6a" class="outline-2">
-<h2 id="orgbf90b6a">Organize the Init File</h2>
-<div class="outline-text-2" id="text-orgbf90b6a">
+<div id="outline-container-org830058b" class="outline-2">
+<h2 id="org830058b"><a href="#org830058b">Organize the Init File</a></h2>
+<div class="outline-text-2" id="text-org830058b">
 <p>
 I use the <code>use-package</code> macro to organize those settings in my init
 file. Below is the relevant sections in my <code>~/.emacs.d/init.el</code> file.
@@ -301,9 +319,9 @@ file. Below is the relevant sections in my <code>~/.emacs.d/init.el</code> file.
 </div>
 </div>
 </div>
-<div id="outline-container-org5bf6b87" class="outline-2">
-<h2 id="org5bf6b87">References</h2>
-<div class="outline-text-2" id="text-org5bf6b87">
+<div id="outline-container-orgcb1ffa0" class="outline-2">
+<h2 id="orgcb1ffa0"><a href="#orgcb1ffa0">References</a></h2>
+<div class="outline-text-2" id="text-orgcb1ffa0">
 <dl class="org-dl">
 <dt>Section 5 <i>TODO Items</i> in Emacs Org Manual</dt><dd>GNU. (2024). <i>The Org Manual.</i> Free Software Foundation. <a href="https://orgmode.org/manual/TODO-Items.html">https://orgmode.org/manual/TODO-Items.html</a></dd>
 
@@ -319,12 +337,12 @@ file. Below is the relevant sections in my <code>~/.emacs.d/init.el</code> file.
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 It is also possible to change the default tree structure from
 <i>Year-Month-Day</i> to <i>Year-Week</i>; see the <code>tree-type</code> option in the <a href="https://orgmode.org/manual/Template-elements.html">manual</a>.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 The priority value can be accessed by a special property called
 <i>PROIRITY</i>; see also <a href="https://orgmode.org/manual/Special-Properties.html">the manual</a> for a complete list of special
 properties.

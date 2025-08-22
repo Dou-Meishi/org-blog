@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,11 +53,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org66f764d">Tossing a Coin: Probability as Frequency</a></li>
-<li><a href="#org28dad42">Application: Monte Carlo Integration</a></li>
-<li><a href="#orgbe52e24">Application: Bernstein's Theorem</a></li>
-<li><a href="#org5e7e83b">Other Types of SLLN</a></li>
-<li><a href="#org01880ed">Proof Sketch of SLLN (i.i.d. case)</a></li>
+<li><a href="#orgf073850">Tossing a Coin: Probability as Frequency</a></li>
+<li><a href="#org1ea9503">Application: Monte Carlo Integration</a></li>
+<li><a href="#org9d08dcd">Application: Bernstein's Theorem</a></li>
+<li><a href="#orge7e9216">Other Types of SLLN</a></li>
+<li><a href="#org1080e52">Proof Sketch of SLLN (i.i.d. case)</a></li>
 </ul>
 </div>
 </nav>
@@ -67,9 +86,9 @@ with a brief outline of the proof for the SLLN theorem (i.i.d. case).
 Throughout this post, for a given sequence \((a_n)\) we denote the
 cumulative average by \(\bar{a}_n := \frac{1}{n} \sum_{k=1}^n a_k\).
 </p>
-<div id="outline-container-org66f764d" class="outline-2">
-<h2 id="org66f764d">Tossing a Coin: Probability as Frequency</h2>
-<div class="outline-text-2" id="text-org66f764d">
+<div id="outline-container-orgf073850" class="outline-2">
+<h2 id="orgf073850"><a href="#orgf073850">Tossing a Coin: Probability as Frequency</a></h2>
+<div class="outline-text-2" id="text-orgf073850">
 <p>
 Perhaps all of us start learning about probability by this example: if
 we toss a fair coin repeatly then the frequency of heads will tend to
@@ -92,7 +111,7 @@ easily, as the \(k\)-th moment always exists, \(\mathbb{E}[X_n^k] = \mathbb{P}(X
 1/2\). To prove the almost surely convergence, we can estimate the
 probability of the event that <i>the difference between the emprical mean
 \(\bar{X}_n\) and the expectation 1/2 is larger than any positive</i> \(\epsilon\) by
-Markov inequality<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> \[ \mathbb{P}(|\bar{X}_n - 1/2| > \epsilon) \leq \frac{1}{\epsilon^4}
+Markov inequality<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup> \[ \mathbb{P}(|\bar{X}_n - 1/2| > \epsilon) \leq \frac{1}{\epsilon^4}
 \mathbb{E}[|\bar{X}_n - 1/2|^4] \leq \frac{3}{(2\epsilon)^4 n^2}. \] By Borel&#x2013;Cantelli
 lemma, \(\mathbb{P}(N_\epsilon) = 0\) for any positive \(\epsilon\), where \(N_\epsilon = \{|\bar{X}_n -
 1/2| > \epsilon \quad \text{i.o.}\}\). Thus, for any \(\omega \in N^c_\epsilon\),
@@ -105,7 +124,7 @@ surely.
 <i>Remark.</i> The sample space \(\Omega\) can be regarded as the interval \((0, 1]\)
 like how a real number is represented in base 2. The probability
 corresponds to the Lebesgue measure confined on the unit interval.  In
-this point of view, the exception set \(N\) is uncountable<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> but has
+this point of view, the exception set \(N\) is uncountable<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup> but has
 measure 0. A number in \(N^c\) is called normal number and the SLLN in
 this case is equivalent to \(\mathbb{P}(N) = 0\), which is exactly the Borel's
 normal number theorem.
@@ -126,9 +145,9 @@ The essential condition in this simple proof is the finiteness of the
 </p>
 </div>
 </div>
-<div id="outline-container-org28dad42" class="outline-2">
-<h2 id="org28dad42">Application: Monte Carlo Integration</h2>
-<div class="outline-text-2" id="text-org28dad42">
+<div id="outline-container-org1ea9503" class="outline-2">
+<h2 id="org1ea9503"><a href="#org1ea9503">Application: Monte Carlo Integration</a></h2>
+<div class="outline-text-2" id="text-org1ea9503">
 <p>
 Perhaps Monte Carlo Integration is one of the most promising
 application of SLLN. Assume we want to estimate the integral \(\int_A f(x)
@@ -162,15 +181,15 @@ mean. The horizontal line is the true value of the integral, i.e.,
 </p>
 
 
-<figure id="orge73ef67">
+<figure id="orga9aa269">
 <img src="./sinc-square-integral.png" alt="sinc-square-integral.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orgbe52e24" class="outline-2">
-<h2 id="orgbe52e24">Application: Bernstein's Theorem</h2>
-<div class="outline-text-2" id="text-orgbe52e24">
+<div id="outline-container-org9d08dcd" class="outline-2">
+<h2 id="org9d08dcd"><a href="#org9d08dcd">Application: Bernstein's Theorem</a></h2>
+<div class="outline-text-2" id="text-org9d08dcd">
 <p>
 According to the famous Weierstrass approximation theorem, any
 continuous function \(f\) on the compact set \([0, 1]\) can be uniformly
@@ -196,7 +215,7 @@ polynomial of degree \(n\) associated with \(f\)</i>.
 <p>
 Although the above argument only shows the pointwise convergence, the
 following Bernstein's theorem ensures that this convergence is
-actually uniform on \([0, 1]\)<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+actually uniform on \([0, 1]\)<sup>[<a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a>]</sup>.
 </p>
 
 <p>
@@ -209,9 +228,9 @@ to \(f\) uniformly on \([0, 1]\).
 </p>
 </div>
 </div>
-<div id="outline-container-org5e7e83b" class="outline-2">
-<h2 id="org5e7e83b">Other Types of SLLN</h2>
-<div class="outline-text-2" id="text-org5e7e83b">
+<div id="outline-container-orge7e9216" class="outline-2">
+<h2 id="orge7e9216"><a href="#orge7e9216">Other Types of SLLN</a></h2>
+<div class="outline-text-2" id="text-orge7e9216">
 <p>
 SLLN states that the existence of the expectation ensures the
 convergence of the empirical mean. Interestingly, the converse is also
@@ -258,9 +277,9 @@ independent and identically distributed and \(\mathbb{E}[|X_1|] = \infty\), then
 </p>
 </div>
 </div>
-<div id="outline-container-org01880ed" class="outline-2">
-<h2 id="org01880ed">Proof Sketch of SLLN (i.i.d. case)</h2>
-<div class="outline-text-2" id="text-org01880ed">
+<div id="outline-container-org1080e52" class="outline-2">
+<h2 id="org1080e52"><a href="#org1080e52">Proof Sketch of SLLN (i.i.d. case)</a></h2>
+<div class="outline-text-2" id="text-org1080e52">
 <p>
 The following arguments are a rephrased version from Billingsley's
 book (2008, pp. 282&#x2013;284).
@@ -301,7 +320,7 @@ are nonnegative and \(\mathbb{E}[X_1] < \infty\).
 In <i>Step II,</i> the following technical lemma is useful: <i>let \((a_n)\) be a
   positive sequence and \((\bar{a}_n)\) be its accumulative average. If
   a subsequence \((\bar{a}_{n_k})\) converges to \(a\) and \(\lim n_{k+1} /
-  n_k = r\), then<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup></i> \[ \frac{1}{r}a \leq \liminf \bar{a}_n \leq \limsup
+  n_k = r\), then<sup>[<a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a>]</sup></i> \[ \frac{1}{r}a \leq \liminf \bar{a}_n \leq \limsup
   \bar{a}_n \leq r a.\]
 </p>
 
@@ -315,7 +334,7 @@ complete proof of <i>Step V</i>, please see <a href="./proof-step-V.png">here</a
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Actually, we can show that \(\mathbb{E}[|\bar{X}_n - 1/2|^4] =
 \frac{3}{16n^2} - \frac{1}{8n^3}\). Let \(Y_n = 2X_n - 1\). Then \((Y_n)\)
 are i.i.d., \(\mathbb{E}[Y_n^{2k+1}] = 0\) and \(\mathbb{E}[Y_n^{2k}] = 1\) for all
@@ -343,7 +362,7 @@ contains \(n\) indices. Hence, \[ \mathbb{E}\biggl| \sum_{k=1}^n Y_k \biggr|^4 =
 that this result is also true for \(n \leq 3\).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Indeed, for any \(x \in (0, 1]\), let \(\omega_x = (d_1, d_2, \ldots)\) be
 the dyadic expansion of \(x\), i.e., \(x = \sum \frac{d_k}{2^k}\). Let \(\omega' =
 (1, 1, d_1, 1, 1, d_2, \ldots)\) be defined by \(\omega'_i = d_i\) if \(i \mod
@@ -352,7 +371,7 @@ for all \(n\) and thus \(\omega' \in N\). This shows that there is an injection
 map from \((0, 1]\) to \(N\).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 The proof is based on Chebyshev's inequality. Let \(M= \sup_{x \in
 [0, 1]}|f(x)|\). For any \(\epsilon > 0\), let \(\delta(\epsilon) = \sup_{|x - y| < \epsilon, x, y \in
 [0, 1]} |f(x) - f(y)|\). Noting that \(B_n(x; f) = \mathbb{E}[f(\bar{X}_n)]\),
@@ -370,7 +389,7 @@ converges to 0 (noting that \(\delta(\epsilon) \to 0\) as \(f\) is uniformly
 continuous).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 For \(n_k \leq n < n_{k+1}\) (noting \(a_n \geq 0\)), there is \[
 \frac{n_k}{n_{k+1}} \bar{a}_{n_k} \leq a_n \leq \frac{n_{k+1}}{n_{k}}
 \bar{a}_{n_{k+1}}. \]

@@ -11,14 +11,32 @@
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -35,12 +53,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgea41fcb">Terminology</a></li>
-<li><a href="#org79fbdc9">How-to: Choose Fonts</a></li>
-<li><a href="#org1d6e627">How-to: Preview Fonts</a></li>
+<li><a href="#org22fe960">Terminology</a></li>
+<li><a href="#orgf40be8a">How-to: Choose Fonts</a></li>
+<li><a href="#orgab89eca">How-to: Preview Fonts</a></li>
 <li><a href="#appendix-query-fonts-via-fontconfig">How-to: Query Fonts</a></li>
 <li><a href="#appendix-inspect-opentype-font-files">How-to: Inspect Fonts</a></li>
-<li><a href="#orgaaec8a8">References</a></li>
+<li><a href="#orgf630a80">References</a></li>
 <li><a href="#appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</a></li>
 <li><a href="#appendix-a-list-of-my-preferred-fonts">Appendix: A List of My Favorite Fonts</a></li>
 </ul>
@@ -67,9 +85,9 @@ following topics: previewing fonts, querying fonts, and inspecting
 fonts. Finally, I include a list of my favorite fonts and a brief
 overview of text rendering in the appendices.
 </p>
-<div id="outline-container-orgea41fcb" class="outline-2">
-<h2 id="orgea41fcb">Terminology</h2>
-<div class="outline-text-2" id="text-orgea41fcb">
+<div id="outline-container-org22fe960" class="outline-2">
+<h2 id="org22fe960"><a href="#org22fe960">Terminology</a></h2>
+<div class="outline-text-2" id="text-org22fe960">
 <p>
 Terms used in typography, web development, and other fields may vary a
 lot. To avoid possible confusions, a brief list is provided below for
@@ -131,9 +149,9 @@ example, the superfamily <i>DejaVu</i> contains font families <i>DejaVu Serif</i
 </dl>
 </div>
 </div>
-<div id="outline-container-org79fbdc9" class="outline-2">
-<h2 id="org79fbdc9">How-to: Choose Fonts</h2>
-<div class="outline-text-2" id="text-org79fbdc9">
+<div id="outline-container-orgf40be8a" class="outline-2">
+<h2 id="orgf40be8a"><a href="#orgf40be8a">How-to: Choose Fonts</a></h2>
+<div class="outline-text-2" id="text-orgf40be8a">
 <p>
 The general principle for choosing fonts is to ensure that they
 <i>effectively convey the intended meaning of the text</i>. To achieve this,
@@ -162,9 +180,9 @@ For detailed considerations, please refer to <a href="https://fonts.google.com/k
 </p>
 </div>
 </div>
-<div id="outline-container-org1d6e627" class="outline-2">
-<h2 id="org1d6e627">How-to: Preview Fonts</h2>
-<div class="outline-text-2" id="text-org1d6e627">
+<div id="outline-container-orgab89eca" class="outline-2">
+<h2 id="orgab89eca"><a href="#orgab89eca">How-to: Preview Fonts</a></h2>
+<div class="outline-text-2" id="text-orgab89eca">
 <p>
 If a font family is accessible on the machine, then a convenient way
 to preview it is through the web browser. For example, the following
@@ -186,7 +204,7 @@ variant in Lora family.
 </div>
 
 
-<figure id="orge74a290">
+<figure id="org30aef6f">
 <img src="./preview-lora.png" alt="preview-lora.png">
 
 </figure>
@@ -202,7 +220,7 @@ Files</a>.
 </div>
 </div>
 <div id="outline-container-appendix-query-fonts-via-fontconfig" class="outline-2">
-<h2 id="appendix-query-fonts-via-fontconfig">How-to: Query Fonts</h2>
+<h2 id="appendix-query-fonts-via-fontconfig"><a href="#appendix-query-fonts-via-fontconfig">How-to: Query Fonts</a></h2>
 <div class="outline-text-2" id="text-appendix-query-fonts-via-fontconfig">
 <p>
 <a href="https://www.freedesktop.org/wiki/Software/fontconfig/">Fontconfig</a> is a free and open-source software library designed to
@@ -220,7 +238,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="org9b16549">
+<pre class="example" id="orgb49ae96">
 /home/dou/.local/share/fonts/opentype/Lora/Lora-Italic.otf:
 /home/dou/.local/share/fonts/opentype/Lora/Lora-SemiBoldItalic.otf:
 /home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf:
@@ -235,7 +253,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="org02413a5">
+<pre class="example" id="orge779b7e">
 :file=/home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf
 </pre>
 
@@ -248,7 +266,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="org528d7ec">
+<pre class="example" id="org775a5ef">
 Pattern has 4 elts (size 16)
     family: "lora"(s)
     slant: 100(i)(s)
@@ -262,7 +280,7 @@ See more explanations in <a href="https://fontconfig.pages.freedesktop.org/fontc
 </div>
 </div>
 <div id="outline-container-appendix-inspect-opentype-font-files" class="outline-2">
-<h2 id="appendix-inspect-opentype-font-files">How-to: Inspect Fonts</h2>
+<h2 id="appendix-inspect-opentype-font-files"><a href="#appendix-inspect-opentype-font-files">How-to: Inspect Fonts</a></h2>
 <div class="outline-text-2" id="text-appendix-inspect-opentype-font-files">
 <p>
 <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/">OpenType</a> (.otf) is an extension of TrueType (.ttf), and both are
@@ -283,7 +301,7 @@ systems supported in the font.
 </pre>
 </div>
 
-<pre class="example" id="orgad4ed6a">
+<pre class="example" id="org10e542c">
 ...
 hani		CJK Ideographic
 hani.JAN	CJK Ideographic/Japanese
@@ -315,7 +333,7 @@ Supported <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/fe
 </pre>
 </div>
 
-<pre class="example" id="orgff01a73">
+<pre class="example" id="orgca39b7a">
 aalt	Access All Alternates
 calt	Contextual Alternates
 case	Case-Sensitive Forms
@@ -367,9 +385,9 @@ extract individual fonts via <a href="https://github.com/fonttools/fonttools">Fo
 </div>
 </div>
 </div>
-<div id="outline-container-orgaaec8a8" class="outline-2">
-<h2 id="orgaaec8a8">References</h2>
-<div class="outline-text-2" id="text-orgaaec8a8">
+<div id="outline-container-orgf630a80" class="outline-2">
+<h2 id="orgf630a80"><a href="#orgf630a80">References</a></h2>
+<div class="outline-text-2" id="text-orgf630a80">
 <p>
 Books:
 </p>
@@ -397,7 +415,7 @@ Online resources:
 </div>
 </div>
 <div id="outline-container-appendix-text-rendering-with-opentype-fonts" class="outline-2">
-<h2 id="appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</h2>
+<h2 id="appendix-text-rendering-with-opentype-fonts"><a href="#appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</a></h2>
 <div class="outline-text-2" id="text-appendix-text-rendering-with-opentype-fonts">
 <p>
 According to <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/ttochap1#text-processing-with-opentype-layout">Microsoft's OpenType Specifications</a>, a string of
@@ -426,7 +444,7 @@ the integer 65, which is represented as "U+0041".
 </div>
 </div>
 <div id="outline-container-appendix-a-list-of-my-preferred-fonts" class="outline-2">
-<h2 id="appendix-a-list-of-my-preferred-fonts">Appendix: A List of My Favorite Fonts</h2>
+<h2 id="appendix-a-list-of-my-preferred-fonts"><a href="#appendix-a-list-of-my-preferred-fonts">Appendix: A List of My Favorite Fonts</a></h2>
 <div class="outline-text-2" id="text-appendix-a-list-of-my-preferred-fonts">
 <p>
 Below is a collection of my favorite fonts and their attributes; see

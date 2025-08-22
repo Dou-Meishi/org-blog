@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,11 +53,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3672fc3">Go through the manual</a></li>
-<li><a href="#org9d35bb7">Minimal Configuration</a></li>
-<li><a href="#org3917ddd">Question</a></li>
-<li><a href="#orgc90aa40">Build My Blog Site</a></li>
-<li><a href="#orga8b39dd">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org6c05699">Go through the manual</a></li>
+<li><a href="#org0cf9b13">Minimal Configuration</a></li>
+<li><a href="#orgd3c7745">Question</a></li>
+<li><a href="#orgb4fc255">Build My Blog Site</a></li>
+<li><a href="#org08238f7">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -74,9 +93,9 @@ e.g.,  <a href="https://bastibe.de/about.html">Bastian</a>,  <a href="https://ja
 Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
-<div id="outline-container-org3672fc3" class="outline-2">
-<h2 id="org3672fc3">Go through the manual</h2>
-<div class="outline-text-2" id="text-org3672fc3">
+<div id="outline-container-org6c05699" class="outline-2">
+<h2 id="org6c05699"><a href="#org6c05699">Go through the manual</a></h2>
+<div class="outline-text-2" id="text-org6c05699">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -186,9 +205,9 @@ These key bindings are:
 </ol>
 </div>
 </div>
-<div id="outline-container-org9d35bb7" class="outline-2">
-<h2 id="org9d35bb7">Minimal Configuration</h2>
-<div class="outline-text-2" id="text-org9d35bb7">
+<div id="outline-container-org0cf9b13" class="outline-2">
+<h2 id="org0cf9b13"><a href="#org0cf9b13">Minimal Configuration</a></h2>
+<div class="outline-text-2" id="text-org0cf9b13">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -274,7 +293,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="orgefb6cca">
+<pre class="example" id="orgd681b8a">
 org-blog/
 ├── drafts
 ├── org
@@ -293,7 +312,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org39009eb">
+<pre class="example" id="org0340c33">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -314,9 +333,9 @@ org-blog/
 </pre>
 </div>
 </div>
-<div id="outline-container-org3917ddd" class="outline-2">
-<h2 id="org3917ddd">Question</h2>
-<div class="outline-text-2" id="text-org3917ddd">
+<div id="outline-container-orgd3c7745" class="outline-2">
+<h2 id="orgd3c7745"><a href="#orgd3c7745">Question</a></h2>
+<div class="outline-text-2" id="text-orgd3c7745">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -337,7 +356,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org6f6d278">
+<pre class="example" id="org08fb310">
 org-blog/
 ├── drafts
 ├── org
@@ -391,9 +410,9 @@ the drafts directory will not be included in the index.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgc90aa40" class="outline-2">
-<h2 id="orgc90aa40">Build My Blog Site</h2>
-<div class="outline-text-2" id="text-orgc90aa40">
+<div id="outline-container-orgb4fc255" class="outline-2">
+<h2 id="orgb4fc255"><a href="#orgb4fc255">Build My Blog Site</a></h2>
+<div class="outline-text-2" id="text-orgb4fc255">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -516,9 +535,9 @@ The lisp script and static assets are all included in <a href="https://github.co
 </p>
 </div>
 </div>
-<div id="outline-container-orga8b39dd" class="outline-2">
-<h2 id="orga8b39dd">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-orga8b39dd">
+<div id="outline-container-org08238f7" class="outline-2">
+<h2 id="org08238f7"><a href="#org08238f7">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
+<div class="outline-text-2" id="text-org08238f7">
 <p>
 Below are other users' configuration on org static blog.
 </p>

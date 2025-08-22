@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,10 +53,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgbdb77ed">Prerequisite Concepts</a></li>
-<li><a href="#orga80e53a">Definition</a></li>
-<li><a href="#org48bb99d">Main Results</a></li>
-<li><a href="#org1691a83">Examples</a></li>
+<li><a href="#org2e774bc">Prerequisite Concepts</a></li>
+<li><a href="#org82cfe8a">Definition</a></li>
+<li><a href="#orgd915a9c">Main Results</a></li>
+<li><a href="#org0e82b84">Examples</a></li>
 </ul>
 </div>
 </nav>
@@ -51,9 +70,9 @@ Readers may refer to <i>Chapter 7: Complete Metric Space and Functional
 Space</i> in the book <i>Munkres, J. Topology Second Edition</i> for more
 details.
 </p>
-<div id="outline-container-orgbdb77ed" class="outline-2">
-<h2 id="orgbdb77ed">Prerequisite Concepts</h2>
-<div class="outline-text-2" id="text-orgbdb77ed">
+<div id="outline-container-org2e774bc" class="outline-2">
+<h2 id="org2e774bc"><a href="#org2e774bc">Prerequisite Concepts</a></h2>
+<div class="outline-text-2" id="text-org2e774bc">
 <ul class="org-ul">
 <li>normed linear space</li>
 <li>complete metric space</li>
@@ -62,9 +81,9 @@ details.
 </ul>
 </div>
 </div>
-<div id="outline-container-orga80e53a" class="outline-2">
-<h2 id="orga80e53a">Definition</h2>
-<div class="outline-text-2" id="text-orga80e53a">
+<div id="outline-container-org82cfe8a" class="outline-2">
+<h2 id="org82cfe8a"><a href="#org82cfe8a">Definition</a></h2>
+<div class="outline-text-2" id="text-org82cfe8a">
 <p>
 A complete normed linear space is called a <b>Banach space</b>.
 </p>
@@ -116,9 +135,9 @@ corresponding to \(\|\cdot\|\) is defined by
 </p>
 </div>
 </div>
-<div id="outline-container-org48bb99d" class="outline-2">
-<h2 id="org48bb99d">Main Results</h2>
-<div class="outline-text-2" id="text-org48bb99d">
+<div id="outline-container-orgd915a9c" class="outline-2">
+<h2 id="orgd915a9c"><a href="#orgd915a9c">Main Results</a></h2>
+<div class="outline-text-2" id="text-orgd915a9c">
 <p>
 <b>Lemma 1.</b> If \((Y,d)\) is complete, then \((Y^X,\bar{\rho})\) is also
 complete.
@@ -137,9 +156,9 @@ are both complete in the uniform metric.
 </p>
 </div>
 </div>
-<div id="outline-container-org1691a83" class="outline-2">
-<h2 id="org1691a83">Examples</h2>
-<div class="outline-text-2" id="text-org1691a83">
+<div id="outline-container-org0e82b84" class="outline-2">
+<h2 id="org0e82b84"><a href="#org0e82b84">Examples</a></h2>
+<div class="outline-text-2" id="text-org0e82b84">
 <p>
 <b>Example.</b> \((\mathcal{C}[a,b],\|\cdot\|_\infty)\) is a Banach
 space.

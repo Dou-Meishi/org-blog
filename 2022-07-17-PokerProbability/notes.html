@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,16 +53,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgdd23619">小球模型</a></li>
-<li><a href="#org7384d1d">事件模型</a></li>
-<li><a href="#org1e7c44d">模型应用</a></li>
-<li><a href="#orgf604436">进阶应用</a></li>
+<li><a href="#orgac9cbc0">小球模型</a></li>
+<li><a href="#org8668032">事件模型</a></li>
+<li><a href="#org53a186b">模型应用</a></li>
+<li><a href="#org50c1562">进阶应用</a></li>
 </ul>
 </div>
 </nav>
-<div id="outline-container-orgdd23619" class="outline-2">
-<h2 id="orgdd23619">小球模型</h2>
-<div class="outline-text-2" id="text-orgdd23619">
+<div id="outline-container-orgac9cbc0" class="outline-2">
+<h2 id="orgac9cbc0"><a href="#orgac9cbc0">小球模型</a></h2>
+<div class="outline-text-2" id="text-orgac9cbc0">
 <p>
 <b>问.</b> 现有 \(N\) 个小球, 其中有 \(M\) 个作了标记. 今随机地挑出 \(K\) 个, 写出其中标记球的个数的分布.
 </p>
@@ -211,9 +230,9 @@ i\leq \min(K,M). \]
 </p>
 </div>
 </div>
-<div id="outline-container-org7384d1d" class="outline-2">
-<h2 id="org7384d1d">事件模型</h2>
-<div class="outline-text-2" id="text-org7384d1d">
+<div id="outline-container-org8668032" class="outline-2">
+<h2 id="org8668032"><a href="#org8668032">事件模型</a></h2>
+<div class="outline-text-2" id="text-org8668032">
 <p>
 <b>问.</b> 现有事件族 \(\{A_i\}_{i=1}^n\), 写出至少有一个事件发生的概率.
 </p>
@@ -273,9 +292,9 @@ $$
 </p>
 </div>
 </div>
-<div id="outline-container-org1e7c44d" class="outline-2">
-<h2 id="org1e7c44d">模型应用</h2>
-<div class="outline-text-2" id="text-org1e7c44d">
+<div id="outline-container-org53a186b" class="outline-2">
+<h2 id="org53a186b"><a href="#org53a186b">模型应用</a></h2>
+<div class="outline-text-2" id="text-org53a186b">
 <p>
 以下考虑经典规则: 54 张牌, 地主分到 20 张, 两个农民各 17 张.
 </p>
@@ -433,9 +452,9 @@ $$
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf604436" class="outline-2">
-<h2 id="orgf604436">进阶应用</h2>
-<div class="outline-text-2" id="text-orgf604436">
+<div id="outline-container-org50c1562" class="outline-2">
+<h2 id="org50c1562"><a href="#org50c1562">进阶应用</a></h2>
+<div class="outline-text-2" id="text-org50c1562">
 <p>
 <b>问.</b> 写出经典规则下地主摸到至少一炸 (王炸或者四炸) 的概率. 农民呢?
 </p>

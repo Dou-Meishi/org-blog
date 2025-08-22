@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,14 +53,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga2aeb63">Basics of Characteristic Functions</a>
+<li><a href="#org931edbd">Basics of Characteristic Functions</a>
 <ul>
-<li><a href="#org1d379a8">Related to Fourier Transform</a></li>
-<li><a href="#orgb5d22ac">Related to Moments</a></li>
-<li><a href="#org43bdfe0">Related to Weak Convergence</a></li>
+<li><a href="#org53192fe">Related to Fourier Transform</a></li>
+<li><a href="#orgeb2c082">Related to Moments</a></li>
+<li><a href="#org38344ba">Related to Weak Convergence</a></li>
 </ul>
 </li>
-<li><a href="#org7c20656">Central Limit Theorem and Gaussian Distribution</a></li>
+<li><a href="#org89a9166">Central Limit Theorem and Gaussian Distribution</a></li>
 </ul>
 </div>
 </nav>
@@ -94,9 +113,9 @@ normal distribution, which concludes the CLT.</li>
 <i>Suggested readings:</i> Durrett (2019, pp. 108&#x2013;118), Billingsley (2008,
 pp. 342&#x2013;351), and Schilling (2017, pp. 214&#x2013;220).
 </p>
-<div id="outline-container-orga2aeb63" class="outline-2">
-<h2 id="orga2aeb63">Basics of Characteristic Functions</h2>
-<div class="outline-text-2" id="text-orga2aeb63">
+<div id="outline-container-org931edbd" class="outline-2">
+<h2 id="org931edbd"><a href="#org931edbd">Basics of Characteristic Functions</a></h2>
+<div class="outline-text-2" id="text-org931edbd">
 <p>
 <i>Definition.</i> The <i>characterstic function (c.f.)</i> \(\varphi(t)\) of a random
 variable \(X\) is defined by \[ \varphi_X(t) = \mathbb{E}[e^{itX}] = \mathbb{E}[\cos tX] +
@@ -117,7 +136,7 @@ the convenience to handle sum of two independent r.v.s. Let \(X_1\) and
 \varphi_{X_1+X_2}(t) = \mathbb{E}[e^{it(X_1+X_2)}] = \mathbb{E}[e^{itX_1}] \cdot \mathbb{E}[e^{itX_2}] =
 \varphi_{X_1}(t) \varphi_{X_2}(t). \] This result is known as the <i>convolution
 theorem</i>, as the distribution of \(X_1+X_2\) is the convolution of
-distributions of \(X_1\) and \(X_2\)<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.
+distributions of \(X_1\) and \(X_2\)<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>.
 </p>
 
 <p>
@@ -166,7 +185,7 @@ e^{-\lambda} \sum_{k=0}^\infty (\lambda e^{it})^k / k! = \exp(\lambda( e^{it} - 
 
 <p>
 <i>Example (Gaussian distribution).</i> Let \(X\) follow the standard Gaussian
-distribution \(\mathcal{N}(0, 1)\). By definition, its c.f. is<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> \[\varphi(t) =
+distribution \(\mathcal{N}(0, 1)\). By definition, its c.f. is<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup> \[\varphi(t) =
 \mathbb{E}[e^{itX}] = \frac{1}{\sqrt{2\pi}} \int e^{itx} e^{-x^2/2} \, dx =
 e^{-t^2/2} \int \frac{1}{\sqrt{2\pi}} \exp(-(x-it)^2/2) \, dx =
 e^{-t^2/2}.\]
@@ -252,9 +271,9 @@ which is of course not absolutely continuous w.r.t. the Lebesgue
 measure.
 </p>
 </div>
-<div id="outline-container-org1d379a8" class="outline-3">
-<h3 id="org1d379a8">Related to Fourier Transform</h3>
-<div class="outline-text-3" id="text-org1d379a8">
+<div id="outline-container-org53192fe" class="outline-3">
+<h3 id="org53192fe"><a href="#org53192fe">Related to Fourier Transform</a></h3>
+<div class="outline-text-3" id="text-org53192fe">
 <p>
 Why we want to study characteristic functions? One reason is that the
 c.f. fully characterizes a finite measure. In fact, any finite measure
@@ -303,7 +322,7 @@ $$ \begin{aligned}
 
 <p>
 The proof is completed by noting that \(R(x; T)\) is bounded and
-converges to<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> \(\mathbb{1}_{(a,b)} + \frac{1}{2}\mathbb{1}_{\{a\}} +
+converges to<sup>[<a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a>]</sup> \(\mathbb{1}_{(a,b)} + \frac{1}{2}\mathbb{1}_{\{a\}} +
 \frac{1}{2}\mathbb{1}_{\{b\}}\) as \(T \to \infty\). By dominated convergence theorem,
 the desired conclusion holds.
 </p>
@@ -381,9 +400,9 @@ dt. \] Moreover, \(f\) is bounded and uniformly continuous (just like
 </p>
 </div>
 </div>
-<div id="outline-container-orgb5d22ac" class="outline-3">
-<h3 id="orgb5d22ac">Related to Moments</h3>
-<div class="outline-text-3" id="text-orgb5d22ac">
+<div id="outline-container-orgeb2c082" class="outline-3">
+<h3 id="orgeb2c082"><a href="#orgeb2c082">Related to Moments</a></h3>
+<div class="outline-text-3" id="text-orgeb2c082">
 <p>
 Studying c.f.s can also help us determine the moments of a
 distribution. We have seen that if a random variable \(X\) is
@@ -395,7 +414,7 @@ this result to \(k\)-th moment, i.e., \(\varphi^{(k)}(0) = i^k \mathbb{E}[X^k]\)
 <p>
 First, we need a technical lemma to estimate the remainder of the
 Taylor expansion of \(e^{i\xi}\). Recall that according to integration by
-parts<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>, \[ e^{i\xi} - 1 - \sum_{k=1}^n \frac{i^k}{k!} \xi^k = \int_0^\xi
+parts<sup>[<a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a>]</sup>, \[ e^{i\xi} - 1 - \sum_{k=1}^n \frac{i^k}{k!} \xi^k = \int_0^\xi
 \frac{(\xi-t)^n}{n!} i^{n+1} e^{it} \, dt. \] Assume \(\xi > 0\). The
 remainder can be bounded by \[ \biggl| e^{i\xi} - 1 - \sum_{k=1}^n
 \frac{i^k}{k!} \xi^k \biggr| \leq \int_0^\xi \frac{(\xi -t)^n}{n!} \, dt =
@@ -403,7 +422,7 @@ remainder can be bounded by \[ \biggl| e^{i\xi} - 1 - \sum_{k=1}^n
 by \[ \biggl| e^{i\xi} - 1 - \sum_{k=1}^n \frac{i^k}{k!} \xi^k \biggr| \leq
 \biggl| e^{i\xi} - 1 - \sum_{k=1}^{n-1} \frac{i^k}{k!} \xi^k \biggr| +
 \frac{\xi^n}{n!} \leq 2\frac{\xi^{n}}{n!}. \] It is easy to generalize the
-bound to the case \(\xi \leq 0\) and obtain the following lemma<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
+bound to the case \(\xi \leq 0\) and obtain the following lemma<sup>[<a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a>]</sup>.
 </p>
 
 <p>
@@ -446,7 +465,7 @@ o(t^n), \quad\text{where}\quad c_k = i^k \mathbb{E}[X^k] / k!. \]
 This result inspires us to compute the \(k\)-th moment \(\mathbb{E}[X^k]\) by
 taking \(k\)-th derivative of \(\varphi\). We have shown that \(\varphi'(t) =
 \mathbb{E}[iXe^{itX}]\) when \(X\) is integrable. Repeating the argument can show
-that \(\varphi^{(k)}(t) = \mathbb{E}[(iX)^k e^{itX}]\) if \(X^k\) is integrable<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+that \(\varphi^{(k)}(t) = \mathbb{E}[(iX)^k e^{itX}]\) if \(X^k\) is integrable<sup>[<a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a>]</sup>.
 </p>
 
 <p>
@@ -457,9 +476,9 @@ derivative is bounded, uniformly continuous, and has an explicit form
 </p>
 </div>
 </div>
-<div id="outline-container-org43bdfe0" class="outline-3">
-<h3 id="org43bdfe0">Related to Weak Convergence</h3>
-<div class="outline-text-3" id="text-org43bdfe0">
+<div id="outline-container-org38344ba" class="outline-3">
+<h3 id="org38344ba"><a href="#org38344ba">Related to Weak Convergence</a></h3>
+<div class="outline-text-3" id="text-org38344ba">
 <p>
 Finally, c.f.s are useful in studying limiting distributions. This is
 due to <i>the continuity theorem</i>. The proof utilizes the concept of
@@ -494,9 +513,9 @@ distributions.
 </div>
 </div>
 </div>
-<div id="outline-container-org7c20656" class="outline-2">
-<h2 id="org7c20656">Central Limit Theorem and Gaussian Distribution</h2>
-<div class="outline-text-2" id="text-org7c20656">
+<div id="outline-container-org89a9166" class="outline-2">
+<h2 id="org89a9166"><a href="#org89a9166">Central Limit Theorem and Gaussian Distribution</a></h2>
+<div class="outline-text-2" id="text-org89a9166">
 <p>
 With the help of c.f.s, it is not hard to find out the sum of
 i.i.d. random variables follows a Gaussian distribution. Let \(X_n\) be
@@ -521,7 +540,7 @@ Let \(Y_n = (X_n - \mu) / \sigma\). Then \(Y_n\) are i.i.d. random variables wit
  \mathbb{E}[\exp(itZ_n)] = \biggl[\varphi\biggl(\frac{t}{\sqrt{n}}\biggr)\biggr]^n =
  \biggl[ 1 - \frac{t^2}{2n} + o\biggl(\frac{t^2}{n}\biggr) \biggr]^n \to
  \exp(-t^2/2). \] The final limit exists as \((1 + c/n + o(1/n))^n \to
- e^c\) for all real number \(c\)<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>.
+ e^c\) for all real number \(c\)<sup>[<a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a>]</sup>.
 </p>
 
 <p>
@@ -535,7 +554,7 @@ i.i.d. random variables with mean \(\mu\) and positive finite variance
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 For any Borel set \(B\), there is (the last equality holds
 because of independence) \[ \mu_{X_1+X_2}(B) = \mathbb{P}(X_1 + X_2 \in B) =
 \mathbb{E}[\mathbb{1}(X_1 + X_2 \in B)] = \int \mathbb{1}(x_1 + x_2 \in B) \, \mu_{X_1}(dx_1)
@@ -546,7 +565,7 @@ exactly \(\varphi_{\mu_1}(t) \varphi_{\mu_2}(t)\). For a direct proof, see Schil
 book (2017, p. 221).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 The normal density function with mean \(it\) and variance 1
 indeed integrals to 1 for all real \(t\), but this conclusion requires
 proof. The rigorous treatment is showing the c.f. of the standard
@@ -567,7 +586,7 @@ Let \(\xi(t) = \varphi(t) \exp(t^2/2)\). Then \(\xi(0) = 1\) and \(\xi'(t) = [\v
 t\varphi(t)]\exp(t^2/2) \equiv 0\). Hence, \(\xi(t) = \varphi(t) \exp(t^2/2) \equiv 1\).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 In order to see this, we prove the following lemma first.
 </p>
 
@@ -634,7 +653,7 @@ x < b, \\ 1/2, &\quad x = a \text{ or } x = b, \\ 0, &\quad x < a
 \text{ or } x > b. \end{cases} \]
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 In general, by integration by parts
 </p>
 
@@ -649,7 +668,7 @@ $$ \begin{aligned}
 &= f(x) - f(0) - \sum_{k=1}^n \frac{f^{(k)}(0)}{k!} x^k.
 \end{aligned} $$</div></div>
 
-<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Assume \(\xi < 0\). Then,
 </p>
 
@@ -662,11 +681,11 @@ $$ \begin{aligned}
 &= \frac{(-\xi)^{n+1}}{(n+1)!}.
 \end{aligned} $$</div></div>
 
-<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 See, e.g., Billingsley's book (2008, <a href="./Billingsley-pp344-345.png">pp. 344&#x2013;345</a>).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Taking log on the limit yields \[ \lim_{n\to\infty} \frac{\log(1 +
 c/n + o(1/n))}{1/n} = \lim_{n\to\infty} \frac{\log(1 + c/n + o(1/n))}{c/n +
 o(1/n)} \cdot \frac{c/n + o(1/n)}{1/n} = c. \]

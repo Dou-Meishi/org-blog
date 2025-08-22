@@ -11,14 +11,32 @@
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -35,9 +53,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgdae0a6f">A new minor mode</a></li>
-<li><a href="#orgbf2cda5">A simple local server with autoreload</a></li>
-<li><a href="#org291efa7">Replace MathJax with KaTeX</a></li>
+<li><a href="#org9e9f99a">A new minor mode</a></li>
+<li><a href="#org522e8fb">A simple local server with autoreload</a></li>
+<li><a href="#org1afdfa2">Replace MathJax with KaTeX</a></li>
 </ul>
 </div>
 </nav>
@@ -73,9 +91,9 @@ to HTML after saving;</li>
 <li><i>(Optional)</i> The KaTeX framework for math rendering to replace
 MathJax.</li>
 </ol>
-<div id="outline-container-orgdae0a6f" class="outline-2">
-<h2 id="orgdae0a6f">A new minor mode</h2>
-<div class="outline-text-2" id="text-orgdae0a6f">
+<div id="outline-container-org9e9f99a" class="outline-2">
+<h2 id="org9e9f99a"><a href="#org9e9f99a">A new minor mode</a></h2>
+<div class="outline-text-2" id="text-org9e9f99a">
 <p>
 In Emacs, creating a minor mode for autosaving is straightforward.
 </p>
@@ -104,9 +122,9 @@ enabled.
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf2cda5" class="outline-2">
-<h2 id="orgbf2cda5">A simple local server with autoreload</h2>
-<div class="outline-text-2" id="text-orgbf2cda5">
+<div id="outline-container-org522e8fb" class="outline-2">
+<h2 id="org522e8fb"><a href="#org522e8fb">A simple local server with autoreload</a></h2>
+<div class="outline-text-2" id="text-org522e8fb">
 <p>
 As the exported file is only a static HTML page, it will not be
 updated by the browser when its content changes. So it is necessary to
@@ -152,9 +170,9 @@ We integrate these steps into Emacs through a simple command; see also
 </div>
 </div>
 </div>
-<div id="outline-container-org291efa7" class="outline-2">
-<h2 id="org291efa7">Replace MathJax with KaTeX</h2>
-<div class="outline-text-2" id="text-org291efa7">
+<div id="outline-container-org1afdfa2" class="outline-2">
+<h2 id="org1afdfa2"><a href="#org1afdfa2">Replace MathJax with KaTeX</a></h2>
+<div class="outline-text-2" id="text-org1afdfa2">
 <p>
 By default, Emacs uses MathJax in the exported HTML file to rende math
 equations. But personally I feel KaTeX is smoother and faster. So I

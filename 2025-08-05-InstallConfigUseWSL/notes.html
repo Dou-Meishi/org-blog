@@ -11,14 +11,32 @@
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -35,13 +53,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7be5ca3">Introduction and Installation</a></li>
-<li><a href="#org105ab50">Configuration and Usage: Overview</a></li>
-<li><a href="#orgec177b9">Config: Windows Terminal</a></li>
-<li><a href="#org9316c25">Usage: Interoperability between Windows and Linux Commands</a></li>
-<li><a href="#org1e78203">Usage: Work across Windows and Linux File Systems</a></li>
-<li><a href="#org78bb0a9">Usage: SSH into WSL from an External Machine</a></li>
-<li><a href="#org52b9022">Appendix: WSL 1 v.s. WSL 2</a></li>
+<li><a href="#org4bb70ee">Introduction and Installation</a></li>
+<li><a href="#orgc07b2e0">Configuration and Usage: Overview</a></li>
+<li><a href="#org4c1ddc8">Config: Windows Terminal</a></li>
+<li><a href="#org43c13c6">Usage: Interoperability between Windows and Linux Commands</a></li>
+<li><a href="#orgf1162a9">Usage: Work across Windows and Linux File Systems</a></li>
+<li><a href="#org3e21a98">Usage: SSH into WSL from an External Machine</a></li>
+<li><a href="#orgb5d584e">Appendix: WSL 1 v.s. WSL 2</a></li>
 <li><a href="#appendix-bash-configuration">Appendix: Bash Configuration</a></li>
 <li><a href="#appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</a></li>
 </ul>
@@ -58,9 +76,9 @@ in the world is&#x2014;WSL does a reasonably good job.
 In this note, I will walk through the installation and configuration
 of WSL, and share some usages.
 </p>
-<div id="outline-container-org7be5ca3" class="outline-2">
-<h2 id="org7be5ca3">Introduction and Installation</h2>
-<div class="outline-text-2" id="text-org7be5ca3">
+<div id="outline-container-org4bb70ee" class="outline-2">
+<h2 id="org4bb70ee"><a href="#org4bb70ee">Introduction and Installation</a></h2>
+<div class="outline-text-2" id="text-org4bb70ee">
 <p>
 According to <a href="https://learn.microsoft.com/en-us/windows/wsl/">the WSL documentation</a>,
 </p>
@@ -99,9 +117,9 @@ a single Ubuntu distribution.
 </p>
 </div>
 </div>
-<div id="outline-container-org105ab50" class="outline-2">
-<h2 id="org105ab50">Configuration and Usage: Overview</h2>
-<div class="outline-text-2" id="text-org105ab50">
+<div id="outline-container-orgc07b2e0" class="outline-2">
+<h2 id="orgc07b2e0"><a href="#orgc07b2e0">Configuration and Usage: Overview</a></h2>
+<div class="outline-text-2" id="text-orgc07b2e0">
 <p>
 Using WSL on Windows 11 is much like <b>opening a terminal to connect to
 a separate Linux server</b>, except that this Linux environment runs
@@ -164,9 +182,9 @@ following table.
 </p>
 </div>
 </div>
-<div id="outline-container-orgec177b9" class="outline-2">
-<h2 id="orgec177b9">Config: Windows Terminal</h2>
-<div class="outline-text-2" id="text-orgec177b9">
+<div id="outline-container-org4c1ddc8" class="outline-2">
+<h2 id="org4c1ddc8"><a href="#org4c1ddc8">Config: Windows Terminal</a></h2>
+<div class="outline-text-2" id="text-org4c1ddc8">
 <p>
 Below are my settings.
 </p>
@@ -187,9 +205,9 @@ Configuration</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org9316c25" class="outline-2">
-<h2 id="org9316c25">Usage: Interoperability between Windows and Linux Commands</h2>
-<div class="outline-text-2" id="text-org9316c25">
+<div id="outline-container-org43c13c6" class="outline-2">
+<h2 id="org43c13c6"><a href="#org43c13c6">Usage: Interoperability between Windows and Linux Commands</a></h2>
+<div class="outline-text-2" id="text-org43c13c6">
 <p>
 Windows and Linux tools and commands can be used interchangeably with WSL.
 </p>
@@ -217,9 +235,9 @@ See more examples and explanations on <a href="https://learn.microsoft.com/en-us
 </p>
 </div>
 </div>
-<div id="outline-container-org1e78203" class="outline-2">
-<h2 id="org1e78203">Usage: Work across Windows and Linux File Systems</h2>
-<div class="outline-text-2" id="text-org1e78203">
+<div id="outline-container-orgf1162a9" class="outline-2">
+<h2 id="orgf1162a9"><a href="#orgf1162a9">Usage: Work across Windows and Linux File Systems</a></h2>
+<div class="outline-text-2" id="text-orgf1162a9">
 <p>
 Access Linux files from Windows or vice versa is generally
 slow. Nevertheless, it is still possible.
@@ -232,9 +250,9 @@ recognizable for Windows File Explorer).
 </p>
 </div>
 </div>
-<div id="outline-container-org78bb0a9" class="outline-2">
-<h2 id="org78bb0a9">Usage: SSH into WSL from an External Machine</h2>
-<div class="outline-text-2" id="text-org78bb0a9">
+<div id="outline-container-org3e21a98" class="outline-2">
+<h2 id="org3e21a98"><a href="#org3e21a98">Usage: SSH into WSL from an External Machine</a></h2>
+<div class="outline-text-2" id="text-org3e21a98">
 <p>
 The goal is to configure WSL as a local server so that external
 machines can access WSL via SSH. Below is a summarized procedure;
@@ -336,9 +354,9 @@ Keys</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org52b9022" class="outline-2">
-<h2 id="org52b9022">Appendix: WSL 1 v.s. WSL 2</h2>
-<div class="outline-text-2" id="text-org52b9022">
+<div id="outline-container-orgb5d584e" class="outline-2">
+<h2 id="orgb5d584e"><a href="#orgb5d584e">Appendix: WSL 1 v.s. WSL 2</a></h2>
+<div class="outline-text-2" id="text-orgb5d584e">
 <p>
 WSL 1 and WSL 2 are two different WSL architectures. WSL 2
 architecture outperforms WSL 1 in several ways, <i>with the exception of
@@ -421,7 +439,7 @@ See more comparisons in <a href="https://learn.microsoft.com/en-us/windows/wsl/c
 </div>
 </div>
 <div id="outline-container-appendix-bash-configuration" class="outline-2">
-<h2 id="appendix-bash-configuration">Appendix: Bash Configuration</h2>
+<h2 id="appendix-bash-configuration"><a href="#appendix-bash-configuration">Appendix: Bash Configuration</a></h2>
 <div class="outline-text-2" id="text-appendix-bash-configuration">
 <p>
 I am accustomed to my own evolving Bash profile and a collection of
@@ -434,7 +452,7 @@ emacs, and etc. For details, please refer to
 </div>
 </div>
 <div id="outline-container-appendix-ssh-authentication-via-ssh-keys" class="outline-2">
-<h2 id="appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</h2>
+<h2 id="appendix-ssh-authentication-via-ssh-keys"><a href="#appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</a></h2>
 <div class="outline-text-2" id="text-appendix-ssh-authentication-via-ssh-keys">
 <p>
 First, obtain a pair of SSH keys either by: 1) reusing existing

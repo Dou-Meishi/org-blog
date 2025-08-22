@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,10 +53,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org0bc40a9">Limiting sets</a></li>
-<li><a href="#org217043f">Almost surely convergence and convergence in probability</a></li>
-<li><a href="#org9e6d3fa">Convergence in probability and convergence in distribution</a></li>
-<li><a href="#org6e3e0a6">Uniqueness of the limit</a></li>
+<li><a href="#orgcef4ff8">Limiting sets</a></li>
+<li><a href="#orgc482c17">Almost surely convergence and convergence in probability</a></li>
+<li><a href="#orgf379593">Convergence in probability and convergence in distribution</a></li>
+<li><a href="#orgdf6936c">Uniqueness of the limit</a></li>
 </ul>
 </div>
 </nav>
@@ -60,9 +79,9 @@ use it to prove 1) the limit of convergence in probability is unique
 up to a zero probability set; 2) a continuous mapping preserve the
 convergence in probability.
 </p>
-<div id="outline-container-org0bc40a9" class="outline-2">
-<h2 id="org0bc40a9">Limiting sets</h2>
-<div class="outline-text-2" id="text-org0bc40a9">
+<div id="outline-container-orgcef4ff8" class="outline-2">
+<h2 id="orgcef4ff8"><a href="#orgcef4ff8">Limiting sets</a></h2>
+<div class="outline-text-2" id="text-orgcef4ff8">
 <p>
 In order to intuitively introduce this concept, we first recall <i>the
 limiting sets</i> of a sequence of sets \(\{A_n\}\).
@@ -89,7 +108,7 @@ Similarly, a point \(\omega \in \{A_n\quad\text{e. a.}\}\) if and only if
 
 <p>
 Suppose \(\{A_n\}\) is a sequence of events on a probability space.  It
-can be shown that<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+can be shown that<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>
 </p>
 
 $$ \begin{aligned}
@@ -104,12 +123,12 @@ A\) then \(ℙ(A_n) \to ℙ(A)\).
 </p>
 </div>
 </div>
-<div id="outline-container-org217043f" class="outline-2">
-<h2 id="org217043f">Almost surely convergence and convergence in probability</h2>
-<div class="outline-text-2" id="text-org217043f">
+<div id="outline-container-orgc482c17" class="outline-2">
+<h2 id="orgc482c17"><a href="#orgc482c17">Almost surely convergence and convergence in probability</a></h2>
+<div class="outline-text-2" id="text-orgc482c17">
 <p>
 For random variables \(X\) and \((X_n)_{n=1}^\infty\) on the same
-probability space, it is natural to consider the event<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> \(\{\lim
+probability space, it is natural to consider the event<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup> \(\{\lim
 X_n = X\}\). If this set has probability 1, then we say \(X_n\) converges
 to \(X\) almost surely, denoted by \(X_n\to X\quad\text{a. s.}\). Sometimes
 it is also called \(X_n\) converges to \(X\) with probability 1. Consider
@@ -161,14 +180,14 @@ Take \(ℙ\) be the Lebesgue measure confined on \([0, 1]\). Then \(ℙ(A_n)\to
 </p>
 </div>
 </div>
-<div id="outline-container-org9e6d3fa" class="outline-2">
-<h2 id="org9e6d3fa">Convergence in probability and convergence in distribution</h2>
-<div class="outline-text-2" id="text-org9e6d3fa">
+<div id="outline-container-orgf379593" class="outline-2">
+<h2 id="orgf379593"><a href="#orgf379593">Convergence in probability and convergence in distribution</a></h2>
+<div class="outline-text-2" id="text-orgf379593">
 <p>
 Recall that \(X_n\) is said to converge to \(X\) <i>in distribution</i>, denoted
 by \(X_n ⇒ X\), if \(ℙ(X_n ≤ x) \to ℙ(X ≤ x)\) holds for all \(x\) such that
 \(ℙ(X = x) =0\). It is not hard to show that it is weaker than
-<i>convergence in probability</i><sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+<i>convergence in probability</i><sup>[<a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a>]</sup>.
 </p>
 
 <p>
@@ -190,9 +209,9 @@ $$ \begin{aligned}
 \end{aligned} $$
 </div>
 </div>
-<div id="outline-container-org6e3e0a6" class="outline-2">
-<h2 id="org6e3e0a6">Uniqueness of the limit</h2>
-<div class="outline-text-2" id="text-org6e3e0a6">
+<div id="outline-container-orgdf6936c" class="outline-2">
+<h2 id="orgdf6936c"><a href="#orgdf6936c">Uniqueness of the limit</a></h2>
+<div class="outline-text-2" id="text-orgdf6936c">
 <p>
 Finally, we want to discuss the uniqueness of convergence in
 probability. This requires the following useful characterization of
@@ -214,13 +233,13 @@ Borel-Cantelli lemma</a> is applied.
 
 <p>
 By using this theorem, it is easy to see that if \(X_n ⇒ X\) and \(X_n ⇒
-Y\) then \(X = Y\) almost surely<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>. Moreover, this characterization
+Y\) then \(X = Y\) almost surely<sup>[<a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a>]</sup>. Moreover, this characterization
 asserts that if \(X_n \to_P X\) and \(f\) is continuous then \(f(X_n) \to_P
 f(X)\). This is because for any subsequence \(\{f(X_{n_k})\}\) we can
 find a further subsequence \(\{f(X_{n_{k(i)}})\}\) such that
 \(X_{n_{k(i)}}\) converges to \(X\) almost surely, implying that
 \(f(X_{n_{k(i)}})\) converges to \(f(X)\) almost surely as \(f\) is
-continuous<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>.
+continuous<sup>[<a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a>]</sup>.
 </p>
 </div>
 </div>
@@ -228,7 +247,7 @@ continuous<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5<
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 For a general measure \(μ\), the inequality \(μ(\liminf A_n) ≤
 \liminf μ(A_n)\) always holds but \(\limsup μ(A_n) ≤ μ(\limsup A_n)\)
 only holds when \(μ(\bigcup_{n=k}^\infty A_n) ≤ \infty\) for some \(k\).
@@ -243,7 +262,7 @@ inequalities follows directly from this lemma:
    μ(A)\).</li>
 </ol></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 This is indeed a measurable set when \(X_n\) and \(X\) are
 measurable functions. This is because \(\{\lim X_n = X\}\) can be
 rewritten as the intersection of \(\{\liminf X_n ≥ X\}\) and \(\{\limsup
@@ -251,7 +270,7 @@ X_n ≤ X\}\). Those two sets are measurable because \(\liminf X_n\) and
 \(\limsup X_n\) are measurable functions.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Assume \(X_n \to_P X\). Observe that for any \(ϵ > 0\) we have
 </p>
 <ol class="org-ol">
@@ -270,7 +289,7 @@ implying that \(ℙ(X < x) ≤ \liminf ℙ(X_n ≤ x)\).</li>
 Therefore, if \(ℙ(X = x) =0\) then \(ℙ(X_n ≤ x) \to ℙ(X ≤ x)\).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 As \(X_n ⇒ X\), there exists a subsequence \(\{X_{n_k}\}\) which
 converges to \(X\) on a probability 1 set \(\Omega_1\). Consider the
 subsequence \(\{X_{n_k}\}\).  As \(X_n ⇒ Y\), there exists a futher
@@ -279,7 +298,7 @@ set \(\Omega_2\). Clearly, \(Ω_1 \cap Ω_2\) has probability 1 and \(X\) and
 \(Y\) agree on it.
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 If \(X_n\to X\) at \(\omega\) and \(f\) is continuous at \(X(\omega)\)
 then \(f(X_n) \to f(X)\) at \(\omega\).
 </p></div></div>

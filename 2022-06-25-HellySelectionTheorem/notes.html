@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,10 +53,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org1a30804">Statement</a></li>
-<li><a href="#orgf387c0e">Problems</a></li>
-<li><a href="#orgab585d5">Further discussion</a></li>
-<li><a href="#org1f006fa">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org433f98c">Statement</a></li>
+<li><a href="#org4f7834e">Problems</a></li>
+<li><a href="#org4ab823e">Further discussion</a></li>
+<li><a href="#org409ca93">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -55,9 +74,9 @@ function sequence. Arzelà–Ascoli theorem deals with the uniformly
 convergence and Helly's selection theorem deals with the pointwise
 convergence.
 </p>
-<div id="outline-container-org1a30804" class="outline-2">
-<h2 id="org1a30804">Statement</h2>
-<div class="outline-text-2" id="text-org1a30804">
+<div id="outline-container-org433f98c" class="outline-2">
+<h2 id="org433f98c"><a href="#org433f98c">Statement</a></h2>
+<div class="outline-text-2" id="text-org433f98c">
 <p>
 <i>Lemma (Helly).</i> Suppose that \(\{f_n\}_{n\in\mathbb{N}}\) is a <i>uniformly
 bounded</i> sequence of <i>increasing</i> functions on an interval. Then there is
@@ -98,9 +117,9 @@ discontinuity points of a monotone function is countable.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf387c0e" class="outline-2">
-<h2 id="orgf387c0e">Problems</h2>
-<div class="outline-text-2" id="text-orgf387c0e">
+<div id="outline-container-org4f7834e" class="outline-2">
+<h2 id="org4f7834e"><a href="#org4f7834e">Problems</a></h2>
+<div class="outline-text-2" id="text-org4f7834e">
 <ol class="org-ol">
 <li>Is there a subsequence of \((\sin (x/k))_{k=1}^\infty\) converges pointwise?</li>
 <li>Is there a subsequence of \((\sin (x+k))_{k=1}^\infty\) converges pointwise?</li>
@@ -116,9 +135,9 @@ essential in Helly's selection theorem.
 </p>
 </div>
 </div>
-<div id="outline-container-orgab585d5" class="outline-2">
-<h2 id="orgab585d5">Further discussion</h2>
-<div class="outline-text-2" id="text-orgab585d5">
+<div id="outline-container-org4ab823e" class="outline-2">
+<h2 id="org4ab823e"><a href="#org4ab823e">Further discussion</a></h2>
+<div class="outline-text-2" id="text-org4ab823e">
 <p>
 <i>Pointwise convergence is weaker than uniformly convergence.</i> In
 \(\mathbb{R}^{\mathbb{N}}\), let \(e^n=(e^n_k)_{k=1}^\infty\) be the
@@ -131,9 +150,9 @@ Indeed, by the diagonal argument, any uniformly bounded sequence in
 </p>
 </div>
 </div>
-<div id="outline-container-org1f006fa" class="outline-2">
-<h2 id="org1f006fa">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org1f006fa">
+<div id="outline-container-org409ca93" class="outline-2">
+<h2 id="org409ca93"><a href="#org409ca93">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
+<div class="outline-text-2" id="text-org409ca93">
 <ol class="org-ol">
 <li><a href="https://math.stackexchange.com/questions/397931/hellys-selection-theorem">Helly's selection theorem - Mathematics</a></li>
 </ol>

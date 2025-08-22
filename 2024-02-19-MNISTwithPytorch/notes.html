@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,19 +53,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org49626cb">Prerequisite</a></li>
-<li><a href="#orgc2ea891">About MNIST dataset</a></li>
-<li><a href="#org2d1ed3b">Build a CNN clasifier in PyTorch</a>
+<li><a href="#org3103ff5">Prerequisite</a></li>
+<li><a href="#orgb932b77">About MNIST dataset</a></li>
+<li><a href="#org8eaf7d4">Build a CNN clasifier in PyTorch</a>
 <ul>
-<li><a href="#org9e11c6c">data model</a></li>
-<li><a href="#orgdd43a1e">classifier model</a></li>
-<li><a href="#org865d192">loss function</a></li>
-<li><a href="#org52ee658">optimizer</a></li>
+<li><a href="#org6df548b">data model</a></li>
+<li><a href="#org7018dfd">classifier model</a></li>
+<li><a href="#org53d4a37">loss function</a></li>
+<li><a href="#org9ecd219">optimizer</a></li>
 </ul>
 </li>
-<li><a href="#orgc66492c">Train and test</a></li>
-<li><a href="#org05f67bc">Discussion</a></li>
-<li><a href="#org0a10618">References</a></li>
+<li><a href="#orgd56c037">Train and test</a></li>
+<li><a href="#org9473229">Discussion</a></li>
+<li><a href="#orgcbf4801">References</a></li>
 </ul>
 </div>
 </nav>
@@ -55,9 +74,9 @@ In this post we will train a simple CNN (<i>Convolutional Neural
 Network</i>) classifier in PyTorch to recognize handwritten digits in
 MNIST dataset.
 </p>
-<div id="outline-container-org49626cb" class="outline-2">
-<h2 id="org49626cb">Prerequisite</h2>
-<div class="outline-text-2" id="text-org49626cb">
+<div id="outline-container-org3103ff5" class="outline-2">
+<h2 id="org3103ff5"><a href="#org3103ff5">Prerequisite</a></h2>
+<div class="outline-text-2" id="text-org3103ff5">
 <p>
 As we use PyTorch in this post, please ensure it is properly
 installed. In addition, we use matploblit to plot figures.
@@ -76,7 +95,7 @@ installed. In addition, we use matploblit to plot figures.
 
 <p>
 We are referred to <a href="https://pytorch.org/">the PyTorch website</a> for the installation
-guide[<a href="#org927c39a">1</a>].  For this post, it is sufficient to use the CPU
+guide[<a href="#orgad8cc02">1</a>].  For this post, it is sufficient to use the CPU
 version of PyTorch. For Linux, the command looks like
 </p>
 
@@ -86,7 +105,7 @@ version of PyTorch. For Linux, the command looks like
 </div>
 
 <p>
-Here we declare hyperparameters for future use[<a href="#org70cb12f">4</a>]. Their meanings
+Here we declare hyperparameters for future use[<a href="#orgdb16fc9">4</a>]. Their meanings
 will get clear in the following sections. Besides that, we manually
 set the random seed for reproducibility.
 </p>
@@ -109,13 +128,13 @@ set the random seed for reproducibility.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc2ea891" class="outline-2">
-<h2 id="orgc2ea891">About MNIST dataset</h2>
-<div class="outline-text-2" id="text-orgc2ea891">
+<div id="outline-container-orgb932b77" class="outline-2">
+<h2 id="orgb932b77"><a href="#orgb932b77">About MNIST dataset</a></h2>
+<div class="outline-text-2" id="text-orgb932b77">
 <p>
 The MNIST database (<i>Modified National Institute of Standards and
 Technology database</i>) is a large database of handwritten digits that
-is commonly used for training various image processing systems[<a href="#orgfa19e9a">2</a>].
+is commonly used for training various image processing systems[<a href="#org856e89b">2</a>].
 </p>
 
 <p>
@@ -159,7 +178,7 @@ PyTorch tensors.
 <p>
 From the output, we can see that there are 60,000 training images and
 10,000 test images. Each image has \(28 \times 28 = 784\) pixels.
-We can also look some images in the training dataset[<a href="#org0358a67">5</a>].
+We can also look some images in the training dataset[<a href="#orgcef261f">5</a>].
 </p>
 
 <div class="org-src-container">
@@ -177,15 +196,15 @@ fig.savefig(<span style="color: #2aa198;">"./sample-images.png"</span>)
 </div>
 
 
-<figure id="orgae50a88">
+<figure id="org5c29ab3">
 <img src="./sample-images.png" alt="sample-images.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org2d1ed3b" class="outline-2">
-<h2 id="org2d1ed3b">Build a CNN clasifier in PyTorch</h2>
-<div class="outline-text-2" id="text-org2d1ed3b">
+<div id="outline-container-org8eaf7d4" class="outline-2">
+<h2 id="org8eaf7d4"><a href="#org8eaf7d4">Build a CNN clasifier in PyTorch</a></h2>
+<div class="outline-text-2" id="text-org8eaf7d4">
 <p>
 Let \(f(x; \theta)\) be a classifier with parameters \(\theta\) which
 takes the data point \(x\) and predicts its label based on its function
@@ -212,9 +231,9 @@ Solving this problem involves building the following parts:
 <li>the optimizer to find \(\min_\theta\).</li>
 </ol>
 </div>
-<div id="outline-container-org9e11c6c" class="outline-3">
-<h3 id="org9e11c6c">data model</h3>
-<div class="outline-text-3" id="text-org9e11c6c">
+<div id="outline-container-org6df548b" class="outline-3">
+<h3 id="org6df548b"><a href="#org6df548b">data model</a></h3>
+<div class="outline-text-3" id="text-org6df548b">
 <p>
 The crucial difference between learning and pure optimization is that
 the dataset of interest \(\mathcal{D}\) is unknown in a learning
@@ -245,7 +264,7 @@ following python statement.
 </pre>
 </div>
 
-<pre class="example" id="orge251bb1">
+<pre class="example" id="orgaf3b8bd">
 0.13066047430038452 0.30810782313346863
 </pre>
 
@@ -319,9 +338,9 @@ loop.
 </p>
 </div>
 </div>
-<div id="outline-container-orgdd43a1e" class="outline-3">
-<h3 id="orgdd43a1e">classifier model</h3>
-<div class="outline-text-3" id="text-orgdd43a1e">
+<div id="outline-container-org7018dfd" class="outline-3">
+<h3 id="org7018dfd"><a href="#org7018dfd">classifier model</a></h3>
+<div class="outline-text-3" id="text-org7018dfd">
 <p>
 From the computational view, a neural network \(f(x;\theta)\) is a
 nested function \[ f(\cdot; \theta) = f_{N-1} \circ f_{N-2} \circ
@@ -356,7 +375,7 @@ documentation</a> of <code>torch.nn.Linear</code>.
 </p>
 
 <p>
-We use CNN as the basic model of our classifier[<a href="#orgd8a1598">3</a>]. In particular, the
+We use CNN as the basic model of our classifier[<a href="#orgbfb3ed2">3</a>]. In particular, the
 model consists of two 2D convolutional layers followed by two
 fully-connected layers. After each convolutional layer, there is a
 maximum pooling operation. In addition, the activation function is
@@ -389,9 +408,9 @@ function.
 </div>
 </div>
 </div>
-<div id="outline-container-org865d192" class="outline-3">
-<h3 id="org865d192">loss function</h3>
-<div class="outline-text-3" id="text-org865d192">
+<div id="outline-container-org53d4a37" class="outline-3">
+<h3 id="org53d4a37"><a href="#org53d4a37">loss function</a></h3>
+<div class="outline-text-3" id="text-org53d4a37">
 <p>
 As we can see, the output of our model \(f(x; \theta)\) is a vector with
 10 components. But how to predict the label of \(x\) and evaluate its
@@ -426,9 +445,9 @@ and the true label \(y\).
 </div>
 </div>
 </div>
-<div id="outline-container-org52ee658" class="outline-3">
-<h3 id="org52ee658">optimizer</h3>
-<div class="outline-text-3" id="text-org52ee658">
+<div id="outline-container-org9ecd219" class="outline-3">
+<h3 id="org9ecd219"><a href="#org9ecd219">optimizer</a></h3>
+<div class="outline-text-3" id="text-org9ecd219">
 <p>
 Given a pair of data \((x^{(i)}, y^{(i)})\), assume the loss of this
 pair is \(\phi(\tilde{y}^{(i)}, y^{(i)})\) where
@@ -496,9 +515,9 @@ choose the simple SGD here.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc66492c" class="outline-2">
-<h2 id="orgc66492c">Train and test</h2>
-<div class="outline-text-2" id="text-orgc66492c">
+<div id="outline-container-orgd56c037" class="outline-2">
+<h2 id="orgd56c037"><a href="#orgd56c037">Train and test</a></h2>
+<div class="outline-text-2" id="text-orgd56c037">
 <p>
 Finally, we train the model on MNIST dataset. We iterate the training
 set and test set several times (called epochs). In each epoch, we
@@ -570,7 +589,7 @@ test()
 </pre>
 </div>
 
-<pre class="example" id="orgacf39c6">
+<pre class="example" id="orgbda29a6">
 Test set: Avg. loss: 2.3011, Accuracy: 891/10000 (9%)
 
 Train Epoch: 1 [0/60000 (0%)]	Loss: 2.292757
@@ -613,7 +632,7 @@ fig.savefig(<span style="color: #2aa198;">"./training-curve.png"</span>)
 </div>
 
 
-<figure id="org337e5b3">
+<figure id="orge560589">
 <img src="./training-curve.png" alt="training-curve.png">
 
 </figure>
@@ -639,15 +658,15 @@ fig.savefig(<span style="color: #2aa198;">"./pred-sample-images.png"</span>)
 </div>
 
 
-<figure id="org33a2429">
+<figure id="orga4902f2">
 <img src="./pred-sample-images.png" alt="pred-sample-images.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org05f67bc" class="outline-2">
-<h2 id="org05f67bc">Discussion</h2>
-<div class="outline-text-2" id="text-org05f67bc">
+<div id="outline-container-org9473229" class="outline-2">
+<h2 id="org9473229"><a href="#org9473229">Discussion</a></h2>
+<div class="outline-text-2" id="text-org9473229">
 <p>
 In this post, we trained a CNN classifier to recognize handwritten
 digits in MNIST dataset.  The final test accuracy is approximately
@@ -658,25 +677,25 @@ digits in MNIST dataset.  The final test accuracy is approximately
 <li>adjust hyperparameters to select a better model, including learning
 rate, number of training epochs, batch size, etc;</li>
 <li>adjust the classifier model, including adding batch normalization layer,
-adding dropout layer, manually initializing network parameters, etc[<a href="#orgd114d8d">6</a>, <a href="#org34125b3">7</a>, <a href="#org26d9de8">8</a>];</li>
+adding dropout layer, manually initializing network parameters, etc[<a href="#org2bed612">6</a>, <a href="#org238b46b">7</a>, <a href="#org7b8ca61">8</a>];</li>
 <li>adjust the optimizer, including using other optimizing algorithm like
-Adam and explore their hyperparameters[<a href="#org69e86af">9</a>].</li>
+Adam and explore their hyperparameters[<a href="#org78e812e">9</a>].</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org0a10618" class="outline-2">
-<h2 id="org0a10618">References</h2>
-<div class="outline-text-2" id="text-org0a10618">
+<div id="outline-container-orgcbf4801" class="outline-2">
+<h2 id="orgcbf4801"><a href="#orgcbf4801">References</a></h2>
+<div class="outline-text-2" id="text-orgcbf4801">
 <ol class="org-ol">
-<li><a id="org927c39a"></a> Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In Advances in Neural Information Processing Systems 32 (pp. 8024–8035)</li>
-<li><a id="orgfa19e9a"></a> LeCun, Y. (1998). The MNIST database of handwritten digits. <a href="http://yann.lecun.com/exdb/mnist/">http://yann.lecun.com/exdb/mnist/</a></li>
-<li><a id="orgd8a1598"></a> Schmidhuber, J. (2015). Deep learning in neural networks: An overview. Neural networks, 61, 85-117.</li>
-<li><a id="org70cb12f"></a> Koehler, G. (2020). MNIST Handwritten Digit Recognition in PyTorch. <a href="https://nextjournal.com/gkoehler/pytorch-mnist">https://nextjournal.com/gkoehler/pytorch-mnist</a></li>
-<li><a id="org0358a67"></a> Nutan (2021). PyTorch Convolutional Neural Network With MNIST Dataset. <a href="https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118">https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118</a></li>
-<li><a id="orgd114d8d"></a> Ioffe, S., &amp; Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International conference on machine learning (pp. 448-456). pmlr.</li>
-<li><a id="org34125b3"></a> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., &amp; Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting. The journal of machine learning research, 15(1), 1929-1958.</li>
-<li><a id="org26d9de8"></a> He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In Proceedings of the IEEE international conference on computer vision (pp. 1026-1034).</li>
-<li><a id="org69e86af"></a> Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980.</li>
+<li><a id="orgad8cc02"></a> Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. In Advances in Neural Information Processing Systems 32 (pp. 8024–8035)</li>
+<li><a id="org856e89b"></a> LeCun, Y. (1998). The MNIST database of handwritten digits. <a href="http://yann.lecun.com/exdb/mnist/">http://yann.lecun.com/exdb/mnist/</a></li>
+<li><a id="orgbfb3ed2"></a> Schmidhuber, J. (2015). Deep learning in neural networks: An overview. Neural networks, 61, 85-117.</li>
+<li><a id="orgdb16fc9"></a> Koehler, G. (2020). MNIST Handwritten Digit Recognition in PyTorch. <a href="https://nextjournal.com/gkoehler/pytorch-mnist">https://nextjournal.com/gkoehler/pytorch-mnist</a></li>
+<li><a id="orgcef261f"></a> Nutan (2021). PyTorch Convolutional Neural Network With MNIST Dataset. <a href="https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118">https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118</a></li>
+<li><a id="org2bed612"></a> Ioffe, S., &amp; Szegedy, C. (2015). Batch normalization: Accelerating deep network training by reducing internal covariate shift. In International conference on machine learning (pp. 448-456). pmlr.</li>
+<li><a id="org238b46b"></a> Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., &amp; Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting. The journal of machine learning research, 15(1), 1929-1958.</li>
+<li><a id="org7b8ca61"></a> He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Delving deep into rectifiers: Surpassing human-level performance on imagenet classification. In Proceedings of the IEEE international conference on computer vision (pp. 1026-1034).</li>
+<li><a id="org78e812e"></a> Kingma, D. P., &amp; Ba, J. (2014). Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980.</li>
 </ol>
 </div>
 </div>

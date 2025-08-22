@@ -11,14 +11,32 @@
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -35,11 +53,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org40f800d">A Demo</a></li>
-<li><a href="#orgde62e88">Basic Concepts</a></li>
-<li><a href="#orga30fb72">Typical Usage</a></li>
-<li><a href="#org3ea8675">Caveats and Shortcomings</a></li>
-<li><a href="#org88fcffb">Going Further</a></li>
+<li><a href="#orgb896952">A Demo</a></li>
+<li><a href="#orgda5dc63">Basic Concepts</a></li>
+<li><a href="#orgf145269">Typical Usage</a></li>
+<li><a href="#orgd353dec">Caveats and Shortcomings</a></li>
+<li><a href="#org4d5fc79">Going Further</a></li>
 </ul>
 </div>
 </nav>
@@ -53,9 +71,9 @@ brought up to date by propagating the changes in each replica to the other.
 <b>Note:</b> This review is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 Please use version 2.52 or newer to avoid version interoperability issues.
 </p>
-<div id="outline-container-org40f800d" class="outline-2">
-<h2 id="org40f800d">A Demo</h2>
-<div class="outline-text-2" id="text-org40f800d">
+<div id="outline-container-orgb896952" class="outline-2">
+<h2 id="orgb896952"><a href="#orgb896952">A Demo</a></h2>
+<div class="outline-text-2" id="text-orgb896952">
 <p>
 Unison can be used with either of two user interfaces: a textual interface and a graphical interface.
 </p>
@@ -126,7 +144,7 @@ and the conflicting changes on <code>d/h</code>.</li>
 Unison will notify the creation of <code>c</code> in <code>mirror</code> and prompt a line like
 </p>
 
-<pre class="example" id="orgdd6d74f">
+<pre class="example" id="org971a46a">
          &lt;--- new file   c  [f]
 </pre>
 
@@ -141,7 +159,7 @@ See also <a href="https://stackoverflow.com/questions/64587602/how-does-one-use-
 Similarly, Unison will notify the delete of <code>a</code> in work and prompt a line like
 </p>
 
-<pre class="example" id="orgaa1324b">
+<pre class="example" id="orgc22d174">
 deleted  ---&gt;            a  [f]
 </pre></li>
 
@@ -149,7 +167,7 @@ deleted  ---&gt;            a  [f]
 For conflicting changes on <code>d/h</code>, Unison will prompt a line like
 </p>
 
-<pre class="example" id="orgec67685">
+<pre class="example" id="orgd097e74">
 new file &lt;-?-&gt; new file   d/h  []
 </pre></li>
 
@@ -159,7 +177,7 @@ will briefly summarize the actions it is supposed to do and asks for
 confirmation
 </p>
 
-<pre class="example" id="org057dd65">
+<pre class="example" id="orgd200948">
 2 items will be synced, 1 skipped
 0 B to be synced from work to mirror
 32 B to be synced from mirror to work
@@ -180,9 +198,9 @@ click the <i>Go</i> button to set them in motion.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgde62e88" class="outline-2">
-<h2 id="orgde62e88">Basic Concepts</h2>
-<div class="outline-text-2" id="text-orgde62e88">
+<div id="outline-container-orgda5dc63" class="outline-2">
+<h2 id="orgda5dc63"><a href="#orgda5dc63">Basic Concepts</a></h2>
+<div class="outline-text-2" id="text-orgda5dc63">
 <p>
 Below is a short summary of <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
@@ -302,9 +320,9 @@ The next time Unison runs, it will assume that all the files it sees in the repl
 </ol>
 </div>
 </div>
-<div id="outline-container-orga30fb72" class="outline-2">
-<h2 id="orga30fb72">Typical Usage</h2>
-<div class="outline-text-2" id="text-orga30fb72">
+<div id="outline-container-orgf145269" class="outline-2">
+<h2 id="orgf145269"><a href="#orgf145269">Typical Usage</a></h2>
+<div class="outline-text-2" id="text-orgf145269">
 <p>
 Once you are comfortable with the basic operation of Unison, you may find yourself wanting to use it
 regularly to synchronize your commonly used files. There are several possible ways of going about this:
@@ -336,9 +354,9 @@ synchronizing only with the hub.
 </p>
 </div>
 </div>
-<div id="outline-container-org3ea8675" class="outline-2">
-<h2 id="org3ea8675">Caveats and Shortcomings</h2>
-<div class="outline-text-2" id="text-org3ea8675">
+<div id="outline-container-orgd353dec" class="outline-2">
+<h2 id="orgd353dec"><a href="#orgd353dec">Caveats and Shortcomings</a></h2>
+<div class="outline-text-2" id="text-orgd353dec">
 <p>
 Here are some things to be careful of when using Unison.
 </p>
@@ -414,9 +432,9 @@ anything with the user interface while Unison is in the middle of detecting chan
 </ol>
 </div>
 </div>
-<div id="outline-container-org88fcffb" class="outline-2">
-<h2 id="org88fcffb">Going Further</h2>
-<div class="outline-text-2" id="text-org88fcffb">
+<div id="outline-container-org4d5fc79" class="outline-2">
+<h2 id="org4d5fc79"><a href="#org4d5fc79">Going Further</a></h2>
+<div class="outline-text-2" id="text-org4d5fc79">
 <p>
 The official manual is <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">here</a> and the FAQ is <a href="https://alliance.seas.upenn.edu/~bcpierce/wiki/index.php">here</a>.
 </p>

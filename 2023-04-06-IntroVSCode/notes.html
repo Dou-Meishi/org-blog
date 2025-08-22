@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -64,14 +83,14 @@ TODO
 </p>
 
 <ul class="org-ul">
-<li class="off"><code>[&#xa0;]</code> Add a section to discuss math in Markdown. Consider Extension
+<li class="off"><input type='checkbox' /> Add a section to discuss math in Markdown. Consider Extension
 <code>Markdown+Math</code>.</li>
 
-<li class="off"><code>[&#xa0;]</code> Add a section to discuss output to html. Consider Extension
+<li class="off"><input type='checkbox' /> Add a section to discuss output to html. Consider Extension
 <code>Markdown All in One</code>.</li>
 </ul>
 <div id="outline-container-interface" class="outline-2">
-<h2 id="interface">1. Interface</h2>
+<h2 id="interface"><a href="#interface">1. Interface</a></h2>
 <div class="outline-text-2" id="text-interface">
 <p>
 The UI is divided into five areas:
@@ -98,7 +117,7 @@ space.</li>
 </ul>
 
 
-<figure id="orgc3a7d0e">
+<figure id="org737c257">
 <img src="./vscode-UI.png" alt="vscode-UI.png">
 
 <figcaption><span class="figure-number">Figure 1: </span>VS Code UI</figcaption>
@@ -106,7 +125,7 @@ space.</li>
 </div>
 </div>
 <div id="outline-container-command-palette" class="outline-2">
-<h2 id="command-palette">2. Command Palette</h2>
+<h2 id="command-palette"><a href="#command-palette">2. Command Palette</a></h2>
 <div class="outline-text-2" id="text-command-palette">
 <p>
 The Command Palette in VS Code is a menu that <b><i>provides access to all
@@ -119,7 +138,7 @@ navigation within VS Code.
 </div>
 </div>
 <div id="outline-container-customization" class="outline-2">
-<h2 id="customization">3. Customization</h2>
+<h2 id="customization"><a href="#customization">3. Customization</a></h2>
 <div class="outline-text-2" id="text-customization">
 <p>
 There are many things you can do to customize VS Code.
@@ -172,7 +191,7 @@ Depending on your platform, the user settings file is located here:
 </div>
 </div>
 <div id="outline-container-extensions" class="outline-2">
-<h2 id="extensions">4. Extensions</h2>
+<h2 id="extensions"><a href="#extensions">4. Extensions</a></h2>
 <div class="outline-text-2" id="text-extensions">
 <p>
 One of the most important features of VS Code is its extensions. An
@@ -193,7 +212,7 @@ your platform, the location is in the following folder:
 </div>
 </div>
 <div id="outline-container-snippets" class="outline-2">
-<h2 id="snippets">5. Snippets</h2>
+<h2 id="snippets"><a href="#snippets">5. Snippets</a></h2>
 <div class="outline-text-2" id="text-snippets">
 <p>
 Snippets allow you to type a few characters in a code editor tab that

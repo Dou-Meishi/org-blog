@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,18 +53,18 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9039827">Examples</a></li>
-<li><a href="#org252985d">Properties</a></li>
+<li><a href="#orgf6a4d9b">Examples</a></li>
+<li><a href="#orgf002970">Properties</a></li>
 </ul>
 </div>
 </nav>
 <p>
 For a distribution function \(F:\mathbb{R}\to [0,1]\), its quatile
-function \(q:(0,1)\to\mathbb{R}\) is defined by<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> \[
+function \(q:(0,1)\to\mathbb{R}\) is defined by<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup> \[
 q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
 is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
 \(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
-there is also (see the section <a href="#org252985d">Properties</a>) \[ F(x) = \sup\{u: q(u)
+there is also (see the section <a href="#orgf002970">Properties</a>) \[ F(x) = \sup\{u: q(u)
 \leq x\}.\]
 </p>
 
@@ -68,9 +87,9 @@ choose the lowest point as the proper function value while removing a
 vertical line. This reveals that, unlike distribution functions,
 quantile functions are left continuous.
 </p>
-<div id="outline-container-org9039827" class="outline-2">
-<h2 id="org9039827">Examples</h2>
-<div class="outline-text-2" id="text-org9039827">
+<div id="outline-container-orgf6a4d9b" class="outline-2">
+<h2 id="orgf6a4d9b"><a href="#orgf6a4d9b">Examples</a></h2>
+<div class="outline-text-2" id="text-orgf6a4d9b">
 <p>
 <i>Example 1.</i> The distribution function of a exponentially distributed random variable is
 </p>
@@ -161,22 +180,22 @@ Note that in this example, the quantile function is left continuous.
 </p>
 </div>
 </div>
-<div id="outline-container-org252985d" class="outline-2">
-<h2 id="org252985d">Properties</h2>
-<div class="outline-text-2" id="text-org252985d">
+<div id="outline-container-orgf002970" class="outline-2">
+<h2 id="orgf002970"><a href="#orgf002970">Properties</a></h2>
+<div class="outline-text-2" id="text-orgf002970">
 <p>
 By definition, a quantile function is clearly nondecreasing due to the
 nondecreasing nature of distribution functions. However, a quantile
 function is left continuous, while distribution functions are right
 continuous. Indeed, as \(q\) is nondecreasing, we can show that
-\(q(u-) = q(u)\)<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.
+\(q(u-) = q(u)\)<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup>.
 </p>
 
 <p>
 By definition, \[ q(F(x_0)) = \inf\{x: F(x) \geq F(x_0)\} \leq x_0,
 \quad\forall x_0\in\mathbb{R}.\] This inequality even holds when
-\(F(x_0)\) equals 0 or 1<sup><a id="fnr.1.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>.  This inequality leads to the equation
-\(F(x)=\sup\{u:q(u) \leq x\}\)<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. Thus, \[ F(q(u_0)) = \sup\{u: q(u)
+\(F(x_0)\) equals 0 or 1<sup>[<a id="fnr.1.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>.  This inequality leads to the equation
+\(F(x)=\sup\{u:q(u) \leq x\}\)<sup>[<a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a>]</sup>. Thus, \[ F(q(u_0)) = \sup\{u: q(u)
 \leq q(u_0)\} \geq u_0,\quad\forall u_0\in(0,1).\] Similarly, the
 supremum can be replaced by maximum as \(q\) is left continuous.
 </p>
@@ -215,20 +234,20 @@ Assume \(U\) is a uniformly distributed variable with distribution
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Define that \(F(-\infty)=0\) and \(F(\infty)=1\).  Then \(F\) becomes
 a function from \(\overline{\mathbb{R}}\) to \([0,1]\) and \(q\) becomes a
 function from \([0,1]\) to \(\overline{\mathbb{R}}\).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 For any \(ϵ > 0\), we have \(F(q(u-ϵ)) \leq
 F(q(u-))\). Applying \(F(q(u)) \geq u\) yields \(u-ϵ \leq F(q(u-))\).
 Hence, \(F(q(u-)) \geq u\) and by the
 definition of quantile functions \(q(u-) \geq q(u)\).
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup>[<a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 As \(q(F(x)) \leq x\), we know that \(F(x) \in \{u: q(u) \leq
 x\}\), which means \(F(x) \leq \sup\{u:q(u) \leq x\}\).  For the converse
 direction, it suffices to show that if \(q(u) \leq x\) then \(u \leq F(x)\).

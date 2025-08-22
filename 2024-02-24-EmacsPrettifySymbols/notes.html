@@ -10,14 +10,33 @@
 <meta name="author" content="Dou Meishi">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
-<!-- Math Support by KaTeX -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-<!-- To automatically render math in text elements, include the auto-render extension: -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+<meta name="google-site-verification" content="_Ly4i8BW_CWeGaFdsQgJ2xN-yOkGpSDnLw8LitvkEsw" />
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: "85%"
+      },
+      tags: "ams",
+      tagSide: "right",
+      tagIndent: ".8em"
+    },
+    output: {
+      font: "mathjax-stix2",
+      scale: "1.2",
+      mtextFont: "sans-serif",
+      displayAlign: "center",
+      displayIndent: "0em",
+      displayOverflow: "overflow"
+    },
+    loader: {
+      load: ["ui/lazy"]
+    },
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -34,13 +53,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga5b4479">Create the list of pretty symbols</a></li>
-<li><a href="#orgd0b0895">Decide whether to compose</a></li>
-<li><a href="#orgc5f8da6">Tweak into the mode hook</a></li>
-<li><a href="#orgf342cea">Choose appropriate fonts</a></li>
-<li><a href="#org39cdeb2">Add more symbols</a></li>
-<li><a href="#orge1d668c">Alternative implementation: hard replacing</a></li>
-<li><a href="#org8640e44">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orgcd55469">Create the list of pretty symbols</a></li>
+<li><a href="#org994b61b">Decide whether to compose</a></li>
+<li><a href="#org2261742">Tweak into the mode hook</a></li>
+<li><a href="#org50a9ea0">Choose appropriate fonts</a></li>
+<li><a href="#orgf8ba7b1">Add more symbols</a></li>
+<li><a href="#org1b97217">Alternative implementation: hard replacing</a></li>
+<li><a href="#org86628bc">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -67,9 +86,9 @@ Before prettify
 After prettify
 <img src="./after-prettify.png" alt="after-prettify.png">
 </p>
-<div id="outline-container-orga5b4479" class="outline-2">
-<h2 id="orga5b4479">Create the list of pretty symbols</h2>
-<div class="outline-text-2" id="text-orga5b4479">
+<div id="outline-container-orgcd55469" class="outline-2">
+<h2 id="orgcd55469"><a href="#orgcd55469">Create the list of pretty symbols</a></h2>
+<div class="outline-text-2" id="text-orgcd55469">
 <p>
 Each element <code>prettify-symbols-alist</code> looks like <code>(SYMBOL . CHARACTER)</code>,
 where the symbol matching <code>SYMBOL</code> (a string, not a regexp) will be
@@ -107,7 +126,7 @@ return a list suitable for <code>prettify-symbols-alist</code>.
 The CSV file looks like
 </p>
 
-<pre class="example" id="org32752dd">
+<pre class="example" id="orgc209937">
 \mathbb{P}, ℙ
 \leq, ≤
 \geq, ≥
@@ -115,9 +134,9 @@ The CSV file looks like
 </pre>
 </div>
 </div>
-<div id="outline-container-orgd0b0895" class="outline-2">
-<h2 id="orgd0b0895">Decide whether to compose</h2>
-<div class="outline-text-2" id="text-orgd0b0895">
+<div id="outline-container-org994b61b" class="outline-2">
+<h2 id="org994b61b"><a href="#org994b61b">Decide whether to compose</a></h2>
+<div class="outline-text-2" id="text-org994b61b">
 <p>
 The variable <code>prettify-symbols-compose-predicate</code> is a predicate for
 deciding if the currently matched symbol is to be composed.  By
@@ -140,9 +159,9 @@ writing formulae. So I overwrite the rule to allow these cases.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc5f8da6" class="outline-2">
-<h2 id="orgc5f8da6">Tweak into the mode hook</h2>
-<div class="outline-text-2" id="text-orgc5f8da6">
+<div id="outline-container-org2261742" class="outline-2">
+<h2 id="org2261742"><a href="#org2261742">Tweak into the mode hook</a></h2>
+<div class="outline-text-2" id="text-org2261742">
 <p>
 As both <code>prettify-symbols-alist</code> and <code>prettify-symbols-compose-predicate</code>
 are buffer-local variables, it is recommended to set them in a mode
@@ -163,9 +182,9 @@ latex-mode hook if necessary.
 </div>
 </div>
 </div>
-<div id="outline-container-orgf342cea" class="outline-2">
-<h2 id="orgf342cea">Choose appropriate fonts</h2>
-<div class="outline-text-2" id="text-orgf342cea">
+<div id="outline-container-org50a9ea0" class="outline-2">
+<h2 id="org50a9ea0"><a href="#org50a9ea0">Choose appropriate fonts</a></h2>
+<div class="outline-text-2" id="text-org50a9ea0">
 <p>
 In most cases, many mathematical symbols are not included in the main
 font. Fortunately, Emacs has the abilit to display selected characters
@@ -199,9 +218,9 @@ Below I patch the default fontset in order to
 </div>
 </div>
 </div>
-<div id="outline-container-org39cdeb2" class="outline-2">
-<h2 id="org39cdeb2">Add more symbols</h2>
-<div class="outline-text-2" id="text-org39cdeb2">
+<div id="outline-container-orgf8ba7b1" class="outline-2">
+<h2 id="orgf8ba7b1"><a href="#orgf8ba7b1">Add more symbols</a></h2>
+<div class="outline-text-2" id="text-orgf8ba7b1">
 <p>
 In general, the following things are needed to display unicode characters by composition:
 </p>
@@ -223,15 +242,15 @@ Emacs will pops up a list of mathematical symbols for selection.
 </p>
 
 
-<figure id="org4732ac3">
+<figure id="orgd7efd9f">
 <img src="./script-letters.png" alt="script-letters.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-orge1d668c" class="outline-2">
-<h2 id="orge1d668c">Alternative implementation: hard replacing</h2>
-<div class="outline-text-2" id="text-orge1d668c">
+<div id="outline-container-org1b97217" class="outline-2">
+<h2 id="org1b97217"><a href="#org1b97217">Alternative implementation: hard replacing</a></h2>
+<div class="outline-text-2" id="text-org1b97217">
 <p>
 The advantage of <code>prettify-symbols-mode</code> is that it is only a way of
 rendering. The file content will not be changed when the minor mode is
@@ -249,9 +268,9 @@ characters in a region, or vice versa.
 </p>
 </div>
 </div>
-<div id="outline-container-org8640e44" class="outline-2">
-<h2 id="org8640e44">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></h2>
-<div class="outline-text-2" id="text-org8640e44">
+<div id="outline-container-org86628bc" class="outline-2">
+<h2 id="org86628bc"><a href="#org86628bc">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
+<div class="outline-text-2" id="text-org86628bc">
 <ol class="org-ol">
 <li><a href="https://tony-zorman.com/posts/pretty-latex.html">Prettifying LaTeX Buffers</a></li>
 <li><a href="https://occasionallycogent.com/emacs_prettify_comments/index.html">Emacs prettify-symbols-mode in Comments</a></li>
