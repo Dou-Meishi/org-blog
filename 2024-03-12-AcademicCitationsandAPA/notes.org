@@ -151,7 +151,7 @@ The format of the source varies depending on the reference type.
 | Journal article                                                   | Italic journal title, volume(issue), pages. | /Couple and Family Psychology: Research and Practice/, 8(3), 137–151. |
 | Book                                                              | Publisher name                              | Springer.                                                           |
 | Webpage on a website                                              | Website name                                | Mayo Clinic.                                                        |
-| webpage on a website (when authors are the same as the site name) | URL                                         | https://www.cdc.gov/cancer/kinds.htm                                |
+| webpage on a website (when authors are the same as the site name) | URL[fn:2]                                         | https://www.cdc.gov/cancer/kinds.htm                                |
 
 *** Examples
 
@@ -176,14 +176,12 @@ For more examples, see the [[https://apastyle.apa.org/style-grammar-guidelines/r
 
 [[https://apastyle.apa.org/][The APA style official website]] contains a comprehensive section of
 [[https://apastyle.apa.org/style-grammar-guidelines][Style and Grammar Guidelines]], an illustrative section of [[https://apastyle.apa.org/instructional-aids/handouts-guides][Handouts and
-Guides]], and a blog section of [[https://apastyle.apa.org/blog][Posts]]. I recommend reading the post
-[[https://apastyle.apa.org/beginners][APA Style for beginners]], in particular, the 2 minutes demonstrating
-video introducing the APA style website. The [[https://extras.apa.org/apastyle/basics-7e/#/][Academic Writer Tutorial]]
-is also highly recommended. The following cheat sheets are also
-useful:
-
-1.  [[https://apastyle.apa.org/instructional-aids/beginner-student-paper-checklist.pdf][Student Paper Checklist]],
-2. [[https://apastyle.apa.org/instructional-aids/reference-examples.pdf][Common Reference Examples Guide]].
+Guides]], and a blog section of [[https://apastyle.apa.org/blog][Posts]]. I recommend reading the post [[https://apastyle.apa.org/beginners][APA
+Style for beginners]], in particular, the 2 minutes demonstrating video
+introducing the APA style website. The [[https://extras.apa.org/apastyle/basics-7e/#/][Academic Writer Tutorial]] is
+also highly recommended.  [[https://apastyle.apa.org/instructional-aids/beginner-student-paper-checklist.pdf][Student Paper Checklist]] and [[https://apastyle.apa.org/instructional-aids/reference-examples.pdf][Common Reference
+Examples Guide]] are also useful. For a comprehensive list of examples,
+see the [[https://apastyle.apa.org/style-grammar-guidelines/references/examples][Reference Examples]] page of APA website.
 
 ** A File Naming Convention for References
 
@@ -217,6 +215,12 @@ Goodfellow, I., Pouget-Abadie, J., ... Bengio, Y. (2014). GAN.pdf
 - APA Org (2024). /Style and Grammar Guidelines/. https://apastyle.apa.org/style-grammar-guidelines
 - Mendeley (2024). /APA Format Citation Guide/. https://www.mendeley.com/guides/apa-citation-guide/
 
+** Footnotes
+
 [fn:1] However, if the title ends with a question mark or exclamation
 point, that punctuation mark replaces the period.
+
+[fn:2] The URL or DOI is the final component of a reference list
+entry. Do not add a period after the URL and DOI; see the official
+guide for [[https://apastyle.apa.org/style-grammar-guidelines/references/dois-urls][DOIs and URLs]].
 
