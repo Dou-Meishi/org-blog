@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,13 +55,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4bb70ee">Introduction and Installation</a></li>
-<li><a href="#orgc07b2e0">Configuration and Usage: Overview</a></li>
-<li><a href="#org4c1ddc8">Config: Windows Terminal</a></li>
-<li><a href="#org43c13c6">Usage: Interoperability between Windows and Linux Commands</a></li>
-<li><a href="#orgf1162a9">Usage: Work across Windows and Linux File Systems</a></li>
-<li><a href="#org3e21a98">Usage: SSH into WSL from an External Machine</a></li>
-<li><a href="#orgb5d584e">Appendix: WSL 1 v.s. WSL 2</a></li>
+<li><a href="#org6ee30fc">Introduction and Installation</a></li>
+<li><a href="#org4942592">Configuration and Usage: Overview</a></li>
+<li><a href="#org011b991">Config: Windows Terminal</a></li>
+<li><a href="#org11f7e36">Usage: Interoperability between Windows and Linux Commands</a></li>
+<li><a href="#orgf66885c">Usage: Work across Windows and Linux File Systems</a></li>
+<li><a href="#org8b53f1e">Usage: SSH into WSL from an External Machine</a></li>
+<li><a href="#org057497a">Appendix: WSL 1 v.s. WSL 2</a></li>
 <li><a href="#appendix-bash-configuration">Appendix: Bash Configuration</a></li>
 <li><a href="#appendix-ssh-authentication-via-ssh-keys">Appendix: SSH Authentication via SSH Keys</a></li>
 </ul>
@@ -76,9 +78,9 @@ in the world is&#x2014;WSL does a reasonably good job.
 In this note, I will walk through the installation and configuration
 of WSL, and share some usages.
 </p>
-<div id="outline-container-org4bb70ee" class="outline-2">
-<h2 id="org4bb70ee"><a href="#org4bb70ee">Introduction and Installation</a></h2>
-<div class="outline-text-2" id="text-org4bb70ee">
+<div id="outline-container-org6ee30fc" class="outline-2">
+<h2 id="org6ee30fc"><a href="#org6ee30fc">Introduction and Installation</a></h2>
+<div class="outline-text-2" id="text-org6ee30fc">
 <p>
 According to <a href="https://learn.microsoft.com/en-us/windows/wsl/">the WSL documentation</a>,
 </p>
@@ -117,9 +119,9 @@ a single Ubuntu distribution.
 </p>
 </div>
 </div>
-<div id="outline-container-orgc07b2e0" class="outline-2">
-<h2 id="orgc07b2e0"><a href="#orgc07b2e0">Configuration and Usage: Overview</a></h2>
-<div class="outline-text-2" id="text-orgc07b2e0">
+<div id="outline-container-org4942592" class="outline-2">
+<h2 id="org4942592"><a href="#org4942592">Configuration and Usage: Overview</a></h2>
+<div class="outline-text-2" id="text-org4942592">
 <p>
 Using WSL on Windows 11 is much like <b>opening a terminal to connect to
 a separate Linux server</b>, except that this Linux environment runs
@@ -182,9 +184,9 @@ following table.
 </p>
 </div>
 </div>
-<div id="outline-container-org4c1ddc8" class="outline-2">
-<h2 id="org4c1ddc8"><a href="#org4c1ddc8">Config: Windows Terminal</a></h2>
-<div class="outline-text-2" id="text-org4c1ddc8">
+<div id="outline-container-org011b991" class="outline-2">
+<h2 id="org011b991"><a href="#org011b991">Config: Windows Terminal</a></h2>
+<div class="outline-text-2" id="text-org011b991">
 <p>
 Below are my settings.
 </p>
@@ -205,9 +207,9 @@ Configuration</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org43c13c6" class="outline-2">
-<h2 id="org43c13c6"><a href="#org43c13c6">Usage: Interoperability between Windows and Linux Commands</a></h2>
-<div class="outline-text-2" id="text-org43c13c6">
+<div id="outline-container-org11f7e36" class="outline-2">
+<h2 id="org11f7e36"><a href="#org11f7e36">Usage: Interoperability between Windows and Linux Commands</a></h2>
+<div class="outline-text-2" id="text-org11f7e36">
 <p>
 Windows and Linux tools and commands can be used interchangeably with WSL.
 </p>
@@ -235,9 +237,9 @@ See more examples and explanations on <a href="https://learn.microsoft.com/en-us
 </p>
 </div>
 </div>
-<div id="outline-container-orgf1162a9" class="outline-2">
-<h2 id="orgf1162a9"><a href="#orgf1162a9">Usage: Work across Windows and Linux File Systems</a></h2>
-<div class="outline-text-2" id="text-orgf1162a9">
+<div id="outline-container-orgf66885c" class="outline-2">
+<h2 id="orgf66885c"><a href="#orgf66885c">Usage: Work across Windows and Linux File Systems</a></h2>
+<div class="outline-text-2" id="text-orgf66885c">
 <p>
 Access Linux files from Windows or vice versa is generally
 slow. Nevertheless, it is still possible.
@@ -250,9 +252,9 @@ recognizable for Windows File Explorer).
 </p>
 </div>
 </div>
-<div id="outline-container-org3e21a98" class="outline-2">
-<h2 id="org3e21a98"><a href="#org3e21a98">Usage: SSH into WSL from an External Machine</a></h2>
-<div class="outline-text-2" id="text-org3e21a98">
+<div id="outline-container-org8b53f1e" class="outline-2">
+<h2 id="org8b53f1e"><a href="#org8b53f1e">Usage: SSH into WSL from an External Machine</a></h2>
+<div class="outline-text-2" id="text-org8b53f1e">
 <p>
 The goal is to configure WSL as a local server so that external
 machines can access WSL via SSH. Below is a summarized procedure;
@@ -354,9 +356,9 @@ Keys</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb5d584e" class="outline-2">
-<h2 id="orgb5d584e"><a href="#orgb5d584e">Appendix: WSL 1 v.s. WSL 2</a></h2>
-<div class="outline-text-2" id="text-orgb5d584e">
+<div id="outline-container-org057497a" class="outline-2">
+<h2 id="org057497a"><a href="#org057497a">Appendix: WSL 1 v.s. WSL 2</a></h2>
+<div class="outline-text-2" id="text-org057497a">
 <p>
 WSL 1 and WSL 2 are two different WSL architectures. WSL 2
 architecture outperforms WSL 1 in several ways, <i>with the exception of

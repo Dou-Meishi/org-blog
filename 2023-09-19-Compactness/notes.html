@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,10 +55,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9eb5a9e">Prerequisite Concepts</a></li>
-<li><a href="#org0db738a">Definitions</a></li>
-<li><a href="#orgbe79c02">Main Results</a></li>
-<li><a href="#org425314a">Detailed Proofs</a></li>
+<li><a href="#orgf791059">Prerequisite Concepts</a></li>
+<li><a href="#org14c04cc">Definitions</a></li>
+<li><a href="#org2327577">Main Results</a></li>
+<li><a href="#orgcaa5de5">Detailed Proofs</a></li>
 </ul>
 </div>
 </nav>
@@ -65,9 +67,9 @@ This note is a review of Chapter IV.8 of the book
 <i>An introduction to set theory and topology</i>
 by Freiwald.
 </p>
-<div id="outline-container-org9eb5a9e" class="outline-2">
-<h2 id="org9eb5a9e"><a href="#org9eb5a9e">Prerequisite Concepts</a></h2>
-<div class="outline-text-2" id="text-org9eb5a9e">
+<div id="outline-container-orgf791059" class="outline-2">
+<h2 id="orgf791059"><a href="#orgf791059">Prerequisite Concepts</a></h2>
+<div class="outline-text-2" id="text-orgf791059">
 <ul class="org-ul">
 <li>topological space and its subspace</li>
 <li>T1 topological space and T2 topological space</li>
@@ -80,9 +82,9 @@ by Freiwald.
 </ul>
 </div>
 </div>
-<div id="outline-container-org0db738a" class="outline-2">
-<h2 id="org0db738a"><a href="#org0db738a">Definitions</a></h2>
-<div class="outline-text-2" id="text-org0db738a">
+<div id="outline-container-org14c04cc" class="outline-2">
+<h2 id="org14c04cc"><a href="#org14c04cc">Definitions</a></h2>
+<div class="outline-text-2" id="text-org14c04cc">
 <p>
 Two equivalent definition of a <b>compact</b> topological space \((X,\mathcal{T})\):
 </p>
@@ -118,15 +120,15 @@ a finite number of \(\epsilon\)-balls.</dd>
 </dl>
 </div>
 </div>
-<div id="outline-container-orgbe79c02" class="outline-2">
-<h2 id="orgbe79c02"><a href="#orgbe79c02">Main Results</a></h2>
-<div class="outline-text-2" id="text-orgbe79c02">
+<div id="outline-container-org2327577" class="outline-2">
+<h2 id="org2327577"><a href="#org2327577">Main Results</a></h2>
+<div class="outline-text-2" id="text-org2327577">
 <p>
 Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.5.</b> <a id="org2d540db"></a> <i>Let \(K \subset X\).</i>
+<b>Theorem 8.5.</b> <a id="org369b8f1"></a> <i>Let \(K \subset X\).</i>
 </p>
 
 <p>
@@ -138,32 +140,32 @@ Let \((X, \mathcal{T})\) be a topological space.
 </p>
 
 <p>
-<b>Theorem 8.11.</b> <a id="org2a4f5c4"></a> <i>The following implications hold generally.</i>
+<b>Theorem 8.11.</b> <a id="org3f3ee6c"></a> <i>The following implications hold generally.</i>
 \[ X\text{ is (sequentially) compact }\Rightarrow X\text{ is countably compact }
 \Rightarrow X\text{ is pseudocompact}.\]
 </p>
 
 <p>
-<b>Lemma 8.12.</b> <a id="org15ea2a0"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
+<b>Lemma 8.12.</b> <a id="org8deeaeb"></a> \(X\) is countably compact \(\Longrightarrow\) \(X\) is sequentially compact,
 if \(X\) is first countable.
 </p>
 
 <p>
-<b>Lemma 8.16.</b> <a id="orgd172abf"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
+<b>Lemma 8.16.</b> <a id="orgb3930cc"></a> A totally bounded pseudometric space is separable, and thus Lindelöf.
 </p>
 
 <p>
-<b>Theorem 8.17.</b> <a id="org60fbd4e"></a> In a pseudometric space \((X,d)\),
+<b>Theorem 8.17.</b> <a id="orgf8a57a6"></a> In a pseudometric space \((X,d)\),
 the property of compactness, sequentially compactness, countably compactness
 and pseudocompactness are all equivalent.
 </p>
 </div>
 </div>
-<div id="outline-container-org425314a" class="outline-2">
-<h2 id="org425314a"><a href="#org425314a">Detailed Proofs</a></h2>
-<div class="outline-text-2" id="text-org425314a">
+<div id="outline-container-orgcaa5de5" class="outline-2">
+<h2 id="orgcaa5de5"><a href="#orgcaa5de5">Detailed Proofs</a></h2>
+<div class="outline-text-2" id="text-orgcaa5de5">
 <p>
-<i>Proof to <a href="#org2d540db">Theorem 8.5</a>.</i>
+<i>Proof to <a href="#org369b8f1">Theorem 8.5</a>.</i>
 Assume \(K\) is closed and \(X\) is compact, then any open cover
 of \(K\) would form an open cover of \(X\) if augmented by \(K^\mathsf{c}\).
 This implies that a finite subcover of \(K\) exists.
@@ -184,7 +186,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org2a4f5c4">Theorem 8.11</a>.</i>
+<i>Proof to <a href="#org3f3ee6c">Theorem 8.11</a>.</i>
 </p>
 
 <p>
@@ -214,7 +216,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org15ea2a0">Lemma 8.12</a>.</i>
+<i>Proof to <a href="#org8deeaeb">Lemma 8.12</a>.</i>
 First, we prove that \(X\) <span class="underline">is countably compact if and only if every sequence
 has a cluster point</span>. The <i>if</i> part has been proved in Theorem 8.11. To prove
 the <i>only if</i> part, assume \(X\) be countably compact and \((x_n)\) is a sequence
@@ -260,7 +262,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#orgd172abf">Lemma 8.16</a>.</i>
+<i>Proof to <a href="#orgb3930cc">Lemma 8.16</a>.</i>
 Let \((X,d)\) be a totally bounded pseudometric space.
 </p>
 
@@ -320,7 +322,7 @@ Q.E.D.
 </p>
 
 <p>
-<i>Proof to <a href="#org60fbd4e">Theorem 8.17</a>.</i>
+<i>Proof to <a href="#orgf8a57a6">Theorem 8.17</a>.</i>
 Based on Theorem 8.11, we need only to prove the following implications.
 </p>
 

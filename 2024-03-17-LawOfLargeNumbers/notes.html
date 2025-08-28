@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,11 +55,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf073850">Tossing a Coin: Probability as Frequency</a></li>
-<li><a href="#org1ea9503">Application: Monte Carlo Integration</a></li>
-<li><a href="#org9d08dcd">Application: Bernstein's Theorem</a></li>
-<li><a href="#orge7e9216">Other Types of SLLN</a></li>
-<li><a href="#org1080e52">Proof Sketch of SLLN (i.i.d. case)</a></li>
+<li><a href="#org3547275">Tossing a Coin: Probability as Frequency</a></li>
+<li><a href="#orgca3df5a">Application: Monte Carlo Integration</a></li>
+<li><a href="#orgb7cdca8">Application: Bernstein's Theorem</a></li>
+<li><a href="#orga68f98d">Other Types of SLLN</a></li>
+<li><a href="#orga41cce3">Proof Sketch of SLLN (i.i.d. case)</a></li>
 </ul>
 </div>
 </nav>
@@ -86,9 +88,9 @@ with a brief outline of the proof for the SLLN theorem (i.i.d. case).
 Throughout this post, for a given sequence \((a_n)\) we denote the
 cumulative average by \(\bar{a}_n := \frac{1}{n} \sum_{k=1}^n a_k\).
 </p>
-<div id="outline-container-orgf073850" class="outline-2">
-<h2 id="orgf073850"><a href="#orgf073850">Tossing a Coin: Probability as Frequency</a></h2>
-<div class="outline-text-2" id="text-orgf073850">
+<div id="outline-container-org3547275" class="outline-2">
+<h2 id="org3547275"><a href="#org3547275">Tossing a Coin: Probability as Frequency</a></h2>
+<div class="outline-text-2" id="text-org3547275">
 <p>
 Perhaps all of us start learning about probability by this example: if
 we toss a fair coin repeatly then the frequency of heads will tend to
@@ -145,9 +147,9 @@ The essential condition in this simple proof is the finiteness of the
 </p>
 </div>
 </div>
-<div id="outline-container-org1ea9503" class="outline-2">
-<h2 id="org1ea9503"><a href="#org1ea9503">Application: Monte Carlo Integration</a></h2>
-<div class="outline-text-2" id="text-org1ea9503">
+<div id="outline-container-orgca3df5a" class="outline-2">
+<h2 id="orgca3df5a"><a href="#orgca3df5a">Application: Monte Carlo Integration</a></h2>
+<div class="outline-text-2" id="text-orgca3df5a">
 <p>
 Perhaps Monte Carlo Integration is one of the most promising
 application of SLLN. Assume we want to estimate the integral \(\int_A f(x)
@@ -181,15 +183,15 @@ mean. The horizontal line is the true value of the integral, i.e.,
 </p>
 
 
-<figure id="orga9aa269">
+<figure id="orgb025d6e">
 <img src="./sinc-square-integral.png" alt="sinc-square-integral.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org9d08dcd" class="outline-2">
-<h2 id="org9d08dcd"><a href="#org9d08dcd">Application: Bernstein's Theorem</a></h2>
-<div class="outline-text-2" id="text-org9d08dcd">
+<div id="outline-container-orgb7cdca8" class="outline-2">
+<h2 id="orgb7cdca8"><a href="#orgb7cdca8">Application: Bernstein's Theorem</a></h2>
+<div class="outline-text-2" id="text-orgb7cdca8">
 <p>
 According to the famous Weierstrass approximation theorem, any
 continuous function \(f\) on the compact set \([0, 1]\) can be uniformly
@@ -228,9 +230,9 @@ to \(f\) uniformly on \([0, 1]\).
 </p>
 </div>
 </div>
-<div id="outline-container-orge7e9216" class="outline-2">
-<h2 id="orge7e9216"><a href="#orge7e9216">Other Types of SLLN</a></h2>
-<div class="outline-text-2" id="text-orge7e9216">
+<div id="outline-container-orga68f98d" class="outline-2">
+<h2 id="orga68f98d"><a href="#orga68f98d">Other Types of SLLN</a></h2>
+<div class="outline-text-2" id="text-orga68f98d">
 <p>
 SLLN states that the existence of the expectation ensures the
 convergence of the empirical mean. Interestingly, the converse is also
@@ -277,9 +279,9 @@ independent and identically distributed and \(\mathbb{E}[|X_1|] = \infty\), then
 </p>
 </div>
 </div>
-<div id="outline-container-org1080e52" class="outline-2">
-<h2 id="org1080e52"><a href="#org1080e52">Proof Sketch of SLLN (i.i.d. case)</a></h2>
-<div class="outline-text-2" id="text-org1080e52">
+<div id="outline-container-orga41cce3" class="outline-2">
+<h2 id="orga41cce3"><a href="#orga41cce3">Proof Sketch of SLLN (i.i.d. case)</a></h2>
+<div class="outline-text-2" id="text-orga41cce3">
 <p>
 The following arguments are a rephrased version from Billingsley's
 book (2008, pp. 282&#x2013;284).

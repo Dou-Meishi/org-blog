@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,11 +55,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb30806b">Overview of Org Cite</a></li>
-<li><a href="#org5de15ee">Export to HTML</a></li>
-<li><a href="#org349cb13">Export to LaTeX</a></li>
-<li><a href="#org7002653">References</a></li>
-<li><a href="#org8925b72">Appendix: Emacs Init File</a></li>
+<li><a href="#org3fc1c3d">Overview of Org Cite</a></li>
+<li><a href="#orgcb85624">Export to HTML</a></li>
+<li><a href="#orgac6a943">Export to LaTeX</a></li>
+<li><a href="#orgd67ed95">References</a></li>
+<li><a href="#org90cd83e">Appendix: Emacs Init File</a></li>
 </ul>
 </div>
 </nav>
@@ -95,9 +97,9 @@ HTML, with the option to export directly to LaTeX for future
 typesetting adjustments. In this post, I'll briefly introduce <i>Org Cite</i>
 and how I integrate it into my workflow.
 </p>
-<div id="outline-container-orgb30806b" class="outline-2">
-<h2 id="orgb30806b"><a href="#orgb30806b">Overview of Org Cite</a></h2>
-<div class="outline-text-2" id="text-orgb30806b">
+<div id="outline-container-org3fc1c3d" class="outline-2">
+<h2 id="org3fc1c3d"><a href="#org3fc1c3d">Overview of Org Cite</a></h2>
+<div class="outline-text-2" id="text-org3fc1c3d">
 <p>
 <i>Org Cite</i> aims to provide easy citation management in Org and also
 serves as a solid foundation for more sophisticated customization.
@@ -131,9 +133,9 @@ explanations and advanced usages.
 </p>
 </div>
 </div>
-<div id="outline-container-org5de15ee" class="outline-2">
-<h2 id="org5de15ee"><a href="#org5de15ee">Export to HTML</a></h2>
-<div class="outline-text-2" id="text-org5de15ee">
+<div id="outline-container-orgcb85624" class="outline-2">
+<h2 id="orgcb85624"><a href="#orgcb85624">Export to HTML</a></h2>
+<div class="outline-text-2" id="text-orgcb85624">
 <p>
 Org Cite uses <i>export processors</i> as its backend to support export to
 various formats, including plain text, html and LaTeX. The default
@@ -161,9 +163,9 @@ customize the appearance of reference entries.
 </p>
 </div>
 </div>
-<div id="outline-container-org349cb13" class="outline-2">
-<h2 id="org349cb13"><a href="#org349cb13">Export to LaTeX</a></h2>
-<div class="outline-text-2" id="text-org349cb13">
+<div id="outline-container-orgac6a943" class="outline-2">
+<h2 id="orgac6a943"><a href="#orgac6a943">Export to LaTeX</a></h2>
+<div class="outline-text-2" id="text-orgac6a943">
 <p>
 For LaTeX export, use the biblatex export processor.
 </p>
@@ -181,9 +183,9 @@ and their corresponding biblatex commands.
 </p>
 </div>
 </div>
-<div id="outline-container-org7002653" class="outline-2">
-<h2 id="org7002653"><a href="#org7002653">References</a></h2>
-<div class="outline-text-2" id="text-org7002653">
+<div id="outline-container-orgd67ed95" class="outline-2">
+<h2 id="orgd67ed95"><a href="#orgd67ed95">References</a></h2>
+<div class="outline-text-2" id="text-orgd67ed95">
 <style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Denton, W. (2024, January 22). <i>Basic citations in Org (Part 5)</i>. Miskatonic University Press. <a href="https://www.miskatonic.org/2024/01/22/org-citations-basic-5/">https://www.miskatonic.org/2024/01/22/org-citations-basic-5/</a></div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>GNU. (2024). <i>The Org manual</i>. Free Software Foundation. <a href="https://orgmode.org/manual/index.html">https://orgmode.org/manual/index.html</a></div>
@@ -191,9 +193,9 @@ and their corresponding biblatex commands.
 </div>
 </div>
 </div>
-<div id="outline-container-org8925b72" class="outline-2">
-<h2 id="org8925b72"><a href="#org8925b72">Appendix: Emacs Init File</a></h2>
-<div class="outline-text-2" id="text-org8925b72">
+<div id="outline-container-org90cd83e" class="outline-2">
+<h2 id="org90cd83e"><a href="#org90cd83e">Appendix: Emacs Init File</a></h2>
+<div class="outline-text-2" id="text-org90cd83e">
 <p>
 For convenience, I include the following sectin in my Emacs init
 file. Note that I use a global bibliography for convenience, which is

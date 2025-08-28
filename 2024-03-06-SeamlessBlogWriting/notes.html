@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,9 +55,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9e9f99a">A new minor mode</a></li>
-<li><a href="#org522e8fb">A simple local server with autoreload</a></li>
-<li><a href="#org1afdfa2">Replace MathJax with KaTeX</a></li>
+<li><a href="#org46fd2d0">A new minor mode</a></li>
+<li><a href="#orga62648b">A simple local server with autoreload</a></li>
+<li><a href="#org47ff225">Replace MathJax with KaTeX</a></li>
 </ul>
 </div>
 </nav>
@@ -91,9 +93,9 @@ to HTML after saving;</li>
 <li><i>(Optional)</i> The KaTeX framework for math rendering to replace
 MathJax.</li>
 </ol>
-<div id="outline-container-org9e9f99a" class="outline-2">
-<h2 id="org9e9f99a"><a href="#org9e9f99a">A new minor mode</a></h2>
-<div class="outline-text-2" id="text-org9e9f99a">
+<div id="outline-container-org46fd2d0" class="outline-2">
+<h2 id="org46fd2d0"><a href="#org46fd2d0">A new minor mode</a></h2>
+<div class="outline-text-2" id="text-org46fd2d0">
 <p>
 In Emacs, creating a minor mode for autosaving is straightforward.
 </p>
@@ -122,9 +124,9 @@ enabled.
 </p>
 </div>
 </div>
-<div id="outline-container-org522e8fb" class="outline-2">
-<h2 id="org522e8fb"><a href="#org522e8fb">A simple local server with autoreload</a></h2>
-<div class="outline-text-2" id="text-org522e8fb">
+<div id="outline-container-orga62648b" class="outline-2">
+<h2 id="orga62648b"><a href="#orga62648b">A simple local server with autoreload</a></h2>
+<div class="outline-text-2" id="text-orga62648b">
 <p>
 As the exported file is only a static HTML page, it will not be
 updated by the browser when its content changes. So it is necessary to
@@ -170,9 +172,9 @@ We integrate these steps into Emacs through a simple command; see also
 </div>
 </div>
 </div>
-<div id="outline-container-org1afdfa2" class="outline-2">
-<h2 id="org1afdfa2"><a href="#org1afdfa2">Replace MathJax with KaTeX</a></h2>
-<div class="outline-text-2" id="text-org1afdfa2">
+<div id="outline-container-org47ff225" class="outline-2">
+<h2 id="org47ff225"><a href="#org47ff225">Replace MathJax with KaTeX</a></h2>
+<div class="outline-text-2" id="text-org47ff225">
 <p>
 By default, Emacs uses MathJax in the exported HTML file to rende math
 equations. But personally I feel KaTeX is smoother and faster. So I

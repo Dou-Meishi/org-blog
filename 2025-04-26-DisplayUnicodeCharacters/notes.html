@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,12 +55,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org47b1e13">Backgrounds</a></li>
-<li><a href="#orgf7a9870">A Simple Solution</a></li>
+<li><a href="#org48ce67d">Backgrounds</a></li>
+<li><a href="#org5396461">A Simple Solution</a></li>
 <li><a href="#use-display-tables-in-emacs">Appendix: Notes on Display Tables</a></li>
 <li><a href="#appendix-useful-scripts">Appendix: Useful Scripts</a></li>
 <li><a href="#appendix:use-opentype-font-features">Appendix: Use OpenType Font Features</a></li>
-<li><a href="#org47866fb">Useful Links</a></li>
+<li><a href="#orgadfd788">Useful Links</a></li>
 </ul>
 </div>
 </nav>
@@ -93,13 +95,13 @@ Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1
 </div>
 
 
-<figure id="orga47b5fc">
+<figure id="orgefcb5df">
 <img src="./1.png" alt="1.png" width="100%">
 
 </figure>
-<div id="outline-container-org47b1e13" class="outline-2">
-<h2 id="org47b1e13"><a href="#org47b1e13">Backgrounds</a></h2>
-<div class="outline-text-2" id="text-org47b1e13">
+<div id="outline-container-org48ce67d" class="outline-2">
+<h2 id="org48ce67d"><a href="#org48ce67d">Backgrounds</a></h2>
+<div class="outline-text-2" id="text-org48ce67d">
 <ol class="org-ol">
 <li><p>
 How a font selects the glyph for a given code point?
@@ -108,7 +110,7 @@ How a font selects the glyph for a given code point?
 <p>
 <i>Answer.</i> We have to distinguish the concepts of <i>characaters</i>, <i>code
 points</i>, <i>glyphs</i> and <i>fonts</i>. See a brief explanation in the
-footnote<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>; see also the related references in section <a href="#org47866fb">Useful
+footnote<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup>; see also the related references in section <a href="#orgadfd788">Useful
 Links</a>.
 </p>
 
@@ -165,9 +167,9 @@ Unicode Characters in Emacs</a>.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf7a9870" class="outline-2">
-<h2 id="orgf7a9870"><a href="#orgf7a9870">A Simple Solution</a></h2>
-<div class="outline-text-2" id="text-orgf7a9870">
+<div id="outline-container-org5396461" class="outline-2">
+<h2 id="org5396461"><a href="#org5396461">A Simple Solution</a></h2>
+<div class="outline-text-2" id="text-org5396461">
 <p>
 Perhaps the simplest solution is <code>set-font-fontset</code>.
 </p>
@@ -226,13 +228,13 @@ The final result is
 </p>
 
 
-<figure id="orgad864c4">
+<figure id="orgf7a721e">
 <img src="./before.png" alt="before.png">
 
 </figure>
 
 
-<figure id="org3407af5">
+<figure id="org626c0cd">
 <img src="./after.png" alt="after.png">
 
 </figure>
@@ -483,7 +485,7 @@ Unicode symbol <span style="color: #859900; font-weight: bold;">\verb</span>|U+1
 </div>
 
 
-<figure id="org1ed1a49">
+<figure id="org3c12507">
 <img src="./3.png" alt="3.png">
 
 </figure>
@@ -495,9 +497,9 @@ manually modify a font and let selected features <i>on by default</i>.
 </p>
 </div>
 </div>
-<div id="outline-container-org47866fb" class="outline-2">
-<h2 id="org47866fb"><a href="#org47866fb">Useful Links</a></h2>
-<div class="outline-text-2" id="text-org47866fb">
+<div id="outline-container-orgadfd788" class="outline-2">
+<h2 id="orgadfd788"><a href="#orgadfd788">Useful Links</a></h2>
+<div class="outline-text-2" id="text-orgadfd788">
 <dl class="org-dl">
 <dt>A discussion on choosing a particular glyph</dt><dd>Aad, E. (2015). How to set the glyph of a unicode character? <i>Emacs Stack Exchange.</i> <a href="https://emacs.stackexchange.com/questions/6052/how-to-set-the-glyph-of-a-unicode-character">https://emacs.stackexchange.com/questions/6052/how-to-set-the-glyph-of-a-unicode-character</a></dd>
 

@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,22 +55,22 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org44eaeca">Four ways to calculate gradients</a></li>
-<li><a href="#orgf3dbf9c">Automatic differentiation</a>
+<li><a href="#org5cbcf8d">Four ways to calculate gradients</a></li>
+<li><a href="#orgaeb64b8">Automatic differentiation</a>
 <ul>
-<li><a href="#org1f737e7">Forward-mode AD</a></li>
-<li><a href="#org42c82e2">Reverse-mode AD</a></li>
+<li><a href="#org5a4881e">Forward-mode AD</a></li>
+<li><a href="#orgf44495a">Reverse-mode AD</a></li>
 </ul>
 </li>
-<li><a href="#org72a3c6d">Examples: reverse-mode AD for scalar functions</a></li>
-<li><a href="#orgd30c78e">Jacobian-vector product</a></li>
-<li><a href="#org56e8df5">Implement forward-mode and reverse-mode AD</a></li>
-<li><a href="#org1a6cd78">Hessian-vector product</a></li>
-<li><a href="#org465f7e9">Conclusion</a></li>
-<li><a href="#org78d552e">References</a></li>
-<li><a href="#orge4c70bb">Appendix: An inductive proof of reverse-mode AD formula</a></li>
-<li><a href="#orgad488f3">Appendix: JVP and VJP for linear maps</a></li>
-<li><a href="#orgf8dcbd9">Appendix: Overview of the Python Implementation</a></li>
+<li><a href="#orgd172785">Examples: reverse-mode AD for scalar functions</a></li>
+<li><a href="#org130797f">Jacobian-vector product</a></li>
+<li><a href="#orgc8d2190">Implement forward-mode and reverse-mode AD</a></li>
+<li><a href="#orge037122">Hessian-vector product</a></li>
+<li><a href="#orgcb11e38">Conclusion</a></li>
+<li><a href="#orgf36dca0">References</a></li>
+<li><a href="#org0d4725f">Appendix: An inductive proof of reverse-mode AD formula</a></li>
+<li><a href="#org7eebd85">Appendix: JVP and VJP for linear maps</a></li>
+<li><a href="#orgffa9c66">Appendix: Overview of the Python Implementation</a></li>
 </ul>
 </div>
 </nav>
@@ -134,9 +136,9 @@ Hessian-vector product. After reading the survey paper (Baydin et al.,
 2018), I finally open up the "balck-box" of automatic differentiation
 hidden in PyTorch and have a clearer understanding of AD.
 </p>
-<div id="outline-container-org44eaeca" class="outline-2">
-<h2 id="org44eaeca"><a href="#org44eaeca">Four ways to calculate gradients</a></h2>
-<div class="outline-text-2" id="text-org44eaeca">
+<div id="outline-container-org5cbcf8d" class="outline-2">
+<h2 id="org5cbcf8d"><a href="#org5cbcf8d">Four ways to calculate gradients</a></h2>
+<div class="outline-text-2" id="text-org5cbcf8d">
 <p>
 <i>Adapted from the textbook (Bishop &amp; Bishop, 2024) and the survey paper
 (Baydin et al., 2018).</i>
@@ -210,9 +212,9 @@ propagation equations and thereby avoid redundant evaluations.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf3dbf9c" class="outline-2">
-<h2 id="orgf3dbf9c"><a href="#orgf3dbf9c">Automatic differentiation</a></h2>
-<div class="outline-text-2" id="text-orgf3dbf9c">
+<div id="outline-container-orgaeb64b8" class="outline-2">
+<h2 id="orgaeb64b8"><a href="#orgaeb64b8">Automatic differentiation</a></h2>
+<div class="outline-text-2" id="text-orgaeb64b8">
 <p>
 Automatic differentiation (AD) can be thought of as performing a
 non-standard interpretation of a computer program where this
@@ -263,9 +265,9 @@ should be noted that the Jacobian matrix \(\partial f\) of a scalar function is
 a row vector in this notation.
 </p>
 </div>
-<div id="outline-container-org1f737e7" class="outline-3">
-<h3 id="org1f737e7"><a href="#org1f737e7">Forward-mode AD</a></h3>
-<div class="outline-text-3" id="text-org1f737e7">
+<div id="outline-container-org5a4881e" class="outline-3">
+<h3 id="org5a4881e"><a href="#org5a4881e">Forward-mode AD</a></h3>
+<div class="outline-text-3" id="text-org5a4881e">
 <p>
 Forward-mode AD is the conceptually most simple type: <i>apply symbolic
 differentiation at the elementary operation level and keep
@@ -296,9 +298,9 @@ row by row</b>.
 </p>
 </div>
 </div>
-<div id="outline-container-org42c82e2" class="outline-3">
-<h3 id="org42c82e2"><a href="#org42c82e2">Reverse-mode AD</a></h3>
-<div class="outline-text-3" id="text-org42c82e2">
+<div id="outline-container-orgf44495a" class="outline-3">
+<h3 id="orgf44495a"><a href="#orgf44495a">Reverse-mode AD</a></h3>
+<div class="outline-text-3" id="text-orgf44495a">
 <p>
 Reverse-mode AD differes from forward-mode AD by using different
 auxiliary variables. In forward-mode AD, the auxiliary variables are
@@ -308,7 +310,7 @@ z_k\) (called <i>adjoint</i> variables), and are evaluated from \(k=N-1\) to
 \(k=0\). For any \(0 \leq k \leq N-1\), we regard \(\mathcal{Z}_k := \{z_\alpha\}_{\alpha=0}^{k}\) as
 independent variables and view \(\{z_\beta\}_{\beta=k+1}^N\) as functions of
 \(\mathcal{Z}_k\). Thus, we can differentiate \[ y = y(z_0, z_1, \ldots, z_k) \]
-w.r.t. \(z_k\) and obtain (see <a href="#org371d4c2">the appendix</a> for an inductive proof)
+w.r.t. \(z_k\) and obtain (see <a href="#orgb9b693a">the appendix</a> for an inductive proof)
 </p>
 \begin{equation}\tag{chain-rule: RAD}
 \frac{\partial y}{\partial z_{k}} = \sum_{\beta=k+1}^N \frac{\partial y}{\partial z_\beta} \frac{\partial \phi_\beta}{\partial
@@ -360,11 +362,11 @@ and \(z_k\) are calculated simultaneously and in a forward manner.
 </div>
 </div>
 </div>
-<div id="outline-container-org72a3c6d" class="outline-2">
-<h2 id="org72a3c6d"><a href="#org72a3c6d">Examples: reverse-mode AD for scalar functions</a></h2>
-<div class="outline-text-2" id="text-org72a3c6d">
+<div id="outline-container-orgd172785" class="outline-2">
+<h2 id="orgd172785"><a href="#orgd172785">Examples: reverse-mode AD for scalar functions</a></h2>
+<div class="outline-text-2" id="text-orgd172785">
 <p>
-<a id="orgd0b4639"></a>
+<a id="orgceea7b5"></a>
 </p>
 
 <p>
@@ -553,9 +555,9 @@ $$ \begin{aligned}
 \end{aligned} $$
 </div>
 </div>
-<div id="outline-container-orgd30c78e" class="outline-2">
-<h2 id="orgd30c78e"><a href="#orgd30c78e">Jacobian-vector product</a></h2>
-<div class="outline-text-2" id="text-orgd30c78e">
+<div id="outline-container-org130797f" class="outline-2">
+<h2 id="org130797f"><a href="#org130797f">Jacobian-vector product</a></h2>
+<div class="outline-text-2" id="text-org130797f">
 <p>
 Examing the chain-rule formulae used in forward-mode and reverse-mode
 AD, we note that it suffices to calculate the Jacobian \(\partial \phi_k\). In
@@ -618,16 +620,16 @@ tensor of order \(m\), we can define the Jacobian-vector product by \[
 (x[\eta])} v[\eta], \quad \zeta\in\mathcal{I}(y)\subset\mathbb{N}^m. \] Similarly, the vector-Jacobian
 product is defined by \[ \operatorname{VJP}_f(x, v)[\eta] := \sum_{\zeta \in \mathcal{I}(y)}
 \frac{\partial (f[\zeta])}{ \partial (x[\eta])} v[\zeta], \quad \eta\in\mathcal{I}(x)\subset\mathbb{N}^n. \] See
-<a href="#orgdd55cdb">the appendix</a> for an example illustrating how we apply this definition
+<a href="#org0209fb5">the appendix</a> for an example illustrating how we apply this definition
 to matrix multiplication \(f(A, B) = AB\).
 </p>
 </div>
 </div>
-<div id="outline-container-org56e8df5" class="outline-2">
-<h2 id="org56e8df5"><a href="#org56e8df5">Implement forward-mode and reverse-mode AD</a></h2>
-<div class="outline-text-2" id="text-org56e8df5">
+<div id="outline-container-orgc8d2190" class="outline-2">
+<h2 id="orgc8d2190"><a href="#orgc8d2190">Implement forward-mode and reverse-mode AD</a></h2>
+<div class="outline-text-2" id="text-orgc8d2190">
 <p>
-<a id="org227c470"></a>
+<a id="org75ac793"></a>
 </p>
 
 <p>
@@ -640,7 +642,7 @@ Let's begin with forward-mode AD, which evaluates the
 Jacobian-vector product \([\partial f(x)]v\) at a given point \(x\). Assume we
 have access to the tape which records the sequence of elementary
 operations and their inputs/output during the computation of the
-target function \(y=f(x)\). The tables in section <a href="#orgd0b4639">Examples: reverse-mode
+target function \(y=f(x)\). The tables in section <a href="#orgceea7b5">Examples: reverse-mode
 AD for scalar functions</a> are examples of such tapes.
 </p>
 
@@ -704,13 +706,13 @@ obtained by successive calls of the VJP of
 </p>
 
 <p>
-See <a href="#org311c976">the appendix</a> for an overview of my implementation in Python.
+See <a href="#org56c3d14">the appendix</a> for an overview of my implementation in Python.
 </p>
 </div>
 </div>
-<div id="outline-container-org1a6cd78" class="outline-2">
-<h2 id="org1a6cd78"><a href="#org1a6cd78">Hessian-vector product</a></h2>
-<div class="outline-text-2" id="text-org1a6cd78">
+<div id="outline-container-orge037122" class="outline-2">
+<h2 id="orge037122"><a href="#orge037122">Hessian-vector product</a></h2>
+<div class="outline-text-2" id="text-orge037122">
 <p>
 The Hessian matrix of a <i>scalar</i> function \(f\) can be defined by the
 Jacobian matrix of \(\partial f\), \[ (\partial^2 f)_{i,j} := (\partial(\partial f))_{i,j} =
@@ -783,13 +785,13 @@ reverse-mode AD on \(T_1 \cup T_2\) to calculate the gradient \(\partial L =
 </ol>
 
 <p>
-See <a href="#org311c976">the appendix</a> for an overview of my implementation in Python.
+See <a href="#org56c3d14">the appendix</a> for an overview of my implementation in Python.
 </p>
 </div>
 </div>
-<div id="outline-container-org465f7e9" class="outline-2">
-<h2 id="org465f7e9"><a href="#org465f7e9">Conclusion</a></h2>
-<div class="outline-text-2" id="text-org465f7e9">
+<div id="outline-container-orgcb11e38" class="outline-2">
+<h2 id="orgcb11e38"><a href="#orgcb11e38">Conclusion</a></h2>
+<div class="outline-text-2" id="text-orgcb11e38">
 <p>
 AD refers to a general technique that generates numerical derivative
 evaluations rather than derivative expressions. Backpropagation is a
@@ -814,9 +816,9 @@ reverse-mode AD can efficiently evaluate the Hessian-vector product
 </p>
 </div>
 </div>
-<div id="outline-container-org78d552e" class="outline-2">
-<h2 id="org78d552e"><a href="#org78d552e">References</a></h2>
-<div class="outline-text-2" id="text-org78d552e">
+<div id="outline-container-orgf36dca0" class="outline-2">
+<h2 id="orgf36dca0"><a href="#orgf36dca0">References</a></h2>
+<div class="outline-text-2" id="text-orgf36dca0">
 <p>
 Books and Papers
 </p>
@@ -843,11 +845,11 @@ transforms. <a href="https://pytorch.org/tutorials/intermediate/jacobians_hessia
 </ul>
 </div>
 </div>
-<div id="outline-container-orge4c70bb" class="outline-2">
-<h2 id="orge4c70bb"><a href="#orge4c70bb">Appendix: An inductive proof of reverse-mode AD formula</a></h2>
-<div class="outline-text-2" id="text-orge4c70bb">
+<div id="outline-container-org0d4725f" class="outline-2">
+<h2 id="org0d4725f"><a href="#org0d4725f">Appendix: An inductive proof of reverse-mode AD formula</a></h2>
+<div class="outline-text-2" id="text-org0d4725f">
 <p>
-<a id="org371d4c2"></a>
+<a id="orgb9b693a"></a>
 </p>
 
 <p>
@@ -904,11 +906,11 @@ matrix.  Setting \(s=k-1\) in the statement yields \[ \frac{\partial y}{\partial
 </p>
 </div>
 </div>
-<div id="outline-container-orgad488f3" class="outline-2">
-<h2 id="orgad488f3"><a href="#orgad488f3">Appendix: JVP and VJP for linear maps</a></h2>
-<div class="outline-text-2" id="text-orgad488f3">
+<div id="outline-container-org7eebd85" class="outline-2">
+<h2 id="org7eebd85"><a href="#org7eebd85">Appendix: JVP and VJP for linear maps</a></h2>
+<div class="outline-text-2" id="text-org7eebd85">
 <p>
-<a id="orgdd55cdb"></a>
+<a id="org0209fb5"></a>
 </p>
 
 <p>
@@ -941,11 +943,11 @@ B[j, k]}v[i, k'] = \sum_i A[i, j]v[i, k] = A^\intercal v. \]
 </p>
 </div>
 </div>
-<div id="outline-container-orgf8dcbd9" class="outline-2">
-<h2 id="orgf8dcbd9"><a href="#orgf8dcbd9">Appendix: Overview of the Python Implementation</a></h2>
-<div class="outline-text-2" id="text-orgf8dcbd9">
+<div id="outline-container-orgffa9c66" class="outline-2">
+<h2 id="orgffa9c66"><a href="#orgffa9c66">Appendix: Overview of the Python Implementation</a></h2>
+<div class="outline-text-2" id="text-orgffa9c66">
 <p>
-<a id="org311c976"></a>
+<a id="org56c3d14"></a>
 </p>
 
 <p>

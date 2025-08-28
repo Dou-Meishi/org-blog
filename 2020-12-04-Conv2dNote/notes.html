@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,16 +55,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgea5fe37">Input/Output</a></li>
-<li><a href="#orgc9f5a77">Parameters</a>
+<li><a href="#org4b585b0">Input/Output</a></li>
+<li><a href="#org2667bf4">Parameters</a>
 <ul>
-<li><a href="#org3544464">stride</a></li>
-<li><a href="#org8adc58e">padding</a></li>
-<li><a href="#org08bd72b">dilation</a></li>
+<li><a href="#orgdd90859">stride</a></li>
+<li><a href="#org77dd316">padding</a></li>
+<li><a href="#orgd7e9eeb">dilation</a></li>
 </ul>
 </li>
-<li><a href="#org2601f54">Correlation and Convolution</a></li>
-<li><a href="#org36ed5b9">References</a></li>
+<li><a href="#orgddb6844">Correlation and Convolution</a></li>
+<li><a href="#org523db92">References</a></li>
 </ul>
 </div>
 </nav>
@@ -73,9 +75,9 @@
 最后补充了一个困扰我很久的问题：
 为什么要叫 convolution?
 </p>
-<div id="outline-container-orgea5fe37" class="outline-2">
-<h2 id="orgea5fe37"><a href="#orgea5fe37">Input/Output</a></h2>
-<div class="outline-text-2" id="text-orgea5fe37">
+<div id="outline-container-org4b585b0" class="outline-2">
+<h2 id="org4b585b0"><a href="#org4b585b0">Input/Output</a></h2>
+<div class="outline-text-2" id="text-org4b585b0">
 <p>
 文档中明确给出了输入输出的类型：有四个维度 (N, C, H, W) 的 tensor,
 用 NumPy 的术语来说就是 4d array.
@@ -121,9 +123,9 @@ H<sub>out</sub>, W<sub>out</sub> 则依赖于 H<sub>in</sub> 和 W<sub>out</sub>
 </p>
 </div>
 </div>
-<div id="outline-container-orgc9f5a77" class="outline-2">
-<h2 id="orgc9f5a77"><a href="#orgc9f5a77">Parameters</a></h2>
-<div class="outline-text-2" id="text-orgc9f5a77">
+<div id="outline-container-org2667bf4" class="outline-2">
+<h2 id="org2667bf4"><a href="#org2667bf4">Parameters</a></h2>
+<div class="outline-text-2" id="text-org2667bf4">
 <p>
 在介绍 Conv2d 的各种参数之前，先简单地介绍输出是怎样从输入算得的。官方
 文档中给出的公式是 \[ output(N_i, C_{outj}) = bias(C_{outj}) +
@@ -155,7 +157,7 @@ N, C<sub>out</sub>, C<sub>in</sub> 都是 1 时，
 那么输出可以写成
 </p>
 
-<pre class="example" id="orga74dfac">
+<pre class="example" id="org4b23f4a">
 output[i,j] = dot(kernel, input[i:i+k, j:j+k])
 </pre>
 
@@ -165,7 +167,7 @@ output[i,j] = dot(kernel, input[i:i+k, j:j+k])
 </p>
 
 
-<figure id="orgb0b4a75">
+<figure id="orgcb2f44c">
 <img src="./convolve-demo.gif" alt="convolve-demo.gif">
 
 </figure>
@@ -178,28 +180,28 @@ output[i,j] = dot(kernel, input[i:i+k, j:j+k])
 k + 1. \]
 </p>
 </div>
-<div id="outline-container-org3544464" class="outline-3">
-<h3 id="org3544464"><a href="#org3544464">stride</a></h3>
-<div class="outline-text-3" id="text-org3544464">
+<div id="outline-container-orgdd90859" class="outline-3">
+<h3 id="orgdd90859"><a href="#orgdd90859">stride</a></h3>
+<div class="outline-text-3" id="text-orgdd90859">
 <p>
 参数 stride 控制每次 kernel 滑动的步长，用公式表述就是
 </p>
 
-<pre class="example" id="orgc62a6b2">
+<pre class="example" id="org81d116e">
 output[i,j] = dot(kernel, input[stride*i:stride*i + k,
                                 stride*j:stride*j + k])
 </pre>
 
 
-<figure id="orgcc0fd40">
+<figure id="orgbb0ebc8">
 <img src="./convolve-stride.png" alt="convolve-stride.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org8adc58e" class="outline-3">
-<h3 id="org8adc58e"><a href="#org8adc58e">padding</a></h3>
-<div class="outline-text-3" id="text-org8adc58e">
+<div id="outline-container-org77dd316" class="outline-3">
+<h3 id="org77dd316"><a href="#org77dd316">padding</a></h3>
+<div class="outline-text-3" id="text-org77dd316">
 <p>
 从之前的公式看出，一般输出矩阵的大小是小于输入矩阵的。
 要扩展输出矩阵大小也很简单，只要处理 input array 下标越界的问题就好了。
@@ -221,35 +223,35 @@ zero padding 也有好几种方式，根据对下标越界的容身程度而定�
 </p>
 
 
-<figure id="org7ad37e5">
+<figure id="org3da7f4f">
 <img src="./convolve-padding.gif" alt="convolve-padding.gif">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org08bd72b" class="outline-3">
-<h3 id="org08bd72b"><a href="#org08bd72b">dilation</a></h3>
-<div class="outline-text-3" id="text-org08bd72b">
+<div id="outline-container-orgd7e9eeb" class="outline-3">
+<h3 id="orgd7e9eeb"><a href="#orgd7e9eeb">dilation</a></h3>
+<div class="outline-text-3" id="text-orgd7e9eeb">
 <p>
 控制 kernel 如何覆盖在输入矩阵上，用公式表述就是
 </p>
 
-<pre class="example" id="org318e381">
+<pre class="example" id="org6567bcb">
 output[i,j] = dot(kernel, input[i:i+k*dilation:dilation,
                                 j:j+k*dilation:dilation])
 </pre>
 
 
-<figure id="orgcf49d0a">
+<figure id="org25171d2">
 <img src="./convolve-dilation.gif" alt="convolve-dilation.gif">
 
 </figure>
 </div>
 </div>
 </div>
-<div id="outline-container-org2601f54" class="outline-2">
-<h2 id="org2601f54"><a href="#org2601f54">Correlation and Convolution</a></h2>
-<div class="outline-text-2" id="text-org2601f54">
+<div id="outline-container-orgddb6844" class="outline-2">
+<h2 id="orgddb6844"><a href="#orgddb6844">Correlation and Convolution</a></h2>
+<div class="outline-text-2" id="text-orgddb6844">
 <p>
 我最早接触的 correlation, convolution 是在光学课上，
 那里是对两个连续信号 f, g 定义的
@@ -275,9 +277,9 @@ correlation 却叫 convolution.
 </p>
 </div>
 </div>
-<div id="outline-container-org36ed5b9" class="outline-2">
-<h2 id="org36ed5b9"><a href="#org36ed5b9">References</a></h2>
-<div class="outline-text-2" id="text-org36ed5b9">
+<div id="outline-container-org523db92" class="outline-2">
+<h2 id="org523db92"><a href="#org523db92">References</a></h2>
+<div class="outline-text-2" id="text-org523db92">
 <ul class="org-ul">
 <li><a href="https://medium.com/@RaghavPrabhu/understanding-of-convolutional-neural-network-cnn-deep-learning-99760835f148">Understanding of Convolutional Neural Network (CNN) — Deep Learning</a></li>
 <li><a href="https://cs231n.github.io/convolutional-networks/#norm">Convolutional Neural Networks (CNNs / ConvNets)</a></li>

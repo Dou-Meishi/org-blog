@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,21 +55,21 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org14aa49a">Introduction</a></li>
-<li><a href="#orgce82936">Background and Applications</a></li>
-<li><a href="#orga194a39">Problem Statement and Our Solution</a></li>
+<li><a href="#org38ac01d">Introduction</a></li>
+<li><a href="#orge6ca15c">Background and Applications</a></li>
+<li><a href="#orgf04abbd">Problem Statement and Our Solution</a></li>
 <li><a href="#explanation-of-the-implementation">Explanation of the Implementation</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
-<li><a href="#org669688f">Mathematical Justifications</a></li>
+<li><a href="#org0407263">Mathematical Justifications</a></li>
 </ul>
 </div>
 </nav>
 <p>
 <b>Authors</b>: Dou Meishi, ChatGPT
 </p>
-<div id="outline-container-org14aa49a" class="outline-2">
-<h2 id="org14aa49a"><a href="#org14aa49a">Introduction</a></h2>
-<div class="outline-text-2" id="text-org14aa49a">
+<div id="outline-container-org38ac01d" class="outline-2">
+<h2 id="org38ac01d"><a href="#org38ac01d">Introduction</a></h2>
+<div class="outline-text-2" id="text-org38ac01d">
 <p>
 In many applications, it is often required to simulate swap operations
 on a list of elements without actually modifying the underlying data.
@@ -86,9 +88,9 @@ will explain the reasons behind our implementation and conclude.
 </p>
 </div>
 </div>
-<div id="outline-container-orgce82936" class="outline-2">
-<h2 id="orgce82936"><a href="#orgce82936">Background and Applications</a></h2>
-<div class="outline-text-2" id="text-orgce82936">
+<div id="outline-container-orge6ca15c" class="outline-2">
+<h2 id="orge6ca15c"><a href="#orge6ca15c">Background and Applications</a></h2>
+<div class="outline-text-2" id="text-orge6ca15c">
 <p>
 Swapping elements in a list is a fundamental operation in many
 algorithms, such as sorting algorithms and combinatorial search
@@ -118,9 +120,9 @@ without affecting the original data.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orga194a39" class="outline-2">
-<h2 id="orga194a39"><a href="#orga194a39">Problem Statement and Our Solution</a></h2>
-<div class="outline-text-2" id="text-orga194a39">
+<div id="outline-container-orgf04abbd" class="outline-2">
+<h2 id="orgf04abbd"><a href="#orgf04abbd">Problem Statement and Our Solution</a></h2>
+<div class="outline-text-2" id="text-orgf04abbd">
 <p>
 Suppose we have a list of elements and we want to simulate swap
 operations on this list without modifying the actual data. We also want
@@ -299,9 +301,9 @@ impact of different permutations without affecting the underlying data.
 </p>
 </div>
 </div>
-<div id="outline-container-org669688f" class="outline-2">
-<h2 id="org669688f"><a href="#org669688f">Mathematical Justifications</a></h2>
-<div class="outline-text-2" id="text-org669688f">
+<div id="outline-container-org0407263" class="outline-2">
+<h2 id="org0407263"><a href="#org0407263">Mathematical Justifications</a></h2>
+<div class="outline-text-2" id="text-org0407263">
 <p>
 It is possible to interprete <code>indices</code> and <code>inverse_indices</code> as two permutation matrix. To see this, one may write <code>data</code> and <code>view</code> as two column vectors and note the following equations.
 </p>

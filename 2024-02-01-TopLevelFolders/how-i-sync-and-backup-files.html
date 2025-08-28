@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,9 +55,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7c141de">Different focus of syncing and backing up</a></li>
-<li><a href="#org3c5525a">Presync</a></li>
-<li><a href="#orgcf51962">Backup</a></li>
+<li><a href="#orgcbd1d38">Different focus of syncing and backing up</a></li>
+<li><a href="#orgf94fdc3">Presync</a></li>
+<li><a href="#org7f8ab47">Backup</a></li>
 </ul>
 </div>
 </nav>
@@ -79,9 +81,9 @@ interest, they should have a local backup in <code>Assets/</code> or <code>Docum
 maintaining by a special script <code>dms-presync</code>. This script should be
 executed before the actual backup process begins.
 </p>
-<div id="outline-container-org7c141de" class="outline-2">
-<h2 id="org7c141de"><a href="#org7c141de">Different focus of syncing and backing up</a></h2>
-<div class="outline-text-2" id="text-org7c141de">
+<div id="outline-container-orgcbd1d38" class="outline-2">
+<h2 id="orgcbd1d38"><a href="#orgcbd1d38">Different focus of syncing and backing up</a></h2>
+<div class="outline-text-2" id="text-orgcbd1d38">
 <p>
 First, I would like to give some difference between syncing and
 backing up based on personal experiences.
@@ -104,9 +106,9 @@ certain unnecessary files could and should be ignored.
 </p>
 </div>
 </div>
-<div id="outline-container-org3c5525a" class="outline-2">
-<h2 id="org3c5525a"><a href="#org3c5525a">Presync</a></h2>
-<div class="outline-text-2" id="text-org3c5525a">
+<div id="outline-container-orgf94fdc3" class="outline-2">
+<h2 id="orgf94fdc3"><a href="#orgf94fdc3">Presync</a></h2>
+<div class="outline-text-2" id="text-orgf94fdc3">
 <p>
 The purpose of this stage is to ensure that it is sufficient to
 consider only the two folders <code>Assets/</code> and <code>Documents/</code> in creating
@@ -127,9 +129,9 @@ Some folders involved in this stage include, e.g., <code>~/.local/share/fonts/</
 </ol>
 </div>
 </div>
-<div id="outline-container-orgcf51962" class="outline-2">
-<h2 id="orgcf51962"><a href="#orgcf51962">Backup</a></h2>
-<div class="outline-text-2" id="text-orgcf51962">
+<div id="outline-container-org7f8ab47" class="outline-2">
+<h2 id="org7f8ab47"><a href="#org7f8ab47">Backup</a></h2>
+<div class="outline-text-2" id="text-org7f8ab47">
 <p>
 The actual backup process can be generally split into two steps:
 backup <code>.git/</code> folders and backup other folders.

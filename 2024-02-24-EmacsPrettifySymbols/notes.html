@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,13 +55,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgcd55469">Create the list of pretty symbols</a></li>
-<li><a href="#org994b61b">Decide whether to compose</a></li>
-<li><a href="#org2261742">Tweak into the mode hook</a></li>
-<li><a href="#org50a9ea0">Choose appropriate fonts</a></li>
-<li><a href="#orgf8ba7b1">Add more symbols</a></li>
-<li><a href="#org1b97217">Alternative implementation: hard replacing</a></li>
-<li><a href="#org86628bc">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org992a966">Create the list of pretty symbols</a></li>
+<li><a href="#org5f3a780">Decide whether to compose</a></li>
+<li><a href="#orga008307">Tweak into the mode hook</a></li>
+<li><a href="#org42f2008">Choose appropriate fonts</a></li>
+<li><a href="#orge608625">Add more symbols</a></li>
+<li><a href="#orgf8b53a3">Alternative implementation: hard replacing</a></li>
+<li><a href="#org496cb01">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -86,9 +88,9 @@ Before prettify
 After prettify
 <img src="./after-prettify.png" alt="after-prettify.png">
 </p>
-<div id="outline-container-orgcd55469" class="outline-2">
-<h2 id="orgcd55469"><a href="#orgcd55469">Create the list of pretty symbols</a></h2>
-<div class="outline-text-2" id="text-orgcd55469">
+<div id="outline-container-org992a966" class="outline-2">
+<h2 id="org992a966"><a href="#org992a966">Create the list of pretty symbols</a></h2>
+<div class="outline-text-2" id="text-org992a966">
 <p>
 Each element <code>prettify-symbols-alist</code> looks like <code>(SYMBOL . CHARACTER)</code>,
 where the symbol matching <code>SYMBOL</code> (a string, not a regexp) will be
@@ -126,7 +128,7 @@ return a list suitable for <code>prettify-symbols-alist</code>.
 The CSV file looks like
 </p>
 
-<pre class="example" id="orgc209937">
+<pre class="example" id="org0f30ab5">
 \mathbb{P}, ℙ
 \leq, ≤
 \geq, ≥
@@ -134,9 +136,9 @@ The CSV file looks like
 </pre>
 </div>
 </div>
-<div id="outline-container-org994b61b" class="outline-2">
-<h2 id="org994b61b"><a href="#org994b61b">Decide whether to compose</a></h2>
-<div class="outline-text-2" id="text-org994b61b">
+<div id="outline-container-org5f3a780" class="outline-2">
+<h2 id="org5f3a780"><a href="#org5f3a780">Decide whether to compose</a></h2>
+<div class="outline-text-2" id="text-org5f3a780">
 <p>
 The variable <code>prettify-symbols-compose-predicate</code> is a predicate for
 deciding if the currently matched symbol is to be composed.  By
@@ -159,9 +161,9 @@ writing formulae. So I overwrite the rule to allow these cases.
 </div>
 </div>
 </div>
-<div id="outline-container-org2261742" class="outline-2">
-<h2 id="org2261742"><a href="#org2261742">Tweak into the mode hook</a></h2>
-<div class="outline-text-2" id="text-org2261742">
+<div id="outline-container-orga008307" class="outline-2">
+<h2 id="orga008307"><a href="#orga008307">Tweak into the mode hook</a></h2>
+<div class="outline-text-2" id="text-orga008307">
 <p>
 As both <code>prettify-symbols-alist</code> and <code>prettify-symbols-compose-predicate</code>
 are buffer-local variables, it is recommended to set them in a mode
@@ -182,9 +184,9 @@ latex-mode hook if necessary.
 </div>
 </div>
 </div>
-<div id="outline-container-org50a9ea0" class="outline-2">
-<h2 id="org50a9ea0"><a href="#org50a9ea0">Choose appropriate fonts</a></h2>
-<div class="outline-text-2" id="text-org50a9ea0">
+<div id="outline-container-org42f2008" class="outline-2">
+<h2 id="org42f2008"><a href="#org42f2008">Choose appropriate fonts</a></h2>
+<div class="outline-text-2" id="text-org42f2008">
 <p>
 In most cases, many mathematical symbols are not included in the main
 font. Fortunately, Emacs has the abilit to display selected characters
@@ -218,9 +220,9 @@ Below I patch the default fontset in order to
 </div>
 </div>
 </div>
-<div id="outline-container-orgf8ba7b1" class="outline-2">
-<h2 id="orgf8ba7b1"><a href="#orgf8ba7b1">Add more symbols</a></h2>
-<div class="outline-text-2" id="text-orgf8ba7b1">
+<div id="outline-container-orge608625" class="outline-2">
+<h2 id="orge608625"><a href="#orge608625">Add more symbols</a></h2>
+<div class="outline-text-2" id="text-orge608625">
 <p>
 In general, the following things are needed to display unicode characters by composition:
 </p>
@@ -242,15 +244,15 @@ Emacs will pops up a list of mathematical symbols for selection.
 </p>
 
 
-<figure id="orgd7efd9f">
+<figure id="org105afb4">
 <img src="./script-letters.png" alt="script-letters.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org1b97217" class="outline-2">
-<h2 id="org1b97217"><a href="#org1b97217">Alternative implementation: hard replacing</a></h2>
-<div class="outline-text-2" id="text-org1b97217">
+<div id="outline-container-orgf8b53a3" class="outline-2">
+<h2 id="orgf8b53a3"><a href="#orgf8b53a3">Alternative implementation: hard replacing</a></h2>
+<div class="outline-text-2" id="text-orgf8b53a3">
 <p>
 The advantage of <code>prettify-symbols-mode</code> is that it is only a way of
 rendering. The file content will not be changed when the minor mode is
@@ -268,9 +270,9 @@ characters in a region, or vice versa.
 </p>
 </div>
 </div>
-<div id="outline-container-org86628bc" class="outline-2">
-<h2 id="org86628bc"><a href="#org86628bc">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
-<div class="outline-text-2" id="text-org86628bc">
+<div id="outline-container-org496cb01" class="outline-2">
+<h2 id="org496cb01"><a href="#org496cb01">Useful links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
+<div class="outline-text-2" id="text-org496cb01">
 <ol class="org-ol">
 <li><a href="https://tony-zorman.com/posts/pretty-latex.html">Prettifying LaTeX Buffers</a></li>
 <li><a href="https://occasionallycogent.com/emacs_prettify_comments/index.html">Emacs prettify-symbols-mode in Comments</a></li>

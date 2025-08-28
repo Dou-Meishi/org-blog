@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,16 +55,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org36b7be7">Preferences</a></li>
-<li><a href="#org4b908bb">Setting Preference</a></li>
-<li><a href="#org2fa3fdf">Profiles</a></li>
-<li><a href="#orga0315e4">Path Specification</a></li>
-<li><a href="#orga348fe6">Ignoring</a></li>
-<li><a href="#orgff3698f">Backup</a></li>
-<li><a href="#org748b5c4">Scenario: Synchronize with a USB Drive</a>
+<li><a href="#org597694b">Preferences</a></li>
+<li><a href="#org8540c68">Setting Preference</a></li>
+<li><a href="#org63c29f2">Profiles</a></li>
+<li><a href="#org6dc86c8">Path Specification</a></li>
+<li><a href="#org017c9ec">Ignoring</a></li>
+<li><a href="#org86a2fed">Backup</a></li>
+<li><a href="#orgec2ee21">Scenario: Synchronize with a USB Drive</a>
 <ul>
-<li><a href="#orgad68f74">Possible Errors</a></li>
-<li><a href="#orge2e1a31">Syncrhonize with FAT/NTFS Filesystems</a></li>
+<li><a href="#org4f3d338">Possible Errors</a></li>
+<li><a href="#org4d147ac">Syncrhonize with FAT/NTFS Filesystems</a></li>
 </ul>
 </li>
 </ul>
@@ -73,15 +75,15 @@ In the <a href="./basics.html">previous blog</a>, we introduced basics of <a hre
 In this blog, we will cover more advanced topics, including <i>profiles</i>, <i>ignoring</i>, <i>backup,</i> etc.
 You can also find the complete documentation in <a href="https://raw.githubusercontent.com/bcpierce00/unison/documentation/unison-manual.pdf">the official manual</a>.
 </p>
-<div id="outline-container-org36b7be7" class="outline-2">
-<h2 id="org36b7be7"><a href="#org36b7be7">Preferences</a></h2>
-<div class="outline-text-2" id="text-org36b7be7">
+<div id="outline-container-org597694b" class="outline-2">
+<h2 id="org597694b"><a href="#org597694b">Preferences</a></h2>
+<div class="outline-text-2" id="text-org597694b">
 <p>
 Many details of Unison’s behavior are configurable by user-settable <i>preferences</i> (or, arguments,
 options, in other words). If we type <code>unison -help</code>, then the outputs will look like
 </p>
 
-<pre class="example" id="orgeb4d0ff">
+<pre class="example" id="orge7d059b">
 Usage: unison [options]
     or unison root1 root2 [options]
     or unison profilename [options]
@@ -142,9 +144,9 @@ go through these options once by typing <code>unison -help</code>.
 </p>
 </div>
 </div>
-<div id="outline-container-org4b908bb" class="outline-2">
-<h2 id="org4b908bb"><a href="#org4b908bb">Setting Preference</a></h2>
-<div class="outline-text-2" id="text-org4b908bb">
+<div id="outline-container-org8540c68" class="outline-2">
+<h2 id="org8540c68"><a href="#org8540c68">Setting Preference</a></h2>
+<div class="outline-text-2" id="text-org8540c68">
 <p>
 There are two ways to set the values of preferences: temporarily, by providing command-line arguments
 to a particular run of Unison, or permanently, by adding commands to a profile in the <code>.unison</code> directory on
@@ -167,9 +169,9 @@ In the profile, a line in the form <code>p = value</code> works for both boolean
 </p>
 </div>
 </div>
-<div id="outline-container-org2fa3fdf" class="outline-2">
-<h2 id="org2fa3fdf"><a href="#org2fa3fdf">Profiles</a></h2>
-<div class="outline-text-2" id="text-org2fa3fdf">
+<div id="outline-container-org63c29f2" class="outline-2">
+<h2 id="org63c29f2"><a href="#org63c29f2">Profiles</a></h2>
+<div class="outline-text-2" id="text-org63c29f2">
 <p>
 A <i>profile</i> is a text file that specifies permanent settings for roots, paths, ignore patterns, and other preferences.
 Profiles should reside in the <code>.unison</code> directory on the <i>client</i> machine.
@@ -209,9 +211,9 @@ profile. Its value is listed along with the profile name in the graphical user i
 </p>
 </div>
 </div>
-<div id="outline-container-orga0315e4" class="outline-2">
-<h2 id="orga0315e4"><a href="#orga0315e4">Path Specification</a></h2>
-<div class="outline-text-2" id="text-orga0315e4">
+<div id="outline-container-org6dc86c8" class="outline-2">
+<h2 id="org6dc86c8"><a href="#org6dc86c8">Path Specification</a></h2>
+<div class="outline-text-2" id="text-org6dc86c8">
 <p>
 Several Unison preferences (e.g., <code>ignore</code>, <code>backup</code>, <code>merge</code>, etc.) specify individual paths or sets of paths.
 These preferences can be set to any of the following patterns.
@@ -232,15 +234,15 @@ In those forms, the <code>name</code> or <code>path</code> argument can be a glo
 </p>
 </div>
 </div>
-<div id="outline-container-orga348fe6" class="outline-2">
-<h2 id="orga348fe6"><a href="#orga348fe6">Ignoring</a></h2>
-<div class="outline-text-2" id="text-orga348fe6">
+<div id="outline-container-org017c9ec" class="outline-2">
+<h2 id="org017c9ec"><a href="#org017c9ec">Ignoring</a></h2>
+<div class="outline-text-2" id="text-org017c9ec">
 <p>
 We can instruct Unison to ignore paths by setting the preference <code>ignore</code>. For example, the below line
 in a profile tells Unison to ignore the path <code>a/b</code>:
 </p>
 
-<pre class="example" id="orgd369b4b">
+<pre class="example" id="org935e256">
 ignore = Path a/b
 </pre>
 
@@ -271,16 +273,16 @@ then Unison still ignores a path like <code>data/a.py</code>.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgff3698f" class="outline-2">
-<h2 id="orgff3698f"><a href="#orgff3698f">Backup</a></h2>
-<div class="outline-text-2" id="text-orgff3698f">
+<div id="outline-container-org86a2fed" class="outline-2">
+<h2 id="org86a2fed"><a href="#org86a2fed">Backup</a></h2>
+<div class="outline-text-2" id="text-org86a2fed">
 <p>
 When Unison overwrites (or deletes) a file or directory while propagating changes from the other replica,
 it can keep the old version around as a backup. Similar to ignoring, you can set the preference <code>backup</code>
 to require what kind of files should be backed up. For example,
 </p>
 
-<pre class="example" id="orga7268b0">
+<pre class="example" id="org15919de">
 backup = Name *
 </pre>
 
@@ -317,9 +319,9 @@ their names.
 </p>
 </div>
 </div>
-<div id="outline-container-org748b5c4" class="outline-2">
-<h2 id="org748b5c4"><a href="#org748b5c4">Scenario: Synchronize with a USB Drive</a></h2>
-<div class="outline-text-2" id="text-org748b5c4">
+<div id="outline-container-orgec2ee21" class="outline-2">
+<h2 id="orgec2ee21"><a href="#orgec2ee21">Scenario: Synchronize with a USB Drive</a></h2>
+<div class="outline-text-2" id="text-orgec2ee21">
 <p>
 Assume We want to synchronize our home directory <code>/home/dou</code> with a USB drive,
 mounted at <code>/media/dou/KINGSTON</code>.
@@ -327,9 +329,9 @@ It is very likely that Unison will raise errors time to time. But don't worry. T
 intended and we explain them below.
 </p>
 </div>
-<div id="outline-container-orgad68f74" class="outline-3">
-<h3 id="orgad68f74"><a href="#orgad68f74">Possible Errors</a></h3>
-<div class="outline-text-3" id="text-orgad68f74">
+<div id="outline-container-org4f3d338" class="outline-3">
+<h3 id="org4f3d338"><a href="#org4f3d338">Possible Errors</a></h3>
+<div class="outline-text-3" id="text-org4f3d338">
 <p>
 If our USB drive is empty, the first run of Unison will simply copying
 files. Suppose we have done and <i>rejected</i> the USB drive. What will
@@ -356,9 +358,9 @@ directory</i> error. This is becausethe second root directory
 </p>
 </div>
 </div>
-<div id="outline-container-orge2e1a31" class="outline-3">
-<h3 id="orge2e1a31"><a href="#orge2e1a31">Syncrhonize with FAT/NTFS Filesystems</a></h3>
-<div class="outline-text-3" id="text-orge2e1a31">
+<div id="outline-container-org4d147ac" class="outline-3">
+<h3 id="org4d147ac"><a href="#org4d147ac">Syncrhonize with FAT/NTFS Filesystems</a></h3>
+<div class="outline-text-3" id="text-org4d147ac">
 <p>
 If Unison is running on a Unix-like machine but told to synchronize
 with FAT/NTFS filesystems, the <code>fat</code> preference should be set to true,

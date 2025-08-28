@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,11 +55,11 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org75505c2">Go through the manual</a></li>
-<li><a href="#org8217dd3">Minimal Configuration</a></li>
-<li><a href="#org82eecc8">Question</a></li>
-<li><a href="#org178faff">Build My Blog Site</a></li>
-<li><a href="#org38c043a">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org4ab349c">Go through the manual</a></li>
+<li><a href="#orgb8ccb3f">Minimal Configuration</a></li>
+<li><a href="#org1204668">Question</a></li>
+<li><a href="#orgb5fe8c7">Build My Blog Site</a></li>
+<li><a href="#org3fa9fd8">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -93,9 +95,9 @@ e.g.,  <a href="https://bastibe.de/about.html">Bastian</a>,  <a href="https://ja
 Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
-<div id="outline-container-org75505c2" class="outline-2">
-<h2 id="org75505c2"><a href="#org75505c2">Go through the manual</a></h2>
-<div class="outline-text-2" id="text-org75505c2">
+<div id="outline-container-org4ab349c" class="outline-2">
+<h2 id="org4ab349c"><a href="#org4ab349c">Go through the manual</a></h2>
+<div class="outline-text-2" id="text-org4ab349c">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -205,9 +207,9 @@ These key bindings are:
 </ol>
 </div>
 </div>
-<div id="outline-container-org8217dd3" class="outline-2">
-<h2 id="org8217dd3"><a href="#org8217dd3">Minimal Configuration</a></h2>
-<div class="outline-text-2" id="text-org8217dd3">
+<div id="outline-container-orgb8ccb3f" class="outline-2">
+<h2 id="orgb8ccb3f"><a href="#orgb8ccb3f">Minimal Configuration</a></h2>
+<div class="outline-text-2" id="text-orgb8ccb3f">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -293,7 +295,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="org9780251">
+<pre class="example" id="org9e48e79">
 org-blog/
 ├── drafts
 ├── org
@@ -312,7 +314,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org08a131a">
+<pre class="example" id="org0bc4979">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -333,9 +335,9 @@ org-blog/
 </pre>
 </div>
 </div>
-<div id="outline-container-org82eecc8" class="outline-2">
-<h2 id="org82eecc8"><a href="#org82eecc8">Question</a></h2>
-<div class="outline-text-2" id="text-org82eecc8">
+<div id="outline-container-org1204668" class="outline-2">
+<h2 id="org1204668"><a href="#org1204668">Question</a></h2>
+<div class="outline-text-2" id="text-org1204668">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -356,7 +358,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org6edb2a0">
+<pre class="example" id="org71e15bd">
 org-blog/
 ├── drafts
 ├── org
@@ -410,9 +412,9 @@ the drafts directory will not be included in the index.
 </ol>
 </div>
 </div>
-<div id="outline-container-org178faff" class="outline-2">
-<h2 id="org178faff"><a href="#org178faff">Build My Blog Site</a></h2>
-<div class="outline-text-2" id="text-org178faff">
+<div id="outline-container-orgb5fe8c7" class="outline-2">
+<h2 id="orgb5fe8c7"><a href="#orgb5fe8c7">Build My Blog Site</a></h2>
+<div class="outline-text-2" id="text-orgb5fe8c7">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -534,9 +536,9 @@ The lisp script and static assets are all included in <a href="https://github.co
 </p>
 </div>
 </div>
-<div id="outline-container-org38c043a" class="outline-2">
-<h2 id="org38c043a"><a href="#org38c043a">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
-<div class="outline-text-2" id="text-org38c043a">
+<div id="outline-container-org3fa9fd8" class="outline-2">
+<h2 id="org3fa9fd8"><a href="#org3fa9fd8">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
+<div class="outline-text-2" id="text-org3fa9fd8">
 <p>
 Below are other users' configuration on org static blog.
 </p>

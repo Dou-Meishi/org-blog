@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,12 +55,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org22fe960">Terminology</a></li>
-<li><a href="#orgf40be8a">How-to: Choose Fonts</a></li>
-<li><a href="#orgab89eca">How-to: Preview Fonts</a></li>
+<li><a href="#org3950300">Terminology</a></li>
+<li><a href="#org4f8bdd4">How-to: Choose Fonts</a></li>
+<li><a href="#org51e25bd">How-to: Preview Fonts</a></li>
 <li><a href="#appendix-query-fonts-via-fontconfig">How-to: Query Fonts</a></li>
 <li><a href="#appendix-inspect-opentype-font-files">How-to: Inspect Fonts</a></li>
-<li><a href="#orgf630a80">References</a></li>
+<li><a href="#orgc0a7615">References</a></li>
 <li><a href="#appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</a></li>
 <li><a href="#appendix-a-list-of-my-preferred-fonts">Appendix: A List of My Favorite Fonts</a></li>
 </ul>
@@ -85,9 +87,9 @@ following topics: previewing fonts, querying fonts, and inspecting
 fonts. Finally, I include a list of my favorite fonts and a brief
 overview of text rendering in the appendices.
 </p>
-<div id="outline-container-org22fe960" class="outline-2">
-<h2 id="org22fe960"><a href="#org22fe960">Terminology</a></h2>
-<div class="outline-text-2" id="text-org22fe960">
+<div id="outline-container-org3950300" class="outline-2">
+<h2 id="org3950300"><a href="#org3950300">Terminology</a></h2>
+<div class="outline-text-2" id="text-org3950300">
 <p>
 Terms used in typography, web development, and other fields may vary a
 lot. To avoid possible confusions, a brief list is provided below for
@@ -149,9 +151,9 @@ example, the superfamily <i>DejaVu</i> contains font families <i>DejaVu Serif</i
 </dl>
 </div>
 </div>
-<div id="outline-container-orgf40be8a" class="outline-2">
-<h2 id="orgf40be8a"><a href="#orgf40be8a">How-to: Choose Fonts</a></h2>
-<div class="outline-text-2" id="text-orgf40be8a">
+<div id="outline-container-org4f8bdd4" class="outline-2">
+<h2 id="org4f8bdd4"><a href="#org4f8bdd4">How-to: Choose Fonts</a></h2>
+<div class="outline-text-2" id="text-org4f8bdd4">
 <p>
 The general principle for choosing fonts is to ensure that they
 <i>effectively convey the intended meaning of the text</i>. To achieve this,
@@ -180,9 +182,9 @@ For detailed considerations, please refer to <a href="https://fonts.google.com/k
 </p>
 </div>
 </div>
-<div id="outline-container-orgab89eca" class="outline-2">
-<h2 id="orgab89eca"><a href="#orgab89eca">How-to: Preview Fonts</a></h2>
-<div class="outline-text-2" id="text-orgab89eca">
+<div id="outline-container-org51e25bd" class="outline-2">
+<h2 id="org51e25bd"><a href="#org51e25bd">How-to: Preview Fonts</a></h2>
+<div class="outline-text-2" id="text-org51e25bd">
 <p>
 If a font family is accessible on the machine, then a convenient way
 to preview it is through the web browser. For example, the following
@@ -204,7 +206,7 @@ variant in Lora family.
 </div>
 
 
-<figure id="org30aef6f">
+<figure id="orgee4d2e7">
 <img src="./preview-lora.png" alt="preview-lora.png">
 
 </figure>
@@ -238,7 +240,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="orgb49ae96">
+<pre class="example" id="orgf40a32c">
 /home/dou/.local/share/fonts/opentype/Lora/Lora-Italic.otf:
 /home/dou/.local/share/fonts/opentype/Lora/Lora-SemiBoldItalic.otf:
 /home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf:
@@ -253,7 +255,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="orge779b7e">
+<pre class="example" id="org4564f7a">
 :file=/home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf
 </pre>
 
@@ -266,7 +268,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="org775a5ef">
+<pre class="example" id="orgf471c99">
 Pattern has 4 elts (size 16)
     family: "lora"(s)
     slant: 100(i)(s)
@@ -301,7 +303,7 @@ systems supported in the font.
 </pre>
 </div>
 
-<pre class="example" id="org10e542c">
+<pre class="example" id="orgccbdff3">
 ...
 hani		CJK Ideographic
 hani.JAN	CJK Ideographic/Japanese
@@ -333,7 +335,7 @@ Supported <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/fe
 </pre>
 </div>
 
-<pre class="example" id="orgca39b7a">
+<pre class="example" id="org4a400fb">
 aalt	Access All Alternates
 calt	Contextual Alternates
 case	Case-Sensitive Forms
@@ -385,9 +387,9 @@ extract individual fonts via <a href="https://github.com/fonttools/fonttools">Fo
 </div>
 </div>
 </div>
-<div id="outline-container-orgf630a80" class="outline-2">
-<h2 id="orgf630a80"><a href="#orgf630a80">References</a></h2>
-<div class="outline-text-2" id="text-orgf630a80">
+<div id="outline-container-orgc0a7615" class="outline-2">
+<h2 id="orgc0a7615"><a href="#orgc0a7615">References</a></h2>
+<div class="outline-text-2" id="text-orgc0a7615">
 <p>
 Books:
 </p>

@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,14 +55,14 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org931edbd">Basics of Characteristic Functions</a>
+<li><a href="#org6540262">Basics of Characteristic Functions</a>
 <ul>
-<li><a href="#org53192fe">Related to Fourier Transform</a></li>
-<li><a href="#orgeb2c082">Related to Moments</a></li>
-<li><a href="#org38344ba">Related to Weak Convergence</a></li>
+<li><a href="#org4694db8">Related to Fourier Transform</a></li>
+<li><a href="#orgfd30da0">Related to Moments</a></li>
+<li><a href="#orgb74e593">Related to Weak Convergence</a></li>
 </ul>
 </li>
-<li><a href="#org89a9166">Central Limit Theorem and Gaussian Distribution</a></li>
+<li><a href="#orgf248101">Central Limit Theorem and Gaussian Distribution</a></li>
 </ul>
 </div>
 </nav>
@@ -113,9 +115,9 @@ normal distribution, which concludes the CLT.</li>
 <i>Suggested readings:</i> Durrett (2019, pp. 108&#x2013;118), Billingsley (2008,
 pp. 342&#x2013;351), and Schilling (2017, pp. 214&#x2013;220).
 </p>
-<div id="outline-container-org931edbd" class="outline-2">
-<h2 id="org931edbd"><a href="#org931edbd">Basics of Characteristic Functions</a></h2>
-<div class="outline-text-2" id="text-org931edbd">
+<div id="outline-container-org6540262" class="outline-2">
+<h2 id="org6540262"><a href="#org6540262">Basics of Characteristic Functions</a></h2>
+<div class="outline-text-2" id="text-org6540262">
 <p>
 <i>Definition.</i> The <i>characterstic function (c.f.)</i> \(\varphi(t)\) of a random
 variable \(X\) is defined by \[ \varphi_X(t) = \mathbb{E}[e^{itX}] = \mathbb{E}[\cos tX] +
@@ -271,9 +273,9 @@ which is of course not absolutely continuous w.r.t. the Lebesgue
 measure.
 </p>
 </div>
-<div id="outline-container-org53192fe" class="outline-3">
-<h3 id="org53192fe"><a href="#org53192fe">Related to Fourier Transform</a></h3>
-<div class="outline-text-3" id="text-org53192fe">
+<div id="outline-container-org4694db8" class="outline-3">
+<h3 id="org4694db8"><a href="#org4694db8">Related to Fourier Transform</a></h3>
+<div class="outline-text-3" id="text-org4694db8">
 <p>
 Why we want to study characteristic functions? One reason is that the
 c.f. fully characterizes a finite measure. In fact, any finite measure
@@ -400,9 +402,9 @@ dt. \] Moreover, \(f\) is bounded and uniformly continuous (just like
 </p>
 </div>
 </div>
-<div id="outline-container-orgeb2c082" class="outline-3">
-<h3 id="orgeb2c082"><a href="#orgeb2c082">Related to Moments</a></h3>
-<div class="outline-text-3" id="text-orgeb2c082">
+<div id="outline-container-orgfd30da0" class="outline-3">
+<h3 id="orgfd30da0"><a href="#orgfd30da0">Related to Moments</a></h3>
+<div class="outline-text-3" id="text-orgfd30da0">
 <p>
 Studying c.f.s can also help us determine the moments of a
 distribution. We have seen that if a random variable \(X\) is
@@ -476,9 +478,9 @@ derivative is bounded, uniformly continuous, and has an explicit form
 </p>
 </div>
 </div>
-<div id="outline-container-org38344ba" class="outline-3">
-<h3 id="org38344ba"><a href="#org38344ba">Related to Weak Convergence</a></h3>
-<div class="outline-text-3" id="text-org38344ba">
+<div id="outline-container-orgb74e593" class="outline-3">
+<h3 id="orgb74e593"><a href="#orgb74e593">Related to Weak Convergence</a></h3>
+<div class="outline-text-3" id="text-orgb74e593">
 <p>
 Finally, c.f.s are useful in studying limiting distributions. This is
 due to <i>the continuity theorem</i>. The proof utilizes the concept of
@@ -513,9 +515,9 @@ distributions.
 </div>
 </div>
 </div>
-<div id="outline-container-org89a9166" class="outline-2">
-<h2 id="org89a9166"><a href="#org89a9166">Central Limit Theorem and Gaussian Distribution</a></h2>
-<div class="outline-text-2" id="text-org89a9166">
+<div id="outline-container-orgf248101" class="outline-2">
+<h2 id="orgf248101"><a href="#orgf248101">Central Limit Theorem and Gaussian Distribution</a></h2>
+<div class="outline-text-2" id="text-orgf248101">
 <p>
 With the help of c.f.s, it is not hard to find out the sum of
 i.i.d. random variables follows a Gaussian distribution. Let \(X_n\) be

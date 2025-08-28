@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,8 +55,8 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf6a4d9b">Examples</a></li>
-<li><a href="#orgf002970">Properties</a></li>
+<li><a href="#org64646e5">Examples</a></li>
+<li><a href="#orge525787">Properties</a></li>
 </ul>
 </div>
 </nav>
@@ -64,7 +66,7 @@ function \(q:(0,1)\to\mathbb{R}\) is defined by<sup>[<a id="fnr.1" class="footre
 q(u):=\inf\{x:F(x)\geq u\}. \] Noting that \(F\) is right continuous, it
 is clear that \(\{x: F(x)\geq u\}\) is closed and bounded below for any
 \(0 < u < 1\).  Hence, \(q(u)=\min\{x:F(x) \geq u\}\).  Interestingly,
-there is also (see the section <a href="#orgf002970">Properties</a>) \[ F(x) = \sup\{u: q(u)
+there is also (see the section <a href="#orge525787">Properties</a>) \[ F(x) = \sup\{u: q(u)
 \leq x\}.\]
 </p>
 
@@ -87,9 +89,9 @@ choose the lowest point as the proper function value while removing a
 vertical line. This reveals that, unlike distribution functions,
 quantile functions are left continuous.
 </p>
-<div id="outline-container-orgf6a4d9b" class="outline-2">
-<h2 id="orgf6a4d9b"><a href="#orgf6a4d9b">Examples</a></h2>
-<div class="outline-text-2" id="text-orgf6a4d9b">
+<div id="outline-container-org64646e5" class="outline-2">
+<h2 id="org64646e5"><a href="#org64646e5">Examples</a></h2>
+<div class="outline-text-2" id="text-org64646e5">
 <p>
 <i>Example 1.</i> The distribution function of a exponentially distributed random variable is
 </p>
@@ -180,9 +182,9 @@ Note that in this example, the quantile function is left continuous.
 </p>
 </div>
 </div>
-<div id="outline-container-orgf002970" class="outline-2">
-<h2 id="orgf002970"><a href="#orgf002970">Properties</a></h2>
-<div class="outline-text-2" id="text-orgf002970">
+<div id="outline-container-orge525787" class="outline-2">
+<h2 id="orge525787"><a href="#orge525787">Properties</a></h2>
+<div class="outline-text-2" id="text-orge525787">
 <p>
 By definition, a quantile function is clearly nondecreasing due to the
 nondecreasing nature of distribution functions. However, a quantile

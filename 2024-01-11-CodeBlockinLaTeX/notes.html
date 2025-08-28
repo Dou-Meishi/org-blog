@@ -37,6 +37,8 @@
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+<!-- Additional CSS for my blog site -->
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/org-blog/static/blog.css"/>
 </head>
 <body>
 <div id="preamble" class="status"><div class="header">
@@ -53,9 +55,9 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf049dfa">Create Own Code Block Environment with tcolorbox</a></li>
-<li><a href="#org8a58df6">Explanation of the Created Code Environment</a></li>
-<li><a href="#org2b99ea2">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#orgec2279c">Create Own Code Block Environment with tcolorbox</a></li>
+<li><a href="#orgbc2ee0c">Explanation of the Created Code Environment</a></li>
+<li><a href="#orgcc136cb">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -103,7 +105,7 @@ The LaTeX code above produces the following output.
 </p>
 
 
-<figure id="org414b709">
+<figure id="org4ad2307">
 <img src="./simple-code.png" alt="simple-code.png">
 
 </figure>
@@ -116,9 +118,9 @@ and <code>tcolorbox</code> package. While  <code>listings</code> and  <code>mint
 <code>tcolorbox</code> is a general package for redering contents in a box.
 Actually, <code>tcolorbox</code> internally loads <code>listings</code> or <code>minted</code> packages.
 </p>
-<div id="outline-container-orgf049dfa" class="outline-2">
-<h2 id="orgf049dfa"><a href="#orgf049dfa">Create Own Code Block Environment with tcolorbox</a></h2>
-<div class="outline-text-2" id="text-orgf049dfa">
+<div id="outline-container-orgec2279c" class="outline-2">
+<h2 id="orgec2279c"><a href="#orgec2279c">Create Own Code Block Environment with tcolorbox</a></h2>
+<div class="outline-text-2" id="text-orgec2279c">
 <p>
 When <code>tcolorbox</code> is loaded with the option <code>listings</code>, it provides various useful predefined commands
 for rendering source blocks by loading <code>listings</code> package automatically. Besides the <code>listings</code> option,
@@ -233,15 +235,15 @@ This is the <span style="color: #859900; font-weight: bold;">\LaTeX</span>\ sour
 </div>
 
 
-<figure id="org3520c90">
+<figure id="org0291f2c">
 <img src="./tcolorbox-listings.png" alt="tcolorbox-listings.png">
 
 </figure>
 </div>
 </div>
-<div id="outline-container-org8a58df6" class="outline-2">
-<h2 id="org8a58df6"><a href="#org8a58df6">Explanation of the Created Code Environment</a></h2>
-<div class="outline-text-2" id="text-org8a58df6">
+<div id="outline-container-orgbc2ee0c" class="outline-2">
+<h2 id="orgbc2ee0c"><a href="#orgbc2ee0c">Explanation of the Created Code Environment</a></h2>
+<div class="outline-text-2" id="text-orgbc2ee0c">
 <p>
 First, we load <code>tcolorbox</code> with appropriate options. In addition, we load the <code>xcolor</code> package for color support.
 </p>
@@ -349,9 +351,9 @@ name of the source file.
 </div>
 </div>
 </div>
-<div id="outline-container-org2b99ea2" class="outline-2">
-<h2 id="org2b99ea2"><a href="#org2b99ea2">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
-<div class="outline-text-2" id="text-org2b99ea2">
+<div id="outline-container-orgcc136cb" class="outline-2">
+<h2 id="orgcc136cb"><a href="#orgcc136cb">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
+<div class="outline-text-2" id="text-orgcc136cb">
 <ol class="org-ol">
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf">the official manual of tcolorbox - CTAN</a></li>
 <li><a href="https://mirror-hk.koddos.net/CTAN/macros/latex/contrib/listings/listings.pdf">the official manual of listings - CTAN</a></li>
