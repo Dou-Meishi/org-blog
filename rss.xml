@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Sun, 24 Aug 2025 16:59:18 +0800</lastBuildDate>
+<lastBuildDate>Thu, 28 Aug 2025 10:36:03 +0800</lastBuildDate>
 <item>
   <title><![CDATA[A How-to Guide to Font Selection]]></title>
   <description><![CDATA[
@@ -9018,11 +9018,11 @@ Remember to briefly conclude what you obtained from the old event.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org6c05699">Go through the manual</a></li>
-<li><a href="#org0cf9b13">Minimal Configuration</a></li>
-<li><a href="#orgd3c7745">Question</a></li>
-<li><a href="#orgb4fc255">Build My Blog Site</a></li>
-<li><a href="#org08238f7">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
+<li><a href="#org75505c2">Go through the manual</a></li>
+<li><a href="#org8217dd3">Minimal Configuration</a></li>
+<li><a href="#org82eecc8">Question</a></li>
+<li><a href="#org178faff">Build My Blog Site</a></li>
+<li><a href="#org38c043a">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></li>
 </ul>
 </div>
 </nav>
@@ -9058,9 +9058,9 @@ e.g.,  <a href="https://bastibe.de/about.html">Bastian</a>,  <a href="https://ja
 Finally, I decide to give it a try. I hope it can give me a way to
 share my thoughts on the internet.
 </p>
-<div id="outline-container-org6c05699" class="outline-2">
-<h2 id="org6c05699"><a href="#org6c05699">Go through the manual</a></h2>
-<div class="outline-text-2" id="text-org6c05699">
+<div id="outline-container-org75505c2" class="outline-2">
+<h2 id="org75505c2"><a href="#org75505c2">Go through the manual</a></h2>
+<div class="outline-text-2" id="text-org75505c2">
 <p>
 The <a href="https://github.com/bastibe/org-static-blog/blob/master/README.org">README</a> contains a brief introduction to the usage and a minimal working example.
 </p>
@@ -9170,9 +9170,9 @@ These key bindings are:
 </ol>
 </div>
 </div>
-<div id="outline-container-org0cf9b13" class="outline-2">
-<h2 id="org0cf9b13"><a href="#org0cf9b13">Minimal Configuration</a></h2>
-<div class="outline-text-2" id="text-org0cf9b13">
+<div id="outline-container-org8217dd3" class="outline-2">
+<h2 id="org8217dd3"><a href="#org8217dd3">Minimal Configuration</a></h2>
+<div class="outline-text-2" id="text-org8217dd3">
 <p>
 Following the example in its manual, I try to build a blog site at
 <code>./org-blog/</code> with a folder <code>./org-blog/org/</code> containing several org
@@ -9258,7 +9258,7 @@ Assets <code>static/style.css</code> and <code>static/favicon.ico</code> are dow
 Currently, the project layout looks like
 </p>
 
-<pre class="example" id="orgd681b8a">
+<pre class="example" id="org9780251">
 org-blog/
 ├── drafts
 ├── org
@@ -9277,7 +9277,7 @@ org-blog/
 Finally, call  <code>org-static-blog-publish</code> to generate the site. At this time, the project layout becomes
 </p>
 
-<pre class="example" id="org0340c33">
+<pre class="example" id="org08a131a">
 org-blog/
 ├── archive.html
 ├── drafts
@@ -9298,9 +9298,9 @@ org-blog/
 </pre>
 </div>
 </div>
-<div id="outline-container-orgd3c7745" class="outline-2">
-<h2 id="orgd3c7745"><a href="#orgd3c7745">Question</a></h2>
-<div class="outline-text-2" id="text-orgd3c7745">
+<div id="outline-container-org82eecc8" class="outline-2">
+<h2 id="org82eecc8"><a href="#org82eecc8">Question</a></h2>
+<div class="outline-text-2" id="text-org82eecc8">
 <ol class="org-ol">
 <li><p>
 Does it scans all org files in <code>org-static-blog-posts-directory</code> recursively or not?
@@ -9321,7 +9321,7 @@ I renamed the ordinary file <code>notes.org</code> inside <code>org-blog/org/</c
 a symbolic link. So the project layout becomes.
 </p>
 
-<pre class="example" id="org08fb310">
+<pre class="example" id="org6edb2a0">
 org-blog/
 ├── drafts
 ├── org
@@ -9375,9 +9375,9 @@ the drafts directory will not be included in the index.
 </ol>
 </div>
 </div>
-<div id="outline-container-orgb4fc255" class="outline-2">
-<h2 id="orgb4fc255"><a href="#orgb4fc255">Build My Blog Site</a></h2>
-<div class="outline-text-2" id="text-orgb4fc255">
+<div id="outline-container-org178faff" class="outline-2">
+<h2 id="org178faff"><a href="#org178faff">Build My Blog Site</a></h2>
+<div class="outline-text-2" id="text-org178faff">
 <p>
 It is also not hard to extend the minimal configuration to build a
 real blog site.  But before tweaking these scripts and assets, I need,
@@ -9453,13 +9453,12 @@ Change the default ellipsis <code>(...)</code> used in preview to  <code>...</co
 Use a different CSS stylesheet. I have been using <a href="http://gongzhitaao.org/orgcss">this stylesheet</a>
 for three years and always appreciating its clean design. It is
 designed for HTML exported from org files by <code>org-publish</code>. To adapt
-it to files exported by <code>org-static-blog</code>, I add several additional
-rules in <a href="https://dou-meishi.github.io/org-blog/static/dou-org-blog.css">a patched CSS</a>.
+it to files exported by <code>org-static-blog</code>, I create a patched CSS <a href="https://dou-meishi.github.io/orgcss/">here</a>.
 </p>
 
 <div class="org-src-container">
 <pre class="src src-html">&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://gongzhitaao.org/orgcss/org.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
-&lt;<span style="color: #268bd2;">link</span> href= <span style="color: #2aa198;">"https://dou-meishi.github.io/org-blog/static/dou-org-blog.css"</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> /&gt;
+&lt;<span style="color: #268bd2;">link</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text/css"</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"https://dou-meishi.github.io/orgcss/dou-new-org.css"</span>/&gt;
 </pre>
 </div></li>
 
@@ -9500,9 +9499,9 @@ The lisp script and static assets are all included in <a href="https://github.co
 </p>
 </div>
 </div>
-<div id="outline-container-org08238f7" class="outline-2">
-<h2 id="org08238f7"><a href="#org08238f7">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
-<div class="outline-text-2" id="text-org08238f7">
+<div id="outline-container-org38c043a" class="outline-2">
+<h2 id="org38c043a"><a href="#org38c043a">External Links&#xa0;&#xa0;&#xa0;<span class="tag"><span class="refs">refs</span></span></a></h2>
+<div class="outline-text-2" id="text-org38c043a">
 <p>
 Below are other users' configuration on org static blog.
 </p>

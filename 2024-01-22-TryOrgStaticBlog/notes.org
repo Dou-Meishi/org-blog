@@ -326,12 +326,11 @@ the site a slightly more visual appealing.
 5. Use a different CSS stylesheet. I have been using [[http://gongzhitaao.org/orgcss][this stylesheet]]
    for three years and always appreciating its clean design. It is
    designed for HTML exported from org files by =org-publish=. To adapt
-   it to files exported by =org-static-blog=, I add several additional
-   rules in [[https://dou-meishi.github.io/org-blog/static/dou-org-blog.css][a patched CSS]].
+   it to files exported by =org-static-blog=, I create a patched CSS [[https://dou-meishi.github.io/orgcss/][here]].
 
    #+BEGIN_SRC html
 <link href= "https://gongzhitaao.org/orgcss/org.css" rel="stylesheet" type="text/css" />
-<link href= "https://dou-meishi.github.io/org-blog/static/dou-org-blog.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="https://dou-meishi.github.io/orgcss/dou-new-org.css"/>
    #+END_SRC
 
 6. Sync posts from my document folder. As I mentioned in [[../2024-01-14-TryOrgPublish/notes.org][the previous post]], my notes resides in different event directories
