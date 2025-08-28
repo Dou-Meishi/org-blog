@@ -1,0 +1,10 @@
+h1.title {
+  text-align: center;
+  font-size: xxx-large;
+  font-weight: normal;
+  font-variants: small-caps;
+}
+
+.post-date {
+  color: #888888;
+}
