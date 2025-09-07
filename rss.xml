@@ -4,7 +4,7 @@
 <title><![CDATA[Dou Meishi's Blog]]></title>
 <description><![CDATA[Dou Meishi's Blog]]></description>
 <link>https://dou-meishi.github.io/org-blog/</link>
-<lastBuildDate>Thu, 28 Aug 2025 10:44:19 +0800</lastBuildDate>
+<lastBuildDate>Sun, 07 Sep 2025 20:44:51 +0800</lastBuildDate>
 <item>
   <title><![CDATA[A How-to Guide to Font Selection]]></title>
   <description><![CDATA[
@@ -12,14 +12,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org3950300">Terminology</a></li>
-<li><a href="#org4f8bdd4">How-to: Choose Fonts</a></li>
-<li><a href="#org51e25bd">How-to: Preview Fonts</a></li>
+<li><a href="#orgadadcff">Terminology</a></li>
+<li><a href="#orgb221082">How-to: Choose Fonts</a></li>
+<li><a href="#orgba6ad4d">How-to: Preview Fonts</a></li>
 <li><a href="#appendix-query-fonts-via-fontconfig">How-to: Query Fonts</a></li>
 <li><a href="#appendix-inspect-opentype-font-files">How-to: Inspect Fonts</a></li>
-<li><a href="#orgc0a7615">References</a></li>
+<li><a href="#orgb01c3cd">How-to: Use Fonts</a></li>
+<li><a href="#orgdd3bf2c">References</a></li>
 <li><a href="#appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</a></li>
 <li><a href="#appendix-a-list-of-my-preferred-fonts">Appendix: A List of My Favorite Fonts</a></li>
+<li><a href="#sec:appendix-missing-characters-and-fallbacks">Appendix: Missing Characters and Fallbacks</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org9a623db">HTML</a></li>
+<li><a href="#org863e63c">Emacs</a></li>
+<li><a href="#org56305d2">Fontconfig</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
@@ -38,15 +50,15 @@ characters, especially in non-English texts.
 </p>
 
 <p>
-In this note, I will first clarify some terminology and introduce the
-general principles for choosing fonts. Then, I provide guides on the
-following topics: previewing fonts, querying fonts, and inspecting
-fonts. Finally, I include a list of my favorite fonts and a brief
-overview of text rendering in the appendices.
+I start by clarifying some terminology and introduce the
+general principles for choosing fonts. Based on that, I discuss
+a few practical topics: previewing fonts, querying fonts, inspecting
+fonts, and using fonts. At the end, I put additional information in the appendices
+for interested readers.
 </p>
-<div id="outline-container-org3950300" class="outline-2">
-<h2 id="org3950300"><a href="#org3950300">Terminology</a></h2>
-<div class="outline-text-2" id="text-org3950300">
+<div id="outline-container-orgadadcff" class="outline-2">
+<h2 id="orgadadcff"><a href="#orgadadcff">Terminology</a></h2>
+<div class="outline-text-2" id="text-orgadadcff">
 <p>
 Terms used in typography, web development, and other fields may vary a
 lot. To avoid possible confusions, a brief list is provided below for
@@ -108,9 +120,9 @@ example, the superfamily <i>DejaVu</i> contains font families <i>DejaVu Serif</i
 </dl>
 </div>
 </div>
-<div id="outline-container-org4f8bdd4" class="outline-2">
-<h2 id="org4f8bdd4"><a href="#org4f8bdd4">How-to: Choose Fonts</a></h2>
-<div class="outline-text-2" id="text-org4f8bdd4">
+<div id="outline-container-orgb221082" class="outline-2">
+<h2 id="orgb221082"><a href="#orgb221082">How-to: Choose Fonts</a></h2>
+<div class="outline-text-2" id="text-orgb221082">
 <p>
 The general principle for choosing fonts is to ensure that they
 <i>effectively convey the intended meaning of the text</i>. To achieve this,
@@ -139,9 +151,9 @@ For detailed considerations, please refer to <a href="https://fonts.google.com/k
 </p>
 </div>
 </div>
-<div id="outline-container-org51e25bd" class="outline-2">
-<h2 id="org51e25bd"><a href="#org51e25bd">How-to: Preview Fonts</a></h2>
-<div class="outline-text-2" id="text-org51e25bd">
+<div id="outline-container-orgba6ad4d" class="outline-2">
+<h2 id="orgba6ad4d"><a href="#orgba6ad4d">How-to: Preview Fonts</a></h2>
+<div class="outline-text-2" id="text-orgba6ad4d">
 <p>
 If a font family is accessible on the machine, then a convenient way
 to preview it is through the web browser. For example, the following
@@ -163,7 +175,7 @@ variant in Lora family.
 </div>
 
 
-<figure id="orgee4d2e7">
+<figure id="org84fd4be">
 <img src="./preview-lora.png" alt="preview-lora.png">
 
 </figure>
@@ -197,7 +209,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="orgf40a32c">
+<pre class="example" id="orgc365c76">
 /home/dou/.local/share/fonts/opentype/Lora/Lora-Italic.otf:
 /home/dou/.local/share/fonts/opentype/Lora/Lora-SemiBoldItalic.otf:
 /home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf:
@@ -212,7 +224,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="org4564f7a">
+<pre class="example" id="orgecce4af">
 :file=/home/dou/.local/share/fonts/opentype/Lora/Lora-MediumItalic.otf
 </pre>
 
@@ -225,7 +237,7 @@ their usages are demonstrated below.
 </pre>
 </div>
 
-<pre class="example" id="orgf471c99">
+<pre class="example" id="org1ebc4bf">
 Pattern has 4 elts (size 16)
     family: "lora"(s)
     slant: 100(i)(s)
@@ -260,7 +272,7 @@ systems supported in the font.
 </pre>
 </div>
 
-<pre class="example" id="orgccbdff3">
+<pre class="example" id="org2f04c3d">
 ...
 hani		CJK Ideographic
 hani.JAN	CJK Ideographic/Japanese
@@ -292,7 +304,7 @@ Supported <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/fe
 </pre>
 </div>
 
-<pre class="example" id="org4a400fb">
+<pre class="example" id="org3ff6106">
 aalt	Access All Alternates
 calt	Contextual Alternates
 case	Case-Sensitive Forms
@@ -344,33 +356,65 @@ extract individual fonts via <a href="https://github.com/fonttools/fonttools">Fo
 </div>
 </div>
 </div>
-<div id="outline-container-orgc0a7615" class="outline-2">
-<h2 id="orgc0a7615"><a href="#orgc0a7615">References</a></h2>
-<div class="outline-text-2" id="text-orgc0a7615">
+<div id="outline-container-orgb01c3cd" class="outline-2">
+<h2 id="orgb01c3cd"><a href="#orgb01c3cd">How-to: Use Fonts</a></h2>
+<div class="outline-text-2" id="text-orgb01c3cd">
 <p>
-Books:
+This is the final application, and perhaps also the most frustrating part in practice.
 </p>
 
-<style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
+<p>
+There are actually two separate challenges: a design aspect and a technical aspect.
+From the design perspective, one needs to decide <i>which</i> piece of text should use <i>which</i> font.
+From a technical part, one needs to know <i>how to set</i> a specific piece of text so that it was displayed with
+a chosen font.
+</p>
+
+<p>
+The first aspect depends on personal taste. You may copy others' styles,
+follow general rules of thumb, or consult typography books.
+Techniques discussed in the previouse sections may also be helpful.
+</p>
+
+<p>
+The second aspect depends on applications being used. Different applications may implement
+their own text-rendering pipeline, and in general, there are no standard ways to configure them;
+see also <a href="#appendix-text-rendering-with-opentype-fonts">Appendix: Text Rendering</a> for a brief overview of the rendering process.
+Although most applications support straightforward font specification,
+advanced usages like dealing with missing glyphs may not be as intuitive;
+see also <a href="#sec:appendix-missing-characters-and-fallbacks">Appendix: Missing Characters and Fallbacks</a> for more details.
+</p>
+</div>
+</div>
+<div id="outline-container-orgdd3bf2c" class="outline-2">
+<h2 id="orgdd3bf2c"><a href="#orgdd3bf2c">References</a></h2>
+<div class="outline-text-2" id="text-orgdd3bf2c">
+<dl class="org-dl">
+<dt>Books</dt><dd><style>.csl-entry{text-indent: -1.5em; margin-left: 1.5em;}</style><div class="csl-bib-body">
   <div class="csl-entry"><a id="citeproc_bib_item_1"></a>Bringhurst, R. (2002). <i>The elements of typographic style</i>. Hartley and Marks.</div>
   <div class="csl-entry"><a id="citeproc_bib_item_2"></a>Tracy, W. (2003). <i>Letters of credit: A view of type design</i>. David R. Godine.</div>
-</div>
+</div></dd>
 
-<p>
-Online resources:
+<dt>Online resources</dt><dd><p>
+Fontconfig user documentation.  <a href="https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html">https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html</a>.
 </p>
 
-<ul class="org-ul">
-<li>Fontconfig user documentation.  <a href="https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html">https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html</a>.</li>
+<p>
+Fonttools. <a href="https://github.com/fonttools/fonttools">https://github.com/fonttools/fonttools</a>
+</p>
 
-<li>Fonttools. <a href="https://github.com/fonttools/fonttools">https://github.com/fonttools/fonttools</a></li>
+<p>
+Google fonts knowledge. <a href="https://fonts.google.com/knowledge">https://fonts.google.com/knowledge</a>.
+</p>
 
-<li>Google fonts knowledge. <a href="https://fonts.google.com/knowledge">https://fonts.google.com/knowledge</a>.</li>
+<p>
+MDN web docs. Font. <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font">https://developer.mozilla.org/en-US/docs/Web/CSS/font</a>.
+</p>
 
-<li>MDN web docs. Font. <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font">https://developer.mozilla.org/en-US/docs/Web/CSS/font</a>.</li>
-
-<li>OpenType® specification version 1.9.1. <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/">https://learn.microsoft.com/en-us/typography/opentype/spec/</a></li>
-</ul>
+<p>
+OpenType® specification version 1.9.1. <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/">https://learn.microsoft.com/en-us/typography/opentype/spec/</a>
+</p></dd>
+</dl>
 </div>
 </div>
 <div id="outline-container-appendix-text-rendering-with-opentype-fonts" class="outline-2">
@@ -535,7 +579,272 @@ ligatures, fractions, small capitals, superscripts, and subscripts.
 </table>
 </div>
 </div>
-<div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>
+<div id="outline-container-sec:appendix-missing-characters-and-fallbacks" class="outline-2">
+<h2 id="sec:appendix-missing-characters-and-fallbacks"><a href="#sec:appendix-missing-characters-and-fallbacks">Appendix: Missing Characters and Fallbacks</a></h2>
+<div class="outline-text-2" id="text-sec:appendix-missing-characters-and-fallbacks">
+<blockquote>
+<p>
+As of Unicode version 16.0, there are 292,531 assigned characters with code points,
+covering 168 modern and historical scripts, as well as multiple symbol sets.
+</p>
+
+<p>
+&#x2014; Wikipedia. List of Unicode Characters.
+</p>
+</blockquote>
+
+<p>
+No single font can include the entire range of Unicode characters.
+Most fonts are designed to support only three or four script systems.
+As a result, we need to combine multiple fonts to display all characters correctly.
+This practice is commonly known as font fallback.
+</p>
+
+<p>
+There are two common ways to define fallback fonts: character-level and range-level.
+</p>
+
+<p>
+The character-level method uses a list of fonts. When a character’s glyph is required,
+the application checks each font in order and uses the first one that provides the glyph.
+Most applications support this approach.
+The example below shows the result of character-level fallback using the font list <code>[Lora, Noto Serif]</code>.
+Lora provides a glyph for "π", but "λ" and "σ" are missing, so they fall back to Noto Serif.
+This results in inconsistent typography.
+</p>
+
+
+<figure id="org2cff139">
+<img src="./lora-and-noto-character-level-fallback.png" alt="lora-and-noto-character-level-fallback.png">
+
+</figure>
+
+<p>
+The range-level method works more like assembling a custom font.
+It lets you assign specific fonts to particular subsets of Unicode characters.
+Many modern applications also support this approach.
+The example below shows the result of range-level fallback, where greek letters are
+displayed with Noto Serif and other characters are displayed with Lora.
+</p>
+
+
+<figure id="org9f0b00e">
+<img src="./lora-and-noto-range-level-fallback.png" alt="lora-and-noto-range-level-fallback.png">
+
+</figure>
+
+<p>
+Below are some details about font fallbacks in several applications.
+</p>
+</div>
+<div id="outline-container-org9a623db" class="outline-4">
+<h4 id="org9a623db"><a href="#org9a623db">HTML</a></h4>
+<div class="outline-text-4" id="text-org9a623db">
+<p>
+For HTML, the character-level fallback can be achieved by simply
+specifying a list of fonts.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">div</span> <span style="color: #268bd2;">class</span>=<span style="color: #2aa198;">"font-section"</span> <span style="color: #268bd2;">style</span>=<span style="color: #2aa198;">"font-family: Lora, Noto Serif;"</span>&gt;
+&lt;<span style="color: #268bd2;">p</span>&gt;
+Lora and Noto (Character-Level Fallback)
+&lt;/<span style="color: #268bd2;">p</span>&gt;
+
+&lt;<span style="color: #268bd2;">p</span>&gt;
+&lt;<span style="color: #268bd2;">b</span>&gt;<span style="font-weight: bold;">Theorem (&#960;-&#955; theorem).</span>&lt;/<span style="color: #268bd2;">b</span>&gt; A &#955;-system contains a &#960;-system
+&lt;<span style="color: #268bd2;">i</span>&gt;<span style="font-style: italic;">if and only if</span>&lt;/<span style="color: #268bd2;">i</span>&gt; it also contains the &#963;-algebra generated by that &#960;-system.&lt;/<span style="color: #268bd2;">p</span>&gt;
+&lt;/<span style="color: #268bd2;">div</span>&gt;
+</pre>
+</div>
+
+<p>
+To achieve the range-level fallback, use the at-rule <code>@font-face</code> to declare a new font
+"Lora Noto" and load it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-css"><span style="color: #657b83; font-weight: bold;">@font-face</span> {
+  <span style="color: #859900; font-weight: bold;">font-family</span>: <span style="color: #2aa198;">"Lora Noto"</span>;
+  <span style="color: #859900; font-weight: bold;">src</span>: local(<span style="color: #2aa198;">"Lora Regular"</span>);
+  <span style="color: #859900; font-weight: bold;">font-style</span>: regular;
+}
+
+<span style="color: #657b83; font-weight: bold;">@font-face</span> {
+  <span style="color: #859900; font-weight: bold;">font-family</span>: <span style="color: #2aa198;">"Lora Noto"</span>;
+  <span style="color: #859900; font-weight: bold;">src</span>: local(<span style="color: #2aa198;">"Lora Italic"</span>);
+  <span style="color: #859900; font-weight: bold;">font-style</span>: italic;
+}
+
+<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">Override for Greek characters: Noto Serif (Greek)</span><span style="color: #93a1a1;"> */</span>
+<span style="color: #657b83; font-weight: bold;">@font-face</span> {
+  <span style="color: #859900; font-weight: bold;">font-family</span>: <span style="color: #2aa198;">"Lora Noto"</span>;
+  <span style="color: #859900; font-weight: bold;">src</span>: local(<span style="color: #2aa198;">"Noto Serif Regular"</span>);
+  <span style="color: #859900; font-weight: bold;">font-style</span>: regular;
+  <span style="color: #859900; font-weight: bold;">unicode-range</span>: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+<span style="color: #657b83; font-weight: bold;">@font-face</span> {
+  <span style="color: #859900; font-weight: bold;">font-family</span>: <span style="color: #2aa198;">"Lora Noto"</span>;
+  <span style="color: #859900; font-weight: bold;">src</span>: local(<span style="color: #2aa198;">"Noto Serif Italic"</span>);
+  <span style="color: #859900; font-weight: bold;">font-style</span>: italic;
+  <span style="color: #859900; font-weight: bold;">unicode-range</span>: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #268bd2;">div</span> <span style="color: #268bd2;">class</span>=<span style="color: #2aa198;">"font-section"</span> <span style="color: #268bd2;">style</span>=<span style="color: #2aa198;">"font-family: Lora Noto;"</span>&gt;
+&lt;<span style="color: #268bd2;">p</span>&gt;
+Lora Noto (Range-Level Fallback)
+&lt;/<span style="color: #268bd2;">p</span>&gt;
+
+&lt;<span style="color: #268bd2;">p</span>&gt;
+&lt;<span style="color: #268bd2;">b</span>&gt;<span style="font-weight: bold;">Theorem (&#960;-&#955; theorem).</span>&lt;/<span style="color: #268bd2;">b</span>&gt; A &#955;-system contains a &#960;-system
+&lt;<span style="color: #268bd2;">i</span>&gt;<span style="font-style: italic;">if and only if</span>&lt;/<span style="color: #268bd2;">i</span>&gt; it also contains the &#963;-algebra generated by that &#960;-system.&lt;/<span style="color: #268bd2;">p</span>&gt;
+&lt;/<span style="color: #268bd2;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org863e63c" class="outline-4">
+<h4 id="org863e63c"><a href="#org863e63c">Emacs</a></h4>
+<div class="outline-text-4" id="text-org863e63c">
+<p>
+For Emacs, the character-level fallback can be achieved<sup>[<a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a>]</sup> by setting the variable
+<code>face-font-family-alternatives</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(custom-set-variables
+ '(face-font-family-alternatives
+   '((<span style="color: #2aa198;">"Monospace"</span> <span style="color: #2aa198;">"Noto Sans Mono"</span> <span style="color: #2aa198;">"Noto Sans Mono CJK SC"</span>)
+     (<span style="color: #2aa198;">"Sans Serif"</span> <span style="color: #2aa198;">"Noto Sans"</span> <span style="color: #2aa198;">"Noto Sans CJK SC"</span>)
+     (<span style="color: #2aa198;">"Serif"</span> <span style="color: #2aa198;">"Noto Serif"</span> <span style="color: #2aa198;">"Noto Serif CJK SC"</span>)
+     (<span style="color: #2aa198;">"Monospace Serif"</span> <span style="color: #2aa198;">"Courier Prime"</span>)
+     (<span style="color: #2aa198;">"Fira Sans"</span> <span style="color: #2aa198;">"Noto Sans"</span> <span style="color: #2aa198;">"Noto Sans CJK SC"</span>)
+     (<span style="color: #2aa198;">"FiraCode Nerd Font Ret"</span> <span style="color: #2aa198;">"Noto Sans Mono"</span> <span style="color: #2aa198;">"LXGW WenKai Mono"</span>)
+     (<span style="color: #2aa198;">"Lora"</span> <span style="color: #2aa198;">"Noto Serif"</span> <span style="color: #2aa198;">"Noto Serif CJK SC"</span>)
+     (<span style="color: #2aa198;">"Noto Serif"</span> <span style="color: #2aa198;">"Noto Serif CJK SC"</span>)))
+ )
+(set-face-attribute 'org-verse nil <span style="color: #657b83; font-weight: bold;">:family</span> <span style="color: #2aa198;">"Lora"</span> <span style="color: #657b83; font-weight: bold;">:inherit</span> nil)
+</pre>
+</div>
+
+<p>
+To achieve the range-level fallback, use custom fontsets.
+For example, we can define a new fontset "fontset-orgverse" and
+use it to display text within org verse blocks<sup>[<a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a>]</sup>.
+Note that <i>the fontset attribute might be conflict with the font attribute or the family attribute</i>.
+Run <code>describe-face RET org-verse</code> to inspect all attributes of the face "org-verse",
+or execute <code>(face-spec-reset-face 'org-verse)</code> to reset the face.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #859900; font-weight: bold;">setq</span> dms/fontset-org-verse
+      (create-fontset-from-fontset-spec
+       (font-xlfd-name (font-spec <span style="color: #657b83; font-weight: bold;">:registry</span> <span style="color: #2aa198;">"fontset-orgverse"</span>)))
+)
+
+(set-fontset-font dms/fontset-org-verse 'latin
+                  <span style="color: #2aa198;">"Lora"</span>)
+(set-fontset-font dms/fontset-org-verse 'greek
+                  <span style="color: #2aa198;">"Noto Serif"</span>)
+(set-fontset-font dms/fontset-org-verse 'han
+                  <span style="color: #2aa198;">"Noto Serif CJK SC"</span>)
+(set-fontset-font dms/fontset-org-verse 'cjk-misc
+                  <span style="color: #2aa198;">"Noto Serif CJK SC"</span>)
+
+(set-face-attribute 'org-verse nil <span style="color: #657b83; font-weight: bold;">:font</span> dms/fontset-org-verse <span style="color: #657b83; font-weight: bold;">:fontset</span> dms/fontset-org-verse <span style="color: #657b83; font-weight: bold;">:inherit</span> nil)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org56305d2" class="outline-4">
+<h4 id="org56305d2"><a href="#org56305d2">Fontconfig</a></h4>
+<div class="outline-text-4" id="text-org56305d2">
+<p>
+To the best of my knowledge, fontconfig does not support range level fallback.
+The character-level fallback is by default enabled.
+</p>
+
+<blockquote>
+<p>
+Fontconfig performs matching by measuring the distance from a provided pattern to all of the available fonts in the system. The closest matching font is selected. This ensures that a font will always be returned, but doesn't ensure that it is anything like the requested pattern.
+</p>
+</blockquote>
+
+<p>
+To see the list of matched fonts of a given pattern, use <code>fc-match -s</code>.
+To manually configure how a pattern is matched, use font configuration files.
+A typical path for such a configuration file is <code>~/.config/fontconfig/fonts.conf</code>;
+see here for other possible paths of configuration files.
+</p>
+
+<p>
+The example configuration file below demonstrates: 1) define an alias; 2) add fallback
+fonts of a specific font; 3) replace a font if condition satisfied.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #859900; font-weight: bold;">?xml</span> <span style="color: #268bd2;">version</span>="1.0"?&gt;
+&lt;<span style="color: #859900; font-weight: bold;">!DOCTYPE</span> fontconfig SYSTEM "fonts.dtd"&gt;
+&lt;<span style="color: #268bd2;">fontconfig</span>&gt;
+    &lt;<span style="color: #268bd2;">alias</span>&gt;
+         &lt;<span style="color: #268bd2;">family</span>&gt;serif&lt;/<span style="color: #268bd2;">family</span>&gt;
+         &lt;<span style="color: #268bd2;">prefer</span>&gt;
+             &lt;<span style="color: #268bd2;">family</span>&gt;Noto Serif&lt;/<span style="color: #268bd2;">family</span>&gt;
+             &lt;<span style="color: #268bd2;">family</span>&gt;Noto Serif CJK SC&lt;/<span style="color: #268bd2;">family</span>&gt;
+         &lt;/<span style="color: #268bd2;">prefer</span>&gt;
+    &lt;/<span style="color: #268bd2;">alias</span>&gt;
+
+    <span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">fallback font of lora</span><span style="color: #93a1a1;"> --&gt;</span>
+    &lt;<span style="color: #268bd2;">match</span> <span style="color: #268bd2;">target</span>=<span style="color: #2aa198;">"pattern"</span>&gt;
+        &lt;<span style="color: #268bd2;">test</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"family"</span> <span style="color: #268bd2;">compare</span>=<span style="color: #2aa198;">"eq"</span>&gt;
+            &lt;<span style="color: #268bd2;">string</span>&gt;lora&lt;/<span style="color: #268bd2;">string</span>&gt;
+        &lt;/<span style="color: #268bd2;">test</span>&gt;
+        &lt;<span style="color: #268bd2;">edit</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"family"</span> <span style="color: #268bd2;">mode</span>=<span style="color: #2aa198;">"append"</span>&gt;
+            &lt;<span style="color: #268bd2;">string</span>&gt;Noto Serif&lt;/<span style="color: #268bd2;">string</span>&gt;
+            &lt;<span style="color: #268bd2;">string</span>&gt;Noto Serif CJK SC&lt;/<span style="color: #268bd2;">string</span>&gt;
+        &lt;/<span style="color: #268bd2;">edit</span>&gt;
+    &lt;/<span style="color: #268bd2;">match</span>&gt;
+
+    <span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">respect lang=ja (Japanese)</span><span style="color: #93a1a1;"> --&gt;</span>
+    &lt;<span style="color: #268bd2;">match</span>&gt;
+        &lt;<span style="color: #268bd2;">test</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"lang"</span> <span style="color: #268bd2;">compare</span>=<span style="color: #2aa198;">"eq"</span>&gt;
+            &lt;<span style="color: #268bd2;">string</span>&gt;ja&lt;/<span style="color: #268bd2;">string</span>&gt;
+        &lt;/<span style="color: #268bd2;">test</span>&gt;
+        &lt;<span style="color: #268bd2;">test</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"family"</span> <span style="color: #268bd2;">compare</span>=<span style="color: #2aa198;">"eq"</span>&gt;
+            &lt;<span style="color: #268bd2;">string</span>&gt;Noto Serif CJK SC&lt;/<span style="color: #268bd2;">string</span>&gt;
+        &lt;/<span style="color: #268bd2;">test</span>&gt;
+        &lt;<span style="color: #268bd2;">edit</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"family"</span> <span style="color: #268bd2;">mode</span>=<span style="color: #2aa198;">"prepend"</span> <span style="color: #268bd2;">binding</span>=<span style="color: #2aa198;">"strong"</span>&gt;
+            &lt;<span style="color: #268bd2;">string</span>&gt;Noto Serif CJK JP&lt;/<span style="color: #268bd2;">string</span>&gt;
+        &lt;/<span style="color: #268bd2;">edit</span>&gt;
+    &lt;/<span style="color: #268bd2;">match</span>&gt;
+&lt;/<span style="color: #268bd2;">fontconfig</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup>[<a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This method works in my settings, but is not documented in the docstring of
+<code>face-font-family-alternatives</code>. Moreover, it will be ignored if <code>fontset-default</code>
+has suggested font for the missing glyph.
+</p></div></div>
+
+<div class="footdef"><sup>[<a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a>]</sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Of course, you need to sure <code>org-fontify-quote-and-verse-blocks</code> is not nil.
+Otherwise, Org will not fontify quote or verse blocks at all.
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="https://dou-meishi.github.io/org-blog/tags.html">Tags</a>: <a href="https://dou-meishi.github.io/org-blog/tag-tool.html">tool</a> </div>
 ]]></description>
   <category><![CDATA[tool]]></category>
   <link>https://dou-meishi.github.io/org-blog/2025-08-11-SelectandUseFonts/notes.html</link>

@@ -14,11 +14,11 @@ limited subset of characters and styles. In practice, we have to deal
 with coverage issues and need to pair fonts to handle a wide range of
 characters, especially in non-English texts.
 
-In this note, I will first clarify some terminology and introduce the
-general principles for choosing fonts. Then, I provide guides on the
-following topics: previewing fonts, querying fonts, and inspecting
-fonts. Finally, I include a list of my favorite fonts and a brief
-overview of text rendering in the appendices.
+I start by clarifying some terminology and introduce the
+general principles for choosing fonts. Based on that, I discuss
+a few practical topics: previewing fonts, querying fonts, inspecting
+fonts, and using fonts. At the end, I put additional information in the appendices
+for interested readers.
 
 ** Terminology
 
@@ -255,23 +255,43 @@ for i, font in enumerate(ttc.fonts):
         print(f"Error saving font {i}: {e}")
 #+END_SRC
 
+** How-to: Use Fonts
+
+This is the final application, and perhaps also the most frustrating part in practice.
+
+There are actually two separate challenges: a design aspect and a technical aspect.
+From the design perspective, one needs to decide /which/ piece of text should use /which/ font.
+From a technical part, one needs to know /how to set/ a specific piece of text so that it was displayed with
+a chosen font.
+
+The first aspect depends on personal taste. You may copy others' styles,
+follow general rules of thumb, or consult typography books.
+Techniques discussed in the previouse sections may also be helpful.
+
+The second aspect depends on applications being used. Different applications may implement
+their own text-rendering pipeline, and in general, there are no standard ways to configure them;
+see also [[#appendix-text-rendering-with-opentype-fonts][Appendix: Text Rendering]] for a brief overview of the rendering process.
+Although most applications support straightforward font specification,
+advanced usages like dealing with missing glyphs may not be as intuitive;
+see also [[#sec:appendix-missing-characters-and-fallbacks][Appendix: Missing Characters and Fallbacks]] for more details.
+
 ** References
 
-Books:
+- Books ::
 
-#+PRINT_BIBLIOGRAPHY:
+  #+PRINT_BIBLIOGRAPHY:
 
-Online resources:
+- Online resources ::
 
-- Fontconfig user documentation.  https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html.
+  Fontconfig user documentation.  https://fontconfig.pages.freedesktop.org/fontconfig/fontconfig-user.html.
 
-- Fonttools. https://github.com/fonttools/fonttools
+  Fonttools. https://github.com/fonttools/fonttools
 
-- Google fonts knowledge. https://fonts.google.com/knowledge.
+  Google fonts knowledge. https://fonts.google.com/knowledge.
 
-- MDN web docs. Font. https://developer.mozilla.org/en-US/docs/Web/CSS/font.
+  MDN web docs. Font. https://developer.mozilla.org/en-US/docs/Web/CSS/font.
 
-- OpenType® specification version 1.9.1. https://learn.microsoft.com/en-us/typography/opentype/spec/
+  OpenType® specification version 1.9.1. https://learn.microsoft.com/en-us/typography/opentype/spec/
 
 ** Appendix: Text Rendering
 :PROPERTIES:
@@ -318,4 +338,212 @@ ligatures, fractions, small capitals, superscripts, and subscripts.
 | Noto Serif CJK SC     | Serif               | Latin, Greek, CJK | Regular, Bold                        | Ligatures                                                      | Multilingual documents, CJK support | Excellent for combining CJK & Latin, Google Fonts        |
 | Noto Sans CJK SC      | Sans-serif          | Latin, Greek, CJK | Regular, Bold                        | Ligatures                                                      | UI, documents, multilingual text    | Excellent for CJK and Latin, Google Fonts                |
 | Noto Sans Mono CJK SC | Monospace           | Latin, Greek, CJK | Regular, Bold                        | Ligatures                                                      | Programming, multilingual coding    | Covers East Asian monospace needs, Google Fonts          |
+
+** Appendix: Missing Characters and Fallbacks
+:PROPERTIES:
+:CUSTOM_ID: sec:appendix-missing-characters-and-fallbacks
+:END:
+
+#+BEGIN_QUOTE
+As of Unicode version 16.0, there are 292,531 assigned characters with code points,
+covering 168 modern and historical scripts, as well as multiple symbol sets.
+
+--- Wikipedia. List of Unicode Characters.
+#+END_QUOTE
+
+No single font can include the entire range of Unicode characters.
+Most fonts are designed to support only three or four script systems.
+As a result, we need to combine multiple fonts to display all characters correctly.
+This practice is commonly known as font fallback.
+
+There are two common ways to define fallback fonts: character-level and range-level.
+
+The character-level method uses a list of fonts. When a character’s glyph is required,
+the application checks each font in order and uses the first one that provides the glyph.
+Most applications support this approach.
+The example below shows the result of character-level fallback using the font list =[Lora, Noto Serif]=.
+Lora provides a glyph for "π", but "λ" and "σ" are missing, so they fall back to Noto Serif.
+This results in inconsistent typography.
+
+[[./lora-and-noto-character-level-fallback.png]]
+
+The range-level method works more like assembling a custom font.
+It lets you assign specific fonts to particular subsets of Unicode characters.
+Many modern applications also support this approach.
+The example below shows the result of range-level fallback, where greek letters are
+displayed with Noto Serif and other characters are displayed with Lora.
+
+[[./lora-and-noto-range-level-fallback.png]]
+
+Below are some details about font fallbacks in several applications.
+
+**** HTML
+
+For HTML, the character-level fallback can be achieved by simply
+specifying a list of fonts.
+
+#+BEGIN_SRC html
+<div class="font-section" style="font-family: Lora, Noto Serif;">
+<p>
+Lora and Noto (Character-Level Fallback)
+</p>
+
+<p>
+<b>Theorem (π-λ theorem).</b> A λ-system contains a π-system
+<i>if and only if</i> it also contains the σ-algebra generated by that π-system.</p>
+</div>
+#+END_SRC
+
+To achieve the range-level fallback, use the at-rule =@font-face= to declare a new font
+"Lora Noto" and load it.
+
+#+BEGIN_SRC css
+@font-face {
+  font-family: "Lora Noto";
+  src: local("Lora Regular");
+  font-style: regular;
+}
+
+@font-face {
+  font-family: "Lora Noto";
+  src: local("Lora Italic");
+  font-style: italic;
+}
+
+/* Override for Greek characters: Noto Serif (Greek) */
+@font-face {
+  font-family: "Lora Noto";
+  src: local("Noto Serif Regular");
+  font-style: regular;
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+@font-face {
+  font-family: "Lora Noto";
+  src: local("Noto Serif Italic");
+  font-style: italic;
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+#+END_SRC
+
+#+BEGIN_SRC html
+<div class="font-section" style="font-family: Lora Noto;">
+<p>
+Lora Noto (Range-Level Fallback)
+</p>
+
+<p>
+<b>Theorem (π-λ theorem).</b> A λ-system contains a π-system
+<i>if and only if</i> it also contains the σ-algebra generated by that π-system.</p>
+</div>
+#+END_SRC
+
+**** Emacs
+
+For Emacs, the character-level fallback can be achieved[fn:1] by setting the variable
+=face-font-family-alternatives=.
+
+#+BEGIN_SRC elisp
+(custom-set-variables
+ '(face-font-family-alternatives
+   '(("Monospace" "Noto Sans Mono" "Noto Sans Mono CJK SC")
+     ("Sans Serif" "Noto Sans" "Noto Sans CJK SC")
+     ("Serif" "Noto Serif" "Noto Serif CJK SC")
+     ("Monospace Serif" "Courier Prime")
+     ("Fira Sans" "Noto Sans" "Noto Sans CJK SC")
+     ("FiraCode Nerd Font Ret" "Noto Sans Mono" "LXGW WenKai Mono")
+     ("Lora" "Noto Serif" "Noto Serif CJK SC")
+     ("Noto Serif" "Noto Serif CJK SC")))
+ )
+(set-face-attribute 'org-verse nil :family "Lora" :inherit nil)
+#+END_SRC
+
+To achieve the range-level fallback, use custom fontsets.
+For example, we can define a new fontset "fontset-orgverse" and
+use it to display text within org verse blocks[fn:2].
+Note that /the fontset attribute might be conflict with the font attribute or the family attribute/.
+Run =describe-face RET org-verse= to inspect all attributes of the face "org-verse",
+or execute =(face-spec-reset-face 'org-verse)= to reset the face.
+
+#+BEGIN_SRC elisp
+(setq dms/fontset-org-verse
+      (create-fontset-from-fontset-spec
+       (font-xlfd-name (font-spec :registry "fontset-orgverse")))
+)
+
+(set-fontset-font dms/fontset-org-verse 'latin
+                  "Lora")
+(set-fontset-font dms/fontset-org-verse 'greek
+                  "Noto Serif")
+(set-fontset-font dms/fontset-org-verse 'han
+                  "Noto Serif CJK SC")
+(set-fontset-font dms/fontset-org-verse 'cjk-misc
+                  "Noto Serif CJK SC")
+
+(set-face-attribute 'org-verse nil :font dms/fontset-org-verse :fontset dms/fontset-org-verse :inherit nil)
+#+END_SRC
+
+**** Fontconfig
+
+To the best of my knowledge, fontconfig does not support range level fallback.
+The character-level fallback is by default enabled.
+
+#+BEGIN_QUOTE
+Fontconfig performs matching by measuring the distance from a provided pattern to all of the available fonts in the system. The closest matching font is selected. This ensures that a font will always be returned, but doesn't ensure that it is anything like the requested pattern.
+#+END_QUOTE
+
+To see the list of matched fonts of a given pattern, use =fc-match -s=.
+To manually configure how a pattern is matched, use font configuration files.
+A typical path for such a configuration file is =~/.config/fontconfig/fonts.conf=;
+see here for other possible paths of configuration files.
+
+The example configuration file below demonstrates: 1) define an alias; 2) add fallback
+fonts of a specific font; 3) replace a font if condition satisfied.
+
+#+BEGIN_SRC html
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+    <alias>
+         <family>serif</family>
+         <prefer>
+             <family>Noto Serif</family>
+             <family>Noto Serif CJK SC</family>
+         </prefer>
+    </alias>
+
+    <!-- fallback font of lora -->
+    <match target="pattern">
+        <test name="family" compare="eq">
+            <string>lora</string>
+        </test>
+        <edit name="family" mode="append">
+            <string>Noto Serif</string>
+            <string>Noto Serif CJK SC</string>
+        </edit>
+    </match>
+
+    <!-- respect lang=ja (Japanese) -->
+    <match>
+        <test name="lang" compare="eq">
+            <string>ja</string>
+        </test>
+        <test name="family" compare="eq">
+            <string>Noto Serif CJK SC</string>
+        </test>
+        <edit name="family" mode="prepend" binding="strong">
+            <string>Noto Serif CJK JP</string>
+        </edit>
+    </match>
+</fontconfig>
+#+END_SRC
+
+** Footnotes
+
+[fn:2] Of course, you need to sure =org-fontify-quote-and-verse-blocks= is not nil.
+Otherwise, Org will not fontify quote or verse blocks at all.
+
+[fn:1] This method works in my settings, but is not documented in the docstring of
+=face-font-family-alternatives=. Moreover, it will be ignored if =fontset-default=
+has suggested font for the missing glyph.
 
